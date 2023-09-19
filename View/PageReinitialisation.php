@@ -6,16 +6,17 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SAE Réinitialisation</title>
+    <title>Mot de passe oublié</title>
 </head>
 
 <body>
-<h2>Mot de passe oublié</h2>
-<form method="post">
-    <div class="container">
-        <label for="email"><b>Email</b></label>
-        <input type="email" placeholder="Entrez votre adresse mail" name="email" required>
-        <button type="submit">Envoyez moi un nouveau mot de passe</button>
+<h1>Mot de passe oublié</h1>
+<form method="post" action="../Controller/ControllerReinitialisation.php">
+    <div class="form">
+        <input type="text" placeholder="Entrez email" name="login" id="login"> <br>
+    </div>
+    <div class="hyperlink">
+        <button type="submit" name="back" id="back"> Retour </button>
     </div>
 </form>
 </body>

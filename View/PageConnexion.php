@@ -8,7 +8,7 @@
 <body>
 <h1> Connexion </h1>
 
-<form method="post" action="../Controller/connexion.php"
+<form method="post" action="../Controller/Connexion.php"
 <div class="champ">
     <input type="text" id="login" name="login" placeholder="login"> <br>
     <input type="password" id="password" name="password" placeholder="password" > <br>

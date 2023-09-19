@@ -1,6 +1,6 @@
 <?php
 
-include '../Model/Database.php';
+include '../Model/ConnexionDatabase.php';
 function connection()
 {
     if (isset($_POST['login']) && isset($_POST['password'])) {
@@ -10,7 +10,7 @@ function connection()
                 session_start();
                 $_SESSION["login"] = $_POST['login'];
                 $_SESSION["password"] = $_POST['password'];
-                header("location: ../View/Accueil.php");
+                header("location: ../View/PageAccueil.php");
             } else {
                 echo "Vous avez renseigné le mauvais mot de passe";
             }
@@ -29,7 +29,7 @@ function connectionHash()
                 session_start();
                 $_SESSION["login"] = $_POST['login'];
                 $_SESSION["password"] = $_POST['password'];
-                header("location: ../View/Accueil.php");
+                header("location: ../View/PageAccueil.php");
             } else {
                 echo "Vous avez renseigné le mauvais mot de passe";
             }
@@ -38,13 +38,7 @@ function connectionHash()
         }
     }
 }
-$password = "1234";
-$hash = password_hash($password,PASSWORD_DEFAULT);
-if(password_verify($password, $hash)){
-    echo 'c vrai';
-} else {
-    echo 'c fo';
-}
+
 connection();
 
 ?>

@@ -16,19 +16,18 @@ function isLoginExist($conn, $login){
 
 //Vérification de l'utilisateur
 function searchUser($conn, $login, $password){
-    $req = $conn->prepare("SELECT login, password from Identification WHERE login = ? AND password = ?");
+    $req = $conn->prepare("SELECT login, pswrd from Identification WHERE login = ? AND pswrd= ?");
     $req->execute(array($login, $password));
     $result = $req->fetch();
-
-    return $result['login'] != null && $result['password'] != null;
+    return $result['login'] != null && $result['pswrd'] != null;
 
 }
 
 
 function searchUserHash($conn, $login, $password){
-    $req = $conn->prepare("SELECT login, password from Identification WHERE login = ?");
+    $req = $conn->prepare("SELECT login, pswrd from Identification WHERE login = ?");
     $req->execute(array($login));
     $result = $req->fetch();
 
-    return password_verify($password,$result['password']);
+    return password_verify($password,$result['pswrd']);
 }

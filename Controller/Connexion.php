@@ -5,6 +5,7 @@ function connection()
 {
     if (isset($_POST['login']) && isset($_POST['password'])) {
         $conn = conn();
+        searchUser($conn, $_POST['login'], $_POST['password']);
         if (isLoginExist($conn, $_POST['login'])) {
             if (searchUser($conn, $_POST['login'], $_POST['password'])) {
                 session_start();
@@ -39,6 +40,7 @@ function connectionHash()
     }
 }
 
+$conn = conn();
 connection();
 
 ?>

@@ -11,9 +11,9 @@ class ConnexionSGBD
 
 
     private function __construct(){
-        $this->database = "BDDInterne";
-        $this->user = "root";
-        $this->password = "root";
+        $this->database = "db1";
+        $this->user = "nathan";
+        $this->password = "bebou";
     }
 
 
@@ -33,7 +33,7 @@ class ConnexionSGBD
     }
 
     public  function connect():PDO{
-        return new PDO("mysql:host=localhost;dbname=".$this->database, $this->user, $this->password);
+        return new PDO("pgsql:host=localhost;dbname=".$this->database, $this->user, $this->password);
     }
 
 }

@@ -2,7 +2,11 @@
 
 include '../Model/ModelConnexion.php';
 include '../View/PageReinitialisation.php';
-reinitialisationPassword();
+
+
+$sgbd = ConnexionSGBD::creerInstance();
+$conn= $sgbd->connect();
+reinitialisationPassword($conn);
 
 
 

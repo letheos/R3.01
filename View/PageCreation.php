@@ -6,34 +6,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="PageCreationcss.css">
+    <link rel="stylesheet" href="../Model/PageCreationcss.css">
     <title>Document</title>
 </head>
 <body>
+<div class = "rounded-box">
 
-<style>
 
-    /* Style pour masquer la bulle d'information */
-    .info-bubble {
-        display: none;
-        position: absolute;
-        background-color: #19f1f1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        z-index: 1;
-    }
-
-    /* Style pour le champ de mot de passe */
-    #password {
-        position: relative;
-    }
-
-    /* Style pour afficher la bulle lors du survol */
-    #password:hover .info-bubble {
-        display: block;
-    }
-</style>
 <form action="PageCreation.php" method="post">
     <label for="lastName">Nom</label>
 
@@ -51,10 +30,17 @@
     <br>
     <label for="formation">formation</label>
     <select name="menu" size="1" >
-        <option><?php echo (isset($_POST['menu']) && $_POST['menu'] == 'mph') ? 'selected' : ''; ?>>mph</option>
-        <option> <?php echo (isset($_POST['menu']) && $_POST['menu'] == 'BUT informatique') ? 'selected' : ''; ?>>BUT informatique</option>
+        <option>mph</option>
+        <option>BUT informatique</option>
     </select>
     <br>
+    <br>
+    <label for="role">Rôle</label>
+    <select name="role" size="1">
+        <option value="Secretaire">Secrétaire</option>
+        <option value="Chefdep">Chef de département</option>
+        <option value ="Chargedev">Chargé de développement</option>
+    </select>
     <div id="password">
         <br>
         <label for="password">mot de passe</label>
@@ -79,7 +65,7 @@
 if (isset($_POST['envoyer'])){
     $pswd = $_POST['pswd'];
     $confirmation = $_POST['confirmation'];
-    $lasName = $_POST['lastName'];
+    $lastName = $_POST['lastName'];
     $firstName = $_POST['firstName'];
     $mail = $_POST['email'];
     $login = $_POST['login'];
@@ -93,6 +79,35 @@ if (isset($_POST['envoyer'])){
 </div>');
 
     }
+
+    elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
+    )){
+        echo('<div class="alert alert-warning" role="alert">
+        le nom contient un caractère spécial
+      </div>');
+    }
+
+    elseif (preg_match("/[0-9]/", $lastName
+    )){
+        echo('<div class="alert alert-warning" role="alert">
+                le nom contient un chiffre
+          </div>');
+    }
+
+    elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $firstName
+    )){
+        echo('<div class="alert alert-warning" role="alert">
+        le prénom contient un caractère spécial
+      </div>');
+    }
+
+    elseif (preg_match("/[0-9]/", $firstName
+    )){
+        echo('<div class="alert alert-warning" role="alert">
+                le prénom contient un chiffre
+          </div>');
+    }
+
     elseif(preg_match('/[;\'"]/', $pswd
     )) {
         echo('<div class="alert alert-warning" role="alert">
@@ -111,16 +126,18 @@ if (isset($_POST['envoyer'])){
                 le mot de passe doit au moins comprendre un chiffre
           </div>');
     }
+
     elseif ($pswd
-        == null||$confirmation == null ||$lasName == null||$mail ==null||$mail == null||$login == null||$formation == null){
+        == null||$confirmation == null ||$lastName == null||$mail ==null||$mail == null||$login == null||$formation == null){
         echo ('<div class="alert alert-warning" role="alert">
         tout les champs de texte doivent être remplis
 </div>');
 
     }
+    $bdd = new PDO("pgsql:host=localhost;port=5432;dbname=postgres",'postgres','aigle2430');
 }
 
 ?>
-
+</div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 <?php
+include "ConnexionSGBD.php";
 
 //Fonction de connexion à la base de donnée
-function conn(){
-     $bdd = new PDO("mysql:host=localhost;dbname=BDDInterne", 'root', 'root');
-     return $bdd;
+function connSGBD(){
+    $sgbd = ConnexionSGBD::creerInstance();
+    $bdd = $sgbd->connect();
+    return $bdd;
 }
 
 //Vérification du login
@@ -42,7 +44,7 @@ function updatePassword($conn, $login){
 function connectionHash()
 {
     if (isset($_POST['login']) && isset($_POST['password'])) {
-        $conn = conn();
+        $conn = connSGBD();
         if (isLoginExist($conn, $_POST['login'])) {
             if (searchUserHash($conn, $_POST['login'], $_POST['password'])) {
                 session_start();
@@ -61,7 +63,7 @@ function connectionHash()
 function reinitialisationPassword()
 {
     if (isset($_POST['login'])){
-        $conn = conn();
+        $conn = connSGBD();
         if (isLoginExist($conn,$_POST['login'])){
             updatePassword($conn, $_POST['login']);
         } else {

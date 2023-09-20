@@ -2,6 +2,8 @@
 
 include '../Model/ModelConnexion.php';
 include '../View/PageConnexion.php';
-connectionHash();
+$sgbd = ConnexionSGBD::creerInstance();
+$conn= $sgbd->connect();
+connectionHash($conn);
 
 ?>

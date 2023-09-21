@@ -1,5 +1,5 @@
 <?php
-
+//f
 include '../Model/ModelConnexion.php';
 include '../View/PageConnexion.php';
 $sgbd = ConnexionSGBD::creerInstance();

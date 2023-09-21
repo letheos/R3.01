@@ -2,8 +2,7 @@
 
 include '../Model/ModelConnexion.php';
 include '../View/PageConnexion.php';
-$sgbd = ConnexionSGBD::creerInstance();
-$conn= $sgbd->connect();
+$conn = require "../Model/Database.php";
 
 //Fonction de connection avec la clef de décryptage du hash
 function connectionHash($conn)

@@ -43,37 +43,9 @@ function updatePassword($conn, $login){
     return $newPassword;
 }
 
-//Fonction de connection avec la clef de décryptage du hash
-function connectionHash($conn)
-{
-    if (isset($_POST['login']) && isset($_POST['password'])) {
-        if (isLoginExist($conn, $_POST['login'])) {
-            if (searchUserHash($conn, $_POST['login'], $_POST['password'])) {
-                session_start();
-                $_SESSION["login"] = $_POST['login'];
-                $_SESSION["password"] = $_POST['password'];
-                header("location: ../View/PageAccueil.php");
-            } else {
-                print_r("Vous avez renseigné le mauvais mot de passe");
-            }
-        } else {
-            print_r("Vous avez renseigné le mauvais Login");
-        }
-    }
-}
 
 
 
-function reinitialisationPassword($conn)
-{
-    if (isset($_POST['login'])){
-        if (isLoginExist($conn,$_POST['login'])){
-            $email = searchEmail($conn, $_POST['login']);
-            mail($email['email'],"Test","Test 123");
-        } else {
-            print_r("Votre email n'existe pas");
-        }
-    }
-}
+
 
 ?>

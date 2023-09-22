@@ -16,7 +16,7 @@
 
     <form action="PageCreationCompte.php" method="post">
         <label for="INE">INE</label>
-        <input type="number" name="INE" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
+        <input type="text" name="INE" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
         <br>
         <br>
         <label for="lastName">Nom de l'étudiant</label>
@@ -32,6 +32,9 @@
         <br>
         <label for="mail">mail</label>
         <input type="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"> <br>
+        <br>
+        <label for="phoneNumber">numéro de téléphone</label>
+        <input type="tel" name="phoneNumber"  value="<?php echo isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : ''; ?>"> <br>
         <br>
         <label for="coordonnes">coordonnes</label>
         <input type="text" name="coordonnes"
@@ -50,15 +53,16 @@
 
         <label for="formation">formation</label>
         <select name="formation" size="1">
-            <option>mph</option>
-            <option>BUT informatique</option>
+            //check la bdd pour éviter d'avoir des erreurs de formations
+            <option value="2">mph</option>
+            <option value="1" >BUT informatique</option>
         </select>
         <br>
         <br>
         <label for="permisB">permisB</label>
         <select name="permisB" size="1">
-            <option>oui</option>
-            <option>non</option>
+            <option value="false">non</option>
+            <option value="true" >oui</option>
         </select>
         <br>
         <br>
@@ -78,18 +82,20 @@
 
     if (isset($_POST['envoyer'])) {
         // Récupération des valeurs du formulaire
-        $INE = $_POST['INE'];
+        $INE = strtoupper($_POST['INE']);
         $lastName = $_POST['lastName'];
         $firstName = $_POST['firstName'];
         $address = $_POST['address'];
         $mail = $_POST['email'];
-        $formation = $_POST['formation'];
+        $formation = intval($_POST['formation']);
         $typeEntrepriseRecherche = $_POST['typeEntreprises'];
         $permisB = $_POST['permisB'];
         $cv = $_POST['cv'];
         $coord = $_POST['coordonnes'];
         $radius = $_POST['radius'];
         $actif = true;
+        $phoneNumber = $_POST['phoneNumber'];
+
 
 
         if (preg_match('/[^A-Za-z0-9"\';]/', $lastName
@@ -112,16 +118,40 @@
             echo('<div class="alert alert-warning" role="alert">
                 le prénom contient un chiffre
           </div>');
-        } elseif (
+        } elseif (preg_match('/^\d{9}[A-Z-a-z]{2}$/', $INE)) {
+            // L'INE n'est pas valide
+            echo('<div class="alert alert-warning" role="alert">
+                Un INE est composé de 9 chiffres suivie de 2 lettres
+            </div>');
+        }elseif (
             $firstName == null || $lastName == null || $mail == null || $mail == null || $INE == null || $formation == null || $formation == null || $coord == null) {
             echo('<div class="alert alert-warning" role="alert">
         tout les champs de texte doivent être remplis
-</div>');
+        </div>');
 
         }
+
+
+
+
         $bdd = new PDO("pgsql:host=localhost;port=5432;dbname=postgres", 'postgres', 'vm1');
 
+        $sql = "insert into students values (?,?,?,?,?,true,?,?,true,?,?);";
+
+        $req = $bdd->prepare($sql);
+        $req->bindValue(1, $INE);
+        $req->bindValue(2, $lastName);
+        $req->bindValue(3, $firstName);
+        $req->bindValue(4, $address);
+        $req->bindValue(5, $phoneNumber);
+        $req->bindValue(6, $coord);
+        $req->bindValue(7, $radius);
+        $req->bindValue(8, $formation);
+        $req->bindValue(9, $typeEntrepriseRecherche);
+        $req->execute();
+
     }
+
     ?>
 </div>
 </body>

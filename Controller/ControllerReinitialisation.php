@@ -1,24 +1,31 @@
 <?php
 
 
-
+//import des requêtes et des connections
 include "../Model/ModelConnexion.php";
+include "../View/PageReinitialisation.php";
 $conn = require "../Model/Database.php";
 $mail = require '../Controller/ControllerMailConfig.php';
 
-function sendReinitialisationPasswordMail($mail,$email,$token)
+
+
+//Fonction d'envoie de mail
+function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
 {
-    $url =  "http://localhost:63342/R3.01/View/PageReinitialisationMail?token=$token";
+    //Génère le token unique de la page de redirection
+    $token = tokenInit($conn,$login);
+
+    //Création et envoie du mail
     $mail->setFrom('bncorp.auto@gmail.com');
     $mail->addAddress($email['email']);
     $mail->isHTML(true);
-
-    $mail->Subject = 'Reinitialisation mot de passe';
-    $mail->Body = "Pour reinitialiser votre mot de passe : $url";
-
+    $mail->Subject = 'Reinitialisation mot de passe, utilisateur : '.$login;
+    $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token'> http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token </a>";
 
 
 
+
+    //Affichage d'une alert box d'envoie du mail
     echo "
            <script>
            alert('Allez voir dans votre boîte mail')
@@ -33,12 +40,12 @@ function sendReinitialisationPasswordMail($mail,$email,$token)
     }
 }
 
-if (isset($_POST['login'])){
+//Gestion de l'envoie de mail
+if (isset($_POST['login'])){ //Test de présence du login dans le champ
     $login = $_POST['login'];
-    if (isLoginExist($conn,$login)){
+    if (isLoginExist($conn,$login)){ //Test d'existence du login dans notre base de donnée
         $email = searchEmail($conn,$login);
-        $tokenHash = tokenInit($conn,$login);
-        sendReinitialisationPasswordMail($mail,$email,$tokenHash);
+        sendReinitialisationPasswordMail($conn,$_POST['login'],$mail,$email);
     } else {
         echo "Login inexistant";
     }

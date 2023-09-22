@@ -42,10 +42,9 @@ function updatePassword($conn, $login){
 }
 
 function tokenInit($conn, $login){
-    $token = uniqid();
+    $token = bin2hex(random_bytes(16));
     $tokenHash = hash("sha256",$token);
     $tokenExpires = date("Y-m-d H:i:s", time() + 60 * 30);
-    echo $tokenExpires;
     $sql = 'UPDATE Utilisateur 
             SET token = ?, 
                 tokenExpiresAt = ? 
@@ -53,16 +52,19 @@ function tokenInit($conn, $login){
     ';
     $req = $conn->prepare($sql);
     $req->execute(array($tokenHash,$tokenExpires,$login));
+    echo "token de la requête non hashée : ".$tokenHash;
     return $tokenHash;
 }
 
-
-
-tokenInit($conn=require_once "../Model/Database.php",'johndoe123');
-
-
-
-
-
+function tokenSearch($conn,$tokenHash){
+    $sql = 'SELECT * FROM Utilisateur 
+            WHERE token = ?
+           ';
+    $req = $conn->prepare($sql);
+    $req->execute(array($tokenHash));
+    $result = $req->fetch();
+    echo $result;
+    return $result;
+}
 
 ?>

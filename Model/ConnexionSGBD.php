@@ -31,7 +31,6 @@ class ConnexionSGBD
 
         return self::$instance;
     }
-
     public  function connect():PDO{
         return new PDO("pgsql:host=localhost;dbname=".$this->database, $this->user, $this->password);
     }

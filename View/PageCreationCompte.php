@@ -16,7 +16,7 @@
 
     <form action="PageCreationCompte.php" method="post">
         <label for="INE">INE</label>
-        <input type="text" name="INE" placeholder="111111111AA" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
+        <input type="text" name="INE" placeholder="123456789AB" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
         <label>Un INE est composé de 9 chiffres et 2 lettres </label>
         <br>
         <br>

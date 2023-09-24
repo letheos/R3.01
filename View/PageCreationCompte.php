@@ -154,7 +154,7 @@
         $req->bindValue(8, $formation);
         $req->bindValue(9, $typeEntrepriseRecherche);
         $req->execute();
-
+        //a
     }
 
     ?>

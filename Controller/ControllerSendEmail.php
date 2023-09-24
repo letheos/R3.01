@@ -20,7 +20,7 @@ function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
     $mail->addAddress($email['email']);
     $mail->isHTML(true);
     $mail->Subject = 'Reinitialisation mot de passe, utilisateur : '.$login;
-    $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token'> http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token </a>";
+    $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost/R3.01/View/PageReinitialisationPassword.php?token=$token'> Cliquez ici </a>";
 
 
 
@@ -29,7 +29,7 @@ function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
     echo "
            <script>
            alert('Allez voir dans votre boîte mail')
-           document.location.href = 'ControllerReinitialisation.php';
+           document.location.href = 'ControllerSendEmail.php';
            </script>
            ";
     try {

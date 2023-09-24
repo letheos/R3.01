@@ -33,14 +33,12 @@ function searchUserHash($conn, $login, $password){
     return password_verify($password,$result['pswrd']);
 }
 
-function updatePassword($conn, $login){
-    $newPassword = rand(10000000,99999999);
-    $req = $conn->prepare("UPDATE Utilisateur SET pswrd=? WHERE login=?");
-    $password = password_hash($newPassword, PASSWORD_DEFAULT);
-    $req->execute(array($password,$login));
-    return $newPassword;
+/*
+function updatePassword($conn, $login, $newPassword){
+    $req = $conn->prepare("UPDATE Utilisateur SET pswrd=?, token = NULL, tokenExpiresAt = NULL WHERE login=?");
+    $req->execute(array($newPassword,$login));
 }
-
+*/
 function tokenInit($conn, $login){
     $token = bin2hex(random_bytes(16));
     $tokenHash = hash("sha256",$token);
@@ -63,7 +61,6 @@ function tokenSearch($conn,$tokenHash){
     $req = $conn->prepare($sql);
     $req->execute(array($tokenHash));
     $result = $req->fetch();
-    echo $result;
     return $result;
 }
 

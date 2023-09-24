@@ -1,6 +1,3 @@
-<?php
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -11,7 +8,7 @@
 
 <body>
 <h1>Mot de passe oublié</h1>
-<form method="post" action="../Controller/ControllerReinitialisation.php">
+<form method="post" action="../Controller/ControllerSendEmail.php">
     <div class="form">
         <input type="text" placeholder="Entrez email" name="login" id="login"> <br>
     </div>

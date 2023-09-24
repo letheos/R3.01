@@ -1,4 +1,4 @@
 <?php
-$conn = new PDO("pgsql:host=localhost;dbname=db1", "nathan", "bebou");
+$conn = new PDO("mysql:host=localhost;dbname=localDatabase", "root", "root");
 return $conn
 ?>

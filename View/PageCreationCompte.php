@@ -16,33 +16,38 @@
 
     <form action="PageCreationCompte.php" method="post">
         <label for="INE">INE</label>
-        <input type="text" name="INE" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
+        <input type="text" name="INE" placeholder="111111111AA" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
+        <label>Un INE est composé de 9 chiffres et 2 lettres </label>
         <br>
         <br>
         <label for="lastName">Nom de l'étudiant</label>
-        <input type="text" name="lastName" value="<?php echo isset($_POST['lastName']) ? $_POST['lastName'] : ''; ?>">
+        <input type="text" name="lastName" placeholder="nom" value="<?php echo isset($_POST['lastName']) ? $_POST['lastName'] : ''; ?>">
         <br>
         <br>
         <label for="firstName">Prenom</label>
-        <input type="text" name="firstName"
+        <input type="text" name="firstName" placeholder="Prénom"
                value="<?php echo isset($_POST['firstName']) ? $_POST['firstName'] : ''; ?>"><br>
         <br>
         <label for="adresse">Adresse</label>
-        <input type="text" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"><br>
+        <input type="text" name="address" placeholder="rue ville code postal" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"><br>
         <br>
         <label for="mail">mail</label>
-        <input type="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"> <br>
+        <input type="email" name="email" placeholder="blabla@truc.com" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"> <br>
         <br>
         <label for="phoneNumber">numéro de téléphone</label>
-        <input type="tel" name="phoneNumber"  value="<?php echo isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : ''; ?>"> <br>
+        <input type="tel" name="phoneNumber" placeholder="01 23 45 67 89" pattern="[0-9]{10}" value="<?php echo isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : ''; ?>"> <br>
         <br>
         <label for="coordonnes">coordonnes</label>
-        <input type="text" name="coordonnes"
-               value="<?php echo isset($_POST['coordonnes']) ? $_POST['coordonnes'] : ''; ?>"> <br>
+        <input type="text" name="coordonnes" placeholder="xx.xxxxxx, xx.xxxxx"
+               value="<?php echo isset($_POST['coordonnes']) ? $_POST['coordonnes'] : ''; ?>">
+        <label> (latitude, longitude)</label>
+        <br>
         <br>
         <label for="radius">rayon</label>
-        <input type="range" min="0" max="100" name="radius"
-               value="<?php echo isset($_POST['radius']) ? $_POST['radius'] : ''; ?>"> <br>
+        <input type="range" min="1" max="100" name="radius"
+               value="<?php echo isset($_POST['radius']) ? $_POST['radius'] : ''; ?>">
+        <label>minimum = 1 maximum = 100</label>
+        <br>
         <br>
 
         <label for="typeEntrepriseRecherche">type des entreprises recherchées</label>

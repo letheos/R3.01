@@ -1,11 +1,12 @@
 <?php include '../Model/ModelConnexion.php';
 $conn = require "../Model/Database.php";
 
+//Récupération du token dans l'url
 $token = $_GET['token'];
 $utilisateur = tokenSearch($conn,$token);
 $expire = strtotime($utilisateur['tokenExpiresAt']);
 
-
+//Verification de l'expiration via le token
 if ($expire <= time()) {
     echo '<script>
         alert("Expiration de la page !")

@@ -2,6 +2,7 @@
 //Vérification du login
 $conn = require "../Model/Database.php";
 
+date_default_timezone_set('Europe/Paris');
 
 //Fonction de vérification du login
 function isLoginExist($conn, $login){

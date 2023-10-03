@@ -29,7 +29,7 @@ function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
     echo "
            <script>
            alert('Allez voir dans votre boîte mail')
-           document.location.href = 'ControllerSendEmail.php';
+           document.location.href = '../View/PageReinitialisation.php';
            </script>
            ";
     try {
@@ -47,10 +47,12 @@ if (isset($_POST['login'])){ //Test de présence du login dans le champ
         $email = searchEmail($conn,$login);
         sendReinitialisationPasswordMail($conn,$_POST['login'],$mail,$email);
     } else {
-        echo "Login inexistant";
+        $_SESSION["erreur"] = "Login inexistant";
+        header("Location: ../View/PageReinitialisation.php");
     }
 } else {
-    echo "Vous n'avez pas rentré votre login.";
+    $_SESSION["erreur"] = "Veuillez remplir le champ";
+    header("Location: ../View/PageReinitialisation.php");
 }
 
 

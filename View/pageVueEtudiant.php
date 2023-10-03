@@ -37,7 +37,7 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
     echo '<br>';
     $activ = $row['activaccount'];
     if($activ === true){
-        //echo '<'
+
         //code pour faire un bouton pour désactiver le compte
         echo " le profil est actif";
         echo "<button class='bouton-rouge'>desactiver</button>";

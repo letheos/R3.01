@@ -21,17 +21,6 @@ function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
     $mail->isHTML(true);
     $mail->Subject = 'Reinitialisation mot de passe, utilisateur : '.$login;
     $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost/R3.01/View/PageReinitialisationPassword.php?token=$token'> Cliquez ici </a>";
-
-
-
-
-    //Affichage d'une alert box d'envoie du mail
-    echo "
-           <script>
-           alert('Allez voir dans votre boîte mail')
-           document.location.href = '../View/PageReinitialisation.php';
-           </script>
-           ";
     try {
         $mail->send();
     }
@@ -46,6 +35,8 @@ if (isset($_POST['login'])){ //Test de présence du login dans le champ
     if (isLoginExist($conn,$login)){ //Test d'existence du login dans notre base de donnée
         $email = searchEmail($conn,$login);
         sendReinitialisationPasswordMail($conn,$_POST['login'],$mail,$email);
+        $_SESSION["success"] = "Veuillez consulter votre email";
+        header("Location: ../View/PageReinitialisation.php");
     } else {
         $_SESSION["erreur"] = "Login inexistant";
         header("Location: ../View/PageReinitialisation.php");

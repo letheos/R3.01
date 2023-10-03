@@ -33,6 +33,14 @@ session_start();
                 unset($_SESSION["erreur"]);
                 session_destroy();
             }
+            if (isset($_SESSION["success"])) {?>
+                <div class="alert alert-success">
+                    <?php  echo $_SESSION["success"] ?>
+                </div>
+                <?php
+                unset($_SESSION["success"]);
+                session_destroy();
+            }
             ?>
         </form>
     </div>

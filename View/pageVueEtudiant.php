@@ -22,6 +22,7 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
     echo '<div class = "rounded-box">';
     echo "Etudiant n°";
     echo $row['ine'];
+    $ine = $row['ine'];
     echo '<br>';
     echo "s'appelle  ";
     echo $row['name'];
@@ -41,6 +42,13 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
         //code pour faire un bouton pour désactiver le compte
         echo " le profil est actif";
         echo "<button class='bouton-rouge'>desactiver</button>";
+        /*
+        $sql = "UPDATE Candidates SET isInActiveSearch = (?) WHERE INE = (?)";
+        $req = $bdd->prepare($sql);
+        $req->bindParam(1, false, PDO::PARAM_BOOL);
+        $req->bindParam(2, $ine);
+        $req->execute();
+        */
     } else{
         //code pour activer le compte
         echo " le profil n'est pas actif";

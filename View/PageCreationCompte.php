@@ -37,9 +37,9 @@
         <label for="phoneNumber">numéro de téléphone</label>
         <input type="tel" name="phoneNumber" placeholder="01 23 45 67 89" pattern="[0-9]{10}" value="<?php echo isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : ''; ?>"> <br>
         <br>
-        <label for="coordonnes">coordonnes</label>
-        <input type="text" name="coordonnes" placeholder="xx.xxxxxx, xx.xxxxx"
-               value="<?php echo isset($_POST['coordonnes']) ? $_POST['coordonnes'] : ''; ?>">
+        <label for="Ville">Ville</label>
+        <input type="text" name="Ville"
+               value="<?php echo isset($_POST['Ville']) ? $_POST['Ville'] : ''; ?>">
         <label> (latitude, longitude)</label>
         <br>
         <br>
@@ -96,7 +96,7 @@
         $typeEntrepriseRecherche = $_POST['typeEntreprises'];
         $permisB = $_POST['permisB'];
         $cv = $_POST['cv'];
-        $coord = $_POST['coordonnes'];
+        $coord = $_POST['Ville'];
         $radius = $_POST['radius'];
         $actif = true;
         $phoneNumber = $_POST['phoneNumber'];

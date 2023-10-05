@@ -16,7 +16,7 @@
     display: block;
 }
 .rounded-box {
-    border: 2px solid deepskyblue;
+    border: 10px solid deepskyblue;
     border-radius: 10px;
     padding: 20px;
     background: whitesmoke;
@@ -25,7 +25,7 @@
 
 body{
     center : all;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
 }
@@ -39,6 +39,7 @@ div.alert-danger{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 20px ;
 }
 
 .bouton-rouge:hover {
@@ -52,9 +53,41 @@ div.alert-danger{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 20px ;
 }
 
 .bouton-vert:hover {
     background-color: darkgreen;
 }
+
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+
+}
+
 

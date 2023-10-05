@@ -8,53 +8,64 @@
     <link rel="stylesheet" href="../Model/PageCreationcss.css">
     <title>afficheLesEtudiants</title>
 </head>
+
+<header>
+    <p>
+        blalbaeza
+    </p>
+</header>
+
+
 <body>
 
 <?php
 $bdd = require "../Model/Database.php";
-
+//require_once "../Model/modelDesactiverCompte.php";
 $sql = "Select ine,name,firstname,address,phonenumber,activaccount from students";
 $requete = $bdd->prepare($sql);
 
 $requete->execute();
-
+$id = 0;
 while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
+    $id+=1;
     echo '<div class = "rounded-box">';
-    echo "Etudiant n°";
-    echo $row['ine'];
-    $ine = $row['ine'];
-    echo '<br>';
-    echo "s'appelle  ";
-    echo $row['name'];
-    echo "   ";
-    echo $row['firstname'];
-    echo " ";
-    echo '<br>';
-    echo " habite a  ";
-    echo $row['address'];
-    echo '<br>';
-    echo " numéro de téléphone =  ";
-    echo $row['phonenumber'];
-    echo '<br>';
+
+
+    echo '<p> INE : '.$row['ine']." "."Prénom : ".$row['firstname']." "."Nom : ".$row['name'].'</p>';
+
     $activ = $row['activaccount'];
     if($activ === true){
-
+        $iden = $row['ine'];
         //code pour faire un bouton pour désactiver le compte
         echo " le profil est actif";
-        echo "<button class='bouton-rouge'>desactiver</button>";
-        /*
-        $sql = "UPDATE Candidates SET isInActiveSearch = (?) WHERE INE = (?)";
-        $req = $bdd->prepare($sql);
-        $req->bindParam(1, false, PDO::PARAM_BOOL);
-        $req->bindParam(2, $ine);
-        $req->execute();
-        */
+        echo " le profil n'est pas actif";
+        echo "<form action ='../Model/modelDesactiverCompte.php' method='get' >";
+        echo '<input type="hidden" name="ine" value="' . $row['ine'] . '">';
+        echo '<input type="hidden" name="typeBouton" value="boutonRouge">';
+        echo "<button id= $id type='submit' class='bouton-rouge'>desactivation</button>";
+        echo "</form>";
+
+
+
     } else{
+        //$iden = $row['ine'];
         //code pour activer le compte
         echo " le profil n'est pas actif";
-        echo "<button class='bouton-vert'>activation</button>";
+        echo "<form action ='../Model/modelDesactiverCompte.php' method='get' >";
+        echo '<input type="hidden" name="ine" value="' . $row['ine'] . '">';
+        echo '<input type="hidden" name="typeBouton" value="boutonVert">';
+        echo "<button id= $id type='submit' class='bouton-vert'>activation</button>";
+        echo "</form>";
+
+
+
+
+
+
     }
 
+    echo '<br>';
+    echo '<br>';
     echo '<br>';
     echo '</div>';
 

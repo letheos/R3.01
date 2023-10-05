@@ -43,6 +43,11 @@ body {
 
 }
 
+.affichage  {
+    display: flex;
+    align-items: center;
+}
+
 
 section.filtreCandidats{
     width: auto;

@@ -78,6 +78,14 @@ function allFormation($conn){
 
 }
 
+function selectCandidat($conn,$name){
+    $sql = "SELECT * FROM Candidates
+            WHERE name = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($name));
+    return $req->fetch();
+}
+
 
 
 

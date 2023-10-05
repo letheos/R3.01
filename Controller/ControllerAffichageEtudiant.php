@@ -79,7 +79,6 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
 //Fonction d'affichage des candidats en fonction d'un filtrage sur le nom
 function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     $results = selectCandidatesByName($conn, $choixNom,  $isActive);
-    echo $results;
     foreach ($results as $row) {
         echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
     }

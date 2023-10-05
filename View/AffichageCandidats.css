@@ -1,0 +1,74 @@
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+
+}
+
+.affichage p.candidates{
+    width: 500px;
+    padding: 20px;
+    background: #eee;
+    border: 1px solid ;
+    border-radius: 5px;
+    margin: 10px;
+
+}
+
+
+section.affichage form {
+    display: flex;
+    flex-direction: column;
+}
+
+section.affichage div.filtreCandidats {
+    width: auto;
+    padding: 10px;
+    margin: 10px;
+    background: #0f94b4;
+    border: 1px;
+    border-radius: 5px;
+}
+
+/* styles.css */
+.filtreCandidats {
+    display: flex; /* Utilisez un conteneur flex pour aligner les éléments horizontalement */
+    align-items: center; /* Centrez verticalement les éléments dans le conteneur */
+
+}
+
+.filtreCandidats label {
+    color: #eeeeee;
+}
+
+
+.filtreCandidats input, .filtreCandidats button, .filtreCandidats label, .filtreCandidats select {
+    flex: 2;
+    margin-right: 10px; /* Ajoute une marge à droite pour séparer les éléments d'entrée et le bouton */
+    width: 100px;
+
+}
+

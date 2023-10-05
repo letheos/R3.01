@@ -31,9 +31,6 @@
         <label for="adresse">Adresse</label>
         <input type="text" name="address" placeholder="rue ville code postal" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"><br>
         <br>
-        <label for="mail">mail</label>
-        <input type="email" name="email" placeholder="blabla@truc.com" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"> <br>
-        <br>
         <label for="phoneNumber">numéro de téléphone</label>
         <input type="tel" name="phoneNumber" placeholder="01 23 45 67 89" pattern="[0-9]{10}" value="<?php echo isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : ''; ?>"> <br>
         <br>
@@ -58,7 +55,8 @@
 
         <label for="formation">formation</label>
         <select name="formation" size="1">
-            //check la bdd pour éviter d'avoir des erreurs de formations
+            <!--check la bdd pour éviter d'avoir des erreurs de formations -->
+            <!-- faire le code pour avoir automatiquement les formations -->
             <option value="2">mph</option>
             <option value="1" >BUT informatique</option>
         </select>
@@ -91,7 +89,7 @@
         $lastName = $_POST['lastName'];
         $firstName = $_POST['firstName'];
         $address = $_POST['address'];
-        $mail = $_POST['email'];
+        $ville = $_POST['Ville'];
         $formation = intval($_POST['formation']);
         $typeEntrepriseRecherche = $_POST['typeEntreprises'];
         $permisB = $_POST['permisB'];
@@ -129,7 +127,7 @@
                 Un INE est composé de 9 chiffres suivie de 2 lettres
             </div>');
         }elseif (
-            $firstName == null || $lastName == null || $mail == null || $mail == null || $INE == null || $formation == null || $formation == null || $coord == null) {
+            $firstName == null || $lastName == null || $INE == null || $formation == null || $formation == null || $coord == null) {
             echo('<div class="alert alert-warning" role="alert">
         tout les champs de texte doivent être remplis
         </div>');
@@ -137,22 +135,23 @@
         }
 
 
+        //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
+        $bdd = require "../Model/Database.php";
 
-        $bdd = new PDO("pgsql:host=localhost;port=5432;dbname=postgres", 'postgres', 'vm1');
-
-        $sql = "insert into students values (?,?,?,?,?,true,?,?,true,?,?);";
+        $sql = "insert into students values (?,?,?,?,?,?,?,?,?,true);";
 
         $req = $bdd->prepare($sql);
         $req->bindValue(1, $INE);
         $req->bindValue(2, $lastName);
         $req->bindValue(3, $firstName);
         $req->bindValue(4, $address);
-        $req->bindValue(5, $phoneNumber);
-        $req->bindValue(6, $coord);
-        $req->bindValue(7, $radius);
+        $req->bindValue(5, $ville);
+        $req->bindValue(6, $radius);
+        $req->bindValue(7,$permisB);
         $req->bindValue(8, $formation);
         $req->bindValue(9, $typeEntrepriseRecherche);
+
         $req->execute();
         //a
     }

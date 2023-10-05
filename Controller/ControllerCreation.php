@@ -1,25 +1,6 @@
 <?php
 session_start();
-
-$objmail = require '../Controller/ControllerMailConfig.php';
-
-function sendmailinscription($mail,$emailuser){
-
-    $mail->setFrom('bncorp.auto@gmail.com');
-    $mail->addAddress($emailuser);
-    $mail->isHTML(true);
-    $mail->Subject = "bienvenue";
-
-    $mail->Body = "Votre inscription dans le système est bien réalisée .";
-    try {
-
-        $mail->send();
-    }
-    catch(Exception $exception){
-        print_r($exception->getMessage());
-    }
-}
-function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$role,$objmail)
+function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation)
 {
 
     if (isset($_POST['envoyer'])) {
@@ -29,28 +10,12 @@ function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$lo
         $firstName = $_POST['firstName'];
         $mail = $_POST['email'];
         $login = $_POST['login'];
-        if( $_POST['menu'] == "mph"){
-            $formation = 'mph';
-        }
-        elseif ($_POST['menu'] == "BUT informatique"){
-            $formation = 'Computer Science';
-        }
-        if ($_POST['role'] == "Chefdep"){
-            $role = 1;
-        }
-        elseif ($_POST['role'] == 'Secretaire'){
-            $role = 2;
-        }
-        elseif ($_POST['role'] == 'Chargedev'){
-            $role = 3;
-        }
-
+        $formation = $_POST['menu'];
 
         $messageErreur = "";
         $messageSucces = "";
-        include '../Model/ModelCreation.php';
         if ($pswd != $confirmation) {
-            $messageErreur="les deux mots de passe doivent être identiques";
+            "les deux mots de passe doivent être identiques";
 
 
         } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
@@ -90,39 +55,11 @@ function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$lo
             == null || $confirmation == null || $lastName == null || $mail == null || $mail == null || $login == null || $formation == null) {
             $messageErreur =
                 "Tous les champs de texte doivent être remplis";
-
-
-        }
-        elseif(strlen($pswd) > 20 or strlen($pswd) < 8){
-
-            $messageErreur = "le mot de passe doit être compris entre 8 et 20 caractères";
-        }
-        elseif(existe($mail,$login) == true){
-            $messageErreur = "l'utilisateur existe déja";
-            //continuer bdd et ajouter personne a la bdd quand il n'existe pas
-
-        }
-
-        else {
-
+        } else {
             $messageSucces = "Enregistré avec succès";
-            /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
-            echo "je vais essayer d'ajouter";
-            ajouter($pswd,$lastName,$firstName,$mail,$login,$role,$formation);
-            echo "je vais essayer d'envoyer le mail avec ".$mail;
-
-            try{
-                sendmailinscription($objmail,$mail);
-            }
-            catch (Exception $e){
-                echo $e->getMessage();
-            }
-            echo "j'ai send le mail la ";
         }
-
-        if ($messageErreur != null){
+        if ($messageErreur != null) {
             return $messageErreur;
-
         } else {
             return $messageSucces;
         }
@@ -134,10 +71,9 @@ function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$lo
 
 if (isset($_POST['login'])) {
 
-    $message = enregistrer_Creation($_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation'],$_POST['role'],$objmail);
-    echo "j'ai fait enregistrer creation";
-
+    $message = enregistrer_Creation($_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation']);
     $_SESSION['message'] = $message;
+
     $_SESSION['confirmation'] = $_POST['confirmation'];
     $_SESSION['lastName'] = $_POST['lastName'];
     $_SESSION['firstName']= $_POST['firstName'];
@@ -145,8 +81,9 @@ if (isset($_POST['login'])) {
     $_SESSION['login'] = $_POST['login'];
     $_SESSION['menu'] = $_POST['menu'];
     header('Location: ../View/PageCreation.php');
-}
 
+
+}
 ?>
 
 

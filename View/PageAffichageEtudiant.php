@@ -9,6 +9,7 @@ if (isset($_POST["submit"])) {
     $choixNom = $_POST["nameCandidates"];
 }
 
+
 //Traitement de la checkbox
 if (isset($_POST["isActive"])) {
     $isActive = 0;
@@ -64,7 +65,7 @@ if (isset($_POST["isActive"])) {
     </section>
 
 
-    <section>
+    <section class="afficheCandidats">
             <div class="affichage">
                 <?php
                 if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
@@ -82,6 +83,7 @@ if (isset($_POST["isActive"])) {
 
                 ?>
             </div>
+
     </section>
 
     </form>
@@ -90,3 +92,4 @@ if (isset($_POST["isActive"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
+

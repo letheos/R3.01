@@ -5,13 +5,13 @@ require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
 
 if(isset($_GET['nom'])){
-    $name = $_POST['nom'];
+    $name = $_GET['nom'];
 }
 
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"

@@ -1,4 +1,14 @@
 <?php
+
+
+date_default_timezone_set('Europe/Paris');
+/**
+ * @param $conn PDO
+ * @param $login String
+ * @return bool
+ * Savoir si le login est dans la base de donnée.
+ */
+
 //Vérification du login
 $conn = require "../Model/Database.php";
 
@@ -13,6 +23,28 @@ function isLoginExist($conn, $login){
 }
 
 
+/**
+ * @param $conn PDO
+ * @param $login String
+ * @param $password String
+ * @return bool
+ * Vérification si le login et l'utilisateur sont ceux de la base de donnée.
+ */
+function searchUser($conn, $login, $password){
+    $req = $conn->prepare("SELECT login, pswrd from Utilisateur WHERE login = '?' AND pswrd= '?'");
+    $req->execute(array($login, $password));
+    $result = $req->fetch();
+    return $result['login'] != null && $result['pswrd'] != null;
+
+}
+
+/**
+ * @param $conn PDO
+ * @param $login String
+ * @return mixed
+ * Renvoie l'email d'un utilisateur.
+ */
+
 //Fonction de recherche de l'email
 function searchEmail($conn, $login){
     $req = $conn->prepare("SELECT email from Utilisateur WHERE login = ?");
@@ -20,7 +52,17 @@ function searchEmail($conn, $login){
     return $req->fetch();
 }
 
+
+/**
+ * @param $conn PDO
+ * @param $login string
+ * @param $password string
+ * @return bool
+ * Recherche le mot de passe hashé d'un utilisateur et vérifie si il est bon.
+ */
+
 //Vérification du mot de passe de l'utilisateur
+
 function searchUserHash($conn, $login, $password){
     $req = $conn->prepare("SELECT login, pswrd from Utilisateur WHERE login = ?");
     $req->execute(array($login));
@@ -29,6 +71,28 @@ function searchUserHash($conn, $login, $password){
     return password_verify($password,$result['pswrd']);
 }
 
+
+/**
+ * @param $conn PDO
+ * @param $login String
+ * @return int
+ * change le mode de passe d'un utilisateur avec une valeur aléatoire comprise entre 10 000 000 et 99 999 999.
+ */
+function updatePassword($conn, $login){
+    $newPassword = rand(10000000,99999999);
+    $req = $conn->prepare("UPDATE Utilisateur SET pswrd=? WHERE login=?");
+    $password = password_hash($newPassword, PASSWORD_DEFAULT);
+    $req->execute(array($password,$login));
+    return $newPassword;
+}
+
+/**
+ * @param $conn PDO
+ * @param $login String
+ * @return string
+ * @throws Exception
+ * Initialise un token.
+ */
 //Mise a jour du mot de passe
 function updatePassword($conn, $login, $newPassword){
     $req = $conn->prepare("UPDATE Utilisateur SET pswrd=?, token = NULL, tokenExpiresAt = NULL WHERE login=?");
@@ -50,7 +114,15 @@ function tokenInit($conn, $login){
     return $tokenHash;
 }
 
+
+/**
+ * @param $conn PDO
+ * @param $tokenHash
+ * @return mixed
+ * A partir du token recherche l'utilisateur.
+ */
 //Recherche de l'utilisateur par le token
+
 function tokenSearch($conn,$tokenHash){
     $sql = 'SELECT * FROM Utilisateur 
             WHERE token = ?

@@ -20,18 +20,7 @@ function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
     $mail->addAddress($email['email']);
     $mail->isHTML(true);
     $mail->Subject = 'Reinitialisation mot de passe, utilisateur : '.$login;
-    $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token'> http://localhost:63342/R3.01/Controller/ControllerReinistialisationEmail.php?token=$token </a>";
-
-
-
-
-    //Affichage d'une alert box d'envoie du mail
-    echo "
-           <script>
-           alert('Allez voir dans votre boîte mail')
-           document.location.href = 'ControllerReinitialisation.php';
-           </script>
-           ";
+    $mail->Body = "Pour reinitialiser votre mot de passe : <a href='http://localhost/R3.01/View/PageReinitialisationPassword.php?token=$token'> Cliquez ici </a>";
     try {
         $mail->send();
     }
@@ -46,11 +35,15 @@ if (isset($_POST['login'])){ //Test de présence du login dans le champ
     if (isLoginExist($conn,$login)){ //Test d'existence du login dans notre base de donnée
         $email = searchEmail($conn,$login);
         sendReinitialisationPasswordMail($conn,$_POST['login'],$mail,$email);
+        $_SESSION["success"] = "Veuillez consulter votre email";
+        header("Location: ../View/PageReinitialisation.php");
     } else {
-        echo "Login inexistant";
+        $_SESSION["erreur"] = "Login inexistant";
+        header("Location: ../View/PageReinitialisation.php");
     }
 } else {
-    echo "Vous n'avez pas rentré votre login.";
+    $_SESSION["erreur"] = "Veuillez remplir le champ";
+    header("Location: ../View/PageReinitialisation.php");
 }
 
 

@@ -28,6 +28,11 @@ body {
 
 }
 
+.affichage form {
+    display: flex;
+    flex-direction: column;
+}
+
 .affichage p.candidates{
     width: 500px;
     padding: 20px;
@@ -39,12 +44,7 @@ body {
 }
 
 
-section.affichage form {
-    display: flex;
-    flex-direction: column;
-}
-
-section.affichage div.filtreCandidats {
+section.filtreCandidats{
     width: auto;
     padding: 10px;
     margin: 10px;
@@ -60,15 +60,60 @@ section.affichage div.filtreCandidats {
 
 }
 
+.filtreCandidats form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox label {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection {
+    width : 30%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection label {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.formName{
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+}
+
+.filtreCandidats div.buttonSubmit{
+    margin-left: 140px;
+}
+
+
+
 .filtreCandidats label {
     color: #eeeeee;
 }
 
 
-.filtreCandidats input, .filtreCandidats button, .filtreCandidats label, .filtreCandidats select {
-    flex: 2;
-    margin-right: 10px; /* Ajoute une marge à droite pour séparer les éléments d'entrée et le bouton */
-    width: 100px;
 
-}
+
+
+
+
+
+
 

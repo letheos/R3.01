@@ -1,6 +1,6 @@
 <?php
 $conn = require "../Model/Database.php";
-function listAffichage($conn){
+function listAffichageSelect($conn){
     $selected = '';
     $results = allFormation($conn);
     echo '<select class="form-select" name="formation" id="formation">',"\n";
@@ -14,12 +14,12 @@ function listAffichage($conn){
     echo '</select>',"\n";
 }
 
-function choice($conn, $choixFormation){
-    if ($choixFormation == "AucuneOption" || $choixFormation == null){
-        $results = selectCandidats($conn);
-        foreach($results as $row){
-            echo '<p class="candidates"> INE : '.$row['INE']." ".$row['firstName']." ".$row['name']." ".$row['nameFormation'].'</p>';
-        }
+function choiceAllOption($conn, $choixFormation, $choixNom, $isNotActive){
+    $results = selectCandidats($conn);
+    foreach ($results as $row) {
+        echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
     }
 }
+
+
 

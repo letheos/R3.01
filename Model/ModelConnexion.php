@@ -75,20 +75,6 @@ function searchUserHash($conn, $login, $password){
 /**
  * @param $conn PDO
  * @param $login String
- * @return int
- * change le mode de passe d'un utilisateur avec une valeur aléatoire comprise entre 10 000 000 et 99 999 999.
- */
-function updatePassword($conn, $login){
-    $newPassword = rand(10000000,99999999);
-    $req = $conn->prepare("UPDATE Utilisateur SET pswrd=? WHERE login=?");
-    $password = password_hash($newPassword, PASSWORD_DEFAULT);
-    $req->execute(array($password,$login));
-    return $newPassword;
-}
-
-/**
- * @param $conn PDO
- * @param $login String
  * @return string
  * @throws Exception
  * Initialise un token.

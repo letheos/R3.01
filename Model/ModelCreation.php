@@ -1,9 +1,10 @@
 <?php
-$conn = require '../Model/Database.php';
+$conn = require 'Database.php';
 function verfication($conn,$mail,$login){
     try {
 
         $requete0 = "Select email,login from utilisateur where email = ? OR login = ?";
+
         $resultat = $conn->prepare($requete0);
         $resultat->execute(array($mail,$login));
         if ($resultat->rowCount() == 0){
@@ -16,9 +17,8 @@ function verfication($conn,$mail,$login){
         return $e;
     }
 }
-function existe($conn,$mail,$login)
+function existe($conn, $mail,$login)
 {
-
     $existence = verfication($conn, $mail, $login);
 
     //$existence = verfication($conn,$_POST['email'],$_POST['login']);
@@ -27,7 +27,7 @@ function existe($conn,$mail,$login)
 
 }
 
-function ajouter($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formation){
+function ajouter($conn, $pswrd,$lastname,$firsname,$email, $login,$role,$formation){
 
     $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
     $resultat = $conn->prepare($requete);
@@ -35,6 +35,7 @@ function ajouter($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formatio
 
     try {
         $resultat->execute(array($lastname,$firsname,$email,$login,$newpswrd,$role,$formation,null,null));
+
     }
     catch (PDOException $e){
         echo $e->getMessage();

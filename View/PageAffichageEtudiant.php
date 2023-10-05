@@ -1,7 +1,9 @@
 <?php
+
 $conn = require "../Model/Database.php";
 require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiant.php";
+
 
 //Met les informations après confirmation du poste
 if (isset($_POST["submit"])) {
@@ -46,7 +48,9 @@ if (isset($_POST["isActive"])) {
             <div class="selection">
                 <label for="formation" class="form-select-label"> Formation </label>
                 <?php
+
                 listAffichageSelect($conn); //
+
                 ?>
 
             </div>
@@ -68,6 +72,7 @@ if (isset($_POST["isActive"])) {
     <section class="afficheCandidats">
             <div class="affichage">
                 <?php
+
                 if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
                     choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
 
@@ -82,6 +87,7 @@ if (isset($_POST["isActive"])) {
                 }
 
                 ?>
+
             </div>
 
     </section>

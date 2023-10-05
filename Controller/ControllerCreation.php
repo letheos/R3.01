@@ -23,12 +23,20 @@ function sendmailinscription($mail,$emailuser){
 function enregistrer_Creation($conn, $pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$role,$objmail)
 {
 
+    if (isset($_POST['envoyer'])) {
+        $pswd = $_POST['pswd'];
+        $confirmation = $_POST['confirmation'];
+        $lastName = $_POST['lastName'];
+        $firstName = $_POST['firstName'];
+        $mail = $_POST['email'];
+        $login = $_POST['login'];
         if( $_POST['menu'] == "mph"){
             $formation = 'mph';
         }
         elseif ($_POST['menu'] == "BUT informatique"){
             $formation = 'Computer Science';
         }
+
         if ($_POST['role'] == "Chefdep"){
             $role = 1;
         }
@@ -43,6 +51,7 @@ function enregistrer_Creation($conn, $pswd,$confirmation,$lastName,$firstName,$m
         $messageErreur = "";
         $messageSucces = "";
         include '../Model/ModelCreation.php';
+        echo" je suis avant les if de vérif";
         if ($pswd != $confirmation) {
             $messageErreur="les deux mots de passe doivent être identiques";
 
@@ -91,7 +100,7 @@ function enregistrer_Creation($conn, $pswd,$confirmation,$lastName,$firstName,$m
 
             $messageErreur = "le mot de passe doit être compris entre 8 et 20 caractères";
         }
-        elseif(existe($mail,$login) == true){
+        elseif(existe($conn, $mail,$login) == true){
             $messageErreur = "l'utilisateur existe déja";
             //continuer bdd et ajouter personne a la bdd quand il n'existe pas
 
@@ -100,8 +109,9 @@ function enregistrer_Creation($conn, $pswd,$confirmation,$lastName,$firstName,$m
         else {
 
             $messageSucces = "Enregistré avec succès";
+            /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
             echo "je vais essayer d'ajouter";
-            ajouter($conn,$pswd,$lastName,$firstName,$mail,$login,$role,$formation);
+            ajouter($conn, $pswd,$lastName,$firstName,$mail,$login,$role,$formation);
             echo "je vais essayer d'envoyer le mail avec ".$mail;
 
             try{
@@ -119,14 +129,15 @@ function enregistrer_Creation($conn, $pswd,$confirmation,$lastName,$firstName,$m
         } else {
             return $messageSucces;
         }
+    }
 }
-?>
 
-<?php
+
+
 
 if (isset($_POST['login'])) {
-
-    $message = enregistrer_Creation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation'],$_POST['role'],$objmail);
+    echo "je suis arrivé dans le premier if";
+    $message = enregistrer_Creation($conn, $_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation'],$_POST['role'],$objmail);
     echo "j'ai fait enregistrer creation";
 
     $_SESSION['message'] = $message;
@@ -140,3 +151,5 @@ if (isset($_POST['login'])) {
 }
 
 ?>
+
+

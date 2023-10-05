@@ -3,11 +3,11 @@ $conn = require "../Model/Database.php";
 require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
-
+/*
 if(isset($_GET['nom'])){
     $name = $_GET['nom'];
 }
-
+*/
 ?>
 
 <!doctype html>
@@ -29,12 +29,12 @@ if(isset($_GET['nom'])){
         </h1>
     </header>
 
-    <form action="POST" id="form" action="PageAffichageEtudiantPrecis.php">
+    <form method="POST" id="form" action="PageAffichageEtudiantPrecis.php">
 
     <section class="Affiche">
         <div class="rounded-box">
             <?php
-            afficherEtudiant($conn,"John Doe");
+            afficherEtudiant($conn,"Smith");
             ?>
         </div>
     </section>

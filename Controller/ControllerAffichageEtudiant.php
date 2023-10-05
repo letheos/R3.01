@@ -14,11 +14,35 @@ function listAffichageSelect($conn){
     echo '</select>',"\n";
 }
 
-function choiceAllOption($conn, $choixFormation, $choixNom, $isNotActive){
-    $results = selectCandidats($conn);
+function  choiceAllOptionWithActive($conn, $isNotActive){
+    $results = selectCandidatesActives($conn, $isNotActive);
     foreach ($results as $row) {
         echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
     }
+}
+
+function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
+    $results = selectCandidatesByFormation($conn, $choixFormation,  $isActive);
+    foreach ($results as $row) {
+        echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
+    }
+
+}
+
+function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom){
+    $results = selectCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom);
+    foreach ($results as $row) {
+        echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
+    }
+
+}
+
+function choiceAllCandidatesByName($conn, $isActive, $choixNom){
+    $results = selectCandidatesByName($conn, $choixNom,  $isActive);
+    foreach ($results as $row) {
+        echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
+    }
+
 }
 
 

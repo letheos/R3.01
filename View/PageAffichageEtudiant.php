@@ -7,11 +7,12 @@ require "../Controller/ControllerAffichageEtudiant.php";
 if (isset($_POST["submit"])) {
     $choixFormation = $_POST["formation"];
     $choixNom = $_POST["nameCandidates"];
-    if (isset($_POST["isNotActive"])) {
-        $isNotActive = 1;
-    } else {
-        $isNotActive = 0;
-    }
+}
+
+if (isset($_POST["isActive"])) {
+    $isActive = 0;
+} else {
+    $isActive = 1;
 }
 
 
@@ -54,7 +55,7 @@ if (isset($_POST["submit"])) {
                 <input type="text" class="form-control" name="nameCandidates" id="nameCandidates" placeholder="Filtrage par nom">
             </div>
             <div class="checkbox">
-                <input class="form-check" type="checkbox" name="isNotActive" id="isNotActive">
+                <input class="form-check" type="checkbox" name="isActive" id="isActive">
                 <label for="isNotActive" class="form-check-label"> Non-actif </label>
             </div>
 
@@ -67,9 +68,29 @@ if (isset($_POST["submit"])) {
     <section>
             <div class="affichage">
                 <?php
-                if (($choixFormation == "AucuneOption"  && !isset($choixNom) && !isset($isNotActive)) || (!isset($choixFormation) && !isset($choixNom) && !isset($isNotActive))) {
-                    choiceAllOption($conn, $choixFormation, $choixNom, $isNotActive);
+                if (isset($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
+                    // Filtrer par nom et formation
+                    echo 'Filtrage par nom et formation';
+                    choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
                 }
+
+                elseif (isset($choixNom) && $choixNom !== "") {
+                    // Filtrer par nom
+                    echo 'Filtrage par nom';
+                    choiceAllCandidatesByName($conn, $isActive, $choixNom);
+                }
+
+                elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
+                    // Filtrer par formation
+                    echo 'Filtrage par formation';
+                    choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
+                }
+
+                else {
+                    echo 'Aucun filtre spécifié';
+                    choiceAllOptionWithActive($conn, $isActive);
+                }
+
                 ?>
             </div>
     </section>

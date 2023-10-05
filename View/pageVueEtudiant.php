@@ -20,22 +20,25 @@
 
 <?php
 $bdd = require "../Model/Database.php";
-//require_once "../Model/modelDesactiverCompte.php";
-$sql = "Select ine,name,firstname,address,phonenumber,activaccount from students";
+
+$sql = "Select ine,name,firstname,address,isInActiveSearch from Candidates";
 $requete = $bdd->prepare($sql);
 
 $requete->execute();
 $id = 0;
-while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
-    $id+=1;
-    echo '<div class = "rounded-box">';
 
+while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
+
+    $id+=1;
+
+    echo '<div class = "rounded-box">';
 
     echo '<p> INE : '.$row['ine']." "."Prénom : ".$row['firstname']." "."Nom : ".$row['name'].'</p>';
 
     $activ = $row['activaccount'];
+
     if($activ === true){
-        $iden = $row['ine'];
+
         //code pour faire un bouton pour désactiver le compte
         echo " le profil est actif";
         echo " le profil n'est pas actif";
@@ -48,7 +51,6 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
 
 
     } else{
-        //$iden = $row['ine'];
         //code pour activer le compte
         echo " le profil n'est pas actif";
         echo "<form action ='../Model/modelDesactiverCompte.php' method='get' >";
@@ -57,18 +59,12 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
         echo "<button id= $id type='submit' class='bouton-vert'>activation</button>";
         echo "</form>";
 
-
-
-
-
-
     }
 
     echo '<br>';
     echo '<br>';
     echo '<br>';
     echo '</div>';
-
 }
 ?>
 

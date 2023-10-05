@@ -3,19 +3,18 @@ $conn = require "../Model/Database.php";
 require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiant.php";
 
-
+//Met les informations après confirmation du poste
 if (isset($_POST["submit"])) {
     $choixFormation = $_POST["formation"];
     $choixNom = $_POST["nameCandidates"];
 }
 
+//Traitement de la checkbox
 if (isset($_POST["isActive"])) {
     $isActive = 0;
 } else {
     $isActive = 1;
 }
-
-
 ?>
 
 <!doctype html>
@@ -46,7 +45,7 @@ if (isset($_POST["isActive"])) {
             <div class="selection">
                 <label for="formation" class="form-select-label"> Formation </label>
                 <?php
-                listAffichageSelect($conn);
+                listAffichageSelect($conn); //
                 ?>
 
             </div>
@@ -68,26 +67,16 @@ if (isset($_POST["isActive"])) {
     <section>
             <div class="affichage">
                 <?php
-                if (isset($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
-                    // Filtrer par nom et formation
-                    echo 'Filtrage par nom et formation';
+                if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
                     choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
-                }
 
-                elseif (isset($choixNom) && $choixNom !== "") {
-                    // Filtrer par nom
-                    echo 'Filtrage par nom';
+                } elseif (isset($choixNom) && !empty($choixNom)) {
                     choiceAllCandidatesByName($conn, $isActive, $choixNom);
-                }
 
-                elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
-                    // Filtrer par formation
-                    echo 'Filtrage par formation';
+                } elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
                     choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
-                }
 
-                else {
-                    echo 'Aucun filtre spécifié';
+                } else {
                     choiceAllOptionWithActive($conn, $isActive);
                 }
 

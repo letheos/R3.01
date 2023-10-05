@@ -1,5 +1,12 @@
 <?php
 $conn = require "../Model/Database.php";
+
+/**
+ * @param $conn
+ * @return void
+ * Créer la liste déroulante dynamiquement en fonction des formations.
+ */
+//Fonction d'affichage des candidats
 function listAffichageSelect($conn){
     $selected = '';
     $results = allFormation($conn);
@@ -14,6 +21,14 @@ function listAffichageSelect($conn){
     echo '</select>',"\n";
 }
 
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return void
+ * Affiche dans le php les candidats en fonction du filtrage
+ */
+//Fonction d'affichage des candidats en fonction d'un filtrage
 function  choiceAllOptionWithActive($conn, $isNotActive){
     $results = selectCandidatesActives($conn, $isNotActive);
     foreach ($results as $row) {
@@ -21,6 +36,15 @@ function  choiceAllOptionWithActive($conn, $isNotActive){
     }
 }
 
+
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return void
+ * Affiche dans le php les candidats en fonction du filtrage sur la formation
+ */
+//Fonction d'affichage des candidats en fonction d'un filtrage sur la formation
 function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
     $results = selectCandidatesByFormation($conn, $choixFormation,  $isActive);
     foreach ($results as $row) {
@@ -29,21 +53,39 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
 
 }
 
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return void
+ * Affiche dans le php les candidats en fonction du filtrage sur le nom et la formation
+ */
+//Fonction d'affichage des candidats en fonction d'un filtrage sur la formation et le nom
 function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom){
-    $results = selectCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom);
+    $results = selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive);
     foreach ($results as $row) {
         echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
     }
 
 }
 
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return void
+ * Affiche dans le php les candidats en fonction du filtrage sur le nom
+ */
+//Fonction d'affichage des candidats en fonction d'un filtrage sur le nom
 function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     $results = selectCandidatesByName($conn, $choixNom,  $isActive);
+    echo $results;
     foreach ($results as $row) {
         echo '<p class="candidates"> INE : ' . $row['INE'] . " " . $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] . '</p>';
     }
 
 }
+
 
 
 

@@ -1,7 +1,7 @@
 .info-bubble {
     display: none;
     position: absolute;
-    background-color: #0f94b4;
+    background-color: #19f1f1;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -16,22 +16,48 @@
     display: block;
 }
 .rounded-box {
-    border: 2px solid deepskyblue;
+    border: 10px solid deepskyblue;
     border-radius: 10px;
     padding: 20px;
     background: whitesmoke;
     text : white;
 }
-body{
 
+body{
     center : all;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
-    min-height: 100vh
 }
 div.alert-danger{
 
+}
+.bouton-rouge {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px ;
+}
+
+.bouton-rouge:hover {
+    background-color: darkred;
+}
+
+.bouton-vert {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px ;
+}
+
+.bouton-vert:hover {
+    background-color: darkgreen;
 }
 
 .banner h1 {
@@ -63,3 +89,5 @@ body {
 
 
 }
+
+

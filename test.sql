@@ -39,7 +39,7 @@ CREATE TABLE `blockip` (
 --
 
 CREATE TABLE `candidates` (
-  `INE` int(11) NOT NULL,
+  `INE` text NOT NULL primary key,
   `name` text NOT NULL,
   `firstName` text NOT NULL,
   `address` text NOT NULL,
@@ -70,7 +70,7 @@ INSERT INTO `candidates` (`INE`, `name`, `firstName`, `address`, `ville`, `radiu
 --
 
 CREATE TABLE `formation` (
-  `nameFormation` varchar(255) NOT NULL,
+  `nameFormation` varchar(255) primary key,
   `descriptionFormation` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -92,7 +92,7 @@ INSERT INTO `formation` (`nameFormation`, `descriptionFormation`) VALUES
 --
 
 CREATE TABLE `role` (
-  `idRole` int(11) NOT NULL,
+  `idRole` int(11) primary key,
   `nom` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

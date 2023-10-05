@@ -34,7 +34,6 @@
         <label for="Ville">Ville</label>
         <input type="text" name="Ville"
                value="<?php echo isset($_POST['Ville']) ? $_POST['Ville'] : ''; ?>">
-        <label> (latitude, longitude)</label>
         <br>
         <br>
         <label for="radius">rayon</label>
@@ -68,7 +67,7 @@
         <br>
         <label for="cv">inserer le cv ici</label>
         <input type="file" name="cv" value="<?php echo isset($_POST['cv']) ? $_POST['cv'] : ''; ?>" accept=".pdf"><br>
-        <br>>
+        <br>
 
         <button name="envoyer" class="btn btn-outline-primary" type="submit">inscription</button>
     </form>

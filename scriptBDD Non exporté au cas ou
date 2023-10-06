@@ -1,0 +1,49 @@
+CREATE TABLE Formation (
+    nameFormation VARCHAR(255) PRIMARY KEY,
+    description text
+);
+
+CREATE TABLE Role (
+    idRole int PRIMARY KEY,
+    nameRole text not null
+);
+    
+CREATE TABLE Candidates (
+    INE VARCHAR(11) PRIMARY KEY,
+    name text not null,
+    firstName text not null,
+    nameFormation VARCHAR(255),
+    isInActiveSearch boolean not null,
+    ville text not null,
+    radius int not null,
+    permisB boolean not null,
+    typeEntrepriseRechercher text,
+    cv BLOB,
+    FOREIGN KEY (nameFormation) REFERENCES Formation(nameFormation)
+    );
+
+CREATE TABLE Utilisateur (
+    login VARCHAR(255) PRIMARY KEY,
+    pswrd text not null,
+    nameUtilisateur text not null,
+    idRole int,
+    nameFormation VARCHAR(255),
+    firstName text not null,
+    email text not null,
+    token text,
+    tokenExpiresAt timestamp,
+    FOREIGN KEY (idRole) references Role(idRole),
+    FOREIGN KEY (nameFormation) REFERENCES Formation(nameFormation)
+    );
+
+CREATE TABLE blockIp (
+    ip VARCHAR(255) PRIMARY KEY,
+    expiration timestamp
+    );
+    
+CREATE TABLE tentativeConnection (
+    idConn INT AUTO_INCREMENT PRIMARY KEY,
+    ip text,
+    date timestamp,
+    connectPass boolean not null
+    );

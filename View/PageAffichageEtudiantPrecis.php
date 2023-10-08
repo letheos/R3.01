@@ -34,7 +34,7 @@ if(isset($_GET['nom'])){
     <section class="Affiche">
         <div class="rounded-box">
             <?php
-            afficherEtudiant($conn,"Smith");
+            afficherEtudiant($conn,"Doe");
             ?>
         </div>
     </section>

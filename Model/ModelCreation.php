@@ -34,7 +34,7 @@ function ajouter($conn, $pswrd,$lastname,$firsname,$email, $login,$role,$formati
     $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
 
     try {
-        $resultat->execute(array($lastname,$firsname,$email,$login,$newpswrd,$role,$formation,null,null));
+        $resultat->execute(array($login, $newpswrd,$lastname,$role,$formation,$firsname,$email,null,null));
 
     }
     catch (PDOException $e){

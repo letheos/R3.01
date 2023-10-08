@@ -14,7 +14,7 @@
 <div class="rounded-box">
 
 
-    <form action="PageCreationCompte.php" method="post">
+    <form action="PageCreationCandidat.php" method="post">
         <label for="INE">INE</label>
         <input type="text" name="INE" placeholder="123456789AB" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
         <label>Un INE est composé de 9 chiffres et 2 lettres </label>
@@ -60,8 +60,8 @@
         <br>
         <label for="permisB">permisB</label>
         <select name="permisB" size="1">
-            <option value="false">non</option>
-            <option value="true" >oui</option>
+            <option value="0">non</option>
+            <option value="1" >oui</option>
         </select>
         <br>
         <br>
@@ -93,7 +93,9 @@
         $coord = $_POST['Ville'];
         $radius = $_POST['radius'];
 
+        echo $permisB;
 
+        echo $typeEntrepriseRecherche;
 
 
 
@@ -135,7 +137,7 @@
 
         $bdd = require "../Model/Database.php";
 
-        $sql = "insert into candidates values (?,?,?,?,?,true,?,?,?,?);";
+        $sql = "insert into candidates values (?,?,?,?,?,true,?,?,?,?, null);";
 
         $req = $bdd->prepare($sql);
         $req->bindValue(1, $INE);

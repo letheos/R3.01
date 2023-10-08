@@ -24,9 +24,9 @@ $bdd = require "../Model/Database.php";
  * prend en paramètre une connection mysql et un ine de type string
  * change l'état boolean de la isInActiveSearch en true
  */
-function chagenEtatTrue($ine,$bdd){
+function changeEtatTrue($ine,$bdd){
 
-    $sql = "UPDATE Candidates SET isInActiveSearch = true WHERE INE = (?)";
+    $sql = "UPDATE Candidates SET isInActiveSearch = 1 WHERE INE = ?";
     $req = $bdd->prepare($sql);
     $req->execute(array($ine));
 
@@ -38,9 +38,9 @@ function chagenEtatTrue($ine,$bdd){
  * prend en paramètre une connection mysql et un ine de type string
  * change l'état boolean de la isInActiveSearch en false
  */
-function chagenEtatFalse($ine,$bdd){
+function changeEtatFalse($ine,$bdd){
 
-    $sql = "UPDATE Candidates SET isInActiveSearch = false WHERE INE = (?)";
+    $sql = "UPDATE Candidates SET isInActiveSearch = 0 WHERE INE = ?";
     $req = $bdd->prepare($sql);
     $req->execute(array($ine));
 
@@ -49,8 +49,8 @@ function chagenEtatFalse($ine,$bdd){
 $ine = $_GET['ine'];
 $bouton = $_GET['typeBouton'];
 if($bouton === "boutonVert"){
-    changeEtatTrue($ine);
+    changeEtatTrue($ine,$bdd);
 } elseif ($bouton === "boutonRouge"){
-    changeEtatFalse($ine);
+    changeEtatFalse($ine,$bdd);
 }
 

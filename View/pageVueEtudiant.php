@@ -5,14 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../Model/PageCreationcss.css">
+    <link rel="stylesheet" href="AffichagePageDesactivee.css">
     <title>afficheLesEtudiants</title>
 </head>
 
 <header>
-    <p>
-        blalbaeza
-    </p>
 </header>
 
 
@@ -21,7 +18,7 @@
 <?php
 $bdd = require "../Model/Database.php";
 
-$sql = "Select ine,name,firstname,address,isInActiveSearch from Candidates";
+$sql = "Select ine,name,firstname,adresse,isInActiveSearch from Candidates";
 $requete = $bdd->prepare($sql);
 
 $requete->execute();

@@ -39,28 +39,27 @@ CREATE TABLE `blockip` (
 --
 
 CREATE TABLE `candidates` (
-  `INE` varchar(11) NOT NULL,
+  `idCandidate` int AUTO_INCREMENT PRIMARY KEY,
+  `INE` varchar(11) UNIQUE,
   `name` text NOT NULL,
   `firstName` text NOT NULL,
+  `yearOfFormation` int NOT NULL,
   `nameFormation` varchar(255) DEFAULT NULL,
-  `adresse` text NOT NULL,
+  `address` text NOT NULL,
   `isInActiveSearch` tinyint(1) NOT NULL,
-  `ville` text NOT NULL,
-  `radius` int(11) NOT NULL,
-  `permisB` tinyint(1) NOT NULL,
-  `typeEntrepriseRecherchee` text,
+  `city` text NOT NULL,
+  `radius` int NOT NULL,
+  `permisB` tinyint(1),
+  `typeCompanySearch` text,
   `cv` blob
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `candidates`
 --
 
-INSERT INTO `candidates` (`INE`, `name`, `firstName`, `nameFormation`, `adresse`, `isInActiveSearch`, `ville`, `radius`, `permisB`, `typeEntrepriseRecherchee`, `cv`) VALUES
-('1234567890', 'Doe', 'John', 'Computer Science', '123 Rue de la République', 1, 'Paris', 10, 1, 'Technologie', NULL),
-('123456789EB', 'Parent', 'Theo', 'Computer Science', '12 denain 59220', 1, 'Denain', 35, 1, 'Informatique', NULL),
-('5555555555', 'Johnson', 'Ella', 'Computer Science', '789 Boulevard des Étoiles', 1, 'Lyon', 12, 1, 'Informatique', NULL),
-('9876543210', 'Smith', 'Alice', 'mph', '456 Avenue du Soleil', 0, 'Marseille', 15, 0, 'Santé', NULL);
+
 
 -- --------------------------------------------------------
 
@@ -107,7 +106,7 @@ INSERT INTO `role` (`idRole`, `nameRole`) VALUES
 -- Table structure for table `tentativeconnection`
 --
 
-CREATE TABLE `tentativeconnection` (
+CREATE TABLE `connectionAttempt` (
   `idConn` int(11) NOT NULL,
   `ip` text,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -118,10 +117,6 @@ CREATE TABLE `tentativeconnection` (
 -- Dumping data for table `tentativeconnection`
 --
 
-INSERT INTO `tentativeconnection` (`idConn`, `ip`, `date`, `connectPass`) VALUES
-(2, '::1', '2023-10-06 10:00:04', 1),
-(6, '::1', '2023-10-06 14:08:29', 1),
-(10, '::1', '2023-10-06 14:12:29', 1);
 
 -- --------------------------------------------------------
 
@@ -132,10 +127,10 @@ INSERT INTO `tentativeconnection` (`idConn`, `ip`, `date`, `connectPass`) VALUES
 CREATE TABLE `utilisateur` (
   `login` varchar(255) NOT NULL,
   `pswrd` text NOT NULL,
-  `nameUtilisateur` text NOT NULL,
+  `userName` text NOT NULL,
+  `firstName` text NOT NULL,
   `idRole` int(11) DEFAULT NULL,
   `nameFormation` varchar(255) DEFAULT NULL,
-  `firstName` text NOT NULL,
   `email` text NOT NULL,
   `token` text,
   `tokenExpiresAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -145,8 +140,6 @@ CREATE TABLE `utilisateur` (
 -- Dumping data for table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`login`, `pswrd`, `nameUtilisateur`, `idRole`, `nameFormation`, `firstName`, `email`, `token`, `tokenExpiresAt`) VALUES
-('nathan.strady', '$2y$10$IpQ6Trlh6N2ApeJvVMmJwOuexIXartIG2gZ3zRaXgw02jYrOia7Fa', 'Strady', 2, 'mph', 'Nathan', 'nathan.strady.tra@gmail.com', NULL, '2023-10-06 14:12:14');
 
 --
 -- Indexes for dumped tables
@@ -162,7 +155,6 @@ ALTER TABLE `blockip`
 -- Indexes for table `candidates`
 --
 ALTER TABLE `candidates`
-  ADD PRIMARY KEY (`INE`),
   ADD KEY `nameFormation` (`nameFormation`);
 
 --

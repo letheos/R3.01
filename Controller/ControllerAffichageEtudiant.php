@@ -32,7 +32,7 @@ function listAffichageSelect($conn){
 function  choiceAllOptionWithActive($conn, $isActive){
     $results = selectCandidatesActives($conn, $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> INE : '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
 
     }
 }
@@ -49,7 +49,7 @@ function  choiceAllOptionWithActive($conn, $isActive){
 function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
     $results = selectCandidatesByFormation($conn, $choixFormation,  $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> INE : '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
 
     }
 
@@ -66,7 +66,7 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
 function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom){
     $results = selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> INE : '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
 
     }
 }
@@ -82,7 +82,7 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
 function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     $results = selectCandidatesByName($conn, $choixNom,  $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> INE : '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
 
     }
 

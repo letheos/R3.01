@@ -43,7 +43,7 @@ CREATE TABLE `candidates` (
   `INE` varchar(11) DEFAULT NULL,
   `name` text NOT NULL,
   `firstName` text NOT NULL,
-  `yearOfFormation` int(11) NOT NULL,
+  `yearOfFormation` text NOT NULL,
   `nameFormation` varchar(255) DEFAULT NULL,
   `address` text NOT NULL,
   `isInActiveSearch` tinyint(1) NOT NULL,

@@ -3,19 +3,6 @@ $conn = require "../Model/Database.php";
 require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiant.php";
 
-//Met les informations après confirmation du poste
-if (isset($_POST["submit"])) {
-    $choixFormation = $_POST["formation"];
-    $choixNom = $_POST["nameCandidates"];
-}
-
-
-//Traitement de la checkbox
-if (isset($_POST["isActive"])) {
-    $isActive = 0;
-} else {
-    $isActive = 1;
-}
 ?>
 
 <!doctype html>
@@ -39,7 +26,7 @@ if (isset($_POST["isActive"])) {
         </h1>
     </header>
 
-    <form method="POST" action="PageAffichageEtudiant.php">
+    <form id="filter-form" method="POST" action="../View/PageAffichageEtudiant.php">
 
     <section class="filtreCandidats">
 
@@ -62,27 +49,31 @@ if (isset($_POST["isActive"])) {
             <div class="buttonSubmit">
                 <button class="btn btn-primary" type="submit" name="submit" id="submit"> Rechercher</button>
             </div>
+
+        <script>
+        </script>
     </section>
 
-
     <section class="afficheCandidats">
-            <div class="affichage">
-                <?php
-                if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
-                    choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
-
-                } elseif (isset($choixNom) && !empty($choixNom)) {
-                    choiceAllCandidatesByName($conn, $isActive, $choixNom);
-
-                } elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
-                    choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
-
-                } else {
-                    choiceAllOptionWithActive($conn, $isActive);
-                }
-
-                ?>
+            <div class="affichage" id="candidateList">
+                <?php filtrage($conn); ?>
             </div>
+        <script>
+            //Récupère toute les valeurs des balises candidats
+            const candidateList = document.querySelectorAll(".candidates"); //Sélectionnez tous les éléments avec la classe "candidates"
+            candidateList.forEach(candidate => { //Pour chaque balise candidat on l'écoute
+                candidate.addEventListener("click", function(event) { //On ajoute un eventlistener click
+                    //Empeche le refresh automatique de la page
+                    event.preventDefault();
+                    //On traite le click
+                    const target = event.target;
+                    if (target.tagName === "BUTTON") {
+                        const candidateId = target.getAttribute("id");
+                        window.location.href=`./PageAffichageEtudiantPrecis.php?id=${candidateId}`;
+                    }
+                });
+            });
+        </script>
 
     </section>
 

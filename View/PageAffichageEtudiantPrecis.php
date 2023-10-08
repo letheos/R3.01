@@ -4,8 +4,8 @@ require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
 
-if(isset($_GET['nom'])){
-    $name = $_GET['nom'];
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
 }
 
 ?>
@@ -34,7 +34,7 @@ if(isset($_GET['nom'])){
     <section class="Affiche">
         <div class="rounded-box">
             <?php
-            afficherEtudiant($conn,"John Doe");
+            afficherEtudiant($conn,$id);
             ?>
         </div>
     </section>

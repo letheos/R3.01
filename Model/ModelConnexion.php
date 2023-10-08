@@ -94,10 +94,6 @@ function updatePassword($conn, $login){
  * Initialise un token.
  */
 //Mise a jour du mot de passe
-function updatePassword($conn, $login, $newPassword){
-    $req = $conn->prepare("UPDATE Utilisateur SET pswrd=?, token = NULL, tokenExpiresAt = NULL WHERE login=?");
-    $req->execute(array($newPassword,$login));
-}
 
 //Initialisation du token
 function tokenInit($conn, $login){

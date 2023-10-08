@@ -1,6 +1,11 @@
+<?php
+session_start();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
+    <title>Creation de bouffon</title>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -8,44 +13,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="../Model/PageCreationcss.css">
-    <title>Document</title>
 </head>
+
 <body>
+    <div>
+    <header>
+        <h1>
+            Création d'un étudiant
+        </h1>
+    </header>
+    </div>
 <div class="rounded-box">
 
 
-    <form action="PageCreationCompte.php" method="post">
+    <form action="../Controller/ControllerCreationCompte.php" method="post">
         <label for="INE">INE</label>
-        <input type="text" name="INE" placeholder="123456789AB" pattern = "\d{9}[A-Za-z]{2}" value="<?php echo isset($_POST['INE']) ? $_POST['INE'] : ''; ?>">
+        <input type="text" name="INE" placeholder="123456789AB" pattern = "\d{9}[A-Za-z]{2}"  value="<?php echo isset($_SESSION['INE']) ? $_SESSION['INE'] : ''; ?>">
         <label>Un INE est composé de 9 chiffres et 2 lettres </label>
         <br>
         <br>
         <label for="lastName">Nom de l'étudiant</label>
-        <input type="text" name="lastName" placeholder="nom" value="<?php echo isset($_POST['lastName']) ? $_POST['lastName'] : ''; ?>">
+        <input type="text" name="lastName" placeholder="nom" value="<?php echo isset($_SESSION['lastName']) ? $_SESSION['lastName'] : ''; ?>">
         <br>
         <br>
         <label for="firstName">Prenom</label>
         <input type="text" name="firstName" placeholder="Prénom"
-               value="<?php echo isset($_POST['firstName']) ? $_POST['firstName'] : ''; ?>"><br>
+               value="<?php echo isset($_SESSION['firstName']) ?$_SESSION['firstName'] : ''; ?>"><br>
         <br>
         <label for="adresse">Adresse</label>
-        <input type="text" name="address" placeholder="rue ville code postal" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"><br>
+        <input type="text" name="address" placeholder="rue ville code postal" value="<?php echo isset($_SESSION['address']) ? $_SESSION['address'] : ''; ?>"><br>
         <br>
         <label for="Ville">Ville</label>
         <input type="text" name="Ville"
-               value="<?php echo isset($_POST['Ville']) ? $_POST['Ville'] : ''; ?>">
+               value="<?php echo isset($_SESSION['Ville']) ? $_SESSION['Ville'] : ''; ?>">
         <br>
         <br>
         <label for="radius">rayon</label>
         <input type="range" min="1" max="100" name="radius"
-               value="<?php echo isset($_POST['radius']) ? $_POST['radius'] : ''; ?>">
+               value="<?php echo isset($_SESSION['radius']) ? $_SESSION['radius'] : ''; ?>">
         <label>minimum = 1 maximum = 100</label>
         <br>
         <br>
 
         <label for="typeEntrepriseRecherche">type des entreprises recherchées</label>
         <input type="text" name="typeEntreprises"
-               value="<?php echo isset($_POST['typeEntreprises']) ? $_POST['typeEntreprises'] : ''; ?>"><br>
+               value="<?php echo isset($_SESSION['typeEntreprises']) ? $_SESSION['typeEntreprises'] : ''; ?>"><br>
         <br>
 
 
@@ -70,11 +82,35 @@
         <br>
 
         <button name="envoyer" class="btn btn-outline-primary" type="submit">inscription</button>
+        <?php
+
+        if (isset($_SESSION['message'])) {
+        $message = $_SESSION['message'];
+        if ($message === "Enregistré avec succès") {
+        ?>
+        <div class="alert alert-success">
+            <?php
+            } else {
+            ?>
+            <div class="alert alert-danger">
+                <?php
+                }
+                if ($_SESSION['message'] != null) {
+                    echo $_SESSION['message'];
+                }
+                ?>
+            </div>
+            <?php
+            }
+            ?>
+
+
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+
 
     <?php
 
@@ -133,26 +169,11 @@
 
         //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
-        $bdd = require "../Model/Database.php";
 
-        $sql = "insert into students values (?,?,?,?,?,?,?,?,?,true);";
-
-        $req = $bdd->prepare($sql);
-        $req->bindValue(1, $INE);
-        $req->bindValue(2, $lastName);
-        $req->bindValue(3, $firstName);
-        $req->bindValue(4, $address);
-        $req->bindValue(5, $ville);
-        $req->bindValue(6, $radius);
-        $req->bindValue(7,$permisB);
-        $req->bindValue(8, $formation);
-        $req->bindValue(9, $typeEntrepriseRecherche);
-
-        $req->execute();
-        //a
     }
 
-    ?>
+
+?>
 </div>
 </body>
 </html>

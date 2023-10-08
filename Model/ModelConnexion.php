@@ -63,7 +63,7 @@ function tokenSearch($conn,$tokenHash){
 
 //Contre mesure de connection deconnection vonlontaire dans un cours temps donné
 function securityDDOS($conn,$ip){
-    $sql = 'SELECT count(*) as nbTentative FROM tentativeconnection 
+    $sql = 'SELECT count(*) as nbTentative FROM connectionAttempt
             WHERE DATE_SUB(CURRENT_TIMESTAMP,INTERVAL 1 HOUR) < date 
             AND ip = ?
     ;';
@@ -75,7 +75,7 @@ function securityDDOS($conn,$ip){
 
 //Ajout d'une tentative de connection dans la base de donnée
 function addTentativeIp($conn,$ip,$bool){
-    $sql='INSERT INTO TentativeConnection (ip,date,connectPass)
+    $sql='INSERT INTO connectionAttempt (ip,date,connectPass)
           VALUES (?,CURRENT_TIMESTAMP,?);';
     $req = $conn->prepare($sql);
     $req->execute(array($ip,$bool));
@@ -83,7 +83,7 @@ function addTentativeIp($conn,$ip,$bool){
 
 //Récupération du nombre de tentative
 function nbTentative($conn, $ip){
-    $sql = 'SELECT count(*) as nbTentative FROM tentativeconnection 
+    $sql = 'SELECT count(*) as nbTentative FROM connectionAttempt
             WHERE DATE_SUB(CURRENT_TIMESTAMP,INTERVAL 1 HOUR) < date 
                   AND connectPass = 0 AND ip = ?;
             ';
@@ -95,7 +95,7 @@ function nbTentative($conn, $ip){
 
 //Suppression du nombre de tentative
 function deleteTentativeIp($conn,$ip){
-    $sql = 'DELETE FROM tentativeConnection WHERE connectPass = 0 AND ip = ? ';
+    $sql = 'DELETE FROM connectionAttempt WHERE connectPass = 0 AND ip = ? ';
     $req = $conn->prepare($sql);
     $req->execute(array($ip));
 }

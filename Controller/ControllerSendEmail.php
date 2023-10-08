@@ -35,7 +35,7 @@ if (isset($_POST['login'])){ //Test de présence du login dans le champ
     if (isLoginExist($conn,$login)){ //Test d'existence du login dans notre base de donnée
         $email = searchEmail($conn,$login);
         sendReinitialisationPasswordMail($conn,$_POST['login'],$mail,$email);
-        $_SESSION["success"] = "Veuillez consulter votre email";
+        $_SESSION["success"] = $email["email"];
         header("Location: ../View/PageReinitialisation.php");
     } else {
         $_SESSION["erreur"] = "Login inexistant";

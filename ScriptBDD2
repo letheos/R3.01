@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 08, 2023 at 03:09 PM
+-- Generation Time: Oct 09, 2023 at 10:00 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -62,15 +62,7 @@ INSERT INTO `candidates` (`idCandidate`, `INE`, `name`, `firstName`, `yearOfForm
 (1, '123456789AB', 'Doe', 'John', 'Première année', 'computer science', '123 Main Street', 1, 'New York', 50, 1, 'Software Development', NULL),
 (2, '098765432CD', 'Smith', 'Jane', 'Deuxième année', 'mph', '456 Elm Street', 1, 'Los Angeles', 30, 0, 'Public Health', NULL),
 (3, '567890123EF', 'Johnson', 'Bob', 'Troisième année', 'computer science', '789 Oak Street', 1, 'Chicago', 40, 1, 'Data Analysis', NULL),
-(4, '345678901GH', 'Williams', 'Alice', 'Quatrième année', 'mph', '101 Pine Street', 1, 'Houston', 25, 0, 'Epidemiology', NULL),
-(5, '987654321IJ', 'Brown', 'David', 'Cinquième année', 'computer science', '222 Elm Street', 1, 'San Francisco', 35, 1, 'Web Development', NULL),
-(6, '456789012KL', 'Garcia', 'Maria', 'Troisième année', 'mph', '555 Oak Street', 1, 'Miami', 40, 0, 'Health Administration', NULL),
-(7, '234567890MN', 'Chen', 'Lisa', 'Deuxième année', 'computer science', '777 Pine Street', 1, 'Seattle', 30, 1, 'Machine Learning', NULL),
-(8, '678901234OP', 'Wilson', 'James', 'Quatrième année', 'mph', '888 Maple Street', 1, 'Boston', 45, 0, 'Epidemiology', NULL),
-(9, '111111111AA', 'Gagnon', 'Marie', 'Deuxième année', 'computer science', '123 Elm Street', 1, 'Montreal', 30, 1, 'Software Development', NULL),
-(10, '222222222BB', 'Li', 'Michael', 'Troisième année', 'mph', '456 Oak Street', 1, 'Toronto', 40, 0, 'Public Health', NULL),
-(11, '333333333CC', 'Dubois', 'Sophie', 'Quatrième année', 'computer science', '789 Maple Street', 0, 'Paris', 35, 1, 'Data Analysis', NULL),
-(12, '444444444DD', 'Kim', 'Ji-hoon', 'Cinquième année', 'mph', '101 Cedar Street', 0, 'Seoul', 25, 0, 'Epidemiology', NULL);
+(4, '345678901GH', 'Williams', 'Alice', 'Quatrième année', 'mph', '101 Pine Street', 1, 'Houston', 25, 0, 'Epidemiology', NULL);
 
 -- --------------------------------------------------------
 
@@ -90,8 +82,11 @@ CREATE TABLE `connectionattempt` (
 --
 
 INSERT INTO `connectionattempt` (`idConn`, `ip`, `date`, `connectPass`) VALUES
-(14, '::1', '2023-10-08 14:17:27', 0),
-(15, '::1', '2023-10-08 14:17:48', 0);
+(17, '::1', '2023-10-08 14:24:31', 1),
+(19, '::1', '2023-10-09 09:55:29', 1),
+(20, '::1', '2023-10-09 09:55:53', 1),
+(21, '::1', '2023-10-09 09:56:09', 1),
+(22, '::1', '2023-10-09 09:56:16', 1);
 
 -- --------------------------------------------------------
 
@@ -157,7 +152,7 @@ CREATE TABLE `utilisateur` (
 INSERT INTO `utilisateur` (`login`, `pswrd`, `userName`, `firstName`, `idRole`, `nameFormation`, `email`, `token`, `tokenExpiresAt`) VALUES
 ('alice.smith', 'motdepasse2', 'Alice', 'Smith', 2, NULL, 'alice@example.com', NULL, NULL),
 ('bob.jones', 'motdepasse3', 'Bob', 'Jones', 3, NULL, 'bob@example.com', NULL, NULL),
-('john.doe', 'motdepasse1', 'John', 'Doe', 1, 'Computer Science', 'nathan.strady@sfr.fr', '24708f87e0d6a2eb603e5c63c62cf33c9a30ee18ccc4eaadcdaa11c93862cb37', '2023-10-08 14:44:10');
+('john.doe', '$2y$10$GBRrsAzU.vhFZbFsHgDhyeRr2QV80JpehbnqAj9aS5QaUpv/kTRea', 'John', 'Doe', 1, 'Computer Science', 'nathan.strady@sfr.fr', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -211,13 +206,13 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT for table `candidates`
 --
 ALTER TABLE `candidates`
-  MODIFY `idCandidate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idCandidate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `connectionattempt`
 --
 ALTER TABLE `connectionattempt`
-  MODIFY `idConn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idConn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -240,3 +235,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

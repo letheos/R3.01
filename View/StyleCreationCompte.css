@@ -1,0 +1,60 @@
+.rounded-box {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0; /* Remove default margin for body element */
+}
+
+
+/* Center the form elements vertically and add spacing */
+.rounded-box input  {
+    margin-bottom: 10px; /* Add some vertical spacing between elements */
+}
+
+.rounded-box select {
+    margin-bottom:  10px;
+}
+/* Add some padding to labels for spacing */
+.rounded-box label {
+    text-align: left;
+    flex: 1; /* Pour que le label occupe autant d'espace que l'input */
+}
+
+/* Center the submit button */
+.submitButton {
+    text-align: center;
+}
+
+.formationRadioButton {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espace entre les éléments */
+}
+
+/* CSS pour chaque élément de la ligne (bouton radio + label) */
+.formationRadioButton div {
+    flex-basis: calc(25% - 10px); /* Largeur de chaque élément (33% - espacement) */
+    padding: 10px; /* Espacement interne pour chaque élément */
+    border: 1px solid #ccc; /* Bordure pour séparer les éléments (facultatif) */
+    background: #eee;
+    border-radius: 5px;
+    display: flex;
+    align-items: center; /* Alignement vertical des éléments */
+}
+
+
+
+
+

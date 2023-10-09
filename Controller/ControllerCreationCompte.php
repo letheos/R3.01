@@ -4,6 +4,36 @@ session_start();
 //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
 $conn = require "../Model/Database.php";
+
+function affichageRadioButton($conn){
+    $result = selectAllFormation($conn);
+
+    foreach ($result as $rows){
+        $formationName = $rows['nameFormation'];
+
+        echo '<input class="choices" type="radio"  id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo '<label for="' . $formationName . '"> '. $formationName . '</label>';
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * @param $coon PDO
  * @param $INE String

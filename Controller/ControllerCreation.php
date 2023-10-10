@@ -1,6 +1,6 @@
 <?php
 session_start();
-function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation)
+function enregistrerCreation($pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation)
 {
 
     if (isset($_POST['envoyer'])) {
@@ -71,7 +71,7 @@ function enregistrer_Creation($pswd,$confirmation,$lastName,$firstName,$mail,$lo
 
 if (isset($_POST['login'])) {
 
-    $message = enregistrer_Creation($_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation']);
+    $message = enregistrerCreation($_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['formation']);
     $_SESSION['message'] = $message;
 
     $_SESSION['confirmation'] = $_POST['confirmation'];

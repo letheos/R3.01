@@ -17,19 +17,23 @@
 
 
 <body>
+<section id="donnees">
+
+</section>
 
 <?php
 $bdd = require "../Model/Database.php";
 
-$sql = "Select ine,name,firstname,address,isInActiveSearch from Candidates";
+$sql = "SELECT ine,name,firstname,address,isInActiveSearch FROM Candidates";
+
 $requete = $bdd->prepare($sql);
 
 $requete->execute();
-$id = 0;
+
 
 while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
 
-    $id+=1;
+
 
     echo '<div class = "rounded-box">';
 
@@ -42,10 +46,10 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
         //code pour faire un bouton pour désactiver le compte
         echo " le profil est actif";
         echo " le profil n'est pas actif";
-        echo "<form action ='../Model/modelDesactiverCompte.php' method='get' >";
+        echo "<form action ='../Controller/ControllerCreationCompte.php' method='post' >";
         echo '<input type="hidden" name="ine" value="' . $row['ine'] . '">';
-        echo '<input type="hidden" name="typeBouton" value="boutonRouge">';
-        echo "<button id= $id type='submit' class='bouton-rouge'>desactivation</button>";
+        echo '<input type="hidden" name="typeButton" value="redButton">';
+        echo "<button type='submit' class='bouton-rouge'>desactivation</button>";
         echo "</form>";
 
 
@@ -53,10 +57,10 @@ while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
     } else{
         //code pour activer le compte
         echo " le profil n'est pas actif";
-        echo "<form action ='../Model/modelDesactiverCompte.php' method='get' >";
+        echo "<form action ='../Controller/ControllerCreationCompte.php' method='post' >";
         echo '<input type="hidden" name="ine" value="' . $row['ine'] . '">';
-        echo '<input type="hidden" name="typeBouton" value="boutonVert">';
-        echo "<button id= $id type='submit' class='bouton-vert'>activation</button>";
+        echo '<input type="hidden" name="typeBouton" value="greenButton">';
+        echo "<button type='submit' class='bouton-vert'>activation</button>";
         echo "</form>";
 
     }

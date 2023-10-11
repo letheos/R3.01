@@ -2,7 +2,10 @@
 session_start();
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerCreationCompte.php";
-require "../Model/ModelCreation.php";
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 ?>
 

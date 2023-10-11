@@ -1,53 +1,94 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const formationChecxboxes = document.querySelectorAll(".choices input[type=checkbox]");
+    //Variable utile pour l'affichage js
+    const formationCheckboxes = document.querySelectorAll(".choices input[type=checkbox]");
     const formationOrderSelect = document.getElementById("formationOrder");
     const labelOrder = document.getElementById("labelOrder");
     const selectAllCheckbox = document.getElementById("select-all");
-
     const selectedFormations = [];
 
-    // Ajoutez un gestionnaire d'événements au bouton "Sélectionner tout"
-    selectAllCheckbox.addEventListener('change', function (event) {
-        const isChecked = selectAllCheckbox.checked;
-        formationChecxboxes.forEach(function (checkbox) {
-            checkbox.checked = isChecked;
-        });
-        // Mettez à jour l'affichage de la liste déroulante et de l'étiquette d'ordre en fonction de l'état de "Sélectionner tout"
-        updateFormationsDisplay(isChecked);
-    });
 
-
-    formationChecxboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', function (event) {
-            const checkedCheckboxes = document.querySelectorAll(".choices input[type=checkbox]:checked");
-            // Mettez à jour l'affichage de la liste déroulante et de l'étiquette d'ordre en fonction de la sélection des cases individuelles
-            updateFormationsDisplay(checkedCheckboxes.length >= 2);
-        });
-    });
-
-
-    function updateFormationsDisplay(isDisplayed) {
-        if (isDisplayed) {
-            labelOrder.style.display = "block";
-            formationOrderSelect.style.display = "block";
-            formationOrderSelect.innerHTML = "";
-
-            const checkedCheckboxes = document.querySelectorAll(".choices input[type=checkbox]:checked");
-
-            checkedCheckboxes.forEach(function (checkCheckbox) {
-                selectedFormations.push(checkCheckbox.value);
+    /**
+     * boolean isChecked -> Variable qui récupère l'etat de la checkbox
+     * Fonction qui permet de cochée toute les cases si le bouton selectionner tout est coché
+     */
+    function checkAll() {
+        verifyCheckAll(); //Utilisation de la vérification des cases cochées
+        selectAllCheckbox.addEventListener('change', function (event) { //Ajout event change
+            var isChecked = selectAllCheckbox.checked; //Récupération état checkbox selectionner tout
+            formationCheckboxes.forEach(function (checkbox) { //Parcours des checkbox
+                checkbox.checked = isChecked; //Changement état des checkbox
             });
+            updateOrderSelectOptions(); // Mettre à jour les listes déroulantes
+            updateOrderSelectVisibilty();
+        });
+    }
 
-            selectedFormations.forEach(function (formation, index) {
-                const option = document.createElement("option");
-                option.value = index + 1;
-                option.text = index + 1 + ")" + " " + formation;
-                formationOrderSelect.appendChild(option);
+    /**
+     * bool allChecked -> Une variable qui indique si toute les cases sont cochés où non
+     * Fonction qui vérifie les cases cochées pour déselectionner le bouton selectionner tout si une seule case est décochée
+     */
+
+    function verifyCheckAll() {
+        formationCheckboxes.forEach(function (checkbox) { //Boucle de parcours des checkbox
+            checkbox.addEventListener('change',function(event) { //On ajout un event de changement d'etat
+                var allChecked = true; // Initialisation variable
+                formationCheckboxes.forEach(function(checkbox) { // Boucle de contrôle des checks
+                    if (!checkbox.checked) {  // Si une seule checkbox n'est pas coché alors on change la variable
+                        allChecked = false;
+                    }
+                    selectAllCheckbox.checked = allChecked; //Set de la variable
+                    updateOrderSelectOptions(); // Mettre à jour les listes déroulantes
+                    updateOrderSelectVisibilty(); // Mettre à jour les listes déroulantes
+                });
             });
+        });
+    }
 
-        } else {
-            formationOrderSelect.style.display = "none";
-            labelOrder.style.display = "none";
+    /**
+     * Fonction qui affiche un menu déroulant à partir de deux cases cochées.
+     */
+    function updateOrderSelectVisibilty() {
+        let checkedCount = 0;
+        const checkedCheckboxes = [];
+
+        formationCheckboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                checkedCount++;
+                checkedCheckboxes.push(checkbox)
+            } else {
+                const orderSelect = checkbox.parentElement.querySelector('.order-select');
+                if (orderSelect) {
+                    orderSelect.style.display = "none"; // Masquer la liste déroulante
+                }
+            }
+        });
+
+        if (checkedCount >= 2) {
+            // Afficher les listes déroulantes pour les cases cochées
+            checkedCheckboxes.forEach(function (checkbox) {
+                const orderSelect = checkbox.parentElement.querySelector('.order-select');
+                if (orderSelect) {
+                    orderSelect.style.display = "inline"; // Afficher la liste déroulante
+                }
+            });
         }
     }
+
+    function updateOrderSelectOptions() {
+
+    }
+
+
+
+
+
+
+    checkAll();
+    formationCheckboxes.forEach(function (checkbox){
+        checkbox.addEventListener('change', function(event ) {
+            updateOrderSelectOptions();
+            updateOrderSelectVisibilty();
+        });
+    });
+
 });

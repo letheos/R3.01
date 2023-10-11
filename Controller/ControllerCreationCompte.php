@@ -4,6 +4,7 @@ session_start();
 //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
 $conn = require "../Model/Database.php";
+require "../Model/ModelCreation.php";
 
 function displayCheckboxes($conn){
     $result = selectAllFormation($conn);
@@ -14,6 +15,9 @@ function displayCheckboxes($conn){
         echo '<label class="choices">';
         echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
         echo $formationName;
+        echo '<select class="order-select" style="display: none;">';
+        echo '<option value=""></option>';
+        echo '</select>';
         echo '</label>';
     };
 }

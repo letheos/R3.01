@@ -1,24 +1,14 @@
 <?php
-$conn = require 'Database.php';
 
-
-
-
-function selectAllFormation($conn){
-    $sql = "SELECT nameFormation FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchall();
-}
-
+$conn = require "../Model/Database.php";
 function verfication($conn,$mail,$login){
+    //on vérifie que la personne existe bien dans l'adresse
     try {
+        $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
 
-        $requete0 = "Select email,login from utilisateur where email = ? OR login = ?";
-
-        $resultat = $conn->prepare($requete0);
-        $resultat->execute(array($mail,$login));
-        if ($resultat->rowCount() == 0){
+        $res = $conn->prepare($request0);
+        $res->execute(array($mail,$login));
+        if ($res->rowCount() == 0){
             return false;
         } else{
             return true;
@@ -28,31 +18,32 @@ function verfication($conn,$mail,$login){
         return $e;
     }
 }
-function existe($conn, $mail,$login)
+function exist($conn,$mail,$login)
 {
-    $existence = verfication($conn, $mail, $login);
 
+    $existence = verfication($conn, $mail, $login);
     //$existence = verfication($conn,$_POST['email'],$_POST['login']);
     return $existence;
 
 
 }
 
-function ajouter($conn, $pswrd,$lastname,$firsname,$email, $login,$role,$formation){
+function addbdd($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formation){
+
 
     $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
-    $resultat = $conn->prepare($requete);
+    $res = $conn->prepare($requete);
     $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
 
     try {
-        $resultat->execute(array($login, $newpswrd,$lastname,$role,$formation,$firsname,$email,null,null));
+        $res->execute(array($lastname,$firsname,$email,$login,$newpswrd,$role,$formation,null,null));
 
     }
     catch (PDOException $e){
         echo $e->getMessage();
     }
 
-    return $resultat;
+    return $res;
 }
-
 ?>
+

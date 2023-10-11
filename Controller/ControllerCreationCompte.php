@@ -5,16 +5,17 @@ session_start();
 
 $conn = require "../Model/Database.php";
 
-function affichageRadioButton($conn){
+function displayCheckboxes($conn){
     $result = selectAllFormation($conn);
 
     foreach ($result as $rows){
         $formationName = $rows['nameFormation'];
 
-        echo '<input class="choices" type="radio"  id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
-        echo '<label for="' . $formationName . '"> '. $formationName . '</label>';
-
-    }
+        echo '<label class="choices">';
+        echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo $formationName;
+        echo '</label>';
+    };
 }
 
 

@@ -26,6 +26,11 @@ body {
 .rounded-box select {
     margin-bottom:  10px;
 }
+
+.rounded-box-title{
+    font-size: 20px;
+}
+
 /* Add some padding to labels for spacing */
 .rounded-box label {
     text-align: left;
@@ -38,21 +43,37 @@ body {
 }
 
 .formationRadioButton {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    gap: 10px; /* Espace entre les éléments */
+    gap: 20px; /* Espace entre les éléments */
 }
 
-/* CSS pour chaque élément de la ligne (bouton radio + label) */
-.formationRadioButton div {
-    flex-basis: calc(25% - 10px); /* Largeur de chaque élément (33% - espacement) */
-    padding: 10px; /* Espacement interne pour chaque élément */
-    border: 1px solid #ccc; /* Bordure pour séparer les éléments (facultatif) */
-    background: #eee;
-    border-radius: 5px;
-    display: flex;
-    align-items: center; /* Alignement vertical des éléments */
+.choices-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px; /* Espace entre les colonnes et les lignes */
 }
+
+/* Styles pour la case à cocher "Sélectionner tout" */
+.select-all-conteiner {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    padding: 20px;
+}
+
+
+/* Styles pour les cases à cocher */
+.choices input[type="checkbox"] {
+    margin-right: 10px; /* Espace entre la case à cocher et le label */
+}
+
+/* Styles pour les labels */
+.choices label {
+    margin: 0; /* Supprimer toute marge par défaut du label */
+}
+
+
 
 
 

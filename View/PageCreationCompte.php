@@ -93,12 +93,9 @@ error_reporting(E_ALL);
                          </label>
                     </div>
 
-                    <div class="order-formation">
-                        <label class="label-order" id="labelOrder" style="display: none;"> Ordre des formations </label>
-                        <select id="formationOrder" name="formationOrder" style="display: none;">
-                        <option id="title"> Ordre des formations </option>
-                        </select>
-                    </div>
+
+                    <ol id="formation-list" draggable="true">
+                    </ol>
                 </div>
 
                 <div class="parcoursForm">

@@ -13,11 +13,8 @@ function displayCheckboxes($conn){
         $formationName = $rows['nameFormation'];
 
         echo '<label class="choices">';
-        echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo '<input class="choices-formation"type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
         echo $formationName;
-        echo '<select class="order-select" style="display: none;">';
-        echo '<option value=""></option>';
-        echo '</select>';
         echo '</label>';
     };
 }

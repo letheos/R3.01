@@ -43,7 +43,7 @@ function displayCheckboxes($conn){
  * @param $lastName String
  * @param $firstName String
  * @param $address String
- * @param $ville String
+ * @param $city String
  * @param $radius int
  * @param $permisB bool
  * @param $formation String
@@ -51,21 +51,68 @@ function displayCheckboxes($conn){
  * @return void
  * crée un candidat
  */
-function insert($coon,$INE,$lastName,$firstName,$address,$ville,$radius,$permisB,$formation,$typeEntrepriseRecherche){
-    $sql = "insert into students values (?,?,?,?,?,?,?,?,?,true);";
+function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$formation,$typeEntrepriseRecherche){
+    if (isset($_POST['envoyer'])) {
+        // Récupération des valeurs du formulaire
+        $INE = strtoupper($_POST['INE']);
+        $lastName = $_POST['lastName'];
+        $firstName = $_POST['firstName'];
+        $address = $_POST['address'];
+        $formation = intval($_POST['formation']);
+        $typeEntrepriseRecherche = $_POST['typeEntreprises'];
+        $permisB = $_POST['permisB'];
+        $cv = $_POST['cv'];
+        $coord = $_POST['Ville'];
+        $radius = $_POST['radius'];
 
-    $req = $coon->prepare($sql);
-    $req->bindValue(1, $INE);
-    $req->bindValue(2, $lastName);
-    $req->bindValue(3, $firstName);
-    $req->bindValue(4, $address);
-    $req->bindValue(5, $ville);
-    $req->bindValue(6, $radius);
-    $req->bindValue(7,$permisB);
-    $req->bindValue(8, $formation);
-    $req->bindValue(9, $typeEntrepriseRecherche);
+        $messageErreur = "";
+        $messageSucces = "";
 
-    $req->execute();
+    } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
+    )) {
+        $messageErreur = "Le nom contient un caractère spécial";
+
+    } elseif (preg_match("/[0-9]/", $lastName
+    )) {
+        $messageErreur = "Le nom contient un chiffre";
+
+    } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $city
+    )) {
+        $messageErreur = "La ville contient un caractère spécial";
+
+    } elseif (preg_match("/[0-9]/", $city
+    )) {
+        $messageErreur = "La ville contient un chiffre";
+
+    }elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $firstName
+    )) {
+        $messageErreur = "Le prénom contient un caractère spécial";
+
+    } elseif (preg_match("/[0-9]/", $firstName
+    )) {
+        $messageErreur = "Le prénom contient un chiffre";
+
+    }elseif ($radius > 1 || $radius<101){
+        $messageErreur = "le radius doit être compris entre 1 à 100";
+    }
+    elseif ( $lastName == null || $INE == null || $firstName == null || $address == null || $formation == null || $typeEntrepriseRecherche === null || $permisB === null || $city === null || $radius === null) {
+        $messageErreur = "Tous les champs de texte doivent être remplis";
+    } else {
+        $messageSucces = "Enregistré avec succès";
+    }
+    if ($messageErreur != null) {
+        return $messageErreur;
+    } else {
+        return $messageSucces;
+    }
+
+}
+?>
+
+<?php
+if (isset($_POST['envoyer'])) {
+
+    header("../View/PageCreationCopmpte.php");
 }
 
 

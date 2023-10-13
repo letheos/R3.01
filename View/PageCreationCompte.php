@@ -194,5 +194,7 @@ error_reporting(E_ALL);
     }
 
 
-
 ?>
+</div>
+</body>
+</html>

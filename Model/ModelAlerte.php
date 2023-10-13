@@ -27,9 +27,15 @@ function selectPastAlert($conn, $login){
     return $req->fetchAll();
 }
 
-function selectAlert($conn,$login){
+function selectAlert($conn,$login,$future){
     try {
         $sql = "SELECT id,note,remindAt FROM Alerte WHERE login = ?";
+        if(!$future) {
+            $sql=$sql."AND remindAt<CurrentTimestamp();";
+        }
+        else{
+            $sql=sql.";";
+        }
         $req = $conn->prepare($sql);
         $req->execute(array($login));
     }
@@ -40,22 +46,10 @@ function selectAlert($conn,$login){
 }
 
 
-
-function selectAllNonSeenAlert($conn,$login){
-    try {
-        $sql = "SELECT id,note,remindAt FROM Alerte WHERE login = ? and seen=false";
-        $req = $conn->prepare($sql);
-        $req->execute(array($login));
-    }
-    catch (PDOException $e){
-        return $e;
-    }
-    return $req->fetchAll();
-}
 
 function alertSeen($conn,$id){
     try {
-        $sql = "UPDATE Alert WHERE id = ?";
+        $sql = "UPDATE Alert set seen=true WHERE id = ?";
         $req = $conn->prepare($sql);
         $req->execute(array($id));
     }catch (PDOException $e){

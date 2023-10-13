@@ -1,8 +1,7 @@
 <?php
-session_start();
 $conn = require "../Model/Database.php";
 
-function createAlert($login){
+function RemindAlert($conn,$login){
     if (hasPastAlert($conn,$login)){
         $alertes=selectAllNonSeenAlert($conn,$login);
         if(count($alertes)>2) {
@@ -22,6 +21,13 @@ function createAlert($login){
 
 }
 
+function showListAlert($conn,$login){
+    $results = selectAlert($conn,$login);
+    foreach ($results as $row) {
+        echo '<p class="alert"> Date : ' . $row['remindAt'] . '<br> Note: ' . $row['note'] .'<button class="btn btn-primary" name="supprimer" id="supp"> Supprimer </button>'.'</p>';
+    }
+
+}
 
 
 

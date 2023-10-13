@@ -22,6 +22,7 @@ function listAffichageSelect(){
             echo '<input name="name" type="hidden" value="'.$row['name'].'" ></input> ';
             echo '<input name="firstname" type="hidden" value="'.$row[2].'" ></input> ';
             echo '<input name="type" type="hidden" value="nop" > ';
+            echo'<input type="hidden" name="desactiver" value="valeur_invisible">';
             echo '</form>';
             //faire input hidden avec nom et prenom
         }else {

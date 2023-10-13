@@ -1,11 +1,21 @@
 <?php
 $conn = require "Database.php";
-/**
+/*
 * @param $ine string
 * @return void
 * prend en paramètre une connection mysql et un ine de type string
 * change l'état boolean de la isInActiveSearch en true
  */
+
+if (isset($_POST['activer'])){
+    setEtatTrue($_POST['name'],$_POST['firstname']);
+    echo $_POST['name'];
+    echo '<script> alert("j ai bien activé le compte ")</script>';
+}
+if (isset($_POST['desactiver'])){
+    setEtatTrue($_POST['name'],$_POST['firstname']);
+    echo '<script> alert("j ai bien desactivé le compte")</script>';
+}
 function setEtatTrue($name,$firstname){
     echo'<script> alert("setEtatTrue")';
     $conn = require "Database.php";
@@ -17,6 +27,7 @@ function setEtatTrue($name,$firstname){
     $req->execute();
 
 }
+
 /**
  * @param $ine
  * @return void
@@ -38,6 +49,7 @@ function setEtatFalse($name,$firstname){
  * @return array
  */
 function recup(){
+    //revoie la liste de tout les candidats
     $conn = require "Database.php";
     $sql = "SELECT * FROM Candidates";
 

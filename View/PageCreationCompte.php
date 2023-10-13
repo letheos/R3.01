@@ -93,9 +93,11 @@ error_reporting(E_ALL);
                          </label>
                     </div>
 
-
-                    <ol id="formation-list" draggable="true">
-                    </ol>
+                    <div class="rounded-box formation-list-zone" style="display: none;">
+                        <header>Ordre des formations</header>
+                        <ol id="formation-list" draggable="true" style="display: none;">
+                        </ol>
+                    </div>
                 </div>
 
                 <div class="parcoursForm">
@@ -128,8 +130,7 @@ error_reporting(E_ALL);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="../Controller/orderOfCheck.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </body>
 </html>
     <?php

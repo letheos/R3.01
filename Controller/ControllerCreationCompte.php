@@ -8,14 +8,15 @@ require "../Model/ModelCreation.php";
 
 function displayCheckboxes($conn){
     $result = selectAllFormation($conn);
-
+    $id = 0 ;
     foreach ($result as $rows){
         $formationName = $rows['nameFormation'];
 
-        echo '<label class="choices">';
-        echo '<input class="choices-formation"type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo '<label class="choices" draggable="false">';
+        echo '<input class="choices-formation" type="checkbox" name="'. $formationName .'" value="' . $formationName . '" draggable="false">';
         echo $formationName;
         echo '</label>';
+        $id++;
     };
 }
 

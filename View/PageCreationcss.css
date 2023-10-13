@@ -64,3 +64,46 @@ body {
 
 }
 
+/* Style pour la zone de la liste des formations */
+/* Style pour la zone de la liste des formations */
+.formation-list-zone {
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Bordure autour de la zone */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+
+}
+
+/* Style pour le titre "Ordre des formations" */
+.formation-list-zone header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Style pour la liste ordonnée (ol) de formations */
+#formation-list {
+    list-style: none; /* Pour supprimer les puces de liste */
+    padding: 0;
+    border: 1px dashed #ccc; /* Bordure pointillée pour la zone de glisser-déposer */
+    background-color: #fff;
+    min-height: 100px; /* Hauteur minimale pour la zone de glisser-déposer */
+    max-height: 300px; /* Hauteur maximale pour limiter la taille de la zone */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si la liste dépasse la hauteur maximale */
+    margin-top: 5px; /* Marge en haut de la liste */
+}
+
+/* Style pour les éléments de la liste ordonnée (li) */
+#formation-list li {
+    background-color: #f9f9f9; /* Couleur de fond des éléments de la liste */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd; /* Bordure autour des éléments */
+    cursor: move; /* Curseur de type "move" pour indiquer que les éléments sont déplaçables */
+}
+
+/* Style pour l'élément en cours de glissement */
+#formation-list li:active {
+    opacity: 0.6; /* Réduire l'opacité lorsqu'un élément est en cours de glissement */
+}
+

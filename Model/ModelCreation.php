@@ -28,7 +28,7 @@ function exist($conn,$mail,$login)
 
 }
 
-function addbdd($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formation){
+function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation){
 
 
     $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
@@ -36,7 +36,7 @@ function addbdd($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formation
     $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
 
     try {
-        $res->execute(array($lastname,$firsname,$email,$login,$newpswrd,$role,$formation,null,null));
+        $res->execute(array($login,$newpswrd,$firstname,$lastname,$role,$formation,$email,null,null));
 
     }
     catch (PDOException $e){
@@ -44,6 +44,14 @@ function addbdd($conn,$pswrd,$lastname,$firsname,$email, $login,$role,$formation
     }
 
     return $res;
+}
+
+
+function selectAllFormation($conn){
+    $sql = "SELECT nameFormation FROM Formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
 }
 ?>
 

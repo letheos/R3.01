@@ -8,10 +8,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="PageCreationcss.css">
+    <script ref = ></script>
     <title>Document</title>
 
     <script src = "../Controller/jsCreation.js"></script>
     <?php session_start();
+    include '../Controller/ControllerCreation.php';
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = require '../Model/Database.php';
     ?>
 </head>
 
@@ -39,7 +44,7 @@
 
         <!--partie e mail de l'inscription-->
         <div name="divEmail">
-        <label for="mail">mail</label>
+        <label for="mail">Mail</label>
         <input type="email" name="email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>"> <br>
         </div>
         <br>
@@ -64,22 +69,40 @@
         </div>
 
         <br>
+        <label for="formation">Formation</label>
         <!--partie formation de l'inscription-->
+    <div class = rounded-box id="formations">
+        <div class="choices-container">
+            <?php
+
+            affichageRadioButton($conn);
+            ?>
+        </div>
+
+
+        <div class=select-all-container">
+
+            <label class="label-select-all">
+                <input type="checkbox" id="select-all" name="select-all" > Sélectionner tout
+            </label>
+        </div>
+    </div>
+
         <div id="divFormation" >
-        <label for="formation">formation</label>
-        <select  id="idFormation" name="selectFormation" size="1" disabled value="<?php echo isset($_SESSION['selectFormation']) ? $_SESSION['selectFormation']:'' ?>">
-            <option>mph</option>
-            <option>BUT informatique</option>
-        </select>
+
+            <select  id="idFormation" name="selectFormation" size="1" style="display: none" value="<?php echo isset($_SESSION['selectFormation']) ? $_SESSION['selectFormation']:'' ?>">
+                <?php
+
+                displayformations($conn); ?>
+            </select>
         </div>
         <br>
-
-
         <!--partie mot de passe de l'inscription-->
         <div name="divPassword">
-            <label for="password">mot de passe</label>
+            <label for="password">Mot de passe</label>
             <input type="password" name="pswd">
-            <div class="info-bubble"> <!--info bubble correspond a un menu qui apparait quand la souris passe au niveau du input-->
+            <div class="info-bubble">
+                <!--info bubble correspond a un menu qui apparait quand la souris passe au niveau du input-->
                 Le mot de passe doit contenir au moins 6 caractères, un chiffre et un caractère spécial (excepté " ' et ;).
             </div>
         </div>
@@ -88,7 +111,7 @@
 
         <!--partie confirmation de mot de passe de l'inscription-->
         <div name="divConfirmation">
-        <label for="confirmation">confirmation mot de passe </label>
+        <label for="confirmation">Confirmation mot de passe </label>
         <input type="password" name="confirmation">
         </div>
         <br>

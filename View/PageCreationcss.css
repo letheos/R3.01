@@ -63,3 +63,34 @@ body {
 
 
 }
+
+.choices-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px; /* Espace entre les colonnes et les lignes */
+}
+
+/* Styles pour la case à cocher "Sélectionner tout" */
+.select-all-conteiner {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    padding: 20px;
+}
+
+
+/* Styles pour les cases à cocher */
+.choices input[type="checkbox"] {
+    margin-right: 10px; /* Espace entre la case à cocher et le label */
+}
+
+/* Styles pour les labels */
+.choices label {
+    margin: 0; /* Supprimer toute marge par défaut du label */
+}
+
+.label-select-all{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,5 +1,5 @@
 <?php
-$conn = new PDO("mysql:host=localhost;dbname=test", "root", "root");
+$conn = new PDO("mysql:host=localhost;dbname=sae", "root", "root");
 return $conn;
 
 

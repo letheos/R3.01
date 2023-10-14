@@ -179,6 +179,31 @@ if (isset($_POST['login'])) {
     header('Location: ../View/PageCreation.php');
 }
 
+
+function affichageRadioButton($conn){
+    $result = selectAllFormation($conn);
+
+    foreach ($result as $rows){
+        $formationName = $rows['nameFormation'];
+
+        echo '<label class="choices">';
+        echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo $formationName;
+        echo '</label>';
+    };
+}
+
+function displayformations($conn) {
+    $formations = selectAllFormation($conn);
+
+    foreach ($formations as $row) {
+        $name = $row['nameFormation'];
+        echo "<option id='$name' value='$name'>$name</option>";
+        echo $name;
+    }
+}
+
+
 ?>
 
 

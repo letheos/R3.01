@@ -2,14 +2,17 @@
 session_start();
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerCreationCompte.php";
-require "../Model/ModelCreation.php";
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Creation de bouffon</title>
+    <title>Creation Candidat</title>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -20,6 +23,7 @@ require "../Model/ModelCreation.php";
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StyleCreationCompte.css">
+
 </head>
 
 <body>
@@ -30,7 +34,7 @@ require "../Model/ModelCreation.php";
 
                 <header>
                     <h1>
-                        Création d'un étudiant
+                        Création d'un Candidat
                     </h1>
                 </header>
 
@@ -73,10 +77,27 @@ require "../Model/ModelCreation.php";
 
                 </div>
 
-                <div class="formationRadioButton">
-                        <?php
-                        affichageRadioButton($conn);
-                        ?>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Formation
+                    </header>
+                    <div class="choices-container">
+                            <?php
+                            displayCheckboxes($conn);
+                            ?>
+                    </div>
+
+                    <div class=select-all-container">
+                         <label class="label-select-all">
+                             <input class="select-all" type="checkbox" id="select-all" name="select-all"> Sélectionner tout
+                         </label>
+                    </div>
+
+                    <div class="rounded-box formation-list-zone" style="display: none;">
+                        <header>Ordre des formations</header>
+                        <ol id="formation-list" draggable="true" style="display: none;">
+                        </ol>
+                    </div>
                 </div>
 
                 <div class="parcoursForm">
@@ -108,6 +129,7 @@ require "../Model/ModelCreation.php";
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="../Controller/orderOfCheck.js"></script>
 
 </body>
 </html>
@@ -169,6 +191,10 @@ require "../Model/ModelCreation.php";
         //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
 
-
     }
+
+
 ?>
+</div>
+</body>
+</html>

@@ -108,33 +108,6 @@ formationList.addEventListener("drop", e => {
 });
 
 
-// Écoutez le clic sur le bouton d'inscription
-document.getElementById('submit').addEventListener('click', function () {
-    // Créez un objet avec la variable orderForm
-    const formData = {
-        orderForm: orderForm
-    };
-    console.log(formData.orderForm);
-
-    // Effectuez une requête AJAX pour envoyer les données au contrôleur PHP
-    fetch('../Controller/ControllerCreationCompte.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.text(); // Lisez la réponse du serveur sous forme de texte
-            } else {
-                throw new Error('Échec de la requête.');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-});
 
 
 

@@ -10,14 +10,14 @@ error_reporting(E_ALL);
 
 
 
-/*
+
 //Champs obligatoire
 if ($_POST["lastName"] == null || $_POST["firstName"]  == null || $_POST["address"] == null || $_POST["city"] = null) {
     $_SESSION['error'] = 'Veuillez remplir tout les champs obligatoires';
     header('Location: ../View/PageCreationCompte.php');
     exit();
 }
-*/
+
 
 
 //INE

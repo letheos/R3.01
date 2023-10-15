@@ -1,14 +1,9 @@
 <?php
 
-$conn = require "../Model/Database.php";
 
 
-function selectAllFormation($conn){
-    $sql = "SELECT * FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchAll();
-}
+
+
 function verfication($conn,$mail,$login){
     //on vérifie que la personne existe bien dans l'adresse
     try {
@@ -55,11 +50,5 @@ function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formatio
 }
 
 
-function selectAllFormation($conn){
-    $sql = "SELECT nameFormation FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchall();
-}
 ?>
 

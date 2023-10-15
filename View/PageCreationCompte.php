@@ -1,15 +1,14 @@
 <?php
 session_start();
-$conn = require "../Model/Database.php";
-require "../Controller/ControllerCreationCompte.php";
+?>
+<!DOCTYPE html>
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+<?php
+$conn = require '../Model/Database.php';
+require '../Controller/ControllerAffichagePage.php';
 ?>
 
-<!doctype html>
+
 <html lang="en">
 <head>
     <title>Creation Candidat</title>
@@ -19,19 +18,18 @@ error_reporting(E_ALL);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="PageCreationcss.css">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
     <link rel="stylesheet" href="StyleCreationCompte.css">
+
 
 </head>
 
 <body>
 
     <section>
-        <form action="../Controller/ControllerCreationCompte.php" method="post">
-            <div class="rounded-box">
-
+            <div class="rounded-box">+
+                <form method="post" action="../Controller/ControllerCreationCompte.php">
                 <header>
                     <h1>
                         Création d'un Candidat
@@ -61,8 +59,8 @@ error_reporting(E_ALL);
                 </div>
 
                 <div class="cityForm">
-                    <label for="Ville">Ville</label>
-                    <input type="text" id="Ville" name="Ville" placeholder="Ville">
+                    <label for="City">Ville</label>
+                    <input type="text" id="city" name="city" placeholder="Ville">
 
                 </div>
 
@@ -72,9 +70,8 @@ error_reporting(E_ALL);
                 </div>
 
                 <div class="typeCompanySearchForm">
-                    <label for="typeEntrepriseRecherche">Type d'Entreprise Recherchées</label>
-                    <input type="text" name="typeEntreprises" id="typeEntrepriseRecherche" placeholder="Domaine recherchée">
-
+                    <label for="typeCompanyRecherche">Type d'Entreprise Recherchées</label>
+                    <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
                 </div>
 
                 <div class="rounded-box">
@@ -120,22 +117,34 @@ error_reporting(E_ALL);
                     <input type="file" name="cv" accept=".pdf">
 
                 </div>
+                <?php
+                error_log($_SESSION["error"]);
+                if(isset($_SESSION["error"])){
+                    ?>
 
+                    <div class="alert alert-danger">
+                        <?php echo $_SESSION["error"]; ?>
+                    </div>
+
+                    <?php
+                    unset($_SESSION["error"]);
+                    session_destroy();
+                }
+                ?>
                 <div class="submitButton">
-                    <button name="envoyer" class="btn btn-outline-primary" type="submit">Inscription</button>
+                    <button  class="btn btn-outline-primary" type="submit" id="submit" name="submit" >Inscription</button>
                 </div>
+                </form>
             </div>
-        </form>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="../Controller/orderOfCheck.js"></script>
-
 </body>
 </html>
     <?php
 
-
+/*
     if (isset($_POST['envoyer'])) {
         // Récupération des valeurs du formulaire
         $INE = strtoupper($_POST['INE']);
@@ -193,8 +202,5 @@ error_reporting(E_ALL);
 
     }
 
-
+*/
 ?>
-</div>
-</body>
-</html>

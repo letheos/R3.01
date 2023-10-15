@@ -3,7 +3,7 @@ const formationList = document.getElementById("formation-list"); //Balise de la 
 const roundedBox = document.querySelector(".formation-list-zone");
 const formationCheckboxes = document.querySelectorAll(".choices-formation"); //Checkboxes des formations
 const formationCheckboxeAll = document.getElementById("select-all"); //Checkbox selectAll
-let orderForm = []; //Liste des ordres choisit dans la formation
+let orderForm = []; //Liste des ordres choisi dans la formation
 
 /**
  * Fonction qui coche toute les cases
@@ -40,6 +40,7 @@ function updateFormationList() {
         const formationName = checkbox.value;
         const formationItem = document.createElement("li");
         formationItem.id = formationId;
+        formationItem.setAttribute("name", formationName);
         formationItem.draggable = true;
         formationItem.textContent = formationName;
         formationList.appendChild(formationItem);
@@ -57,14 +58,17 @@ function getArrayFormationOrder() {
 
     for (var i = 0; i < olChildren.length; i++) {
         var elementId = olChildren[i];
-        if (!newOrderForm.includes(elementId)) {
-            newOrderForm.push(elementId);
+        var elementName = elementId.getAttribute("name");
+        if (!newOrderForm.includes(elementName)) {
+            newOrderForm.push(elementName);
         }
     }
 
     orderForm = newOrderForm;
     console.log(orderForm);
 }
+
+
 
 /**
  * On définit les évenements
@@ -102,6 +106,40 @@ formationList.addEventListener("drop", e => {
     }
     getArrayFormationOrder();
 });
+
+
+// Écoutez le clic sur le bouton d'inscription
+document.getElementById('submit').addEventListener('click', function () {
+    // Créez un objet avec la variable orderForm
+    const formData = {
+        orderForm: orderForm
+    };
+    console.log(formData.orderForm);
+
+    // Effectuez une requête AJAX pour envoyer les données au contrôleur PHP
+    fetch('../Controller/ControllerCreationCompte.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); // Lisez la réponse du serveur sous forme de texte
+            } else {
+                throw new Error('Échec de la requête.');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
+
+
+
+
+
 
 
 

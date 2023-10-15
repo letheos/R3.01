@@ -3,22 +3,39 @@ session_start();
 
 //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
-$conn = require "../Model/Database.php";
-require "../Model/ModelCreation.php";
+require "../Model/ModelCreationCompte.php";
 
-function displayCheckboxes($conn){
-    $result = selectAllFormation($conn);
-    $id = 0 ;
-    foreach ($result as $rows){
-        $formationName = $rows['nameFormation'];
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-        echo '<label class="choices" draggable="false">';
-        echo '<input class="choices-formation" type="checkbox" name="'. $formationName .'" value="' . $formationName . '" draggable="false">';
-        echo $formationName;
-        echo '</label>';
-        $id++;
-    };
+
+
+/*
+//Champs obligatoire
+if ($_POST["lastName"] == null || $_POST["firstName"]  == null || $_POST["address"] == null || $_POST["city"] = null) {
+    $_SESSION['error'] = 'Veuillez remplir tout les champs obligatoires';
+    header('Location: ../View/PageCreationCompte.php');
+    exit();
 }
+*/
+
+
+//INE
+if ($_POST["INE"] == null ) {
+    $INE = null;
+} else {
+    $INE = $_POST["INE"];
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,6 +68,7 @@ function displayCheckboxes($conn){
  * @return void
  * crée un candidat
  */
+/*
 function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$formation,$typeEntrepriseRecherche){
     if (isset($_POST['envoyer'])) {
         // Récupération des valeurs du formulaire
@@ -107,12 +125,15 @@ function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$forma
     }
 
 }
+*/
 ?>
 
 <?php
+/*
 if (isset($_POST['envoyer'])) {
 
     header("../View/PageCreationCopmpte.php");
 }
+*/
 
 

@@ -1,0 +1,8 @@
+.gestion{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.alert{
+    border-style: solid;
+}

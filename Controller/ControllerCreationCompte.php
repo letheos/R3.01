@@ -8,24 +8,35 @@ require "../Model/ModelCreationCompte.php";
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+$success = 0;
+$msg = "Erreur (script)";
+
+$formation = json_decode($_POST["formationOrder"]);
 
 
-
-//Champs obligatoire
-if ($_POST["lastName"] == null || $_POST["firstName"]  == null || $_POST["address"] == null || $_POST["city"] = null) {
-    $_SESSION['error'] = 'Veuillez remplir tout les champs obligatoires';
-    header('Location: ../View/PageCreationCompte.php');
-    exit();
-}
-
-
-
-//INE
-if ($_POST["INE"] == null ) {
+//INE non obligatoire
+if (empty($_POST["INE"])) {
     $INE = null;
 } else {
     $INE = $_POST["INE"];
 }
+
+
+//Champs obligatoire sinon envoie une erreur
+if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["city"]) || empty($_POST["address"]) || count($formation) == 0){
+    $msg = "Veuillez remplir les champs obligatoires";
+} else {
+    $success = 1;
+    $msg = "Candidat crée";
+    $name = $_POST["firstName"];
+    $firstName = $_POST["lastName"];
+    $city = $_POST["city"];
+    $address = $_POST["address"];
+
+}
+
+//Envoie des résultats des traitements
+echo json_encode(["success" => $success, "msg" => $msg]);
 
 
 
@@ -68,7 +79,6 @@ if ($_POST["INE"] == null ) {
  * @return void
  * crée un candidat
  */
-/*
 function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$formation,$typeEntrepriseRecherche){
     if (isset($_POST['envoyer'])) {
         // Récupération des valeurs du formulaire
@@ -125,15 +135,12 @@ function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$forma
     }
 
 }
-*/
 ?>
 
 <?php
-/*
 if (isset($_POST['envoyer'])) {
 
     header("../View/PageCreationCopmpte.php");
 }
-*/
 
 

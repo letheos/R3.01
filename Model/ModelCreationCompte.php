@@ -5,3 +5,12 @@ function selectAllFormation($conn){
     $req->execute();
     return $req->fetchAll();
 }
+
+function insertFormation($conn){
+
+}
+
+function insertCandidate($conn){
+
+}
+

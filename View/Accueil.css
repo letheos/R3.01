@@ -1,0 +1,35 @@
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.test{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.laBarre {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+}

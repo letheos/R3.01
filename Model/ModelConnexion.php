@@ -128,5 +128,36 @@ function delExpiration($conn, $ip){
 
 }
 
+function recupFirstName($conn,$login){
+    try {
+        $sql = 'SELECT firstName FROM utilisateur WHERE login = ?;';
+        $req = $conn->prepare($sql);
+        $req->execute(array($login));
+        $resultat = $req->fetch();
+        echo $resultat[0];
+    }catch (PDOException $e){
+        echo $e->getMessage();
+    }
+}
+
+function afficherProfilUser($conn,$login){
+    try {
+        $sql = 'SELECT * FROM utilisateur WHERE login = ?;';
+        $req = $conn->prepare($sql);
+        $req->execute(array($login));
+        $resultat = $req->fetch();
+        return $resultat;
+    }catch (PDOException $e){
+        echo $e->getMessage();
+    }
+}
+
+function getUserHash($conn, $login, $password){
+    $req = $conn->prepare("SELECT login, pswrd from Utilisateur WHERE login = ?");
+    $req->execute(array($login));
+    $result = $req->fetch();
+
+    return $result;
+}
 
 ?>

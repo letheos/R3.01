@@ -15,6 +15,7 @@
 #password:hover .info-bubble {
     display: block;
 }
+
 .rounded-box {
     border: 2px solid deepskyblue;
     border-radius: 10px;
@@ -22,6 +23,7 @@
     background: whitesmoke;
     text : white;
 }
+
 body{
 
     center : all;

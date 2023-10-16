@@ -21,7 +21,6 @@ if (empty($_POST["INE"])) {
     $INE = $_POST["INE"];
 }
 
-
 //Champs obligatoire sinon envoie une erreur
 if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["city"]) || empty($_POST["address"]) || count($formation) == 0){
     $msg = "Veuillez remplir les champs obligatoires";

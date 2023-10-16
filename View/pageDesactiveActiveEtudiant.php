@@ -1,7 +1,6 @@
 <?php
 require_once "../Controller/ControllerActiveDesactiveCompte.php";
 //include "../Controller/ControllerActiveDesactiveCompte.php";
-
 ?>
 
 <!doctype html>
@@ -24,7 +23,7 @@ require_once "../Controller/ControllerActiveDesactiveCompte.php";
 
 <body>
 <section class="donnees">
-    <form method="post" action="../Controller/ControllerActiveDesactiveCompte.php">
+
 
 
     <div class="affiche">
@@ -32,12 +31,8 @@ require_once "../Controller/ControllerActiveDesactiveCompte.php";
             listAffichageSelect();
 
         ?>
-
-        <script>
-
-        </script>
     </div>
-    </form>
+
 </section>
 
 </body>

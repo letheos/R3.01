@@ -9,6 +9,7 @@
     align-items: center;
 }
 
+
 body {
     display: flex;
     align-items: center;
@@ -49,9 +50,10 @@ body {
 }
 
 .choices-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px; /* Espace entre les colonnes et les lignes */
+    text-align: center; /* Pour centrer le contenu horizontalement */
+    display: flex;
+    justify-content: center; /* Pour centrer le contenu horizontalement */
+    align-items: center; /* Pour centrer le contenu verticalement */
 }
 
 /* Styles pour la case à cocher "Sélectionner tout" */

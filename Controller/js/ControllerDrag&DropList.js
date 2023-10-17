@@ -5,6 +5,7 @@ const formationCheckboxes = document.querySelectorAll(".choices-formation"); //C
 const formationCheckboxeAll = document.getElementById("select-all"); //Checkbox selectAll
 let orderForm = []; //Liste des ordres choisi dans la formation
 
+
 /**
  * Fonction qui coche toute les cases
  */

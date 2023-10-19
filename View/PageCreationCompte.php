@@ -29,12 +29,13 @@ require '../Controller/ControllerAffichagePage.php';
 
     <section>
             <div class="rounded-box">
-                <form  id="inscription">
+                <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php">
                 <header>
                     <h1>
                         Création d'un Candidat
                     </h1>
                 </header>
+
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
@@ -47,9 +48,11 @@ require '../Controller/ControllerAffichagePage.php';
 
                     <div class="lastNameForm">
                         <input type="text" class="form-control " id="lastName" name="lastName" placeholder="Nom" >
+                        <span class="text-danger">Champs obligatoire</span>
                     </div>
                     <div class="firstNameForm">
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prénom" >
+                        <span class="text-danger">Champs obligatoire</span>
 
                     </div>
                     <div class="permisBButton">
@@ -64,33 +67,46 @@ require '../Controller/ControllerAffichagePage.php';
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
-                        Adresse(s) d'habitation(s) du candidat
+                        Adresse(s) d'habitation(s) du candidat <span class="text-danger">*</span>
                     </header>
 
                     <div class="adressForm">
-                        <input id="adress" name="adress[]" class="form-control" type="text" placeholder="Adresse 1" required size="80">
+                        <input id="adress" name="adress[]" class="form-control" type="text" placeholder="Adresse d'habitation 1" required size="40">
                     </div>
-                    <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addAdressInput()"> Ajout adresse </button>
-                    <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
+                    <div class="adressButton">
+                        <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addAdressInput()"> Ajout adresse </button>
+                        <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
+                    </div>
+
                 </div>
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
-                        Zone de recherche
+                        Zone de recherche <span class="text-danger">*</span>
                     </header>
                     <div class="cityForm">
-                        <input type="text" class="form-control " id="city" name="city" placeholder="Ville">
-                        <label for="radius">Rayon de mobilité</label>
-                        <input type="range" min="1" max="100" name="radius" id="radius">
+                        <div id="citySearch1" name="citySearch1">
+                            <input type="text" class="form-control " id="citySearch" name="citySearch[]" placeholder="Zone 1" >
+                            <select  class="form-select" id="searchZone" name="searchZone[]">
+                                <option selected disabled> Choisir la mobilité </option>;
+                                <option value="Seulement dans la ville"> Seulement dans la Ville </option>
+                                <option value="Ville et Alentours"> Ville et Alentours </option>
+                                <option value="Département "> Département </option>
+                            </select>
+                        </div>
+
                     </div>
-                    <button class="btn btn-outline-primary" type="button" id="addCity" name="addCity"> Ajout zone de recherche </button>
+                    <div class="buttonCityForm">
+                        <button class="btn btn-outline-primary" type="button" id="addCityForm" name="addCityForm" onclick="addResearchZone()"> Ajout zone de recherche </button>
+                        <button class="btn btn-outline-primary" type="button" id="delCityForm" name="delCityForm" onclick="delReserchZone()"> Supprimer zone de recherche </button>
+                    </div>
                 </div>
 
 
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
-                        Formation actuelle du candidat
+                        Formation actuelle du candidat <span class="text-danger">*</span>
                     </header>
 
                     <div class="choices-container">
@@ -128,12 +144,12 @@ require '../Controller/ControllerAffichagePage.php';
                     </header>
                     <div class="typeCompanySearchForm">
                         <label for="typeCompanyRecherche">Type d'Entreprise Recherchées</label>
-                        <textarea class="form-control" id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                        <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
                     </div>
 
                     <div class="downloadButton">
                         <label for="cv">Inserer le cv ici</label>
-                        <input class="form-control" type="file"  name="cv" accept=".pdf">
+                        <input type="file"  name="cv" accept=".pdf">
 
                     </div>
                 </div>
@@ -147,14 +163,14 @@ require '../Controller/ControllerAffichagePage.php';
 
 
                 <div class="submitButton">
-                    <button class="btn btn-outline-primary" type="button" id="inscription" name="inscription" onclick="onClickSendCandidatesCreation('inscription')">Inscription</button>
+                    <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
                 </div>
                 </form>
             </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script>
+    <!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
     <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
     <script src="../Controller/js/ControllerBoutonAjout.js"></script>
    

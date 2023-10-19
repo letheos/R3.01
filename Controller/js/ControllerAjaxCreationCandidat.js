@@ -1,15 +1,11 @@
 
 function onClickSendCandidatesCreation(formId) {
 
-    //Récupère les formations dans l'ordre définit
-    var formationOrderData = JSON.stringify(orderForm);
     //Récupère les données des forms
     var data = new FormData(document.getElementById(formId));
     //Initialisation de la requête
     var xhr = new XMLHttpRequest();
 
-    //Ajout de la variable qui contient les formations dans les données à envoyer
-    data.append("formationOrder", formationOrderData);
 
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {

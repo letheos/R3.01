@@ -38,6 +38,22 @@ body {
     flex: 1; /* Pour que le label occupe autant d'espace que l'input */
 }
 
+.adressForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text-danger {
+    color: red; /* Couleur du texte en rouge */
+    font-size: 14px; /* Taille de la police */
+    margin-top: 5px; /* Marge en haut pour l'éloigner légèrement du champ */
+}
+
+.adressForm input {
+    margin: 5px;
+}
+
 /* Center the submit button */
 .submitButton {
     text-align: center;
@@ -49,31 +65,8 @@ body {
     gap: 20px; /* Espace entre les éléments */
 }
 
-.choices-container {
-    text-align: center; /* Pour centrer le contenu horizontalement */
-    display: flex;
-    justify-content: center; /* Pour centrer le contenu horizontalement */
-    align-items: center; /* Pour centrer le contenu verticalement */
-}
-
-/* Styles pour la case à cocher "Sélectionner tout" */
-.select-all-conteiner {
-    display: flex;
-    justify-content: center; /* Centrer horizontalement */
-    align-items: center; /* Centrer verticalement */
-    padding: 20px;
-}
 
 
-/* Styles pour les cases à cocher */
-.choices input[type="checkbox"] {
-    margin-right: 10px; /* Espace entre la case à cocher et le label */
-}
-
-/* Styles pour les labels */
-.choices label {
-    margin: 0; /* Supprimer toute marge par défaut du label */
-}
 
 label {
     order: -1; /* Change the order to display label on top */

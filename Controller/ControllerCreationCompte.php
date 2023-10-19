@@ -11,9 +11,7 @@ error_reporting(E_ALL);
 $success = 0;
 $msg = "Erreur (script)";
 
-$formation = json_decode($_POST["formationOrder"]);
-
-
+/*
 //INE non obligatoire
 if (empty($_POST["INE"])) {
     $INE = null;
@@ -33,9 +31,14 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["cit
     $address = $_POST["address"];
 
 }
+*/
 
-//Envoie des résultats des traitements
-echo json_encode(["success" => $success, "msg" => $msg]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Affiche les données POST pour le débogage
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+}
 
 
 

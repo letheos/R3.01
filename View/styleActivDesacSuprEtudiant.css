@@ -31,14 +31,43 @@ section.haut{
 }
 
 .rounded-box {
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 170px;
     background-color: #3498db;
 
     margin: 10px;
 }
 
-.affiche{
+.affichEtu{
     display: flex;
     flex-wrap: wrap;
+}
+
+.notSearch{
+    color:red;
+}
+.isSearch{
+    color:green;
+}
+
+.active {
+    background-color: lightgreen;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+.active:hover {
+    background-color: darkgreen;
+}
+
+
+.desactive {
+    background-color: lightcoral;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.desactive:hover {
+    background-color: darkred;
 }

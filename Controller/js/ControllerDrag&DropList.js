@@ -5,6 +5,7 @@ const formationCheckboxes = document.querySelectorAll(".choices-formation"); //C
 const formationCheckboxeAll = document.getElementById("select-all"); //Checkbox selectAll
 let orderForm = []; //Liste des ordres choisi dans la formation
 
+
 /**
  * Fonction qui coche toute les cases
  */
@@ -65,10 +66,8 @@ function getArrayFormationOrder() {
     }
 
     orderForm = newOrderForm;
-    console.log(orderForm);
+    console.log(orderForm)
 }
-
-
 
 /**
  * On définit les évenements
@@ -78,7 +77,7 @@ formationCheckboxes.forEach(checkbox => {
 
 });
 
-formationCheckboxeAll.addEventListener("change", checkAll());
+formationCheckboxeAll.addEventListener("change", checkAll);
 
 //Début du drag
 formationList.addEventListener("dragstart", e => {
@@ -106,17 +105,3 @@ formationList.addEventListener("drop", e => {
     }
     getArrayFormationOrder();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-

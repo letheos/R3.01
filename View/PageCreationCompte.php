@@ -28,62 +28,86 @@ require '../Controller/ControllerAffichagePage.php';
 <body>
 
     <section>
-            <div class="rounded-box">+
-                <form method="post" action="../Controller/ControllerCreationCompte.php">
+            <div class="rounded-box">
+                <form  id="inscription">
                 <header>
                     <h1>
                         Création d'un Candidat
                     </h1>
                 </header>
 
-                <div class="ineForm">
-                    <label for="INE">INE</label>
-                    <input type="text" id="INE" name="INE" placeholder="123456789AB" pattern = "\d{9}[A-Za-z]{2}">
-                </div>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Informations Candidat
+                    </header>
+                    <div class="ineForm">
+                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Za-z]{2}" >
 
-                <div class="lastNameForm">
-                    <label for="lastName">Nom</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="nom">
-                </div>
+                    </div>
 
-                <div class="firstNameForm">
-                    <label for="firstName">Prenom</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="Prénom">
+                    <div class="lastNameForm">
+                        <input type="text" class="form-control " id="lastName" name="lastName" placeholder="Nom" >
+                    </div>
+                    <div class="firstNameForm">
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prénom" >
 
-                </div>
+                    </div>
+                    <div class="permisBButton">
+                        <label class="form-check-label" >Permis</label>
+                        <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="false" checked>
+                        <label for="permisNon">Non</label>
 
-                <div class="adressForm">
-                    <label for="address">Adresse</label>
-                    <input type="text" id="address" name="address" placeholder="26 rue Girard 59220" >
-
-                </div>
-
-                <div class="cityForm">
-                    <label for="City">Ville</label>
-                    <input type="text" id="city" name="city" placeholder="Ville">
-
-                </div>
-
-                <div class="radiusSelection">
-                    <label for="radius">Rayon de mobilité</label>
-                    <input type="range" min="1" max="100" name="radius" id="radius">
-                </div>
-
-                <div class="typeCompanySearchForm">
-                    <label for="typeCompanyRecherche">Type d'Entreprise Recherchées</label>
-                    <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                        <input class="form-check-input" type="radio" name="permisB" id="permisOui" value="true">
+                        <label for="permisOui">Oui</label>
+                    </div>
                 </div>
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
-                        Formation
+                        Adresse(s) d'habitation(s) du candidat
                     </header>
+
+                    <div class="adressForm">
+                        <input id="adress" name="adress[]" class="form-control" type="text" placeholder="Adresse 1" required size="80">
+                    </div>
+                    <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addAdressInput()"> Ajout adresse </button>
+                    <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
+                </div>
+
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Zone de recherche
+                    </header>
+                    <div class="cityForm">
+                        <input type="text" class="form-control " id="city" name="city" placeholder="Ville">
+                        <label for="radius">Rayon de mobilité</label>
+                        <input type="range" min="1" max="100" name="radius" id="radius">
+                    </div>
+                    <button class="btn btn-outline-primary" type="button" id="addCity" name="addCity"> Ajout zone de recherche </button>
+                </div>
+
+
+
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Formation actuelle du candidat
+                    </header>
+
                     <div class="choices-container">
                             <?php
-                            displayCheckboxes($conn);
+                            displayDropdown($conn);
                             ?>
+
                     </div>
 
+                    <div class="parcoursForm">
+                        <select name="parcours">
+                        <!--A COMPLETER -->
+                        </select>
+                    </div>
+
+
+                     <!-- Commentaire temporaire, demande avis client
                     <div class=select-all-container">
                          <label class="label-select-all">
                              <input class="select-all" type="checkbox" id="select-all" name="select-all"> Sélectionner tout
@@ -95,51 +119,49 @@ require '../Controller/ControllerAffichagePage.php';
                         <ol id="formation-list" draggable="true" style="display: none;">
                         </ol>
                     </div>
+                    -->
                 </div>
 
-                <div class="parcoursForm">
-                    <label for="parcoursForm">Parcours</label>
-                    <select name="parcours">
-                        <!--A COMPLETER -->
-                    </select>
-                </div>
-
-                <div class="permisBButton">
-                    <label for="permisB">Permis</label>
-                    <select name="permisB" size="1">
-                        <option value="false">non</option>
-                        <option value="true" >oui</option>
-                    </select>
-                </div>
-
-                <div class="downloadButton">
-                    <label for="cv">Inserer le cv ici</label>
-                    <input type="file" name="cv" accept=".pdf">
-
-                </div>
-                <?php
-                error_log($_SESSION["error"]);
-                if(isset($_SESSION["error"])){
-                    ?>
-
-                    <div class="alert alert-danger">
-                        <?php echo $_SESSION["error"]; ?>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Entreprises
+                    </header>
+                    <div class="typeCompanySearchForm">
+                        <label for="typeCompanyRecherche">Type d'Entreprise Recherchées</label>
+                        <textarea class="form-control" id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
                     </div>
 
-                    <?php
-                    unset($_SESSION["error"]);
-                    session_destroy();
-                }
-                ?>
+                    <div class="downloadButton">
+                        <label for="cv">Inserer le cv ici</label>
+                        <input class="form-control" type="file"  name="cv" accept=".pdf">
+
+                    </div>
+                </div>
+                    <div class="alert alert-danger" id="alertError" style="display: none;">
+
+                    </div>
+
+                    <div class="alert alert-success" id="alertSuccess" style="display: none;">
+
+                    </div>
+
+
                 <div class="submitButton">
-                    <button  class="btn btn-outline-primary" type="submit" id="submit" name="submit" >Inscription</button>
+                    <button class="btn btn-outline-primary" type="button" id="inscription" name="inscription" onclick="onClickSendCandidatesCreation('inscription')">Inscription</button>
                 </div>
                 </form>
             </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="../Controller/orderOfCheck.js"></script>
+    <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script>
+    <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
+    <script src="../Controller/js/ControllerBoutonAjout.js"></script>
+   
+
+
+
+
 </body>
 </html>
     <?php

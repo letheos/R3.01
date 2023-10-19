@@ -10,3 +10,4 @@ function selectAllFormation($conn){
     $req->execute();
     return $req->fetchAll();
 }
+//a

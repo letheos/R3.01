@@ -1,0 +1,44 @@
+.bas{
+    margin-top: 150px;
+}
+
+.nomFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    font: 15px/18px sans-serif;
+}
+.origineFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 3vh;
+    font: 15px/18px sans-serif;
+
+}
+
+
+section.haut{
+    background: #0f94b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    font: 15px/18px sans-serif;
+}
+
+.rounded-box {
+    width: 150px;
+    height: 150px;
+    background-color: #3498db;
+
+    margin: 10px;
+}
+
+.affiche{
+    display: flex;
+    flex-wrap: wrap;
+}

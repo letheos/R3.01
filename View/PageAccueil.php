@@ -1,7 +1,8 @@
 <?php
 session_start();
-include '../Model/ModelConnexion.php';
+require_once '../Model/ModelConnexion.php';
 $conn = require '../Model/Database.php';
+include '../Controller/ControllerAccueil.php';
 ?>
 
 <!doctype html>
@@ -13,9 +14,16 @@ $conn = require '../Model/Database.php';
     <title>Accueil</title>
 </head>
 <body>
+<script>
+    const aDejaVisite = sessionStorage.getItem('aDejaVisite');
+    if (!aDejaVisite) {
+        window.location.href = 'PageProfil.php';
+        sessionStorage.setItem('aDejaVisite','true');
+    }
+</script>
     <header class="banner">
         <h1>
-            Bienvenue dans votre accueil M/Mme <?php recupFirstName($conn,$_SESSION['login']) ?>
+            Bienvenue dans votre accueil M/Mme <?php getFirstName($conn,$_SESSION['login']) ?>
         </h1>
     </header>
     <section class="barreNavigation">
@@ -42,14 +50,6 @@ $conn = require '../Model/Database.php';
             </nav>
         </div>
     </section>
-    <!--
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ol>
-            <li class="elementsNav"><a href="">Tableau de bord</a></li>
-            <li class="elementsNav"><a href="">Profil</a></li>
-            <li class="elementsNav"><a href="">Liste des candidats</a></li>
-        </ol>
-    <h2 class="test"><a href="">Tableau de bord</a> | <a href="">Profil</a> | <a href="">Liste des candidats</a></h2>-->
 
     <footer class="bottomBanner"> </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

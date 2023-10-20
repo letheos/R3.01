@@ -3,7 +3,7 @@ $conn = require '../Model/Database.php';
 include '../Model/ModelConnexion.php';
 
 function showProfile($conn,$login){
-    $result = afficherProfilUser($conn,$login);
+    $result = showUserProfile($conn,$login);
     echo '<div class="infosProfil">
                   <h2> Utilisateur : ' . $result["userName"] . " " . $result["firstName"] . ' </h2>                       
                   <p>  Login : ' . $result['login'] . "

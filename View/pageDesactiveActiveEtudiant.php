@@ -1,6 +1,6 @@
 <?php
 require_once "../Controller/ControllerActiveDesactiveCompte.php";
-require_once "../Model/ModelActivationDesactivationCompte.php";
+//require_once "../Model/ModelActivationDesactivationCompte.php";
 //include "../Controller/ControllerActiveDesactiveCompte.php";
 $conn = require "../Model/Database.php";
 
@@ -29,9 +29,13 @@ $conn = require "../Model/Database.php";
 
     </div>
 </section>
-
 <?php
-$results = getAllStudents();
+try{
+    $results = returnAllStudents();
+} catch (Exception $e){
+    $e->getMessage();
+}
+
 
 foreach ($results as $row) {
     ?>
@@ -40,20 +44,20 @@ foreach ($results as $row) {
         <div class="rounded-box">
             <form method="post" action="../Controller/ControllerActiveDesactiveCompte.php">
                 <!--input de nom à faire --><input name="name" type="hidden" value="'.$row['name'].'">
-                <input name="firstname" type="hidden" value=" <?= $row['3'] ?>">
+                <input name="firstname" type="hidden" value=" <?= $row[3] ?>">
                 <input name="lastname" type="hidden" value=" <?= $row['name'] ?>">
-                <p> nom : <?= $row['name'] ?></p>
                 <p> prénom : <?= $row[3] ?></p>
-                <button id="delete" name="delete" type="button">supprime</button>
+                <p> nom : <?= $row['name'] ?></p>
+                <button id="delete" name="delete" type="button">supprimer</button>
                 <?php
                 if ($row[7] == 1) { ?>
 
-                    <button class="desactive"  name="bool" value="0" type="submit"> désactive</button>
+                    <button class="desactive"  name="bool" value="0" type="submit"> désactiver</button>
                     <p class="notSearch">n'est pas en recher active</p>
                     <?php
                 } else {
                     ?>
-                    <button class="active" name="bool" value="1" type="submit"> active</button>
+                    <button class="active" name="bool" value="1" type="submit"> activer</button>
                     <p class="isSearch">est en recherche active</p>
                     <?php
                 }

@@ -110,7 +110,7 @@
             <input type="color" name="colorFond">
         </div>
         <div class="colorText">
-            <label>Couleurs du fond</label>
+            <label>Couleurs du text</label>
             <input type="color" name="colorText">
         </div>
     </section>

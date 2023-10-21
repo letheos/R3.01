@@ -1,13 +1,23 @@
 <?php
+
+/**
+ * Fichier du Controller gérant les affichages html dans la page Création Candidat
+ * @author Nathan Strady
+ */
+
 require "../Model/ModelCreationCompte.php";
 
+/**
+ * Fonction affichant une lise déroulante ayant tout les prcours
+ * @param $conn : Connection à la base de donnée
+ * @return void : Ne renvoie rien, sert seulement d'affichage
+ */
 function displayDropdown($conn) {
     $result = selectAllFormation($conn);
 
+    echo '<select class="form-select" name="formation" required>';
 
-    echo '<select class="form-select" name="formation">';
-
-    echo '<option selected disabled> Choisir son parcours </option>';
+    echo '<option value="" selected disabled> Choisir son parcours </option>';
 
     foreach ($result as $rows) {
         $formationName = $rows['nameFormation'];
@@ -16,3 +26,4 @@ function displayDropdown($conn) {
     echo '<option value="undefined" > Non-défini </option>';
     echo '</select>';
 }
+

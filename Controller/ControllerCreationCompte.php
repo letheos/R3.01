@@ -1,148 +1,86 @@
 <?php
+/**
+ * Controller de la page Creation Candidat
+ * @author : Nathan Strady
+ */
 session_start();
 
 //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
 require "../Model/ModelCreationCompte.php";
 
+//TODO enlever debug
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$success = 0;
-$msg = "Erreur (script)";
-
 /*
-//INE non obligatoire
-if (empty($_POST["INE"])) {
-    $INE = null;
-} else {
-    $INE = $_POST["INE"];
-}
-
-//Champs obligatoire sinon envoie une erreur
-if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["city"]) || empty($_POST["address"]) || count($formation) == 0){
-    $msg = "Veuillez remplir les champs obligatoires";
-} else {
-    $success = 1;
-    $msg = "Candidat crée";
-    $name = $_POST["firstName"];
-    $firstName = $_POST["lastName"];
-    $city = $_POST["city"];
-    $address = $_POST["address"];
-
-}
+TODO LIST :
+TODO : Faire la récupération DONE
+TODO : Faire la gestion et l'affichage des erreurs du form W.I.P
+TODO : Faire l'utilisation des fonctions dans le model pour insérer les données en cas de réussite W.I.P
 */
 
+
+/**
+ * Fonction regroupant les informations obtenu des champs cp, address, cityCandidates
+ * @param $cp : le code postal du form récupèrer
+ * @param $addr : l'adresse du form récupèrer
+ * @param $city : la ville du form récypèrer
+ * @return array : renvoie un tableau de tuple dans lequel chaque tuple contient (Code postal, Adresse, Ville) pour avoir l'adresse complète
+ */
+function regroupAdresses($cp, $addr, $city){
+    $adresses = array();
+
+    for ($i = 0 ; $i < count($cp); $i++){
+        $adresses[] = array(
+            "CP" => $cp[$i],
+            "Address" => $addr[$i],
+            "City" => $city[$i]
+        );
+
+    }
+    return $adresses;
+
+}
+
+/**
+ * Fonction regroupant les informations obtenus des champs citySearch, Rayon
+ * @param $zone : Ville de recherche du candidat
+ * @param $radius : Rayon de recherche autour de la ville
+ * @return array : Renvoie un tableau de tuple dans lequel chaque tuple contient (Ville, Rayon) pour avoir la zone complète
+ */
+function regroupSearchZone($zone,$radius){
+    $searchzone = array();
+
+    for ($i = 0 ; $i < count($zone); $i++){
+        $searchzone[] = array(
+            "SearchCity" => $zone[$i],
+            "RadiusCity" => $radius[$i],
+        );
+    }
+
+    return $searchzone;
+
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Affiche les données POST pour le débogage
+
+    if (empty($_POST['INE']) && empty($_POST['text'])){
+        $ine = null;
+        $text = null;
+    } else {
+        $ine = $_POST['INE'];
+        $text = $_POST['text'];
+    }
+
+    $adresses = regroupAdresses($_POST['cp'],$_POST['address'],$_POST['cityCandidate']);
+    $searchZone = regroupSearchZone($_POST['citySearch'], $_POST['rayon']);
+
+
+    print_r($adresses);
+    print_r($searchZone);
     echo '<pre>';
     print_r($_POST);
     echo '</pre>';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * @param $coon PDO
- * @param $INE String
- * @param $lastName String
- * @param $firstName String
- * @param $address String
- * @param $city String
- * @param $radius int
- * @param $permisB bool
- * @param $formation String
- * @param $typeEntrepriseRecherche String
- * @return void
- * crée un candidat
- */
-function insert($INE,$lastName,$firstName,$address,$city,$radius,$permisB,$formation,$typeEntrepriseRecherche){
-    if (isset($_POST['envoyer'])) {
-        // Récupération des valeurs du formulaire
-        $INE = strtoupper($_POST['INE']);
-        $lastName = $_POST['lastName'];
-        $firstName = $_POST['firstName'];
-        $address = $_POST['address'];
-        $formation = intval($_POST['formation']);
-        $typeEntrepriseRecherche = $_POST['typeEntreprises'];
-        $permisB = $_POST['permisB'];
-        $cv = $_POST['cv'];
-        $coord = $_POST['Ville'];
-        $radius = $_POST['radius'];
-
-        $messageErreur = "";
-        $messageSucces = "";
-
-    } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
-    )) {
-        $messageErreur = "Le nom contient un caractère spécial";
-
-    } elseif (preg_match("/[0-9]/", $lastName
-    )) {
-        $messageErreur = "Le nom contient un chiffre";
-
-    } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $city
-    )) {
-        $messageErreur = "La ville contient un caractère spécial";
-
-    } elseif (preg_match("/[0-9]/", $city
-    )) {
-        $messageErreur = "La ville contient un chiffre";
-
-    }elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $firstName
-    )) {
-        $messageErreur = "Le prénom contient un caractère spécial";
-
-    } elseif (preg_match("/[0-9]/", $firstName
-    )) {
-        $messageErreur = "Le prénom contient un chiffre";
-
-    }elseif ($radius > 1 || $radius<101){
-        $messageErreur = "le radius doit être compris entre 1 à 100";
-    }
-    elseif ( $lastName == null || $INE == null || $firstName == null || $address == null || $formation == null || $typeEntrepriseRecherche === null || $permisB === null || $city === null || $radius === null) {
-        $messageErreur = "Tous les champs de texte doivent être remplis";
-    } else {
-        $messageSucces = "Enregistré avec succès";
-    }
-    if ($messageErreur != null) {
-        return $messageErreur;
-    } else {
-        return $messageSucces;
-    }
-
-}
-?>
-
-<?php
-if (isset($_POST['envoyer'])) {
-
-    header("../View/PageCreationCopmpte.php");
-}
-
-

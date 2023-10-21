@@ -1,3 +1,16 @@
+/**
+ * Fichier js qui gère l'ajout et la suppression de champs dans la page Creation Candidat
+ * @author Nathan Strady
+ */
+
+/**
+ *
+ * @type {number} : Variable d'initialisation des compteurs
+ * @type {divAdressForm} Variable qui récupère la div cityForm
+ * @type {divAdressForm} Variable qui récupère la div adressForm
+ */
+
+//Variable générale nécessaire pour la récupération de certaine donnée et l'initialisation des compteurs
 const limitChamp = 4;
 let nbChampAdress = 2;
 let nbChampCitySearch = 2;
@@ -19,6 +32,7 @@ function addField(container, name, placeholder, className) {
         newField.placeholder = placeholder;
         newField.name = name;
         newField.className = className;
+        newField.required = true;
         container.appendChild(newField);
         return newField;
     }
@@ -26,16 +40,31 @@ function addField(container, name, placeholder, className) {
 }
 
 /**
- * Ajout une adresse dans la div adressForm
+ * Ajout une adresse complète dans la div adressForm
  */
-function addAdressInput() {
+function addCompleteAddress() {
     if (nbChampAdress < limitChamp) {
         try {
-            const nouvelInputAdress = addField(divAdressForm, "adress[]", "Adresse d'habitation " + nbChampAdress, "form-control");
-            if (nouvelInputAdress) {
-                nbChampAdress++;
-            }
-        } catch (error){
+            const newDiv = document.createElement("div");
+            newDiv.className = "adressFormTemplate";
+
+            newDiv.innerHTML = `
+                <div class="form-group">
+                    <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="address[]" placeholder="Adresse d'habitation" required size="50">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="cityCandidate[]" placeholder="Ville" required>
+                </div>
+            `;
+
+            // Ajoutez la nouvelle adresse complète à la div adressForm
+            divAdressForm.appendChild(newDiv);
+
+            nbChampAdress++;
+        } catch (error) {
             console.error(error.message);
         }
     }
@@ -49,14 +78,11 @@ function addResearchZone(){
     var newDiv = document.createElement("citySearch" + nbChampCitySearch);
 
     newDiv.innerHTML = `
-        <input type="text" class="form-control" name="citySearch[]" placeholder="Zone ${nbChampCitySearch}">
-        <select class="form-select" name="searchZone[]">
-            <option selected disabled>Choisir la mobilité</option>
-            <option value="Seulement dans la ville">Seulement dans la Ville</option>
-            <option value="Ville et Alentours">Ville et Alentours</option>
-            <option value="Département">Département</option>
-        </select>
-    `;
+        <input type="text" class="form-control" name="citySearch[]" placeholder="Zone ${nbChampCitySearch}" required>
+        <label for="rayon">Rayon :</label>
+        <input type="number" id="rayon" name="rayon[]" min="0" step="1" required>
+        <span>Km</span>
+        `;
 
     nbChampCitySearch++;
 
@@ -67,7 +93,7 @@ function addResearchZone(){
 }
 
 /**
- *
+ * Fonction supprimant le dernier enfant d'une balise div
  * @param element Ceci est la balise pour lequel on supprime le dernier enfant
  * @returns {boolean} Renvoie si l'opération à réussie ou non.
  */
@@ -98,3 +124,6 @@ function delReserchZone() {
         nbChampCitySearch--;
     }
 }
+
+
+

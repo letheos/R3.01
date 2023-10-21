@@ -1,4 +1,9 @@
 <?php
+/**
+ * Fichier permettant l'affichage de la création d'un candidat
+ * @author Nathan Strady
+ */
+
 session_start();
 ?>
 <!DOCTYPE html>
@@ -34,6 +39,7 @@ require '../Controller/ControllerAffichagePage.php';
                     <h1>
                         Création d'un Candidat
                     </h1>
+                    <span class="text-danger">Champs obligatoire(*)</span>
                 </header>
 
 
@@ -42,19 +48,20 @@ require '../Controller/ControllerAffichagePage.php';
                         Informations Candidat
                     </header>
                     <div class="ineForm">
-                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Za-z]{2}" >
+                        <label> INE </label>
+                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Z]{2}" >
 
                     </div>
 
                     <div class="lastNameForm">
-                        <input type="text" class="form-control " id="lastName" name="lastName" placeholder="Nom" >
-                        <span class="text-danger">Champs obligatoire</span>
+                        <label> Nom <span class="text-danger">*</span> </label>
+                            <input type="text" class="form-control " id="lastName" name="lastName" placeholder="Nom" required>
                     </div>
                     <div class="firstNameForm">
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prénom" >
-                        <span class="text-danger">Champs obligatoire</span>
-
+                        <label> Prenom <span class="text-danger">*</span> </label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prénom" required>
                     </div>
+
                     <div class="permisBButton">
                         <label class="form-check-label" >Permis</label>
                         <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="false" checked>
@@ -71,10 +78,20 @@ require '../Controller/ControllerAffichagePage.php';
                     </header>
 
                     <div class="adressForm">
-                        <input id="adress" name="adress[]" class="form-control" type="text" placeholder="Adresse d'habitation 1" required size="40">
+                        <div class="adressFormTemplate">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="address[]" placeholder="Adresse d'habitation " required size="50">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="cityCandidate[]" placeholder="Ville" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="adressButton">
-                        <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addAdressInput()"> Ajout adresse </button>
+                        <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addCompleteAddress()"> Ajout adresse </button>
                         <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
                     </div>
 
@@ -82,21 +99,20 @@ require '../Controller/ControllerAffichagePage.php';
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
-                        Zone de recherche <span class="text-danger">*</span>
+                        Zone(s) de recherche <span class="text-danger">*</span>
                     </header>
                     <div class="cityForm">
                         <div id="citySearch1" name="citySearch1">
-                            <input type="text" class="form-control " id="citySearch" name="citySearch[]" placeholder="Zone 1" >
-                            <select  class="form-select" id="searchZone" name="searchZone[]">
-                                <option selected disabled> Choisir la mobilité </option>;
-                                <option value="Seulement dans la ville"> Seulement dans la Ville </option>
-                                <option value="Ville et Alentours"> Ville et Alentours </option>
-                                <option value="Département "> Département </option>
-                            </select>
+                            <input type="text" class="form-control " id="citySearch" name="citySearch[]" placeholder="Zone 1" required>
+                            <label for="rayon">Rayon :</label>
+                            <input type="number" id="rayon" name="rayon[]" min="0" step="1" required>
+                            <span>Km</span>
                         </div>
 
                     </div>
-                    <div class="buttonCityForm">
+
+                    </div>
+                    <div class="buttonCityForm" >
                         <button class="btn btn-outline-primary" type="button" id="addCityForm" name="addCityForm" onclick="addResearchZone()"> Ajout zone de recherche </button>
                         <button class="btn btn-outline-primary" type="button" id="delCityForm" name="delCityForm" onclick="delReserchZone()"> Supprimer zone de recherche </button>
                     </div>
@@ -113,7 +129,6 @@ require '../Controller/ControllerAffichagePage.php';
                             <?php
                             displayDropdown($conn);
                             ?>
-
                     </div>
 
                     <div class="parcoursForm">
@@ -153,6 +168,16 @@ require '../Controller/ControllerAffichagePage.php';
 
                     </div>
                 </div>
+
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Remarques
+                    </header>
+                    <div class="remarks">
+                        <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                    </div>
+                </div>
+
                     <div class="alert alert-danger" id="alertError" style="display: none;">
 
                     </div>
@@ -173,72 +198,6 @@ require '../Controller/ControllerAffichagePage.php';
     <!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
     <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
     <script src="../Controller/js/ControllerBoutonAjout.js"></script>
-   
-
-
-
-
 </body>
 </html>
-    <?php
 
-/*
-    if (isset($_POST['envoyer'])) {
-        // Récupération des valeurs du formulaire
-        $INE = strtoupper($_POST['INE']);
-        $lastName = $_POST['lastName'];
-        $firstName = $_POST['firstName'];
-        $address = $_POST['address'];
-        $ville = $_POST['Ville'];
-        $formation = intval($_POST['formation']);
-        $typeEntrepriseRecherche = $_POST['typeEntreprises'];
-        $permisB = $_POST['permisB'];
-        $cv = $_POST['cv'];
-        $coord = $_POST['Ville'];
-        $radius = $_POST['radius'];
-
-
-
-
-
-        if (preg_match('/[^A-Za-z0-9"\';]/', $lastName
-        )) {
-            echo('<div class="alert alert-warning" role="alert">
-        le nom contient un caractère spécial
-      </div>');
-        } elseif (preg_match("/[0-9]/", $lastName
-        )) {
-            echo('<div class="alert alert-warning" role="alert">
-                le nom contient un chiffre
-          </div>');
-        } elseif (preg_match('/[^A-Za-z0-9"\';]/', $firstName
-        )) {
-            echo('<div class="alert alert-warning" role="alert">
-        le prénom contient un caractère spécial
-      </div>');
-        } elseif (preg_match("/[0-9]/", $firstName
-        )) {
-            echo('<div class="alert alert-warning" role="alert">
-                le prénom contient un chiffre
-          </div>');
-        } elseif (preg_match('/^\d{9}[A-Z-a-z]{2}$/', $INE)) {
-            // L'INE n'est pas valide
-            echo('<div class="alert alert-warning" role="alert">
-                Un INE est composé de 9 chiffres suivie de 2 lettres
-            </div>');
-        }elseif (
-            $firstName == null || $lastName == null || $INE == null || $formation == null || $formation == null || $coord == null) {
-            echo('<div class="alert alert-warning" role="alert">
-        tout les champs de texte doivent être remplis
-        </div>');
-
-        }
-
-
-        //TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
-
-
-    }
-
-*/
-?>

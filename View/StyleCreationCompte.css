@@ -38,6 +38,12 @@ body {
     flex: 1; /* Pour que le label occupe autant d'espace que l'input */
 }
 
+.adressFormTemplate {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 .adressForm {
     display: flex;
     flex-direction: column;

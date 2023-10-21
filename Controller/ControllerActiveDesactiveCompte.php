@@ -1,4 +1,4 @@
-<script src ="jsActivationDesactivationCompte.js"></script>
+
 <?php
 include "../Model/ModelActivationDesactivationCompte.php";
 
@@ -60,4 +60,6 @@ if(isset($_POST['effect'])) {
     }
 }
 
-
+function returnAllStudents(){
+    return getAllStudents();
+}

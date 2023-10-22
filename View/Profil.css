@@ -79,4 +79,27 @@ body {
     left: 0;
 }
 
+.bas{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.nomFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    font: 15px/18px sans-serif;
+}
+.origineFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 3vh;
+    font: 15px/18px sans-serif;
+
+}
+
 

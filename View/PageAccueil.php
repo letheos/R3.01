@@ -51,7 +51,23 @@ include '../Controller/ControllerAccueil.php';
         </div>
     </section>
 
-    <footer class="bottomBanner"> </footer>
+<section class="bas">
+
+    <footer>
+        <div class="nomFooter">
+            <p>
+                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+
+            </p>
+        </div>
+        <div class="origineFooter">
+            <p>
+                2023/2024 UPHF
+            </p>
+        </div>
+    </footer>
+
+</section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

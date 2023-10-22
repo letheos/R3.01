@@ -3,21 +3,20 @@
  * Controller de la page Creation Candidat
  * @author : Nathan Strady
  */
-session_start();
-
-//TODO adapter la bdd pour remettre la formation en clé étrangére et faire le code pour avoir automatiquement les formations
 
 require "../Model/ModelCreationCompte.php";
+$conn = require "../Model/Database.php";
 
-//TODO enlever debug
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
+
+$msg = "erreur script";
+$success = 0;
 
 /*
 TODO LIST :
 TODO : Faire la récupération DONE
-TODO : Faire la gestion et l'affichage des erreurs du form W.I.P
-TODO : Faire l'utilisation des fonctions dans le model pour insérer les données en cas de réussite W.I.P
+TODO : Faire la gestion et l'affichage des erreurs du form DONE
+TODO : Faire l'utilisation des fonctions dans le model pour insérer les données en cas de réussite DONE
 */
 
 
@@ -66,21 +65,56 @@ function regroupSearchZone($zone,$radius){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (empty($_POST['INE']) && empty($_POST['text'])){
+    //Récupération des données
+    if (empty($_POST['INE']) && empty($_POST['typeCompanySearch']) && empty($_POST['remarksText'])){
         $ine = null;
-        $text = null;
+        $typeCompanySearch = null;
+        $remark = null;
     } else {
         $ine = $_POST['INE'];
-        $text = $_POST['text'];
+        $typeCompanySearch = $_POST['typeCompanySearch'];
+        $remark = $_POST['remarksText'];
+    }
+
+    $name = $_POST['lastName'];
+    $firstName = $_POST['firstName'];
+    $nameFormation = $_POST['formation'];
+    $nameParcours = null;
+    $yearOfFormation = 'test';
+
+    if ($_POST['permisB']){
+        $permisB = 1;
+    } else {
+        $permisB = 0;
     }
 
     $adresses = regroupAdresses($_POST['cp'],$_POST['address'],$_POST['cityCandidate']);
     $searchZone = regroupSearchZone($_POST['citySearch'], $_POST['rayon']);
 
 
-    print_r($adresses);
-    print_r($searchZone);
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
+    if (empty($ine)){
+        if (isCandidatesExistWithNameAndFirstname($conn, $name, $firstName)){
+            $msg = "Candidat déjà présent";
+
+        } else {
+            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            $success = 1;
+            $msg = "Candidat Inscrit";
+        }
+
+    } else {
+        if (isCandidatesExistWithIne($conn, $ine)){
+            $msg = "Candidat déjà présent";
+        } else {
+            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            $success = 1;
+            $msg = "Candidat Inscrit";
+        }
+    }
+
+    session_start();
+    $_SESSION['message'] = $msg;
+    $_SESSION['success'] = $success;
+    header("Location: ../View/PageCreationCompte.php");
+
 }

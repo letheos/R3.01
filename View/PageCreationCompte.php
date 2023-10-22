@@ -41,6 +41,22 @@ require '../Controller/ControllerAffichagePage.php';
                     </h1>
                     <span class="text-danger">Champs obligatoire(*)</span>
                 </header>
+                    <?php
+                    if(isset($_SESSION["message"])){
+                        if ($_SESSION['success'] == 0) {?>
+                            <div class="alert alert-danger">
+                                <?php echo $_SESSION["message"]; ?>
+                            </div>
+                        <?php } else { ?>
+                            <div class="alert alert-success">
+                                <?php echo $_SESSION["message"]; ?>
+                            </div>
+                            <?php
+                        }
+                        unset($_SESSION["erreur"]);
+                        session_destroy();
+                    }
+                    ?>
 
 
                 <div class="rounded-box">
@@ -54,12 +70,14 @@ require '../Controller/ControllerAffichagePage.php';
                     </div>
 
                     <div class="lastNameForm">
-                        <label> Nom <span class="text-danger">*</span> </label>
-                            <input type="text" class="form-control " id="lastName" name="lastName" placeholder="Nom" required>
+                        <label for="lastName">Nom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control no-special-chars" id="lastName" name="lastName" placeholder="Nom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un nom valide">
+                        <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
                     </div>
                     <div class="firstNameForm">
-                        <label> Prenom <span class="text-danger">*</span> </label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Prénom" required>
+                        <label for="firstName">Prénom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control no-special-chars" id="firstName" name="firstName" placeholder="Prénom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un prénom valide">
+                        <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
                     </div>
 
                     <div class="permisBButton">
@@ -111,7 +129,6 @@ require '../Controller/ControllerAffichagePage.php';
 
                     </div>
 
-                    </div>
                     <div class="buttonCityForm" >
                         <button class="btn btn-outline-primary" type="button" id="addCityForm" name="addCityForm" onclick="addResearchZone()"> Ajout zone de recherche </button>
                         <button class="btn btn-outline-primary" type="button" id="delCityForm" name="delCityForm" onclick="delReserchZone()"> Supprimer zone de recherche </button>
@@ -137,6 +154,13 @@ require '../Controller/ControllerAffichagePage.php';
                         </select>
                     </div>
 
+                    <div class="yearOfFormationForm">
+                        <select name="yearOfFormation">
+                            <!--A COMPLETER -->
+                        </select>
+                    </div>
+                </div>
+
 
                      <!-- Commentaire temporaire, demande avis client
                     <div class=select-all-container">
@@ -151,21 +175,19 @@ require '../Controller/ControllerAffichagePage.php';
                         </ol>
                     </div>
                     -->
-                </div>
 
                 <div class="rounded-box">
                     <header class="rounded-box-title">
                         Entreprises
                     </header>
                     <div class="typeCompanySearchForm">
-                        <label for="typeCompanyRecherche">Type d'Entreprise Recherchées</label>
-                        <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                        <label for="typeCompanySearch">Type d'Entreprise Recherchées</label>
+                        <textarea id="typeCompanySearch" name="typeCompanySearch" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
                     </div>
 
                     <div class="downloadButton">
                         <label for="cv">Inserer le cv ici</label>
                         <input type="file"  name="cv" accept=".pdf">
-
                     </div>
                 </div>
 
@@ -174,17 +196,10 @@ require '../Controller/ControllerAffichagePage.php';
                         Remarques
                     </header>
                     <div class="remarks">
-                        <textarea id="text-area" name="text" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                        <textarea id="text-area" name="remarksText" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
                     </div>
                 </div>
 
-                    <div class="alert alert-danger" id="alertError" style="display: none;">
-
-                    </div>
-
-                    <div class="alert alert-success" id="alertSuccess" style="display: none;">
-
-                    </div>
 
 
                 <div class="submitButton">

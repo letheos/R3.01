@@ -7,3 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
 });
 });
+
+function goBackHomePage(){
+    window.location.href='PageAccueil.php'
+}

@@ -14,9 +14,12 @@ session_start();
     <link rel="stylesheet" href="ModificationMotDePasse.css">
 </head>
 <body>
-<form method="post" action="../Controller/ControllerModificationMotDePasse.php">
-    <button class='btn btn-outline-primary' type="submit" id="submit" name="backAccueil"> Retour à l'accueil </button>
-</form>
+<header class="banner">
+    <h1 class="TexteProfil">
+        Reinitialisation de votre mot de passe
+    </h1>
+    <button class="btn btn-light" type="submit" name="retourAccueil" onclick="window.location.href='PageAccueil.php'">Retour à l'accueil</button>
+</header>
 <section class="login">
     <div>
         <header>

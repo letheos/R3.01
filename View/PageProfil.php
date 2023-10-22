@@ -22,7 +22,7 @@ $conn = require '../Model/Database.php';
     <h1 class="TexteProfil">
         Votre profil
     </h1>
-    <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil</button>
+    <button class="btn btn-light" type="submit" name="retourAccueil" onclick="goBackHomePage()">Retour à l'accueil</button>
 </header>
 
 <section class="BarreNav"
@@ -49,12 +49,8 @@ $conn = require '../Model/Database.php';
         </nav>
     </div>
 </section>
+
 <form method="POST" id="form" action="PageProfil.php">
-
-
-
-
-
     <section class="Affiche">
         <br>
         <br>
@@ -64,11 +60,6 @@ $conn = require '../Model/Database.php';
             <br>
         </div>
     </section>
-
-
-
-
-
 </form>
 
 <footer class="bottomBanner"> </footer>

@@ -40,7 +40,6 @@ if(isset($_GET['id'])){
             ?>
         </div>
     </section>
-
     </form>
 
     <footer class="bottomBanner"> </footer>

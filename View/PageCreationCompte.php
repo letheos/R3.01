@@ -83,10 +83,10 @@ require '../Controller/ControllerAffichagePage.php';
 
                     <div class="permisBButton">
                         <label class="form-check-label" >Permis</label>
-                        <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="false" checked>
+                        <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="0" checked>
                         <label for="permisNon">Non</label>
 
-                        <input class="form-check-input" type="radio" name="permisB" id="permisOui" value="true">
+                        <input class="form-check-input" type="radio" name="permisB" id="permisOui" value="1">
                         <label for="permisOui">Oui</label>
                     </div>
                 </div>

@@ -44,11 +44,6 @@ body {
     gap: 10px;
 }
 
-.adressForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 .text-danger {
     color: red; /* Couleur du texte en rouge */
@@ -56,9 +51,18 @@ body {
     margin-top: 5px; /* Marge en haut pour l'éloigner légèrement du champ */
 }
 
-.adressForm input {
-    margin: 5px;
+.adressFormTemplate {
+    display: flex;
+    flex-direction: row; /* Par défaut, les éléments seront alignés horizontalement */
+    justify-content: space-between; /* Espacez les éléments également horizontalement */
+    align-items: center; /* Centrez verticalement les éléments dans le conteneur */
 }
+
+.form-group {
+    flex: 1; /* Les éléments du formulaire auront une largeur égale dans le conteneur */
+    margin-right: 10px; /* Ajoutez un espace entre les éléments du formulaire */
+}
+
 
 /* Center the submit button */
 .submitButton {

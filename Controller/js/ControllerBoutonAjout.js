@@ -93,7 +93,7 @@ function addResearchZone(){
 }
 
 /**
- * Fonction supprimant le dernier enfant d'une balise div
+ *
  * @param element Ceci est la balise pour lequel on supprime le dernier enfant
  * @returns {boolean} Renvoie si l'opération à réussie ou non.
  */

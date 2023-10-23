@@ -146,6 +146,7 @@ require '../Controller/ControllerAffichagePage.php';
                             <?php
                             displayDropdown($conn);
                             ?>
+
                     </div>
 
                     <div class="parcoursForm">
@@ -176,6 +177,7 @@ require '../Controller/ControllerAffichagePage.php';
                     </div>
                     -->
 
+
                 <div class="rounded-box">
                     <header class="rounded-box-title">
                         Entreprises
@@ -205,6 +207,7 @@ require '../Controller/ControllerAffichagePage.php';
                 <div class="submitButton">
                     <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
                 </div>
+
                 </form>
             </div>
     </section>

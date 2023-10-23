@@ -105,7 +105,7 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $name
         $city = $adressData['City'];
         insertAddr($conn, $idCandidate, $cp, $addr, $city);
 
-    }
+}
 
     foreach ($searchZone as $zone){
         $search = $zone["SearchCity"];

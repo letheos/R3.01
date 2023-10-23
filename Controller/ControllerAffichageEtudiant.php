@@ -1,6 +1,7 @@
 <?php
 $conn = require "../Model/Database.php";
 
+
 /**
  * @param $conn
  * @return void
@@ -29,13 +30,16 @@ function listAffichageSelect($conn){
  * Affiche dans le php les candidats en fonction du filtrage
  */
 //Fonction d'affichage des candidats en fonction d'un filtrage
-function  choiceAllOptionWithActive($conn, $isActive){
+function choiceAllOptionWithActive($conn, $isActive){
     $results = selectCandidatesActives($conn, $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
-
+        // Utilisez un lien vers la page des détails du candidat
+        echo '
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
     }
 }
+
 
 
 /**
@@ -49,7 +53,9 @@ function  choiceAllOptionWithActive($conn, $isActive){
 function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
     $results = selectCandidatesByFormation($conn, $choixFormation,  $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
 
@@ -66,7 +72,9 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
 function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom){
     $results = selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
 }
@@ -82,7 +90,10 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
 function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     $results = selectCandidatesByName($conn, $choixNom,  $isActive);
     foreach ($results as $row) {
-        echo '<p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <button class="btn btn-primary" name="detail" id="'.$row["idCandidate"].'"> Détail </button>'.'</p>';
+        echo '
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+
 
     }
 

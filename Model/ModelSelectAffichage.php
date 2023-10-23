@@ -1,7 +1,4 @@
 <?php
-$conn = require "Database.php";
-
-
 /**
  * @param $conn
  * @param $isNotActive
@@ -118,6 +115,30 @@ function selectCandidatById($conn,$id){
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return $req->fetch();
+}
+
+/**
+ * Fonction qui supprime un candidat et toute ses informations.
+ * @param $conn : Connection à la base de donnée
+ * @param $id : Id du candidat à supprimer
+ * @return void : Ne renvoie rien, supprime juste le candidat
+ */
+function deleteCandidate($conn, $id){
+    $sqlReq1="DELETE FROM CandidateAddress WHERE idCandidate = ?"; //Suppression des adresses
+    $sqlReq2="DELETE FROM CandidateZone WHERE idCandidate = ?"; //Suppression des Zones
+    $sqlReq3="DELETE FROM Candidates WHERE idCandidate = ?"; //Suppression des autres information candidats
+
+    //Activation de la requête supression des adresses
+    $sqlReq1 = $conn->prepare($sqlReq1);
+    $sqlReq1->execute(array($id));
+
+    //Activation de la requête supression des zones de recherche
+    $sqlReq2 = $conn->prepare($sqlReq2);
+    $sqlReq2->execute(array($id));
+
+    //Activation de la requête supression du candidat
+    $sqlReq3 = $conn->prepare($sqlReq3);
+    $sqlReq3->execute(array($id));
 }
 
 

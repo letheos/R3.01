@@ -37,7 +37,8 @@ function afficherEtudiant($conn,$id){
                   <p>   
                   <br> " . 'INE : ' . $result['INE'] . "
                   <br> " . " Type d'entreprise recherchée : " .$result['typeCompanySearch'] . "
-                  <br> " . 'Adresse : ' . "
+                   <br> " . 'Adresse : ' . $result['addresses'] . "
+                  <br> " . 'Zone : ' . $result['zones'] . "
                   <br> " . "A obtenu le permis B" . "
                   <br> " . "N'est pas en recherche active" . "
                   <br> " . "<a href='../Model/Database.php' download> Télécharger le CV </a>" . '</p>' .'</div> ';
@@ -54,7 +55,8 @@ function afficherEtudiant($conn,$id){
                   <p>   
                   <br> " . 'INE : ' . $result['INE'] . "
                   <br> " . " Type d'entreprise recherchée : " .$result['typeCompanySearch'] . "
-                  <br> " . 'Adresse : ' . "
+                   <br> " . 'Adresse : ' . $result['addresses'] . "
+                  <br> " . 'Zone : ' . $result['zones'] . "
                   <br> " . "N'a pas obtenu le permis B" . "
                   <br> " . "Est en recherche active" . "
                   <br> " . "<a href='../Model/Database.php' download> Télécharger le CV </a>" . '</p>' .'</div> ';
@@ -71,7 +73,8 @@ function afficherEtudiant($conn,$id){
                   <p>   
                   <br> " . 'INE : ' . $result['INE'] . "
                   <br> " . " Type d'entreprise recherchée : " .$result['typeCompanySearch'] . "
-                  <br> " . 'Adresse : ' . "
+                  <br> " . 'Adresse : ' . $result['addresses'] . "
+                  <br> " . 'Zone : ' . $result['zones'] . "
                   <br> " . "N'a pas obtenu le permis B" . "
                   <br> " . "N'est pas en recherche active" . "
                   <br> " . "<a href='../Model/Database.php' download> Télécharger le CV </a>" . '</p>' .'</div> ';

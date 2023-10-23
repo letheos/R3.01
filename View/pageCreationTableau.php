@@ -1,3 +1,7 @@
+<!--
+TODO pour tout les input de type option, avoir les données de manières dynamique et non fixe
+TODO relier au controller qui relie au model
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,151 +16,155 @@
 <body>
 
 <header class="banner">
-    <h1 class="TexteProfil">
-        Création de tableau de bord
-    </h1>
-    <button class="btn btn-light" type="submit" name="retourAccueil"
-            onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
-    </button>
+    <form>
+        <h1 class="TexteProfil">
+            Création de tableau de bord
+        </h1>
+        <button class="btn btn-light" type="submit" name="retourAccueil"
+                onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+        </button>
+    </form>
 </header>
 
 
-<section class="parametre">
-    <section class="choixTotal">
-        <div>
-            <form method="post" action="../Controller/controllerCreationTableau.php">
-                <section class="menuDeroulFormation">
-                    <div>
-                        <label>formation :</label>
-                        <select name="formations" title="formations">
-                            <!-- faire un script js qui ajoute multiple -->
-                            <option value="formations" selected>formations</option>
-                            <option>but 1</option>
-                        </select>
-                    </div>
-                </section>
-                <br>
+<form class="parametre" method="post" action="../Controller/controllerCreationTableau.php">
 
-                <section class="menuDeroulAnnee">
-                    <div>
-                        <label>Année </label>
-                        <select name="formAnnee" title="formAnnee">
-                            <option value="year" selected>annee</option>
-                            <option>1er</option>
-                            <option>2er</option>
-                            <option>3er</option>
-                        </select>
-                    </div>
-                </section>
-                <br>
+    <div>
 
-                <section class="menuDeroulParcours">
-                    <div>
-                        <label>Parcours de l'étudiant</label>
-                        <select name="parcours" title="parcours">
-                            <option value="parcours" selected>parcours</option>
-                            <option>parcours a</option>
-                            <option>parcours d</option>
-                            <option>parcours c</option>
-                        </select>
-                    </div>
-                </section>
-                <br>
-
-                <section class="menuDeroulActif">
-                    <label>Etudiant actif ?</label>
-                    <div>
-                        <select name="isActif" title="isActif">
-                            <option value="1">oui</option>
-                            <option value="0">non</option>
-                        </select>
-                    </div>
-                </section>
-
-                <section class="menuDeroulPermis">
-                    <label>Permis</label>
-                    <div>
-                        <select name="isPermis" title="isPermis">
-                            <option value="1">oui</option>
-                            <option value="0">non</option>
-                        </select>
-                    </div>
-                </section>
-
-                <section>
-                    <div class="addCity">
-                    <label> AJouter une ville</label>
-                    <button type="button" name="addCity">+</button>
-                    </div>
-
-                    <div id="city"> ville
-                        <label for="city">
-                            <select name="city">
-                                <option value="Lille">Lille</option>
-                                <option value="Valenciennes">Valenciennes</option>
-                            </select>
-                        </label>
-                    </div>
-
-                    <div class="slidecontainer" >
-                        <label for="myRange">Distance de recherche :</label>
-                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                        <p>Valeur : <span id="valeurSlider">50</span></p>
-
-                    </div>
-                </section>
-        </div>
-
-        <section>
+        <section class="menuDeroulFormation">
             <div>
-                <form method="post" action="../Controller/controllerCreationTableau.php">
-                    <button type="submit">
-                        valider paramètres
-                    </button>
-                </form>
+                <label>formation :</label>
+                <select name="formations" title="formations">
+                    <!-- faire un script js qui ajoute multiple -->
+                    <option value="allFormations" selected>toutes les formations</option>
+                    <option value="but info">but informatique</option>
+                </select>
+            </div>
+        </section>
+        <br>
+
+        <section class="menuDeroulAnnee">
+            <div>
+                <label>Année </label>
+                <select name="formAnnee" title="formAnnee">
+                    <option value="all" selected>toutes les années</option>
+                    <option value="1">1er</option>
+                    <option value="2">2er</option>
+                    <option value="3">3er</option>
+                </select>
+            </div>
+        </section>
+        <br>
+
+        <section class="menuDeroulParcours">
+            <div>
+                <label>Parcours de l'étudiant</label>
+                <select name="parcours" title="parcours">
+                    <option value="allParcours" selected>tous les parcours</option>
+                    <option>parcours A</option>
+                    <option>parcours B</option>
+                    <option>parcours C</option>
+                </select>
+            </div>
+        </section>
+        <br>
+
+        <section class="menuDeroulActif">
+            <label>Etudiant actif ?</label>
+            <div>
+                <select name="isActif" title="isActif">
+                    <option value="1">oui</option>
+                    <option value="0">non</option>
+                </select>
             </div>
         </section>
 
-    </section>
+        <section class="menuDeroulPermis">
+            <label>Permis</label>
+            <div>
+                <select name="isPermis" title="isPermis">
+                    <option value="1">oui</option>
+                    <option value="0">non</option>
+                </select>
+            </div>
+        </section>
 
+        <section>
+            <div id="city"> ville
+                <label for="city">
+                    <select name="city">
+                        <option value="allCity">toutes les villes</option>
+                        <option value="Lille">Lille</option>
+                        <option value="Valenciennes">Valenciennes</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="slidecontainer">
+                <label for="myRange">Distance de recherche :</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                <p>Distance en km : <span id="valeurSlider">50</span></p>
+
+            </div>
+
+            <div class="addCity">
+                <label> Ajouter une page de paramètres</label>
+                <button type="button" name="addCity">+</button>
+            </div>
+        </section>
+    </div>
+
+    <section>
+        <div>
+
+            <button type="submit">
+                valider paramètres
+            </button>
+
+        </div>
+    </section>
+</form>
+
+
+<form method="post" action="../Controller/controllerCreationTableau.php">
     <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
-    <section class="affichageEtu">
-        <div>
-            <label>
-                <input type="checkbox" id="ine" value="ine"/>
-                ine affiché
+    <section class="displayData">
+        <div id="checkBoxIne">
+            <label for="ine">
+                <input type="checkbox" id="ine" value="1"/>
+                ine affiché (par défault non)
             </label>
         </div>
-        <br>
-        <label>
-            <input type="checkbox" id="address" value="address"/>
-            adresse affiché
-        </label>
+
+        <div id="checkBoxAddress">
+            <label>
+                <input type="checkbox" id="address" value="1"/>
+                adresse affiché (par défault non)
+            </label>
         </div>
 
-        <div class="permisB">
-            <label for="">adresse affiché</label>
-            <select name="permis">
-                <option value="avecPermis">oui</option>
-                <option value="sansPermis">non</option>
-            </select>
-
-
+        <div class="checkBoxPhone">
+            <label>
+                <input type="checkbox" id="phone" value="1"/>
+                numéro de téléphone (par défault non)
+            </label>
         </div>
     </section>
 
     <section class="couleur">
         <div class="colorFond">
-            <label>Couleurs du fond</label>
-            <input type="color" name="colorFond">
+            <label for="colorFond">Couleurs du fond</label>
+            <input type="color" name="colorFond" id="colorFond">
         </div>
         <div class="colorText">
-            <label>Couleurs du text</label>
-            <input type="color" name="colorText">
+            <label for="colorText">Couleurs du text</label>
+            <input type="color" name="colorText" id="colorText">
         </div>
     </section>
-</section>
+        <button type="submit" id="valider" name="valider">Valider les paramètres</button>
+</form>
+
 
 <section class="bas">
 

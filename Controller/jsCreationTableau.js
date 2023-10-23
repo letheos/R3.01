@@ -1,6 +1,6 @@
 /**
  * Fichier js qui gère l'ajout et la suppression de champs dans la page Creation pageCreationTableau
- * @author Loïcl Morneau
+ * @author Loïck Morneau
  * */
 
 //Variable générale nécessaire pour la récupération de certaine donnée et l'initialisation des compteurs
@@ -37,7 +37,8 @@ function addAdress(){
             <div class="slidecontainer" >
                 <label for="myRange">Distance de recherche :</label>
                 <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                <p>Valeur : <span id="valeurSlider">50</span></p>
+                <p> : <span id="valeurSlider">50</span></p>
+                <p>km</p>
         </div>
         `;
     }

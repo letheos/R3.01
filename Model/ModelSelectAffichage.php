@@ -9,7 +9,9 @@ $conn = require "Database.php";
  * Requête de selection des candidats actifs
  */
 function selectCandidatesActives($conn, $isNotActive){
-    $sql = "SELECT * FROM Candidates WHERE isInActiveSearch = ?";
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE isInActiveSearch = ?";
+
     $req = $conn->prepare($sql);
     $req->execute(array($isNotActive));
     return $req->fetchAll();
@@ -23,7 +25,8 @@ function selectCandidatesActives($conn, $isNotActive){
  * Requête de selection des candidats par formation
  */
 function selectCandidatesByFormation($conn, $choixFormation, $isActive){
-    $sql = "SELECT * FROM Candidates WHERE nameFormation = ? AND isInActiveSearch = ?";
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE nameFormation = ? AND isInActiveSearch = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($choixFormation,$isActive));
     return $req->fetchAll();
@@ -39,7 +42,7 @@ function selectCandidatesByFormation($conn, $choixFormation, $isActive){
  * Requête de selection des candidats en fonction du nom et de la formation
  */
 function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive){
-    $sql = "SELECT * FROM Candidates
+    $sql = "SELECT * FROM infoCandidate
                 WHERE isInActiveSearch = ? AND name LIKE ? AND nameFormation = ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
@@ -56,8 +59,8 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
  */
 
 function selectCandidatesByName($conn, $choixNom, $isActive){
-    $sql = "SELECT * FROM Candidates
-                WHERE isInActiveSearch = ? AND name LIKE ?";
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND name LIKE ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
     $req->execute(array($isActive, $choixNomPattern));
@@ -79,8 +82,39 @@ function allFormation($conn){
 }
 
 function selectCandidatById($conn,$id){
-    $sql = "SELECT * FROM Candidates
-            WHERE idCandidate = ?";
+    $sql = "SELECT
+    infoCandidate.idCandidate,
+    infoCandidate.INE,
+    infoCandidate.name,
+    infoCandidate.firstName,
+    infoCandidate.yearOfFormation,
+    infoCandidate.nameFormation,
+    infoCandidate.nameParcours,
+    infoCandidate.isInActiveSearch,
+    infoCandidate.permisB,
+    infoCandidate.typeCompanySearch,
+    infoCandidate.cv,
+    infoCandidate.remarks,
+    GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP,', ', candidateaddress.addressLabel,', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
+    GROUP_CONCAT(DISTINCT CONCAT(candidatezone.cityName, ' (Rayon: ', candidatezone.radius, ' km)') SEPARATOR ', ') AS zones
+    FROM infoCandidate
+    JOIN candidateaddress ON infoCandidate.idCandidate = candidateaddress.idCandidate
+    JOIN candidatezone ON infoCandidate.idCandidate = candidatezone.idCandidate
+    WHERE infoCandidate.idCandidate = ?
+    GROUP BY
+    infoCandidate.idCandidate,
+    infoCandidate.INE,
+    infoCandidate.name,
+    infoCandidate.firstName,
+    infoCandidate.yearOfFormation,
+    infoCandidate.nameFormation,
+    infoCandidate.nameParcours,
+    infoCandidate.isInActiveSearch,
+    infoCandidate.permisB,
+    infoCandidate.typeCompanySearch,
+    infoCandidate.cv,
+    infoCandidate.remarks;
+";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return $req->fetch();

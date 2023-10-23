@@ -7,6 +7,8 @@
 require "../Model/ModelCreationCompte.php";
 $conn = require "../Model/Database.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 $msg = "erreur script";
@@ -97,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $msg = "Candidat déjà présent";
 
         } else {
-            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }

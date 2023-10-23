@@ -9,6 +9,7 @@ session_start();
 <!DOCTYPE html>
 
 <?php
+
 $conn = require '../Model/Database.php';
 require '../Controller/ControllerAffichagePage.php';
 ?>

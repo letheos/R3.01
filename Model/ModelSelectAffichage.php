@@ -78,6 +78,18 @@ function allFormation($conn){
 
 }
 
+function selectParcours($conn, $nameFormation){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
+            WHERE Formation.nameFormation = ?;
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($nameFormation));
+    $results = $req->fetchAll();
+    return $results;
+}
+
 function selectCandidatById($conn,$id){
     $sql = "SELECT
     infoCandidate.idCandidate,
@@ -140,10 +152,22 @@ function deleteCandidate($conn, $id){
     $sqlReq3 = $conn->prepare($sqlReq3);
     $sqlReq3->execute(array($id));
 }
+function getbyid($conn,$id){
+    $sql = "Select isInActiveSearch from candidates where idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetch();
+}
 
 
 
+function setEtatTrue($conn,$id)
+{
+    $sql = "UPDATE Candidates SET isInActiveSearch = 1 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
 
+}
 
 
 

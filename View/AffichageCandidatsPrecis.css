@@ -92,3 +92,10 @@ body {
     bottom: 0;
     left: 0;
 }
+
+.buttonIsActivate {
+    margin: 10px; /* Ajoutez de la marge autour de l'élément */
+    padding: 5px; /* Ajoutez un remplissage à l'intérieur de l'élément */
+    border: 1px solid #000; /* Ajoutez une bordure */
+    background-color: #f0f0f0; /* Changez la couleur de fond */
+}

@@ -26,21 +26,17 @@ if(isset($_GET['id'])){
 <body>
 
     <header class="banner">
+        <a class="btn btn-light" href="./PageAffichageEtudiant.php" style="position: absolute; top: 0; left: 0;"> Retour à l'affichage candidat </a>
         <h1>
             Le candidat
         </h1>
     </header>
-
-    <form action="POST" id="form" action="PageAffichageEtudiantPrecis.php">
 
     <section class="Affiche">
         <div class="rounded-box">
             <?php
             afficherEtudiant($conn,$id);
             ?>
-        </div>
-    </section>
-    </form>
 
     <footer class="bottomBanner"> </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

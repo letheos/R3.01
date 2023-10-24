@@ -17,3 +17,4 @@ function showAlert(button) {
         document.getElementById('delete-form').submit();
     }
 }
+

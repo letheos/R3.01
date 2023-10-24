@@ -1,7 +1,11 @@
 <?php
 $conn = require "../Model/Database.php";
-$login="Michel";
+
 require "../Controller/ControllerAlert.php";
+$f=false;
+if(isset($_SESSION["futur"])){
+    $f=$_SESSION["futur"];
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -36,8 +40,8 @@ require "../Controller/ControllerAlert.php";
             <div id="add">
                 <form method="POST" action="../Controller/ControllerAlert.php">
                     <p>Ajouter une nouvelle alerte:</p>
-                    <input type="date" name="date">
-                    <input type="textarea" name="note">
+                    <input type="date" name="date" min= <?php echo Date('Y-m-d')  ?> value=<?php echo Date('Y-m-d') ?> >
+                    <input type="textarea" name="note"  >
                     <input type='submit' name='Ajouter' value='Ajouter'>
                 </form>
             </div>
@@ -45,7 +49,9 @@ require "../Controller/ControllerAlert.php";
         <section class="affichage">
 
 
-            <?php $results=ListAlert($conn,$login,true);
+            <?php
+            remindAlert($conn,$_SESSION["login"]);
+            $results=ListAlert($conn,$_SESSION["login"],$f);
             foreach ($results as $row) { ?>
             <div class="alert"> Date :<?=$row[2]?>
                 <br> Note:<?=$row["note"]?>

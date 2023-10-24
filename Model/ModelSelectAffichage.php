@@ -170,5 +170,13 @@ function setEtatTrue($conn,$id)
 }
 
 
+function setEtatFalse($conn,$id)
+{
+    $sql = "UPDATE Candidates SET isInActiveSearch = 0 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+
+}
+
 
 

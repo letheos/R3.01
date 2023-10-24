@@ -38,6 +38,25 @@ if(isset($_GET['id'])){
             afficherEtudiant($conn,$id);
             ?>
 
+            <form method="post" action="../Controller/ControllerActifInactif.php">
+                <div class="buttonIsActivate">
+                    <?php
+                    $donnes = getbyid($conn,$id);
+                    if ($donnes["isInActiveSearch"] == 1){?>
+                        <button type="submit" class="btn btn-outline-danger" name="desactivate" >Rendre Inactif</button>
+                    <?php
+                    } else {?>
+
+                    <button type="submit" class="btn btn-outline-success" name="activate"> Rendre Actif </button>
+                    <?php
+                    }
+                    ?>
+                    <input type="hidden" id="idValue" name="idValue" value="<?php echo $id ?>">
+                </div>
+            </form>
+        </div>
+    </section>
+
     <footer class="bottomBanner"> </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>

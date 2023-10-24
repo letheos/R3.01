@@ -11,7 +11,7 @@ TODO relier au controller qui relie au model
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="stylePageCreationTableau.css">
+    <link rel="stylesheet" href="StylePageCreationTableau.css">
     <title>creationTableauDeBord</title>
     <script src="../Controller/jsCreationTableau.js"></script>
 </head>
@@ -29,11 +29,10 @@ TODO relier au controller qui relie au model
 </header>
 
 
-<form class="parametre" method="post" action="../Controller/controllerCreationTableau.php">
 
 
-
-        <section class="settingsData">
+        <section class="settingsData" id="settingsData">
+            <form class="parametre" method="post" action="../Controller/controllerCreationTableau.php">
             <h2> Paramètres des données à afficher dans le tableau de bord</h2>
            <!-- section générale des paramètre de données -->
 
@@ -110,23 +109,27 @@ TODO relier au controller qui relie au model
 
             </div>
 
-            <div class="addCity">
-                <label for="addCity"> Ajouter une page de paramètres</label>
-                <button type="button" name="addCity" id="addCity">+</button>
-            </div>
+                <div class="addParams">
+                    <label for="addParmas"> Ajouter une page de paramètres</label>
+                    <button type="button" name="addParmas" id="addParmas" >+</button>
+                    <p>nombre de paramètres <span id="nuberSettingsData">1/4</span></p>
+                </div>
 
 
 
 
-        <div class="buttonFinishDataSettings">
-            <label for="finish">Valider les paramètres de données</label>
-            <button type="submit" id="finish">
-                valider paramètres
-            </button>
-        </div>
 
-    </section>
-</form>
+
+
+            </form>
+        </section>
+
+<div class="buttonFinishDataSettings">
+    <label for="finish">Valider les paramètres de données</label>
+    <button type="submit" id="finish">
+        valider paramètres
+    </button>
+</div>
 
 <section class="settingsDisplay">
 
@@ -149,19 +152,9 @@ TODO relier au controller qui relie au model
                 <input type="checkbox" id="phone" value="1">
         </div>
 
-        <div class="colorFond">
-            <label for="colorFond">Couleurs du fond</label>
-            <input type="color" name="colorFond" id="colorFond">
-        </div>
-
-        <div class="colorText">
-            <label for="colorText">Couleurs du text</label>
-            <input type="color" name="colorText" id="colorText">
-        </div>
-
-
         <button type="submit" id="valider" name="valider">Valider les paramètres</button>
 </form>
+
 </section>
 
     <footer>

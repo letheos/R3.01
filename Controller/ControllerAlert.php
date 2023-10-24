@@ -1,6 +1,8 @@
 <?php
-//$conn = require "../Model/Database.php";
-session_start();
+$conn = require "../Model/Database.php";
+require "../Model/ModelAlerte.php";
+$login="Michel";
+
 /**
  * @param $conn
  * @param $login
@@ -33,27 +35,21 @@ function RemindAlert($conn,$login){
  * @return void
  * Cette fonction affiche l'entiereté des alertes
  */
-function showListAlert($conn,$login,$future){
-    if ($future){
-        $results = selectAlert($conn,$login);
+function ListAlert($conn,$login,$future)
+{
+    if ($future) {
+        $results = selectAlert($conn, $login, true);
+    } else {
+        $results = selectAlert($conn, $login, false);
     }
-    else{
-        $results=selectPastAlert($conn,$login);
-    }
-
-    foreach ($results as $row) {
-        echo '<p class="alert"> Date : ' . $row['remindAt'] . '<br> Note: ' . $row['note'];
-        echo '<form method="POST" action="../Controller/ControllerAlert.php">';
-        echo '<input type="submit" name="Supprimer" value="Supprimer" >';
-        echo '<input type="hidden" name="id" value="' . $row['id'] . '" >';
-        echo '</form>';
-    }
+    return $results;
 }
 
+
 if (isset($_POST['Appliquer'])){
-    //showListAlert($conn,$_SESSION['login'],$_POST['Appliquer']);
-    //header('Location: ../View/PageAlertes.php');
-    //die();
+    showListAlert($conn, $login, $_POST['Appliquer']);
+    header('Location: ../View/PageAlertes.php');
+    die();
 }
 
 if(isset($_POST['Ajouter'])){
@@ -63,7 +59,7 @@ if(isset($_POST['Ajouter'])){
             die();
         }
         //Confirm() js -> PHP , Ajax ?
-        //ajouterAlerte($conn,$_SESSION['login'],$_POST['date'],$_POST['note']);
+        ajouterAlerte($conn,$login,$_POST['date'],$_POST['note']);
         header('Location: ../View/PageAlertes.php');
         die();
 
@@ -71,9 +67,11 @@ if(isset($_POST['Ajouter'])){
 }
 
 if(isset($_POST['Supprimer'])){
-    //supprimerAlerte($conn,$_POST['id']);
-    echo $_POST['id'];
+    supprimerAlerte($conn,$_POST['id']);
+    header('Location: ../View/PageAlertes.php');
+    die();
 }
+
 
 
 

@@ -1,6 +1,5 @@
 <?php
     $conn = require "../Model/Database.php";
-    $conn2 = new PDO("mysql:host=localhost;dbname=localDatabaseTest2", "root", "root");
 
 /**
  * @param $conn
@@ -8,11 +7,13 @@
  * @return bool|Exception|PDOException
  * Cette fonction renvoie true si une alerte doit etre rappelée
  */
+
+
 function hasPastAlert($conn,$login){
-    $req = $conn->prepare("SELECT id FROM Alerte WHERE login = ? AND remindAT<CURRENT_TIMESTAMP");
+    $req = $conn->prepare("SELECT COUNT(idalert) FROM alert WHERE login = ? AND remindAT<CURRENT_DATE");
     try {
         $req->execute(array($login));
-        $result = $req->fetch();
+        $result = $req->fetchAll();
     }
     catch (PDOException $e){
         return $e;
@@ -20,15 +21,16 @@ function hasPastAlert($conn,$login){
     return $result != null;
 }
 
+
 /**
  * @param $conn
  * @param $login
  * @return Exception|mixed|PDOException
  * Fonction qui récupère toutes les alertes concernant un utilisateur donné
  */
-function selectPastAlert($conn, $login){
+/*function selectPastAlert($conn, $login){
     try {
-        $sql = "SELECT id,note FROM Alerte WHERE login = ? AND remindAT<CURRENT_TIMESTAMP ";
+        $sql = 'SELECT idAlert,note FROM Alert WHERE login = ? AND remindAT<CURRENT_TIMESTAMP' ;
         $req = $conn->prepare($sql);
         $req->execute(array($login));
     }
@@ -36,24 +38,23 @@ function selectPastAlert($conn, $login){
         return $e;
     }
     return $req->fetchAll();
-}
+}*/
 
 function selectAlert($conn,$login,$future){
     try {
-        $sql = "SELECT id,note,remindAt FROM Alerte WHERE login = ?";
+        $sql = "SELECT IDAlert,note,remindAt FROM alert WHERE login = ? ";
         if(!$future) {
-            $sql=$sql."AND remindAt<CurrentTimestamp();";
-        }
-        else{
-            $sql=sql.";";
+            $sql=$sql . "AND remindAt<=Current_DATE;";
         }
         $req = $conn->prepare($sql);
         $req->execute(array($login));
+        $res =$req->fetchAll();
     }
     catch (PDOException $e){
         return $e;
     }
-    return $req->fetchAll();
+
+    return $res;
 }
 
 
@@ -65,13 +66,14 @@ function selectAlert($conn,$login,$future){
  */
 function setAlertSeen($conn,$idAlert){
     try {
-        $sql = "UPDATE Alert set seen=true WHERE id = ?";
+        $sql = "UPDATE alert set seen=true WHERE idalert = ?";
         $req = $conn->prepare($sql);
         $req->execute(array($idAlert));
     }catch (PDOException $e){
         return $e;
     }
-    return $req->fetchAll();
+    $res =$req->fetchAll();
+    return $res;
 }
 
 /**
@@ -85,17 +87,19 @@ function setAlertSeen($conn,$idAlert){
 function ajouterAlerte($conn,$login,$remindAt,$note)
 {
     try {
-        $requete = "Insert into Alert VALUES (?,?,?)";
+        $date = date('Y-m-d', strtotime($remindAt));
+        $requete = "Insert into alert (remindAt,seen,note,login) VALUES (?,false,?,?);";
         $resultat = $conn->prepare($requete);
-        $resultat->execute(array($login, $remindAt, $note));
+        $resultat->execute(array($date, $note,$login));
     } catch (PDOException $e) {
         return $e;
     }
+    return 1;
 }
 
 function supprimerAlerte($conn,$id){
     try {
-        $requete = "DELETE from Alert WHERE id=?";
+        $requete = "DELETE from alert WHERE idalert=?";
         $resultat = $conn->prepare($requete);
         $resultat->execute(array($id));
     } catch (PDOException $e) {

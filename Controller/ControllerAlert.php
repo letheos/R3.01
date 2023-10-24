@@ -1,26 +1,27 @@
 <?php
+session_start();
 $conn = require "../Model/Database.php";
 require "../Model/ModelAlerte.php";
-$login="Michel";
+$_SESSION["login"]="Michel";
 
 /**
  * @param $conn
  * @param $login
  * @return void
- * Cette fonction affiche une notification permettant d'aller sur la page concentrant toutes les alers
+ * Cette fonction affiche une notification permettant d'aller sur la page concentrant toutes les alertes
  */
 function RemindAlert($conn,$login){
     if (hasPastAlert($conn,$login)){
-        $alertes=selectAllNonSeenAlert($conn,$login);
+        $alertes=selectPastAlert($conn,$login);
         if(count($alertes)>2) {
-            $message=$alertes[0]["remindAt"].":".$alertes[0]["note"].'<br>'+$alertes[1]["remindAt"].":".$alertes[1]["note"]."<br>"."Et ".count($alertes)-2 . "autres rappels";
+            $message=$alertes[0][1].":".$alertes[0][0].'<br>'+$alertes[1][1].":".$alertes[1][0]."<br>"."Et ".count($alertes)-2 . "autres rappels";
 
         }
         elseif (count($alertes)==2){
-            $message=$alertes[0]["remindAt"].":".$alertes[0]["note"].'<br>'+$alertes[1]["remindAt"].":".$alertes[1]["note"];
+            $message=$alertes[0][1].":".$alertes[0][0].'<br>'+$alertes[1][1].":".$alertes[1][0];
         }
         else{
-            $message=$alertes[0]["remindAt"].":".$alertes[0]["note"];
+            $message=$alertes[0][1].":".$alertes[0][0];
         }
 
         echo "<script> if(confirm(".$message.")==true){document.location.href=../View/PageAlertes.php;}  </script>";
@@ -47,23 +48,20 @@ function ListAlert($conn,$login,$future)
 
 
 if (isset($_POST['Appliquer'])){
-    showListAlert($conn, $login, $_POST['Appliquer']);
+    $_SESSION["futur"]=$_POST["Future"];
     header('Location: ../View/PageAlertes.php');
     die();
 }
 
 if(isset($_POST['Ajouter'])){
-    if($_POST['note']!=null && $_POST['date'] != null){
-        if ($_POST['note']==='Astley'){
-            header('Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-            die();
-        }
-        //Confirm() js -> PHP , Ajax ?
-        ajouterAlerte($conn,$login,$_POST['date'],$_POST['note']);
-        header('Location: ../View/PageAlertes.php');
+    if ($_POST['note']==='Astley'){
+        header('Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         die();
-
     }
+        //Confirm() js -> PHP , Ajax ?
+    ajouterAlerte($conn,$_SESSION["login"],$_POST['date'],$_POST['note']);
+    header('Location: ../View/PageAlertes.php');
+    die();
 }
 
 if(isset($_POST['Supprimer'])){

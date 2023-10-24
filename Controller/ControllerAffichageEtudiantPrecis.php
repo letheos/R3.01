@@ -8,6 +8,7 @@ function afficherEtudiant($conn,$id){
     $result = selectCandidatById($conn,$id);
 
     if($result['permisB'] == 1 && $result['isInActiveSearch'] == 1) {
+
         echo '<div class="enteteBox">
                   <h2> Candidat : ' . $result["firstName"] . " " . $result["name"] . ' </h2>                       
                   <p class="candidates">  Formation : ' . $result['nameFormation'] . "

@@ -8,6 +8,7 @@ ini_set('display_errors', 1);
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
+
 }
 
 ?>
@@ -31,6 +32,7 @@ if(isset($_GET['id'])){
             Le candidat
         </h1>
     </header>
+
 
     <section class="Affiche">
         <div class="rounded-box">

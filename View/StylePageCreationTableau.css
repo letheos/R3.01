@@ -35,3 +35,6 @@
     font: 15px/18px sans-serif;
 
 }
+.settingsData{
+    display: flex;
+}

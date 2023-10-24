@@ -6,8 +6,10 @@ TODO relier au controller qui relie au model
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Consider avoiding viewport values that prevent users from resizing documents. from w3 validator-->
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="stylePageCreationTableau.css">
     <title>creationTableauDeBord</title>
@@ -29,75 +31,76 @@ TODO relier au controller qui relie au model
 
 <form class="parametre" method="post" action="../Controller/controllerCreationTableau.php">
 
-    <div>
 
-        <section class="menuDeroulFormation">
-            <div>
-                <label>formation :</label>
-                <select name="formations" title="formations">
+
+        <section class="settingsData">
+            <h2> Paramètres des données à afficher dans le tableau de bord</h2>
+           <!-- section générale des paramètre de données -->
+
+            <div class="menuDeroulFormation">
+                <label for="formations">formation :</label>
+                <select name="formations" title="formations" id="formations">
                     <!-- faire un script js qui ajoute multiple -->
                     <option value="allFormations" selected>toutes les formations</option>
                     <option value="but info">but informatique</option>
                 </select>
             </div>
-        </section>
+
         <br>
 
-        <section class="menuDeroulAnnee">
-            <div>
-                <label>Année </label>
-                <select name="formAnnee" title="formAnnee">
+            <div class="menuDeroulAnnee">
+                <label for="formAnnee"> Année </label>
+                <select name="formAnnee" title="formAnnee" id="formAnnee">
                     <option value="all" selected>toutes les années</option>
                     <option value="1">1er</option>
                     <option value="2">2er</option>
                     <option value="3">3er</option>
                 </select>
             </div>
-        </section>
+
         <br>
 
-        <section class="menuDeroulParcours">
-            <div>
-                <label>Parcours de l'étudiant</label>
-                <select name="parcours" title="parcours">
+
+            <div class="menuDeroulParcours">
+                <label for="parcours">Parcours de l'étudiant</label>
+                <select name="parcours" title="parcours" id="parcours">
                     <option value="allParcours" selected>tous les parcours</option>
                     <option>parcours A</option>
                     <option>parcours B</option>
                     <option>parcours C</option>
                 </select>
             </div>
-        </section>
         <br>
 
-        <section class="menuDeroulActif">
-            <label>Etudiant actif ?</label>
-            <div>
-                <select name="isActif" title="isActif">
+
+
+            <div class="menuDeroulActif">
+                <label for="idActif">Etudiant actif ?</label>
+                <select name="isActif" title="isActif" id="idActif">
                     <option value="1">oui</option>
                     <option value="0">non</option>
                 </select>
             </div>
-        </section>
 
-        <section class="menuDeroulPermis">
-            <label>Permis</label>
-            <div>
-                <select name="isPermis" title="isPermis">
+
+        <div class="menuDeroulPermis">
+            <label for="idPermis">Permis</label>
+                <select name="isPermis" title="isPermis" id="idPermis">
                     <option value="1">oui</option>
                     <option value="0">non</option>
                 </select>
             </div>
-        </section>
 
-        <section>
-            <div id="city"> ville
-                <label for="city">
-                    <select name="city">
+
+
+            <div class="cityForm">
+                <label for="city"> Ville </label>
+                    <select name="city" id="city">
                         <option value="allCity">toutes les villes</option>
                         <option value="Lille">Lille</option>
                         <option value="Valenciennes">Valenciennes</option>
                     </select>
-                </label>
+
             </div>
 
             <div class="slidecontainer">
@@ -108,65 +111,58 @@ TODO relier au controller qui relie au model
             </div>
 
             <div class="addCity">
-                <label> Ajouter une page de paramètres</label>
-                <button type="button" name="addCity">+</button>
+                <label for="addCity"> Ajouter une page de paramètres</label>
+                <button type="button" name="addCity" id="addCity">+</button>
             </div>
-        </section>
-    </div>
 
-    <section>
-        <div>
 
-            <button type="submit">
+
+
+        <div class="buttonFinishDataSettings">
+            <label for="finish">Valider les paramètres de données</label>
+            <button type="submit" id="finish">
                 valider paramètres
             </button>
-
         </div>
+
     </section>
 </form>
 
+<section class="settingsDisplay">
 
-<form method="post" action="../Controller/controllerCreationTableau.php">
     <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
-    <section class="displayData">
+<form method="post" action="../Controller/controllerCreationTableau.php">
+
         <div id="checkBoxIne">
-            <label for="ine">
-                <input type="checkbox" id="ine" value="1"/>
-                ine affiché (par défault non)
-            </label>
+            <label for="ine">ine affiché (par défault non)</label>
+                <input type="checkbox" id="ine" value="1">
         </div>
 
         <div id="checkBoxAddress">
-            <label>
-                <input type="checkbox" id="address" value="1"/>
-                adresse affiché (par défault non)
-            </label>
+            <label for="address"> Adresse affiché (par défault non)</label>
+                <input type="checkbox" id="address" value="1">
         </div>
 
         <div class="checkBoxPhone">
-            <label>
-                <input type="checkbox" id="phone" value="1"/>
-                numéro de téléphone (par défault non)
-            </label>
+            <label for="phone"> numéro de téléphone (par défault non) </label>
+                <input type="checkbox" id="phone" value="1">
         </div>
-    </section>
 
-    <section class="couleur">
         <div class="colorFond">
             <label for="colorFond">Couleurs du fond</label>
             <input type="color" name="colorFond" id="colorFond">
         </div>
+
         <div class="colorText">
             <label for="colorText">Couleurs du text</label>
             <input type="color" name="colorText" id="colorText">
         </div>
-    </section>
+
+
         <button type="submit" id="valider" name="valider">Valider les paramètres</button>
 </form>
-
-
-<section class="bas">
+</section>
 
     <footer>
         <div class="nomFooter">
@@ -182,9 +178,9 @@ TODO relier au controller qui relie au model
         </div>
     </footer>
 
-</section>
+
 
 </body>
 </html>
 
-<?php
+

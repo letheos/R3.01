@@ -64,6 +64,23 @@ function selectCandidatesByName($conn, $choixNom, $isActive){
     return $req->fetchAll();
 }
 
+function selectCandidatesByParcours($conn, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours));
+    return $req->fetchAll();
+}
+
 
 /**
  * @param $conn
@@ -86,6 +103,16 @@ function selectParcours($conn, $nameFormation){
             ";
     $req = $conn->prepare($sql);
     $req->execute(array($nameFormation));
+    $results = $req->fetchAll();
+    return $results;
+}
+
+function allParcours($conn){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute();
     $results = $req->fetchAll();
     return $results;
 }

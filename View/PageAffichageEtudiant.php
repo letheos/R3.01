@@ -30,7 +30,7 @@ require "../Controller/ControllerAffichageEtudiant.php";
     <section class="filtreCandidats">
 
         <div class="selection">
-            <label for="formation" class="form-select-label"> Formation </label>
+            <label for="formation" class="form-select-label"> Département </label>
             <?php
             listAffichageSelect($conn); //
             ?>

@@ -80,9 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name = $_POST['lastName'];
     $firstName = $_POST['firstName'];
-    $nameFormation = $_POST['formation'];
-    $nameParcours = null;
-    $yearOfFormation = 'test';
+    $nameParcours = $_POST['parcours'];
+    $yearOfFormation = $_POST['yearOfFormation'];
 
     if ($_POST['permisB']){
         $permisB = 1;
@@ -95,20 +94,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($ine)){
-        if (isCandidatesExistWithNameAndFirstname($conn, $name, $firstName)){
+        if (isCandidateExistWithNameAndFirstname($conn, $name, $firstName)){
             $msg = "Candidat déjà présent";
 
         } else {
-            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }
 
     } else {
-        if (isCandidatesExistWithIne($conn, $ine)){
+        if (isCandidateExistWithIne($conn, $ine)){
             $msg = "Candidat déjà présent";
         } else {
-            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }

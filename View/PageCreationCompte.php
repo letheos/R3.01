@@ -151,14 +151,17 @@ require '../Controller/ControllerAffichagePage.php';
                     </div>
 
                     <div class="parcoursForm">
-                        <select name="parcours">
-                        <!--A COMPLETER -->
+                        <select name="parcours" id="parcours" class="form-select" required>
+                            <option value="AucuneOption" selected disabled> Choisir le département </option>
                         </select>
                     </div>
 
                     <div class="yearOfFormationForm">
-                        <select name="yearOfFormation">
-                            <!--A COMPLETER -->
+                        <select name="yearOfFormation" class="form-select">
+                            <option value="" selected disabled> Choisir l'année d'étude </option>
+                            <option Value="1ère Année"> 1ère Année </option>
+                            <option Value="2ème Année"> 2ème Année </option>
+                            <option Value="3ème Année"> 3ème Année </option>
                         </select>
                     </div>
                 </div>
@@ -217,6 +220,7 @@ require '../Controller/ControllerAffichagePage.php';
     <!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
     <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
     <script src="../Controller/js/ControllerBoutonAjout.js"></script>
+    <script src="../Controller/js/Ajax.js"></script>
 </body>
 </html>
 

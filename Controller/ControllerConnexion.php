@@ -1,5 +1,5 @@
 <?php
-
+//f
 include '../Model/ModelConnexion.php';
 include '../View/PageConnexion.php';
 $conn = require "../Model/Database.php";
@@ -22,7 +22,7 @@ if ($_POST['login'] == null || $_POST['password'] == null ) {
 if ($nbTentativeDDOS['nbTentative'] >= 20){
     $_SESSION['erreur'] = 'Tentative DDOS, trop de connection';
     header('Location: ../View/PageConnexion.php');
-    exit();
+    die();
 }
 
 //Bloquer la connection s'il y a déjà eu trois tentatives de connection
@@ -31,14 +31,14 @@ if ($nbTentative['nbTentative'] >= 3){
     deleteTentativeIp($conn,$ip);
     $_SESSION['erreur'] ='Nombre de tentative expirée';
     header('Location: ../View/PageConnexion.php');
-    exit();
+    die();
 }
 
 //Vérification de la présence de l'expiration
 if (!isExpire($conn,$ip)){
     $_SESSION['erreur'] ='Trop de tentative, veuillez attendre 20 minutes';
     header('Location: ../View/PageConnexion.php');
-    exit ();
+    die ();
 }
 
 //Vérification de la présence de l'expiration
@@ -51,7 +51,7 @@ if (!isLoginExist($conn, $_POST['login'])) {
     addTentativeIp($conn,$ip,0);
     $_SESSION['erreur'] ='Mauvais login';
     header('Location: ../View/PageConnexion.php');
-    exit();
+    die();
 }
 
 //Cas où le mot de passe est erronée
@@ -60,7 +60,7 @@ if (!searchUserHash($conn, $_POST['login'], $_POST['password'])){
     sleep(3);
     $_SESSION['erreur'] ='Mauvais mot de passe';
     header('Location: ../View/PageConnexion.php');
-    exit();
+    die();
 }
 
 //Connection à la session

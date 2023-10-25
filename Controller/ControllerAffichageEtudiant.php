@@ -36,7 +36,7 @@ function choiceAllOptionWithActive($conn, $isActive){
     foreach ($results as $row) {
         // Utilisez un lien vers la page des détails du candidat
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
     }
 }
@@ -55,7 +55,7 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
     $results = selectCandidatesByFormation($conn, $choixFormation,  $isActive);
     foreach ($results as $row) {
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
@@ -77,7 +77,7 @@ function choiceAllCandidatesByNameAndParcours($conn, $parcours, $isActive){
     $results = selectCandidatesByNameAndParcours($conn, $parcours,  $isActive);
     foreach ($results as $row) {
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
@@ -96,7 +96,7 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
     $results = selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive);
     foreach ($results as $row) {
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
@@ -114,7 +114,7 @@ function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     $results = selectCandidatesByName($conn, $choixNom,  $isActive);
     foreach ($results as $row) {
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
 
@@ -141,13 +141,13 @@ function filtrage($conn)
     }
 
     if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
-        choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
+        choiceAllCandidatesByNameAndParcours($conn, $choixFormation, $isActive, $choixNom);
 
     } elseif (isset($choixNom) && !empty($choixNom)) {
         choiceAllCandidatesByName($conn, $isActive, $choixNom);
 
     } elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
-        choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
+        choiceAllCandidatesByParcours($conn, $choixFormation, $isActive);
 
     } else {
         choiceAllOptionWithActive($conn, $isActive);

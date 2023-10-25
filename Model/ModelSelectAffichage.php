@@ -118,38 +118,29 @@ function allParcours($conn){
 }
 
 function selectCandidatById($conn,$id){
-    $sql = "SELECT
-    infoCandidate.idCandidate,
-    infoCandidate.INE,
-    infoCandidate.name,
-    infoCandidate.firstName,
-    infoCandidate.yearOfFormation,
-    infoCandidate.nameFormation,
-    infoCandidate.nameParcours,
-    infoCandidate.isInActiveSearch,
-    infoCandidate.permisB,
-    infoCandidate.typeCompanySearch,
-    infoCandidate.cv,
-    infoCandidate.remarks,
-    GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP,', ', candidateaddress.addressLabel,', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
+    $sql = "
+SELECT
+    ic.idCandidate,
+    ic.INE,
+    ic.name,
+    ic.firstName,
+    ic.nameParcours,
+    f.nameFormation,
+    ic.yearOfFormation,
+    ic.isInActiveSearch,
+    ic.permisB,
+    ic.typeCompanySearch,
+    ic.cv,
+    ic.remarks,
+    GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP, ', ', candidateaddress.addressLabel, ', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
     GROUP_CONCAT(DISTINCT CONCAT(candidatezone.cityName, ' (Rayon: ', candidatezone.radius, ' km)') SEPARATOR ', ') AS zones
-    FROM infoCandidate
-    JOIN candidateaddress ON infoCandidate.idCandidate = candidateaddress.idCandidate
-    JOIN candidatezone ON infoCandidate.idCandidate = candidatezone.idCandidate
-    WHERE infoCandidate.idCandidate = ?
-    GROUP BY
-    infoCandidate.idCandidate,
-    infoCandidate.INE,
-    infoCandidate.name,
-    infoCandidate.firstName,
-    infoCandidate.yearOfFormation,
-    infoCandidate.nameFormation,
-    infoCandidate.nameParcours,
-    infoCandidate.isInActiveSearch,
-    infoCandidate.permisB,
-    infoCandidate.typeCompanySearch,
-    infoCandidate.cv,
-    infoCandidate.remarks;
+FROM infocandidate ic
+LEFT JOIN candidateaddress ON ic.idCandidate = candidateaddress.idCandidate
+LEFT JOIN candidatezone ON ic.idCandidate = candidatezone.idCandidate
+LEFT JOIN parcours p ON ic.nameParcours = p.nameParcours
+LEFT JOIN formation f ON p.nameFormationParcours = f.nameFormation
+WHERE ic.idCandidate = ?
+GROUP BY ic.idCandidate;
 ";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
@@ -165,7 +156,7 @@ function selectCandidatById($conn,$id){
 function deleteCandidate($conn, $id){
     $sqlReq1="DELETE FROM CandidateAddress WHERE idCandidate = ?"; //Suppression des adresses
     $sqlReq2="DELETE FROM CandidateZone WHERE idCandidate = ?"; //Suppression des Zones
-    $sqlReq3="DELETE FROM Candidates WHERE idCandidate = ?"; //Suppression des autres information candidats
+    $sqlReq3="DELETE FROM Candidate WHERE idCandidate = ?"; //Suppression des autres information candidats
 
     //Activation de la requête supression des adresses
     $sqlReq1 = $conn->prepare($sqlReq1);
@@ -180,7 +171,7 @@ function deleteCandidate($conn, $id){
     $sqlReq3->execute(array($id));
 }
 function getbyid($conn,$id){
-    $sql = "Select isInActiveSearch from candidates where idCandidate=?";
+    $sql = "Select isInActiveSearch from candidate where idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return $req->fetch();
@@ -190,7 +181,7 @@ function getbyid($conn,$id){
 
 function setEtatTrue($conn,$id)
 {
-    $sql = "UPDATE Candidates SET isInActiveSearch = 1 WHERE idCandidate=?";
+    $sql = "UPDATE Candidate SET isInActiveSearch = 1 WHERE idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
 
@@ -199,7 +190,7 @@ function setEtatTrue($conn,$id)
 
 function setEtatFalse($conn,$id)
 {
-    $sql = "UPDATE Candidates SET isInActiveSearch = 0 WHERE idCandidate=?";
+    $sql = "UPDATE Candidate SET isInActiveSearch = 0 WHERE idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
 

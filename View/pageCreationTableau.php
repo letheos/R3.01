@@ -1,6 +1,12 @@
+<?php
+require "../Controller/controllerCreationTableau.php";
+?>
+
 <!--
-TODO pour tout les input de type option, avoir les données de manières dynamique et non fixe
+TODO pour tout les input de type option, avoir les données de manières dynamique et non fixe*
+TODO formation dynamique : en cours
 TODO relier au controller qui relie au model
+TODO faire un input qui passe avec une api pour la ville
 -->
 <!doctype html>
 <html lang="en">
@@ -38,10 +44,14 @@ TODO relier au controller qui relie au model
 
             <div class="menuDeroulFormation">
                 <label for="formations">formation :</label>
-                <select name="formations" title="formations" id="formations">
-                    <!-- faire un script js qui ajoute multiple -->
-                    <option value="allFormations" selected>toutes les formations</option>
-                    <option value="but info">but informatique</option>
+                <select name="formations" title="formations" id="formations" multiple="multiple">
+
+                    <option value="allFormations" selected>touts les parcours</option>
+                    <?php
+                    $parcours = controllerGetAllFormations();
+                    foreach ($parcours as $parcour){ ?>
+                    <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
+                    <?php } ?>
                 </select>
             </div>
 
@@ -52,8 +62,8 @@ TODO relier au controller qui relie au model
                 <select name="formAnnee" title="formAnnee" id="formAnnee">
                     <option value="all" selected>toutes les années</option>
                     <option value="1">1er</option>
-                    <option value="2">2er</option>
-                    <option value="3">3er</option>
+                    <option value="2">2e</option>
+                    <option value="3">3e</option>
                 </select>
             </div>
 
@@ -64,9 +74,12 @@ TODO relier au controller qui relie au model
                 <label for="parcours">Parcours de l'étudiant</label>
                 <select name="parcours" title="parcours" id="parcours">
                     <option value="allParcours" selected>tous les parcours</option>
-                    <option>parcours A</option>
-                    <option>parcours B</option>
-                    <option>parcours C</option>
+                    <option value="allFormations" selected>toutes les formations</option>
+                    <?php
+                    $parcours = controllerGetAllParcours();
+                    foreach ($parcours as $parcour){ ?>
+                        <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
+                    <?php } ?>on>parcours C</option>
                 </select>
             </div>
         <br>
@@ -114,12 +127,6 @@ TODO relier au controller qui relie au model
                     <button type="button" name="addParmas" id="addParmas" >+</button>
                     <p>nombre de paramètres <span id="nuberSettingsData">1/4</span></p>
                 </div>
-
-
-
-
-
-
 
             </form>
         </section>

@@ -27,6 +27,11 @@ require '../Controller/ControllerAffichagePage.php';
     <title>Document</title>
 
     <link rel="stylesheet" href="StyleCreationCompte.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
 
 </head>
@@ -80,6 +85,30 @@ require '../Controller/ControllerAffichagePage.php';
                         <input type="text" class="form-control no-special-chars" id="firstName" name="firstName" placeholder="Prénom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un prénom valide">
                         <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
                     </div>
+                    <div class="candidateMailForm">
+                        <label for="candidtateEmail">Email<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control no-special-chars" id="candidateEmail" name="candidateEmail" placeholder="Email"  title="Saisissez un email valide" required>
+                    </div>
+                    <div class="phoneNumberForm">
+                            <label for="phoneNumber"> Téléphone </label>
+                            <input type="tel" id="typePhone" name="typePhone" class="form-control" onsubmit="process(event)" value="" placeholder="Télephone"/>
+                    </div>
+                    <script>
+                        /**
+                         * Code qui permet de générer les drapeaux de sélection du numéro
+                         * @type {Element} Récupère les input qui enregistre le numéro de téléphone
+                         * Code repris du site : https://www.twilio.com/fr/blog/saisie-numeros-telephone-internationaux-html-javascript
+                         */
+                        const phoneInputField = document.querySelector("#typePhone");
+                        const phoneInput = window.intlTelInput(phoneInputField, {
+                            utilsScript:
+                                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                        });
+                    </script>
+
+
+
+
 
                     <div class="permisBButton">
                         <label class="form-check-label" >Permis</label>
@@ -214,6 +243,7 @@ require '../Controller/ControllerAffichagePage.php';
 
                 </form>
             </div>
+
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -221,6 +251,7 @@ require '../Controller/ControllerAffichagePage.php';
     <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
     <script src="../Controller/js/ControllerBoutonAjout.js"></script>
     <script src="../Controller/js/Ajax.js"></script>
+    <script src="../Controller/js/processFormNumber.js"></script>
 </body>
 </html>
 

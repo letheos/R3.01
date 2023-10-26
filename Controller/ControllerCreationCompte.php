@@ -68,20 +68,23 @@ function regroupSearchZone($zone,$radius){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //Récupération des données
-    if (empty($_POST['INE']) && empty($_POST['typeCompanySearch']) && empty($_POST['remarksText'])){
+    if (empty($_POST['INE']) && empty($_POST['typeCompanySearch']) && empty($_POST['remarksText']) && empty($_POST['typePhone'])){
         $ine = null;
         $typeCompanySearch = null;
         $remark = null;
+        $phone = null;
     } else {
         $ine = $_POST['INE'];
         $typeCompanySearch = $_POST['typeCompanySearch'];
         $remark = $_POST['remarksText'];
+        $phone = $_POST['typePhone'];
     }
 
     $name = $_POST['lastName'];
     $firstName = $_POST['firstName'];
     $nameParcours = $_POST['parcours'];
     $yearOfFormation = $_POST['yearOfFormation'];
+    $email = $_POST['candidateEmail'];
 
     if ($_POST['permisB']){
         $permisB = 1;
@@ -98,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $msg = "Candidat déjà présent";
 
         } else {
-            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isCandidateExistWithIne($conn, $ine)){
             $msg = "Candidat déjà présent";
         } else {
-            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }

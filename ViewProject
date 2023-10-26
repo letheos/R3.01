@@ -1,0 +1,22 @@
+SELECT
+    ic.idCandidate,
+    ic.INE,
+    ic.name,
+    ic.firstName,
+    ic.nameParcours,
+    f.nameFormation AS Formation,
+    ic.yearOfFormation,
+    ic.isInActiveSearch,
+    ic.permisB,
+    ic.typeCompanySearch,
+    ic.cv,
+    ic.remarks,
+    GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP, ', ', candidateaddress.addressLabel, ', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
+    GROUP_CONCAT(DISTINCT CONCAT(candidatezone.cityName, ' (Rayon: ', candidatezone.radius, ' km)') SEPARATOR ', ') AS zones
+FROM infocandidate ic
+LEFT JOIN candidateaddress ON ic.idCandidate = candidateaddress.idCandidate
+LEFT JOIN candidatezone ON ic.idCandidate = candidatezone.idCandidate
+LEFT JOIN parcours p ON ic.nameParcours = p.nameParcours
+LEFT JOIN formation f ON p.nameFormationParcours = f.nameFormation
+WHERE ic.idCandidate = ?
+GROUP BY ic.idCandidate;

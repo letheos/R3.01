@@ -37,6 +37,7 @@ require "../Controller/ControllerAffichageEtudiant.php";
 
             <label for="parcours" class="form-select-label"> Parcours </label>
             <select class="form-select" name="parcours" id="parcours">
+                <option value=""> Choisir un parcours </option>
 
 
 

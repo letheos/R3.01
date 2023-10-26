@@ -14,6 +14,12 @@ function onChangeUpdateDisplayParcours() {
             var parcoursData = this.response;
             console.log(parcoursData);
 
+            var option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.selected = true;
+            option.text = "Choisir un parcours";
+            parcoursSelect.appendChild(option);
 
             // Remplit la liste déroulante avec les options de parcours
             parcoursData.forEach(function (parcours)

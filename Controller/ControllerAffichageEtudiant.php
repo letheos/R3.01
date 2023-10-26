@@ -73,8 +73,8 @@ function choiceAllCandidatesByParcours($conn, $parcours, $isActive){
 
 }
 
-function choiceAllCandidatesByNameAndParcours($conn, $parcours, $isActive){
-    $results = selectCandidatesByNameAndParcours($conn, $parcours,  $isActive);
+function choiceAllCandidatesByNameAndParcours($conn, $choixNom,$parcours, $isActive){
+    $results = selectCandidatesByNameAndParcours($conn, $choixNom,$parcours,  $isActive);
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
@@ -122,6 +122,17 @@ function choiceAllCandidatesByName($conn, $isActive, $choixNom){
 
 }
 
+function choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixFormation, $parcours, $isActive){
+    $results = selectCandidatesByNameFormationAndParcours($conn,$parcours, $choixNom, $choixFormation, $isActive);
+    foreach ($results as $row) {
+        echo '
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+
+
+    }
+}
+
 
 
 function filtrage($conn)
@@ -140,16 +151,32 @@ function filtrage($conn)
         $isActive = 1;
     }
 
-    if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption") {
-        choiceAllCandidatesByNameAndParcours($conn, $choixFormation, $isActive, $choixNom);
-
-    } elseif (isset($choixNom) && !empty($choixNom)) {
+    if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption" && empty($parcours))
+    {
+        choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
+    }
+    elseif (isset($choixNom) && !empty($choixNom) && empty($parcours))
+    {
         choiceAllCandidatesByName($conn, $isActive, $choixNom);
-
-    } elseif (isset($choixFormation) && $choixFormation != "AucuneOption") {
-        choiceAllCandidatesByParcours($conn, $choixFormation, $isActive);
-
-    } else {
+    }
+    elseif (isset($choixFormation) && $choixFormation != "AucuneOption" && empty($parcours))
+    {
+        choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
+    }
+    else if ((!isset($choixFormation) || $choixFormation == "AucuneOption") && empty($choixNom) && !empty($parcours))
+    {
+        choiceAllCandidatesByParcours($conn, $parcours, $isActive);
+    }
+    else if ((!isset($choixFormation) || $choixFormation == "AucuneOption") && !empty($choixNom) && !empty($parcours))
+    {
+        choiceAllCandidatesByNameAndParcours($conn, $choixNom, $parcours, $isActive);
+    }
+    else if (isset($choixNom) && isset($choixFormation) && isset($parcours))
+    {
+        choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixFormation, $parcours, $isActive);
+    }
+    else
+    {
         choiceAllOptionWithActive($conn, $isActive);
     }
 }

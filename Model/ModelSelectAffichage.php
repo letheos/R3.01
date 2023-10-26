@@ -5,6 +5,10 @@
  * @return mixed
  * Requête de selection des candidats actifs
  */
+
+
+
+
 function selectCandidatesActives($conn, $isNotActive){
     $sql = "SELECT * FROM infoCandidate 
          WHERE isInActiveSearch = ?";
@@ -78,6 +82,15 @@ function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActiv
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
     $req->execute(array($isActive, $choixNomPattern,  $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours, $choixFormation));
     return $req->fetchAll();
 }
 

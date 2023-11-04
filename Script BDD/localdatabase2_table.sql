@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 04, 2023 at 01:03 PM
+-- Generation Time: Nov 04, 2023 at 01:38 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -54,16 +54,6 @@ CREATE TABLE `candidate` (
   `candidateMail` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `candidate`
---
-
-INSERT INTO `candidate` (`idCandidate`, `INE`, `name`, `firstName`, `nameParcours`, `yearOfFormation`, `isInActiveSearch`, `permisB`, `typeCompanySearch`, `cv`, `remarks`, `phoneNumber`, `candidateMail`) VALUES
-(3, NULL, 'Parent', 'Théo', 'Parcours Y - GIM', '2ème Année', 1, 1, 'Une alternance aled', NULL, 'Aigris boy', NULL, NULL),
-(4, NULL, 'Strady', 'Nathan', 'Parcours Informatique B', '2ème Année', 1, 0, NULL, NULL, NULL, NULL, NULL),
-(5, NULL, 'Massy', 'Benjamin', 'Parcours Informatique B', '2ème Année', 1, 0, '', NULL, '', '0656452363', NULL),
-(7, NULL, 'Allix', 'Timothée', 'Parcours Y - GIM', '2ème Année', 1, 0, '', NULL, '', '0654856523', 'Timothee.Allix@uphf.fr');
-
 -- --------------------------------------------------------
 
 --
@@ -78,16 +68,6 @@ CREATE TABLE `candidateaddress` (
   `city` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `candidateaddress`
---
-
-INSERT INTO `candidateaddress` (`idAddr`, `idCandidate`, `cp`, `addressLabel`, `city`) VALUES
-(29, 3, '56000', 'La ou vit théo la', 'Maubeuge'),
-(30, 4, '59220', '26 place ferrer', 'Wavrechain-sous-Denain'),
-(31, 5, '59150', 'la ou vit benjamin', 'Wattrelos'),
-(33, 7, '56000', 'la ou vit timothée', 'Maubeuge');
-
 -- --------------------------------------------------------
 
 --
@@ -101,17 +81,6 @@ CREATE TABLE `candidatezone` (
   `radius` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `candidatezone`
---
-
-INSERT INTO `candidatezone` (`idZone`, `idCandidate`, `cityName`, `radius`) VALUES
-(25, 3, 'Lille', 60),
-(26, 3, 'Douchy', 20),
-(27, 4, 'Lille', 60),
-(28, 5, 'Lille', 60),
-(30, 7, 'Lille', 60);
-
 -- --------------------------------------------------------
 
 --
@@ -124,18 +93,6 @@ CREATE TABLE `connectionattempt` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `connectPass` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `connectionattempt`
---
-
-INSERT INTO `connectionattempt` (`idConn`, `ip`, `date`, `connectPass`) VALUES
-(17, '::1', '2023-10-08 14:24:31', 1),
-(19, '::1', '2023-10-09 09:55:29', 1),
-(20, '::1', '2023-10-09 09:55:53', 1),
-(21, '::1', '2023-10-09 09:56:09', 1),
-(22, '::1', '2023-10-09 09:56:16', 1),
-(24, '::1', '2023-10-24 13:15:45', 1);
 
 -- --------------------------------------------------------
 
@@ -162,29 +119,6 @@ INSERT INTO `formation` (`nameFormation`, `decription`) VALUES
 ('Qualité, logistique industrielle et organisation', 'Le département QLIO prépare les étudiants aux démarches d’ingénierie collaborative, dans un contexte global de gestion du cycle de vie et d’amélioration continue, quels que soient les secteurs industriels et de service.'),
 ('Techniques de commercialisation (Cambrai)', 'Le département forme 300 étudiants par an, à temps plein et en alternance, qui interviennent dans toutes les étapes de la commercialisation d’un bien ou d’un service : étude de marché, vente, stratégie marketing, communication commerciale, négociation, relation client.'),
 ('Techniques de commercialisation (Valenciennes)', 'Le département forme 430 étudiants par an, à temps plein et en alternance, qui interviennent dans toutes les étapes de la commercialisation d’un bien ou d’un service : étude de marché, vente, stratégie marketing, communication commerciale, négociation, relation client.');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `infocandidate`
--- (See below for the actual view)
---
-CREATE TABLE `infocandidate` (
-`idCandidate` int(11)
-,`INE` varchar(11)
-,`name` text
-,`firstName` text
-,`nameParcours` varchar(500)
-,`nameFormation` varchar(255)
-,`yearOfFormation` text
-,`isInActiveSearch` tinyint(1)
-,`permisB` tinyint(1)
-,`typeCompanySearch` text
-,`cv` blob
-,`remarks` text
-,`AddressesIDs` text
-,`ZonesRechercheIDs` text
-);
 
 -- --------------------------------------------------------
 
@@ -222,15 +156,6 @@ CREATE TABLE `role` (
   `nameRole` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `role`
---
-
-INSERT INTO `role` (`idRole`, `nameRole`) VALUES
-(1, 'Chef de département'),
-(2, 'Secrétaire'),
-(3, 'chargé de dev');
-
 -- --------------------------------------------------------
 
 --
@@ -248,23 +173,6 @@ CREATE TABLE `utilisateur` (
   `token` text,
   `tokenExpiresAt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`login`, `pswrd`, `userName`, `firstName`, `idRole`, `nameFormation`, `email`, `token`, `tokenExpiresAt`) VALUES
-('alice.smith', '$2y$10$Iuiz1oMjN6itBLBYCGuq1.cBySuU9qetwCIgQwgOu8cjl1MNhTqsm', 'Alice', 'Smith', 2, NULL, 'nathan.strady.tra@gmail.com', NULL, NULL),
-('bob.jones', 'motdepasse3', 'Bob', 'Jones', 3, NULL, 'bob@example.com', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Structure for view `infocandidate`
---
-DROP TABLE IF EXISTS `infocandidate`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate`  AS SELECT `candidate`.`idCandidate` AS `idCandidate`, `candidate`.`INE` AS `INE`, `candidate`.`name` AS `name`, `candidate`.`firstName` AS `firstName`, `candidate`.`nameParcours` AS `nameParcours`, `formation`.`nameFormation` AS `nameFormation`, `candidate`.`yearOfFormation` AS `yearOfFormation`, `candidate`.`isInActiveSearch` AS `isInActiveSearch`, `candidate`.`permisB` AS `permisB`, `candidate`.`typeCompanySearch` AS `typeCompanySearch`, `candidate`.`cv` AS `cv`, `candidate`.`remarks` AS `remarks`, group_concat(distinct `candidateaddress`.`idAddr` separator ',') AS `AddressesIDs`, group_concat(distinct `candidatezone`.`idZone` separator ',') AS `ZonesRechercheIDs` FROM ((((`candidate` left join `candidateaddress` on((`candidate`.`idCandidate` = `candidateaddress`.`idCandidate`))) left join `candidatezone` on((`candidate`.`idCandidate` = `candidatezone`.`idCandidate`))) left join `parcours` on((`candidate`.`nameParcours` = `parcours`.`nameParcours`))) left join `formation` on((`parcours`.`nameFormationParcours` = `formation`.`nameFormation`))) GROUP BY `candidate`.`idCandidate``idCandidate`  ;
 
 --
 -- Indexes for dumped tables
@@ -339,25 +247,25 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
-  MODIFY `idCandidate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idCandidate` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `candidateaddress`
 --
 ALTER TABLE `candidateaddress`
-  MODIFY `idAddr` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `idAddr` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `candidatezone`
 --
 ALTER TABLE `candidatezone`
-  MODIFY `idZone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `idZone` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `connectionattempt`
 --
 ALTER TABLE `connectionattempt`
-  MODIFY `idConn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idConn` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

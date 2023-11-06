@@ -12,14 +12,25 @@ function onChangeUpdateDisplayParcours() {
 
             // Récupère les données JSON renvoyées par le serveur
             var parcoursData = this.response;
+            console.log(parcoursData);
+
+            var option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.selected = true;
+            option.text = "Choisir un parcours";
+            parcoursSelect.appendChild(option);
 
             // Remplit la liste déroulante avec les options de parcours
-            parcoursData.forEach(function (parcours) {
+            parcoursData.forEach(function (parcours)
+            {
                 var option = document.createElement("option");
                 option.value = parcours.nameParcours; // Utilisez le nom du parcours comme valeur
                 option.text = parcours.nameParcours; // Utilisez le nom du parcours comme texte de l'option
                 parcoursSelect.appendChild(option);
             });
+
+
         } else if (this.readyState === 4) {
             alert("Une erreur est survenue...");
 

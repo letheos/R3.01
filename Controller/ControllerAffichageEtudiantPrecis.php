@@ -12,7 +12,7 @@ function afficherEtudiant($conn,$id){
         echo '<div class="enteteBox">
                   <h2> Candidat : ' . $result["firstName"] . " " . $result["name"] . ' </h2>                       
                   <p class="candidates">  Formation : ' . $result['nameFormation'] . "
-                  <br> " . 'Parcours :  ' . $result['nameParcours'] . "         
+                  <br> " . 'Parcours : temp ' . "         
                   <br> ". ' Année de formation : ' . $result['yearOfFormation'].'</p> ' . "   
                </div>
                   
@@ -30,7 +30,7 @@ function afficherEtudiant($conn,$id){
         echo '<div class="enteteBox">
                   <h2> Candidat : ' . $result["firstName"] . " " . $result["name"] . ' </h2>                       
                   <p class="candidates">  Formation : ' . $result['nameFormation'] . "
-                  <br> " . 'Parcours : ' . $result['nameParcours'] .  "         
+                  <br> " . 'Parcours : temp ' . "         
                   <br> ". ' Année de formation : ' . $result['yearOfFormation'].'</p> ' . "
                </div>
                   
@@ -48,7 +48,7 @@ function afficherEtudiant($conn,$id){
         echo '<div class="enteteBox">
                   <h2> Candidat : ' . $result["firstName"] . " " . $result["name"] . ' </h2>                       
                   <p class="candidates">  Formation : ' . $result['nameFormation'] . "
-                  <br> " . 'Parcours : ' . $result['nameParcours'] .  "         
+                  <br> " . 'Parcours : temp ' . "         
                   <br> ". ' Année de formation : ' . $result['yearOfFormation'].'</p> ' . "
                </div>
                   
@@ -66,7 +66,7 @@ function afficherEtudiant($conn,$id){
         echo '<div class="enteteBox">
                   <h2> Candidat : ' . $result["firstName"] . " " . $result["name"] . ' </h2>                    
                   <p class="candidates">  Formation : ' . $result['nameFormation'] . "
-                  <br> " . 'Parcours : ' . $result['nameParcours'] .  "         
+                  <br> " . 'Parcours : temp ' . "         
                   <br> ". ' Année de formation : ' . $result['yearOfFormation'].'</p> ' . " 
                </div>
                   

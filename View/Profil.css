@@ -1,3 +1,10 @@
+.BarreNav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
 .info-bubble {
     display: none;
     position: absolute;
@@ -18,11 +25,6 @@
 }
 
 .rounded-box {
-    border: 2px solid deepskyblue;
-    border-radius: 10px;
-    padding: 20px;
-    background: whitesmoke;
-    text : white;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -31,7 +33,7 @@
 
 }
 
-.enteteBox {
+.infosProfil {
     background-color: #0f94b4; /* Couleur de fond de l'en-tête */
     color: #fff; /* Couleur du texte de l'en-tête */
     padding: 10px; /* Espacement autour de l'en-tête */
@@ -39,55 +41,31 @@
     font-size: 20px;
 }
 
-.enteteBox h2 {
+.infosProfil h2 {
     font-size: 24px;
     margin: 0;
     text-align: center;
 }
 
 
-.informationBox {
-    margin-top: 20px;
-}
-body{
-
-.informationBox p {
-    margin: 0;
-    line-height: 1.5;
-}
-    center : all;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh
-}
-
-
-.informationBox a {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.informationBox a:hover {
-    background-color: #0056b3;
-}
 
 .banner h1 {
     font-size: 30px;
     color: #eeeeee;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
 
 .banner{
     background: #0f94b4;
     width: 100%;
     margin: 0;
     padding: 10px;
+}
+.TexteProfil{
     text-align: center;
 }
 
@@ -101,9 +79,27 @@ body{
     left: 0;
 }
 
-.buttonIsActivate {
-    margin: 10px; /* Ajoutez de la marge autour de l'élément */
-    padding: 5px; /* Ajoutez un remplissage à l'intérieur de l'élément */
-    border: 1px solid #000; /* Ajoutez une bordure */
-    background-color: #f0f0f0; /* Changez la couleur de fond */
+.bas{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
+.nomFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    font: 15px/18px sans-serif;
+}
+.origineFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 3vh;
+    font: 15px/18px sans-serif;
+
+}
+
+

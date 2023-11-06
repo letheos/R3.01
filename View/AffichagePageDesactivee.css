@@ -1,0 +1,74 @@
+.rounded-box {
+    border: 10px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text : white;
+}
+
+body{
+    center : all;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+div.alert-danger{
+
+}
+.bouton-rouge {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px ;
+}
+
+.bouton-rouge:hover {
+    background-color: darkred;
+}
+
+.bouton-vert {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px ;
+}
+
+.bouton-vert:hover {
+    background-color: darkgreen;
+}
+
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+
+}

@@ -1,6 +1,6 @@
 <?php
 $conn = require '../Model/Database.php';
-require '../Model/ModelCreationCompte.php';
+require '../Model/ModelSelectAffichage.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $data = json_decode($post_data);
     $selectedFormation = $data->formation;
 
-    if ($selectedFormation != 'AucuneOption')
+    if ($selectedFormation != 'Aucune Option')
     {
         $result = selectParcours($conn, $selectedFormation);
         echo json_encode($result);

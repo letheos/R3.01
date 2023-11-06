@@ -13,13 +13,13 @@ session_start();
 </head>
 
 <body>
-    <section class="login">
-        <div>
-            <header>
-                 <h1> Se Connecter </h1>
-            </header>
+<section class="login">
+    <div>
+        <header>
+            <h1> Se Connecter </h1>
+        </header>
 
-            <form method="post" action="../Controller/ControllerConnexion.php">
+        <form method="post" action="../Controller/ControllerConnexion.php">
             <input type="text" id="login" name="login" placeholder="login"> <br>
             <input type="password" id="password" name="password" placeholder="password" >
             <button class="btn btn-outline-primary" type="submit" id="submit" name="submit"> Connexion </button> <br>
@@ -27,20 +27,20 @@ session_start();
 
             <?php
             if(isset($_SESSION["erreur"])){
-            ?>
+                ?>
 
                 <div class="alert alert-danger">
                     <?php echo $_SESSION["erreur"]; ?>
                 </div>
-    
-            <?php
+
+                <?php
                 unset($_SESSION["erreur"]);
                 session_destroy();
             }
             ?>
-            </form>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>

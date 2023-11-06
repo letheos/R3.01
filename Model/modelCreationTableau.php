@@ -1,7 +1,18 @@
 <?php
 $conn = require "database.php";
+/**
+ * @param $isActif
+ * @param $isPermis
+ * @param $year
+ * @param $formation
+ * @param $parcours
+ * @param $radius
+ * @param $city
+ * @param $conn
+ * @return mixed
+ */
 function getStudentsWithConditions($isActif,$isPermis,$year,$formation,$parcours,$radius,$city,$conn){
-    $sql = "SELECT * FROM candidates WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
+    $sql = "SELECT * FROM candidates  WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
     $req = $conn->prepare($sql);
     $req->execute($year,$isActif,$isPermis);
     return $req->fetchall();

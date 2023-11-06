@@ -130,13 +130,14 @@ TODO faire un input qui passe avec une api pour la ville
 
             </form>
         </section>
-
+<form action="../Controller/controllerCreationTableau.php" method="post">
 <div class="buttonFinishDataSettings">
     <label for="finish">Valider les paramètres de données</label>
     <button type="submit" id="finish">
         valider paramètres
     </button>
 </div>
+</form>
 
 <section class="settingsDisplay">
 

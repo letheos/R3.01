@@ -1,5 +1,15 @@
 <?php
 require "../Model/modelCreationTableau.php";
+
+
+if(isset($_POST['finish'])){
+    echo'<script>alert("finish")</script>';
+}else{
+    $page = require_once "../View/pageCreationTableau.php";
+    echo'<script>alert("not")</script>';
+    header($page);
+}
+
 /**
  * @param $conn PDO
  * @return mixed

@@ -27,6 +27,11 @@ require '../Controller/ControllerAffichagePage.php';
     <title>Document</title>
 
     <link rel="stylesheet" href="StyleCreationCompte.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
 
 </head>
@@ -70,16 +75,40 @@ require '../Controller/ControllerAffichagePage.php';
 
                 </div>
 
-                <div class="lastNameForm">
-                    <label for="lastName">Nom <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control no-special-chars" id="lastName" name="lastName" placeholder="Nom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un nom valide">
-                    <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
-                </div>
-                <div class="firstNameForm">
-                    <label for="firstName">Prénom <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control no-special-chars" id="firstName" name="firstName" placeholder="Prénom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un prénom valide">
-                    <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
-                </div>
+
+                    <div class="lastNameForm">
+                        <label for="lastName">Nom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control no-special-chars" id="lastName" name="lastName" placeholder="Nom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un nom valide">
+                        <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
+                    </div>
+                    <div class="firstNameForm">
+                        <label for="firstName">Prénom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control no-special-chars" id="firstName" name="firstName" placeholder="Prénom" required pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\-']+" title="Saisissez un prénom valide">
+                        <div class="invalid-feedback">Saisie invalide. Veuillez utiliser uniquement des lettres, des espaces, des traits d'union et des apostrophes.</div>
+                    </div>
+                    <div class="candidateMailForm">
+                        <label for="candidtateEmail">Email<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control no-special-chars" id="candidateEmail" name="candidateEmail" placeholder="Email"  title="Saisissez un email valide" required>
+                    </div>
+                    <div class="phoneNumberForm">
+                            <label for="phoneNumber"> Téléphone </label>
+                            <input type="tel" id="typePhone" name="typePhone" class="form-control" value="" placeholder="Télephone" required/>
+                            <input type="hidden" id="formattedPhoneNumber" name="formattedPhoneNumber" value="">
+                    </div>
+
+                    <script>
+                        /**
+                         * Code qui permet de générer les drapeaux de sélection du numéro
+                         * @type {Element} Récupère les input qui enregistre le numéro de téléphone
+                         * Code repris du site : https://www.twilio.com/fr/blog/saisie-numeros-telephone-internationaux-html-javascript
+                         */
+                        const phoneInputField = document.querySelector("#typePhone");
+                        const phoneInput = window.intlTelInput(phoneInputField, {
+                            preferredCountries: ["fr"],
+                            utilsScript:
+                                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                        });
+              </script>
 
                 <div class="permisBButton">
                     <label class="form-check-label" >Permis</label>
@@ -148,12 +177,20 @@ require '../Controller/ControllerAffichagePage.php';
                     displayDropdown($conn);
                     ?>
 
-                </div>
+                    <div class="parcoursForm">
+                        <select name="parcours" id="parcours" class="form-select" required>
+                            <option value="AucuneOption" selected disabled> Choisir le département </option>
+                        </select>
+                    </div>
 
-                <div class="parcoursForm">
-                    <select name="parcours">
-                        <!--A COMPLETER -->
-                    </select>
+                    <div class="yearOfFormationForm">
+                        <select name="yearOfFormation" class="form-select">
+                            <option value="" selected disabled> Choisir l'année d'étude </option>
+                            <option Value="1ère Année"> 1ère Année </option>
+                            <option Value="2ème Année"> 2ème Année </option>
+                            <option Value="3ème Année"> 3ème Année </option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="yearOfFormationForm">
@@ -209,13 +246,14 @@ require '../Controller/ControllerAffichagePage.php';
                 <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
             </div>
 
-        </form>
-    </div>
-</section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
-<!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
-<script src="../Controller/js/ControllerBoutonAjout.js"></script>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
+    <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
+    <script src="../Controller/js/ControllerBoutonAjout.js"></script>
+    <script src="../Controller/js/Ajax.js"></script>
+    <script src="../Controller/js/processFormNumber.js"></script>
 </body>
 </html>

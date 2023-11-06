@@ -15,15 +15,37 @@ function selectAllFormation($conn){
     return $req->fetchAll();
 }
 
+function selectParcours($conn, $nameFormation){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
+            WHERE Formation.nameFormation = ?;
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($nameFormation));
+    $results = $req->fetchAll();
+    return $results;
+}
+
+function allParcours($conn){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    $results = $req->fetchAll();
+    return $results;
+}
+
 /**
  * Fonction qui test la présence du candidat dans la bdd via son INE
  * @param $conn : Connection à la bdd
  * @param $INE : INE du candidat
  * @return bool : Renvoie du résultat de l'existance dans la bdd
  */
-function isCandidatesExistWithIne($conn, $INE): bool
+function isCandidateExistWithIne($conn, $INE): bool
 {
-    $sql = "SELECT * from Candidates WHERE INE = ?";
+    $sql = "SELECT * from Candidate WHERE INE = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($INE));
     $result = $req->fetch();
@@ -33,14 +55,14 @@ function isCandidatesExistWithIne($conn, $INE): bool
 
 /**
  * Fonction qui test la présence du candidat dans la bdd via son nom ou son prénom
- * @param $conn : Connection à la bdd
+ * @param $conn : Connexion à la bdd
  * @param $name : Nom du candidat
  * @param $firstName : Prenom du candidat
  * @return bool : Renvoie le résultat de l'existance dans la bdd
  */
-function isCandidatesExistWithNameAndFirstname($conn, $name, $firstName): bool
+function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
 {
-    $sql = "SELECT * from Candidates WHERE name = ? AND firstName = ?";
+    $sql = "SELECT * from Candidate WHERE name = ? AND firstName = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($name,$firstName));
     $result = $req->fetch();
@@ -49,8 +71,29 @@ function isCandidatesExistWithNameAndFirstname($conn, $name, $firstName): bool
 }
 
 /**
+ * Fonction qui vérifie l'existance d'un email dans la base de donnée
+ * @param $conn : Connexion à la bdd
+ * @param $email : Email du candidat
+ * @return bool Renvoie un boulean contenant le résultat
+ */
+function isEmailAlreadyExist($conn, $email): bool {
+    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($email));
+    $result = $req->fetch();
+    return !empty($result);
+}
+
+function isPhoneNumberAlreadyExist($conn, $phone): bool {
+    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($phone));
+    $result = $req->fetch();
+    return !empty($result);
+}
+/**
  * Fonction insérant les addresses du candidat
- * @param $conn : Connection à la bdd
+ * @param $conn : Connexion à la bdd
  * @param $idCandidate : Le candidat
  * @param $cp : Le code postal
  * @param $addr : Le libellé de l'adresse
@@ -92,10 +135,10 @@ function insertSearchZone($conn, $idCandidate, $searchCity, $radius){
  * @param $searchZone : Les zones de recherches du candidats
  * @return void
  */
-function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $nameFormation, $nameParcours, $permisB, $typeCompanySearch, $remark, $adresses, $searchZone) {
-    $sql = "INSERT INTO Candidates (INE, name, firstName, yearOfFormation, nameFormation, nameParcours, isInActiveSearch, permisB, typeCompanySearch, cv, remarks) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, null, ?)";
+function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $email, $phoneNumber, $nameParcours, $permisB, $typeCompanySearch, $remark, $adresses, $searchZone) {
+    $sql = "INSERT INTO Candidate (INE, name, firstName,  candidateMail, phoneNumber, nameParcours, yearOfFormation, isInActiveSearch, permisB, typeCompanySearch, cv, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?,    ?, null, ?)";
     $req = $conn->prepare($sql);
-    $req->execute(array($INE, $name, $firstName, $yearOfFormation, $nameFormation, $nameParcours, $permisB, $typeCompanySearch, $remark));
+    $req->execute(array($INE, $name, $firstName, $email, $phoneNumber, $nameParcours, $yearOfFormation, $permisB, $typeCompanySearch, $remark));
     $idCandidate = $conn->lastInsertId();
 
 

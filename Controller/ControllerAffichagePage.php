@@ -15,15 +15,15 @@ require "../Model/ModelCreationCompte.php";
 function displayDropdown($conn) {
     $result = selectAllFormation($conn);
 
-    echo '<select class="form-select" name="formation" required>';
+    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours()" required>';
 
-    echo '<option value="" selected disabled> Choisir son parcours </option>';
+    echo '<option value="AucuneOption" selected disabled> Choisir le département </option>';
 
     foreach ($result as $rows) {
         $formationName = $rows['nameFormation'];
         echo '<option value="' . $formationName . '">' . $formationName . '</option>';
     }
-    echo '<option value="undefined" > Non-défini </option>';
+    echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>';
 }
 

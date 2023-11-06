@@ -5,6 +5,8 @@
  */
 
 require "../Model/ModelCreationCompte.php";
+
+
 $conn = require "../Model/Database.php";
 
 error_reporting(E_ALL);
@@ -68,7 +70,7 @@ function regroupSearchZone($zone,$radius){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //Récupération des données
-    if (empty($_POST['INE']) && empty($_POST['typeCompanySearch']) && empty($_POST['remarksText'])){
+    if (empty($_POST['INE']) && empty($_POST['typeCompanySearch']) && empty($_POST['remarksText']) && empty($_POST['typePhone'])){
         $ine = null;
         $typeCompanySearch = null;
         $remark = null;
@@ -80,9 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name = $_POST['lastName'];
     $firstName = $_POST['firstName'];
-    $nameFormation = $_POST['formation'];
-    $nameParcours = null;
-    $yearOfFormation = 'test';
+    $nameParcours = $_POST['parcours'];
+    $yearOfFormation = $_POST['yearOfFormation'];
+    $email = $_POST['candidateEmail'];
+
+    $phone = $_POST['typePhone'];
 
     if ($_POST['permisB']){
         $permisB = 1;
@@ -95,20 +99,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($ine)){
-        if (isCandidatesExistWithNameAndFirstname($conn, $name, $firstName)){
+        if (isCandidateExistWithNameAndFirstname($conn, $name, $firstName))
+        {
             $msg = "Candidat déjà présent";
-
-        } else {
-            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+        }
+        else if (isEmailAlreadyExist($conn, $email))
+        {
+            $msg = "Email déjà présent";
+        }
+        else if (isPhoneNumberAlreadyExist($conn, $phone))
+        {
+            $msg = "Numéro de téléphone déjà présent";
+        }
+        else
+        {
+            insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }
 
-    } else {
-        if (isCandidatesExistWithIne($conn, $ine)){
+    }
+    else
+    {
+        if (isCandidateExistWithIne($conn, $ine) || isCandidateExistWithNameAndFirstname($conn, $name, $firstName))
+        {
             $msg = "Candidat déjà présent";
-        } else {
-            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $nameFormation,$nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
+        }
+        else if (isEmailAlreadyExist($conn, $email))
+        {
+            $msg = "Email déjà présent";
+        }
+        else if (isPhoneNumberAlreadyExist($conn, $phone))
+        {
+            $msg = "Numéro de téléphone déjà présent";
+        }
+        else
+        {
+            insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }

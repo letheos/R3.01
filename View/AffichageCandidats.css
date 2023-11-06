@@ -1,0 +1,121 @@
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+
+}
+
+
+
+.affichage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espace entre les éléments */
+}
+
+
+.candidates {
+    flex-basis: calc(33% - 10px); /* Largeur de chaque élément (50% - espacement) */
+    padding: 10px; /* Espacement interne pour chaque élément */
+    border: 1px solid #ccc; /* Bordure pour séparer les éléments (facultatif) */
+    background: #eee;
+    border-radius: 5px;
+}
+
+
+section.filtreCandidats{
+    width: auto;
+    padding: 10px;
+    margin: 10px;
+    background: #0f94b4;
+    border: 1px;
+    border-radius: 5px;
+}
+
+/* styles.css */
+.filtreCandidats {
+    display: flex; /* Utilisez un conteneur flex pour aligner les éléments horizontalement */
+    align-items: center; /* Centrez verticalement les éléments dans le conteneur */
+
+}
+
+.filtreCandidats form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox label {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection {
+    width : 30%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection label {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.formName{
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+}
+
+.filtreCandidats div.buttonSubmit{
+    margin-left: 140px;
+}
+
+
+
+.filtreCandidats label {
+    color: #eeeeee;
+}
+
+
+
+
+
+
+
+
+
+

@@ -91,8 +91,10 @@ require '../Controller/ControllerAffichagePage.php';
                     </div>
                     <div class="phoneNumberForm">
                             <label for="phoneNumber"> Téléphone </label>
-                            <input type="tel" id="typePhone" name="typePhone" class="form-control" onsubmit="process(event)" value="" placeholder="Télephone"/>
+                            <input type="tel" id="typePhone" name="typePhone" class="form-control" value="" placeholder="Télephone" required/>
+                            <input type="hidden" id="formattedPhoneNumber" name="formattedPhoneNumber" value="">
                     </div>
+
                     <script>
                         /**
                          * Code qui permet de générer les drapeaux de sélection du numéro
@@ -101,14 +103,11 @@ require '../Controller/ControllerAffichagePage.php';
                          */
                         const phoneInputField = document.querySelector("#typePhone");
                         const phoneInput = window.intlTelInput(phoneInputField, {
+                            preferredCountries: ["fr"],
                             utilsScript:
                                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
                         });
                     </script>
-
-
-
-
 
                     <div class="permisBButton">
                         <label class="form-check-label" >Permis</label>

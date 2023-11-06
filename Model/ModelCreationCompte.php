@@ -55,7 +55,7 @@ function isCandidateExistWithIne($conn, $INE): bool
 
 /**
  * Fonction qui test la présence du candidat dans la bdd via son nom ou son prénom
- * @param $conn : Connection à la bdd
+ * @param $conn : Connexion à la bdd
  * @param $name : Nom du candidat
  * @param $firstName : Prenom du candidat
  * @return bool : Renvoie le résultat de l'existance dans la bdd
@@ -71,8 +71,29 @@ function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
 }
 
 /**
+ * Fonction qui vérifie l'existance d'un email dans la base de donnée
+ * @param $conn : Connexion à la bdd
+ * @param $email : Email du candidat
+ * @return bool Renvoie un boulean contenant le résultat
+ */
+function isEmailAlreadyExist($conn, $email): bool {
+    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($email));
+    $result = $req->fetch();
+    return !empty($result);
+}
+
+function isPhoneNumberAlreadyExist($conn, $phone): bool {
+    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($phone));
+    $result = $req->fetch();
+    return !empty($result);
+}
+/**
  * Fonction insérant les addresses du candidat
- * @param $conn : Connection à la bdd
+ * @param $conn : Connexion à la bdd
  * @param $idCandidate : Le candidat
  * @param $cp : Le code postal
  * @param $addr : Le libellé de l'adresse

@@ -19,8 +19,8 @@ function onChangeUpdateDisplayParcours() {
             parcoursData.forEach(function (parcours)
             {
                 var option = document.createElement("option");
-                option.value = parcours.nameParcours; // Utilisez le nom du parcours comme valeur
-                option.text = parcours.nameParcours; // Utilisez le nom du parcours comme texte de l'option
+                option.value = parcours.nameParcours;
+                option.text = parcours.nameParcours;
                 parcoursSelect.appendChild(option);
             });
 

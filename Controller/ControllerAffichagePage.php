@@ -23,7 +23,7 @@ function displayDropdown($conn) {
         $formationName = $rows['nameFormation'];
         echo '<option value="' . $formationName . '">' . $formationName . '</option>';
     }
-    echo '<option value="AucuneOption" > Aucune Option </option>';
+    echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>';
 }
 

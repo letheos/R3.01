@@ -5,6 +5,8 @@
  */
 
 require "../Model/ModelCreationCompte.php";
+
+
 $conn = require "../Model/Database.php";
 
 error_reporting(E_ALL);
@@ -72,12 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ine = null;
         $typeCompanySearch = null;
         $remark = null;
-        $phone = null;
     } else {
         $ine = $_POST['INE'];
         $typeCompanySearch = $_POST['typeCompanySearch'];
         $remark = $_POST['remarksText'];
-        $phone = $_POST['typePhone'];
     }
 
     $name = $_POST['lastName'];
@@ -85,6 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nameParcours = $_POST['parcours'];
     $yearOfFormation = $_POST['yearOfFormation'];
     $email = $_POST['candidateEmail'];
+
+    $phone = $_POST['typePhone'];
 
     if ($_POST['permisB']){
         $permisB = 1;
@@ -97,19 +99,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($ine)){
-        if (isCandidateExistWithNameAndFirstname($conn, $name, $firstName)){
+        if (isCandidateExistWithNameAndFirstname($conn, $name, $firstName))
+        {
             $msg = "Candidat déjà présent";
-
-        } else {
+        }
+        else if (isEmailAlreadyExist($conn, $email))
+        {
+            $msg = "Email déjà présent";
+        }
+        else if (isPhoneNumberAlreadyExist($conn, $phone))
+        {
+            $msg = "Numéro de téléphone déjà présent";
+        }
+        else
+        {
             insertCandidate($conn, null, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";
         }
 
-    } else {
-        if (isCandidateExistWithIne($conn, $ine)){
+    }
+    else
+    {
+        if (isCandidateExistWithIne($conn, $ine) || isCandidateExistWithNameAndFirstname($conn, $name, $firstName))
+        {
             $msg = "Candidat déjà présent";
-        } else {
+        }
+        else if (isEmailAlreadyExist($conn, $email))
+        {
+            $msg = "Email déjà présent";
+        }
+        else if (isPhoneNumberAlreadyExist($conn, $phone))
+        {
+            $msg = "Numéro de téléphone déjà présent";
+        }
+        else
+        {
             insertCandidate($conn, $ine, $name, $firstName, $yearOfFormation, $email, $phone, $nameParcours,$permisB,$typeCompanySearch, $remark, $adresses, $searchZone);
             $success = 1;
             $msg = "Candidat Inscrit";

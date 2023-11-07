@@ -5,4 +5,3 @@ $outputTextFilePath = 'fichier_texte.txt'; // Le fichier texte de sortie
 $fileContents = file_get_contents($pdfFilePath);
 $byteArray = str_split($fileContents);
 $byteArray = unpack('C*', $fileContents);
-

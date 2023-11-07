@@ -1,0 +1,87 @@
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+    text-align: center;
+}
+
+section.login{
+    display: flex;
+    position: absolute;
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    /*height: 100vh; 100% de la hauteur de la fenêtre */
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /*background: rgba(255, 255, 255, 0.8);*/
+
+}
+
+section.login h1 {
+    font-size: 30px;
+}
+
+section.login > div {
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    /*background: #eee;*/
+    border: 1px solid ;
+    border-radius: 5px;
+
+}
+
+section.login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.boutonReset {
+    text-align: center;
+    margin: auto;
+}
+/*
+.boutonAccueil{
+    display: flex;
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid ;
+    border-radius: 5px;
+}
+
+ */
+.bas{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.nomFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    font: 15px/18px sans-serif;
+}
+.origineFooter{
+    background: #0f94b4;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 3vh;
+    font: 15px/18px sans-serif;
+
+}

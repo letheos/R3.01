@@ -1,10 +1,7 @@
 <?php
-try{
-    $conn = new PDO("mysql:host=localhost;dbname=bddtest", "root", "root");
-    return $conn;
-} catch (PDOException $e){
-    return $e->getMessage();
-}
+//Fichier des créations de la connexion
 
+$conn = new PDO("mysql:host=localhost;dbname=localDatabase2", "root", "root");
+return $conn
 
 ?>

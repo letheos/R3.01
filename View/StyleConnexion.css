@@ -22,6 +22,7 @@ section.login > div {
     background: #eee;
     border: 1px solid ;
     border-radius: 5px;
+
 }
 
 section.login form {
@@ -33,6 +34,5 @@ section.login button {
     width: 250px;
     text-align: center;
     margin: auto;
-
 }
 

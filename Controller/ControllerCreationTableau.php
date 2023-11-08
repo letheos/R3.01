@@ -1,26 +1,28 @@
 <?php
-require "../Model/ModelCreationTableau.php";
+require_once "../Model/ModelCreationTableau.php";
 
-
-if(isset($_POST['finish'])){
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(isset($_POST['finish'])){
+        echo '<script>alert("a")</script>';
 }else{
-    $page = require_once "../View/PageCreationTableau.php";
-
+    $page = require_once "../View/PageAfficheTableau.php";
     header($page);
+
 }
+}
+
 
 /**
  * @param $conn PDO
  * @return mixed
  * take a PDO connection and return the values of getAllParcours
  */
-function controllerGetAllParcours(){
-    $conn = require "../Model/Database.php";
+function controllerGetAllParcours($conn){
     return getAllParcours($conn);
 }
 
-function controllerGetAllFormations(){
-    $conn = require "../Model/Database.php";
+function controllerGetAllFormations($conn){
+
     return getAllFormation($conn);
 }
+

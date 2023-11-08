@@ -11,7 +11,7 @@ $conn = require "../Model/Database.php";
 function listAffichageSelect($conn){
     $selected = '';
     $results = allFormation($conn);
-    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours()">',"\n";
+    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcoursAffichage.php\')">', "\n";
     foreach($results as $row)
     {
         $selected = 'selected="selected"';

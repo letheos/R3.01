@@ -41,7 +41,7 @@ TODO faire un input qui passe avec une api pour la ville
             <form class="parametre" method="post" action="../Controller/controllerCreationTableau.php">
             <h2> Paramètres des données à afficher dans le tableau de bord</h2>
            <!-- section générale des paramètre de données -->
-
+            <div class="formation">
             <div class="menuDeroulFormation">
                 <label for="formations">formation :</label>
                 <select name="formations" title="formations" id="formations" multiple="multiple">
@@ -56,44 +56,37 @@ TODO faire un input qui passe avec une api pour la ville
             </div>
 
         <br>
-
-            <div class="menuDeroulAnnee">
-                <label for="formAnnee"> Année </label>
-                <select name="formAnnee" title="formAnnee" id="formAnnee">
-                    <option value="all" selected>toutes les années</option>
-                    <option value="1">1er</option>
-                    <option value="2">2e</option>
-                    <option value="3">3e</option>
-                </select>
-            </div>
-
-        <br>
-
-
             <div class="menuDeroulParcours">
                 <label for="parcours">Parcours de l'étudiant</label>
                 <select name="parcours" title="parcours" id="parcours">
                     <option value="allParcours" selected>tous les parcours</option>
-                    <option value="allFormations" selected>toutes les formations</option>
+
                     <?php
                     $parcours = controllerGetAllParcours();
                     foreach ($parcours as $parcour){ ?>
                         <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
-                    <?php } ?>on>parcours C</option>
+                    <?php } ?>on>parcours C
+                    </option>
                 </select>
             </div>
+            </div>
+                <div class="addFormation">
+                    <label for="addFormation"> Ajouter une formation</label>
+                    <button type="button" name="addFormation" id="addFormation" >+</button>
+
+                </div>
         <br>
+                <div class="menuDeroulAnnee">
+                    <label for="formAnnee"> Année </label>
+                    <select name="formAnnee" title="formAnnee" id="formAnnee">
+                        <option value="all" selected>toutes les années</option>
+                        <option value="1">1er</option>
+                        <option value="2">2e</option>
+                        <option value="3">3e</option>
+                    </select>
+                </div>
 
-
-
-            <div class="menuDeroulActif">
-                <label for="idActif">Etudiant actif ?</label>
-                <select name="isActif" title="isActif" id="idActif">
-                    <option value="1">oui</option>
-                    <option value="0">non</option>
-                </select>
-            </div>
-
+                <br>
 
         <div class="menuDeroulPermis">
             <label for="idPermis">Permis</label>
@@ -102,31 +95,6 @@ TODO faire un input qui passe avec une api pour la ville
                     <option value="0">non</option>
                 </select>
             </div>
-
-
-
-            <div class="cityForm">
-                <label for="city"> Ville </label>
-                    <select name="city" id="city">
-                        <option value="allCity">toutes les villes</option>
-                        <option value="Lille">Lille</option>
-                        <option value="Valenciennes">Valenciennes</option>
-                    </select>
-
-            </div>
-
-            <div class="slidecontainer">
-                <label for="myRange">Distance de recherche :</label>
-                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                <p>Distance en km : <span id="valeurSlider">50</span></p>
-
-            </div>
-
-                <div class="addParams">
-                    <label for="addParmas"> Ajouter une page de paramètres</label>
-                    <button type="button" name="addParmas" id="addParmas" >+</button>
-                    <p>nombre de paramètres <span id="nuberSettingsData">1/4</span></p>
-                </div>
 
             </form>
         </section>

@@ -2,6 +2,8 @@ function onChangeUpdateDisplayParcours(link) {
 
     var selectedFormation = document.getElementById("formation").value;
     var parcoursSelect = document.getElementById("parcours");
+
+    console.log(selectedFormation);
     //Initialisation de la requête
     var xhr = new XMLHttpRequest();
 
@@ -30,6 +32,7 @@ function onChangeUpdateDisplayParcours(link) {
 
         }
     };
+
     xhr.open("POST", link, true);
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

@@ -1,0 +1,15 @@
+req de base:
+
+SELECT name,firstName,nameParcours  FROM `candidate`
+
+req avec ine
+
+SELECT name,firstName,nameParcours,INE  FROM `candidate`
+
+req avec adresse
+
+SELECT name,firstName,nameParcours,addressLabel  FROM `candidate` JOIN candidateaddress USING (idCandidate)
+
+req avec numéro
+
+SELECT name,firstName,nameParcours,numberPhone  FROM `candidate`

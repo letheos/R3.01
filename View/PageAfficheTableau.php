@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,9 +14,8 @@
 </html>
 
 <?php
-=======
-<?php
-require "../Model/modelCreationTableau.php";
+
+require "../Model/ModelCreationTableau.php";
 ?>
 <!doctype html>
 <html lang="en">
@@ -32,7 +31,7 @@ require "../Model/modelCreationTableau.php";
 
 <?php
 
-$conn = require "../Model/database.php";
+$conn = require "../Model/Database.php";
 
 $test = getStudentsWithConditions(1,1,"1er","a",'a',$conn);
 echo '<script> alert("21")</script>';
@@ -49,5 +48,4 @@ foreach ($test as $student) {
 </body>
 </html>
 
-<?php
->>>>>>> origin/tableau_de_bord
+

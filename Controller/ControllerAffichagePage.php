@@ -15,7 +15,7 @@ require "../Model/ModelCreationCompte.php";
 function displayDropdown($conn) {
     $result = selectAllFormation($conn);
 
-    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours()" required>';
+    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcours.php\')" required>';
 
     echo '<option value="AucuneOption" selected disabled> Choisir le département </option>';
 

@@ -30,7 +30,7 @@ function onChangeUpdateDisplayParcours() {
 
         }
     };
-    xhr.open("POST", "../Controller/ControllerParcours.php", true);
+    xhr.open("POST", "../Controller/ControllerParcoursAffichage.php", true);
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify({ formation: selectedFormation }));

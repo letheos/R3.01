@@ -2,8 +2,6 @@ function onChangeUpdateDisplayParcours(link) {
 
     var selectedFormation = document.getElementById("formation").value;
     var parcoursSelect = document.getElementById("parcours");
-
-    console.log(selectedFormation);
     //Initialisation de la requête
     var xhr = new XMLHttpRequest();
 
@@ -28,11 +26,10 @@ function onChangeUpdateDisplayParcours(link) {
 
 
         } else if (this.readyState === 4) {
-            alert("Une erreur est survenue...");
+            alert(console.log(this.response));
 
         }
     };
-
     xhr.open("POST", link, true);
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

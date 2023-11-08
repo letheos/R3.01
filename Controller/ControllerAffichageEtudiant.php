@@ -11,7 +11,7 @@ $conn = require "../Model/Database.php";
 function listAffichageSelect($conn){
     $selected = '';
     $results = allFormation($conn);
-    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcours.php\')">', "\n";
+    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcoursAffichage.php\')">', "\n";
     foreach($results as $row)
     {
         $selected = 'selected="selected"';
@@ -66,7 +66,7 @@ function choiceAllCandidatesByParcours($conn, $parcours, $isActive){
     $results = selectCandidatesByParcours($conn, $parcours,  $isActive);
     foreach ($results as $row) {
         echo '
-        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameFormation'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
+        <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
 
     }
@@ -151,32 +151,35 @@ function filtrage($conn)
         $isActive = 1;
     }
 
-    if (isset($choixNom) && !empty($choixNom) && isset($choixFormation) && $choixFormation != "AucuneOption" && empty($parcours))
-    {
+    $hasFormationFilter = !empty($choixFormation) && $choixFormation !== "Aucune Option";
+    $hasNomFilter = !empty($choixNom);
+    $hasParcoursFilter = !empty($parcours);
+
+
+    // Exécuter les requêtes en fonction des critères de filtrage
+    if ($hasFormationFilter && $hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par formation, nom et parcours
+        choiceAllCandidatesByNameFormationAndParcours($conn, $choixFormation, $choixNom, $parcours, $isActive);
+    } elseif ($hasFormationFilter && $hasNomFilter) {
+        // Filtrage par formation et nom
         choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
-    }
-    elseif (isset($choixNom) && !empty($choixNom) && empty($parcours))
-    {
-        choiceAllCandidatesByName($conn, $isActive, $choixNom);
-    }
-    elseif (isset($choixFormation) && $choixFormation != "AucuneOption" && empty($parcours))
-    {
-        choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
-    }
-    else if ((!isset($choixFormation) || $choixFormation == "AucuneOption") && empty($choixNom) && !empty($parcours))
-    {
-        choiceAllCandidatesByParcours($conn, $parcours, $isActive);
-    }
-    else if ((!isset($choixFormation) || $choixFormation == "AucuneOption") && !empty($choixNom) && !empty($parcours))
-    {
+    } elseif ($hasFormationFilter && $hasParcoursFilter) {
+        // Filtrage par formation et parcours
+        choiceAllCandidatesByFormationAndParcours($conn, $choixFormation, $parcours, $isActive);
+    } elseif ($hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par nom et parcours
         choiceAllCandidatesByNameAndParcours($conn, $choixNom, $parcours, $isActive);
-    }
-    else if (isset($choixNom) && isset($choixFormation) && isset($parcours))
-    {
-        choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixFormation, $parcours, $isActive);
-    }
-    else
-    {
+    } elseif ($hasFormationFilter) {
+        // Filtrage par formation uniquement
+        choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
+    } elseif ($hasNomFilter) {
+        // Filtrage par nom uniquement
+        choiceAllCandidatesByName($conn, $isActive, $choixNom);
+    } elseif ($hasParcoursFilter) {
+        // Filtrage par parcours uniquement
+        choiceAllCandidatesByParcours($conn, $parcours, $isActive);
+    } else {
+        // Aucun critère de filtrage sélectionné, afficher tous les candidats
         choiceAllOptionWithActive($conn, $isActive);
     }
 }

@@ -2,7 +2,13 @@
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
-include '../Model/ModelCreation.php';
+
+include  '../Model/ModelCreation.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
     $mail->setFrom('bncorp.auto@gmail.com');
@@ -48,6 +54,7 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
     }
 
 
+$role = intval($role);
     $Errormsg = "";
     $sucessMessage = "";
 
@@ -137,8 +144,10 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         //nous avons passé toutes les conditions , on renvoie donc un message de succès
         $sucessMessage = "Enregistré avec succès";
         /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
-        echo "je vais essayer d'ajouter";
 
+        if($role !=1 ){
+            $formation = null;
+        }
         addbdd($conn,$pswd,$lastName,$firstName,$mail,$login,$role,$formation);
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 

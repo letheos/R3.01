@@ -69,30 +69,14 @@
         </div>
 
         <br>
-        <label for="formation">Formation</label>
+
         <!--partie formation de l'inscription-->
-    <div class = rounded-box id="formations">
-        <div class="choices-container">
-            <?php
-
-            affichageRadioButton($conn);
-            ?>
-        </div>
 
 
-        <div class=select-all-container">
-
-            <label class="label-select-all">
-                <input type="checkbox" id="select-all" name="select-all" > Sélectionner tout
-            </label>
-        </div>
-    </div>
-
-        <div id="divFormation" >
-
-            <select  id="idFormation" name="selectFormation" size="1" style="display: none" value="<?php echo isset($_SESSION['selectFormation']) ? $_SESSION['selectFormation']:'' ?>">
+        <div id="divFormation" style="display: none" >
+            <label for="formation" >Formation</label>
+            <select  id="idFormation" name="selectFormation" size="1" value="<?php echo isset($_SESSION['selectFormation']) ? $_SESSION['selectFormation']:'' ?>">
                 <?php
-
                 displayformations($conn); ?>
             </select>
         </div>
@@ -106,7 +90,6 @@
                 Le mot de passe doit contenir au moins 6 caractères, un chiffre et un caractère spécial (excepté " ' et ;).
             </div>
         </div>
-
         <br>
 
         <!--partie confirmation de mot de passe de l'inscription-->

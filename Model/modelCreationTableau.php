@@ -11,8 +11,10 @@ $conn = require "database.php";
  * @param $conn
  * @return mixed
  */
-function getStudentsWithConditions($isActif,$isPermis,$year,$formation,$parcours,$radius,$city,$conn){
-    $sql = "SELECT * FROM candidates  WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
+
+function getStudentsWithConditions($isActif,$isPermis,$year,$formation,$parcours,$conn){
+    //problème vient quand je mes des conditions
+    $sql = "SELECT * FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
     $req = $conn->prepare($sql);
     $req->execute($year,$isActif,$isPermis);
     return $req->fetchall();

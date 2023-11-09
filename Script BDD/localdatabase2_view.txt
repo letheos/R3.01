@@ -1,6 +1,6 @@
 -- Structure for view `infocandidate`
 --
-DROP TABLE IF EXISTS `infocandidate`;
+DROP VIEW IF EXISTS `infocandidate`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate` AS
 SELECT

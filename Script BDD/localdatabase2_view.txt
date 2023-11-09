@@ -8,6 +8,8 @@ SELECT
     `candidate`.`INE` AS `INE`,
     `candidate`.`name` AS `name`,
     `candidate`.`firstName` AS `firstName`,
+	`candidate`.`phoneNumber`AS `phoneNumber`, 
+	`candidate`.`candidateMail`AS `candidateMail`,
     `candidate`.`nameParcours` AS `nameParcours`,
     `formation`.`nameFormation` AS `nameFormation`,
     `candidate`.`yearOfFormation` AS `yearOfFormation`,

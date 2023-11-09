@@ -137,6 +137,8 @@ SELECT
     ic.INE,
     ic.name,
     ic.firstName,
+    ic.phoneNumber,
+    ic.candidateMail,
     ic.nameParcours,
     f.nameFormation,
     ic.yearOfFormation,

@@ -45,7 +45,7 @@ TODO faire un input qui passe avec une api pour la ville
                 <label for="formations">formation :</label>
                 <select name="formations" title="formations" id="formations" >
 
-                    <option value="allFormations" selected>touts les parcours</option>
+                    <option value="allFormations" selected>touts les formations</option>
                     <?php
                     $parcours = controllerGetAllFormations($conn);
                     foreach ($parcours as $parcour) { ?>

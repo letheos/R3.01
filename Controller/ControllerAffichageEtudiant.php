@@ -12,13 +12,12 @@ function listAffichageSelect($conn){
     $selected = '';
     $results = allFormation($conn);
     echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcoursAffichage.php\')">', "\n";
+    echo '<option value="" selected="selected" disabled> Choisir la formation </option>';
     foreach($results as $row)
     {
-        $selected = 'selected="selected"';
         echo "\t",'<option value="', $row['nameFormation'] ,'"', $selected ,'>', $row['nameFormation'] ,'</option>',"\n";
-        $selected='';
     }
-    echo '<option value="Aucune Option" selected="selected"> Aucune Option </option>';
+    echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>',"\n";
 }
 
@@ -38,6 +37,11 @@ function choiceAllOptionWithActive($conn, $isActive){
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
 }
 
@@ -57,7 +61,11 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
 
 }
@@ -68,28 +76,45 @@ function choiceAllCandidatesByParcours($conn, $parcours, $isActive){
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
 
 }
 
+/**
+ * Fonction qui affiche les candidats en fonction du nom et du parcours
+ * @param $conn : Connection à la base de donnée
+ * @param $choixNom : Choix du nom
+ * @param $parcours : Choix du parcours
+ * @param $isActive : Si le candidat est actif
+ * @return void :
+ */
 function choiceAllCandidatesByNameAndParcours($conn, $choixNom,$parcours, $isActive){
     $results = selectCandidatesByNameAndParcours($conn, $choixNom,$parcours,  $isActive);
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
 
 }
 
 /**
- * @param $conn
- * @param $choixFormation
- * @param $isActive
- * @return void
- * Affiche dans le php les candidats en fonction du filtrage sur le nom et la formation
+ * Fonction qui affiche les candidats en fonction du nom et de la formation
+ * @param $conn : Connection à la base de donnée
+ * @param $choixFormation : Choix de la formation
+ * @param $choixNom : Choix du nom
+ * @param $isActive : Si le candidat est actif
+ * @return void Modifie l'affichage de la page
  */
 //Fonction d'affichage des candidats en fonction d'un filtrage sur la formation et le nom
 function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActive, $choixNom){
@@ -98,16 +123,20 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
 }
 
 /**
- * @param $conn
- * @param $choixFormation
- * @param $isActive
- * @return void
- * Affiche dans le php les candidats en fonction du filtrage sur le nom
+ * Fonction qui affiche les candidats en fonction du nom
+ * @param $conn : Connection à la base de donnée
+ * @param $choixFormation : Choix de la formation
+ * @param $isActive : Si le candidat est actif
+ * @return void Modifie l'affichage de la page
  */
 //Fonction d'affichage des candidats en fonction d'un filtrage sur le nom
 function choiceAllCandidatesByName($conn, $isActive, $choixNom){
@@ -116,25 +145,66 @@ function choiceAllCandidatesByName($conn, $isActive, $choixNom){
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
     }
-
 }
 
+/**
+ * Fonction qui affiche les candidats en fonction de la formation et du parcours
+ * @param $conn : Connection à la base de donnée
+ * @param $choixFormation : Choix de la formation
+ * @param $parcours : Choix du parcours
+ * @param $isActive : Si le candidat est actif
+ * @return void Modifie l'affichage de la page
+ */
+function choiceAllCandidatesByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
+    $results = selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive);
+    foreach ($results as $row) {
+        echo '
+        <p class="candidates" id="candidats"> ' . $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] . '<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=' . $row["idCandidate"] . '">Détail</a>' . '
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" ' . $row['idCandidate'] . ' " onclick="showAlert(this)">Supprimer</button> ';
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
+    }
+}
+
+/**
+ * Fonction qui affiche les candidats en fonction de leur nom, formation et parcours
+ * @param $conn : Connection à la base de donnée
+ * @param $choixNom : Choix du nom
+ * @param $choixFormation : Choix de la formation
+ * @param $parcours : Choix du parcours
+ * @param $isActive : Si le candidat est actif
+ * @return void : Modifie l'affichage de la page
+ */
 function choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixFormation, $parcours, $isActive){
     $results = selectCandidatesByNameFormationAndParcours($conn,$parcours, $choixNom, $choixFormation, $isActive);
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
         <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
-
+        if ($isActive){
+            echo '<input type="checkbox" name="checkboxActif" value="0"> Rendre Inactif';
+        } else {
+            echo '<input type="checkbox" name="checkboxNonActif value="1"> Rendre Actif';
+        }
 
     }
 }
 
 
-
+/**
+ * Fonction qui gère le filtrage pour afficher des candidats en fonction de critères précis
+ * @param $conn : Connection à la base de donnée
+ * @return void Modifie l'affichage en fonction d'un filtrage
+ */
 function filtrage($conn)
 {
     if (isset($_POST["submit"])) {

@@ -14,6 +14,12 @@ function onChangeUpdateDisplayParcours(link) {
             var parcoursData = this.response;
             console.log(parcoursData);
 
+            var option = document.createElement("option");
+            option.setAttribute("value", "");
+            option.text = "Choisir le parcours";
+            option.selected = true;
+            option.disabled = true;
+            parcoursSelect.appendChild(option);
 
             // Remplit la liste déroulante avec les options de parcours
             parcoursData.forEach(function (parcours)
@@ -23,6 +29,7 @@ function onChangeUpdateDisplayParcours(link) {
                 option.text = parcours.nameParcours;
                 parcoursSelect.appendChild(option);
             });
+
 
 
         } else if (this.readyState === 4) {

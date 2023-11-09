@@ -51,6 +51,14 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
     return $req->fetchAll();
 }
 
+function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND nameParcours = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours,  $choixFormation));
+    return $req->fetchAll();
+}
+
 /**
  * @param $conn
  * @param $choixNom

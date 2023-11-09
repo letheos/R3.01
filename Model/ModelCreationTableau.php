@@ -2,26 +2,62 @@
 <?php
 $conn = require "Database.php";
 /**
- * @param $isActif
- * @param $isPermis
- * @param $year
- * @param $formation
- * @param $parcours
- * @param $radius
- * @param $city
- * @param $conn
- * @return mixed
+ * @param $isActif bool
+ * @param $isPermis bool
+ * @param $year string
+ * @param $formation string
+ * @param $parcours string
+ * @param $conn PDO
+ * @param $ine bool
+ * @param $address bool
+ * @param $phone bool
+ * @return string
  */
-function getStudentsWithConditions($isActif,$isPermis,$year,$formation,$parcours,$conn){
-    if()
-    //problème vient quand je mes des conditions
-    $sql = "SELECT * FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
+function getStudentsWithConditions($isActif,$isPermis,$year,$formation,$parcours,$conn,$ine,$address,$phone){
+    $deb = "SELECT name,firstName,nameFormation,nameParcours,yearOfFormation,isInActiveSearch";
+    $fin = " FROM infocandidate  WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
+    if($ine){
+        $deb.= ",INE";
+    } if($address){
+        $deb.= ",AddressesIDs";
+    } if($phone){
+        $deb.=",phone";
+    } if($formation != "allFormations"){
+        $fin.= " AND nameFormation LIKE '%(?)%'";
+    } if($parcours != "allParcours"){
+        $fin.= " AND nameParcours LIKE '%(?)%'";
+    }
+    $sql = $deb.=$fin;
+    echo $sql;
+    //return $test;
     $req = $conn->prepare($sql);
-    $params = array($year, $isActif, $isPermis);
-    $req->execute($params);
-    return $req->fetchall();
-    //AND city =(?) AND radius >=(?)
-}
+    if($parcours== "allParcours" && $formation == "allFormations"){
+        //code pour exec avec tout
+
+        $params = array($year, $isActif, $isPermis);
+        $req->execute($params);
+        return $req->fetchall();
+    }if($parcours != "allParcours" && $formation != "allFormations"){
+        //code pour exec avec tout différent
+
+        $params = array($year, $isActif, $isPermis,$formation,$parcours);
+        $req->execute($params);
+        return $req->fetchall();
+
+    } if($parcours == "allParcours" && $formation != "allFormations"){
+        //code pour exec avec seulement formation à chercher
+        $params = array($year, $isActif, $isPermis,$formation);
+        $req->execute($params);
+        return $req->fetchall();
+
+    } if($parcours != "allParcours" && $formation == "allFormations"){
+        //code pour exec avec seulement parcours à chercher
+        $params = array($year, $isActif, $isPermis,$parcours);
+        $req->execute($params);
+        return $req->fetchall();
+
+    }
+    }
 
 function getStudentTest($isActif,$isPermis,$year,$formation,$parcours,$conn,$ine){
     if($isPermis){

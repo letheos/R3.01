@@ -11,8 +11,7 @@ let blocCount = 1;
 const maxBlocs = 4;
 
 document.addEventListener("DOMContentLoaded", function (){
-    let slider = document.getElementById("myRange");
-    let valeurOutput = document.getElementById("valeurSlider");
+
     //valeur pour ajouter un Blocs de paramètres
     let buttonAddFormation = document.getElementById('addFormation');
     let buttonDelParams = document.getElementById('delParams');
@@ -20,17 +19,10 @@ document.addEventListener("DOMContentLoaded", function (){
 
 
 
-// Mettre à jour la valeur initiale
-    valeurOutput.innerHTML = slider.value;
 
-// Définir un événement pour détecter les changements de la valeur du slider
-    slider.addEventListener("input", function() {
-        valeurOutput.innerHTML = this.value;
-
-    });
     function addBlcockFormation(){
         if(blocCount < maxBlocs){
-            const newSection = document.createElement("div");
+            const newSection = document.createElement("section");
             newSection.className = "newBlocFormation";
             newSection.innerHTML = `<p>Bloc ${blocCount + 1}</p><button class="supprimerBloc">Supprimer</button>`;
             newSection.innerHTML = `
@@ -39,34 +31,35 @@ document.addEventListener("DOMContentLoaded", function (){
         <button class="delBlock">Supprimer</button>
        
 
+            <div class="formation">
             <div class="menuDeroulFormation">
                 <label for="formations">formation :</label>
-                <select name="formations" title="formations" id="formations" multiple="multiple">
+                <select name="formations" title="formations" id="formations" >
 
-                    <option value="allFormations" selected>touts les parcours</option>
+                    <option value="allFormations" selected>touts les formations</option>
                     <?php
-                    $parcours = controllerGetAllFormations();
-                    foreach ($parcours as $parcour){ ?>
-                    <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
+                    $parcours = controllerGetAllFormations($conn);
+                    foreach ($parcours as $parcour) { ?>
+                        <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
                     <?php } ?>
                 </select>
             </div>
 
-        <br>
+            <br>
             <div class="menuDeroulParcours">
                 <label for="parcours">Parcours de l'étudiant</label>
                 <select name="parcours" title="parcours" id="parcours">
                     <option value="allParcours" selected>tous les parcours</option>
-                   
+
                     <?php
-                    $parcours = controllerGetAllParcours();
-                    foreach ($parcours as $parcour){ ?>
+                    $parcours = controllerGetAllParcours($conn);
+                    foreach ($parcours as $parcour) { ?>
                         <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
-                    <?php } ?>on>parcours C</option>
+                    <?php } ?>on>parcours C
+                    </option>
                 </select>
             </div>
-        <br>
-         
+        </div>
 
         `;
             formSettings.appendChild(newSection);

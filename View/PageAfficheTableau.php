@@ -1,6 +1,8 @@
 <?php
 
 require_once "../Model/ModelCreationTableau.php";
+$tableau = require "../Controller/ControllerAfficheTableau.php";
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,40 +41,23 @@ require_once "../Model/ModelCreationTableau.php";
     <title>Document</title>
 </head>
 <body>
-<p> yao zebe</p>
+
 
 <?php
 
 $conn = require "../Model/Database.php";
 
-$test = getStudentsWithConditions(1,1,"1er","a",'a',$conn);
-
+$test = getStudentsWithConditions(1,"allYears","Informatique","Parcours Informatique B",$conn,0,1,0);
+echo $tableau;
 
 foreach ($test as $student) {
-
-    echo $student[1] . "<br>";
-    echo $student[2] . "<br>";
-    echo $student[3] . "<br>";
-    echo $student[4] . "<br>";
-    echo $student[5] . "<br>";
-    echo $student[6] . "<br>";
-    echo $student[7] . "<br>";
-    echo $student[8] . "<br>";
-    echo $student[9] . "<br>";
-    echo $student[10] . "<br>";
-    echo $student[11] . "<br>";
-    echo $student[12] . "<br>";
-    echo $student[13] . "<br>";
-    echo $student[14] . "<br>";
-    echo $student[14] . "<br>";
-    echo "<br>";
-    echo "<br>";
+    foreach ($student as $value){?>
+        <p><?= $value ?></p>
+    <?php
+    }
 }
-
 ?>
-
-
-<footer>
+<footer class="bottomBanner">
     <div class="nomFooter">
         <p>
             Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau

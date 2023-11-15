@@ -40,7 +40,7 @@ require '../Controller/ControllerAffichagePage.php';
 
     <section>
             <div class="rounded-box">
-                <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php">
+                <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php" enctype="multipart/form-data">
                 <header>
                     <h1>
                         Création d'un Candidat
@@ -221,7 +221,7 @@ require '../Controller/ControllerAffichagePage.php';
 
                     <div class="downloadButton">
                         <label for="cv">Inserer le cv ici</label>
-                        <input type="file"  name="cv" accept=".pdf">
+                        <input type="file" name="cvFile" id="cv" accept=".pdf, .png, .jpg, .jpeg">
                     </div>
                 </div>
 

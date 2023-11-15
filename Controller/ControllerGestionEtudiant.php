@@ -9,7 +9,22 @@ $checkboxNonActif = $_POST['checkboxNonActif'];
 
 if (isset($delete)) {
     $idCandidateToDelete = $_POST['candidateId'];
+
+    // Récupérer les informations du candidat, y compris le chemin du fichier CV
+    $candidateInfo = selectCandidatById($conn, $idCandidateToDelete);
+
+    // Supprimer le candidat de la base de données
     deleteCandidate($conn, $idCandidateToDelete);
+
+    // Supprimer le fichier CV s'il existe
+    if (isset($candidateInfo['cv'])) {
+        $cvFilePath = $candidateInfo['cv'];
+
+        if (file_exists($cvFilePath)) {
+            unlink($cvFilePath); // Supprimer le fichier CV
+        }
+    }
+
     header("Location: ../View/PageAffichageEtudiant.php");
 }
 

@@ -37,7 +37,7 @@ TODO faire un input qui passe avec une api pour la ville
 
 
 <section class="settingsData" id="settingsData">
-    <form class="parametre" method="post" action="../Controller/ControllerCreationTableau.php">
+    <form class="parametre" method="post" action="../Controller/ControllerAfficheTableau.php">
         <h2> Paramètres des données à afficher dans le tableau de bord</h2>
         <!-- section générale des paramètre de données -->
         <div class="formation">
@@ -47,9 +47,9 @@ TODO faire un input qui passe avec une api pour la ville
 
                     <option value="allFormations" selected>touts les formations</option>
                     <?php
-                    $parcours = controllerGetAllFormations($conn);
-                    foreach ($parcours as $parcour) { ?>
-                        <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
+                    $formations = controllerGetAllFormations($conn);
+                    foreach ($formations as $formation) { ?>
+                        <option value="<?= $formation[0] ?>"><?= $formation[0] ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -78,7 +78,7 @@ TODO faire un input qui passe avec une api pour la ville
         <div class="menuDeroulAnnee">
             <label for="formAnnee"> Année </label>
             <select name="formAnnee" title="formAnnee" id="formAnnee">
-                <option value="all" selected>toutes les années</option>
+                <option value="allYears" selected>toutes les années</option>
                 <option value="1">1er</option>
                 <option value="2">2e</option>
                 <option value="3">3e</option>
@@ -109,25 +109,40 @@ TODO faire un input qui passe avec une api pour la ville
 
         <div id="checkBoxIne">
             <label for="ine">ine affiché (par défault non)</label>
-            <input type="checkbox" id="ine" value="1">
+            <input type="checkbox" id="ine" name="isIne" value="1">
+            <input hidden="hidden" type="checkbox" id="ine" name="isIne" value="0">
         </div>
+        <input type="checkbox" id="ine" name="isIne" value="1" onclick="updateValue(this)">
+
+        <script>
+            function updateValue(checkbox) {
+                var inputElement = document.getElementById('ine');
+
+                // Si la case à cocher est cochée, utilisez la valeur '1', sinon utilisez une autre valeur
+                var newValue = checkbox.checked ? '1' : 'valeur_alternative';
+
+                inputElement.value = newValue;
+
+                console.log("Nouvelle valeur de la case à cocher : " + newValue);
+            }
+        </script>
 
         <div id="checkBoxAddress">
             <label for="address"> Adresse affiché (par défault non)</label>
-            <input type="checkbox" id="address" value="1">
+            <input type="checkbox" id="address" name="isAddress" value="1">
         </div>
 
         <div class="checkBoxPhone">
             <label for="phone"> numéro de téléphone (par défault non) </label>
-            <input type="checkbox" id="phone" value="1">
+            <input type="checkbox" id="phone" name="isPhone" value="1">
         </div>
 
-        <button type="submit" id="valider" name="valider">Valider les paramètres</button>
+        <button type="submit" id="validate" name="validate">Valider les paramètres</button>
     </form>
 
 </section>
 
-<footer>
+<footer class="bottomBanner">
     <div class="nomFooter">
         <p>
             Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau

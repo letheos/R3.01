@@ -4,7 +4,8 @@
  * @author : Nathan Strady
  */
 
-require "../Model/ModelCreationCompte.php";
+require "../Model/ModelSelect.php";
+require "../Model/ModelInsertUpdateDelete.php";
 
 
 $conn = require "../Model/Database.php";

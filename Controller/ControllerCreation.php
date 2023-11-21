@@ -2,7 +2,8 @@
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
-include '../Model/ModelCreation.php';
+include '../Model/ModelSelect.php';
+
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
     $mail->setFrom('bncorp.auto@gmail.com');

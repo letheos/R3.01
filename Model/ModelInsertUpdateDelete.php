@@ -102,18 +102,3 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 }
 
-function isEmailAlreadyExist($conn, $email): bool {
-    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($email));
-    $result = $req->fetch();
-    return !empty($result);
-}
-
-function isPhoneNumberAlreadyExist($conn, $phone): bool {
-    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($phone));
-    $result = $req->fetch();
-    return !empty($result);
-}

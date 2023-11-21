@@ -220,3 +220,39 @@ function getFormationWithCoditions($conn, $formation)
     return $req->fetchall();
 }
 
+/**
+ * @param $isPermis boolean
+ * @param $year string
+ * @param $formation string
+ * @param $parcours string
+ * @param $isIne boolean
+ * @param $isAddress boolean
+ * @param $isPhone boolean
+ * @param $idUser string //a trouver comment récupérer l'user pour pouvoir l'enregistré dans la bdd
+ * @param $conn PDO //the connection at the database
+ * @return void
+ * this funtion insert à new tableau de bord in the database is link it whit an user
+ */
+function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser,$conn){
+    $user = getUserWithId($idUser, $conn);
+    $sql = "SELECT * FROM formation WHERE nameFormation LIKE(?)";
+    $req = $conn->prepare($sql);
+    $req->execute($formation);
+    return $req->fetchall();
+}
+
+/**
+ * @param $idUser String
+ * @param $conn PDO
+ * @return mixed
+ * this function take in parameter the id of a user and a connection to the database
+ * return the user
+ */
+function getUserWithId($idUser,$conn)
+{
+    $sql = "SELECT * FROM Utilisateur WHERE login = ?";
+    $req = $conn->prepare($sql);
+    $req->execute($idUser);
+    return $req->fetchall();
+}
+

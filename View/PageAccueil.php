@@ -14,13 +14,7 @@ include '../Controller/ControllerAccueil.php';
     <title>Accueil</title>
 </head>
 <body>
-<script>
-    const aDejaVisite = sessionStorage.getItem('aDejaVisite');
-    if (!aDejaVisite) {
-        window.location.href = 'PageProfil.php';
-        sessionStorage.setItem('aDejaVisite','true');
-    }
-</script>
+<script src="../Controller/ControllerAccueilJS.js"></script>
     <header class="banner">
         <h1>
             Bienvenue dans votre accueil M/Mme <?php getFirstName($conn,$_SESSION['login']) ?>

@@ -100,4 +100,13 @@ body {
 
 }
 
+.banner button{
+    margin: 0;
+}
+
+.banner button:not(:last-child){
+    margin-right: 35.7%; /* Ajustez la valeur selon l'espace souhaité */
+}
+
+
 

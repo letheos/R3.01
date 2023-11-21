@@ -24,6 +24,7 @@ $conn = require '../Model/Database.php';
     </h1>
     <button class="btn btn-light" type="submit" name="retourAccueil" onclick="goBackHomePage()">Retour à l'accueil</button>
     <button id="disconnect" class="btn btn-light" type="submit" name="disconnect" onclick="disconnect()">Deconnexion</button>
+    <button id="modification" class="btn btn-light" type="submit" name="modification" onclick="modificate()">Modifier le compte</button>
 </header>
 
 <section class="BarreNav"

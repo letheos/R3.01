@@ -63,16 +63,16 @@ if (!searchUserHash($conn, $_POST['login'], $_POST['password'])){
     exit();
 }
 
+if (isset($_SESSION['provenance']) && $_SESSION['provenance'] == 'Accueil') {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        </script>';
+}
+
 //Connection à la session
 session_start();
 addTentativeIp($conn,$ip,1);
 deleteTentativeIp($conn,$ip);
-if(isset($_SESSION["login"])){
-    $_SESSION['login'] == null;
-}
-if(isset($_SESSION["password"])){
-    $_SESSION['password'] == null;
-}
 $_SESSION["login"] = $_POST['login'];
 $_SESSION["password"] = $_POST['password'];
 header("location: ../View/PageAccueil.php");

@@ -1,7 +1,6 @@
 <?php
 $conn = require "../Model/Database.php";
-require "../Model/ModelSelectAffichage.php";
-require "../Controller/ControllerAffichageEtudiant.php";
+include "../Controller/ControllerAffichageEtudiant.php";
 
 ?>
 

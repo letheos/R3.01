@@ -1,6 +1,5 @@
 <?php
 $conn = require '../Model/Database.php';
-require '../Model/ModelSelectAffichage.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {

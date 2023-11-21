@@ -1,6 +1,5 @@
 <?php
 $conn = require "../Model/Database.php";
-require "../Model/ModelSelectAffichage.php";
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
 error_reporting(E_ALL);
@@ -11,6 +10,7 @@ if(isset($_GET['id'])){
 
 }
 
+$infotCandidat = selectCandidatById($conn, $id);
 ?>
 
 <!doctype html>
@@ -43,7 +43,7 @@ if(isset($_GET['id'])){
             <form method="post" action="../Controller/ControllerActifInactif.php">
                 <div class="buttonIsActivate">
                     <?php
-                    $donnes = getbyid($conn,$id);
+                    $donnes = isInActiveSearch($conn,$id);
                     if ($donnes["isInActiveSearch"] == 1){?>
                         <button type="submit" class="btn btn-outline-danger" name="desactivate" >Rendre Inactif</button>
                     <?php
@@ -54,6 +54,7 @@ if(isset($_GET['id'])){
                     }
                     ?>
                     <input type="hidden" id="idValue" name="idValue" value="<?php echo $id ?>">
+                    <a class="btn btn-primary" href="./PageModifcationCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
                 </div>
             </form>
         </div>

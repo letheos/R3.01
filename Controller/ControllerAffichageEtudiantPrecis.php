@@ -1,5 +1,6 @@
 <?php
 $conn = require "../Model/Database.php";
+require '../Model/ModelSelect.php';
 
 function afficherEtudiant($conn, $id)
 {

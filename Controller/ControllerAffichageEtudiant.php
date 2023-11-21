@@ -1,5 +1,6 @@
 <?php
 $conn = require "../Model/Database.php";
+require '../Model/ModelSelect.php';
 
 /**
  * Controller de la page affichage étudiant

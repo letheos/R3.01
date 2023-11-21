@@ -1,6 +1,6 @@
 <?php
 $conn = require '../Model/Database.php';
-require '../Model/ModelSelectAffichage.php';
+require '../Model/ModelInsertUpdateDelete.php';
 
 $delete = $_POST['delete'];
 $checkboxActif = $_POST['checkboxActif'];

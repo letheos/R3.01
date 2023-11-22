@@ -3,7 +3,7 @@ $conn = require '../Model/Database.php';
 include '../Model/ModelConnexion.php';
 
 /**
- * @param $conn : Connextion to the database
+ * @param $conn : Connection to the database
  * @param $login : User login
  * This function will show all the infos recovered by the sql query
  */
@@ -25,9 +25,10 @@ if(isset($_POST['retourAccueil'])){
 if(isset($_POST['modifierMotdePasse'])){
     header('Location: ../View/PageModifierMotDePasse.php');
 }
-
+/*
 //Redirection a la page de connexion si le bouton disconnect est presse
 if(isset($_POST['disconnect'])){
     session_destroy();
     header('Location: ../View/PageConnexion.php');
 }
+*/

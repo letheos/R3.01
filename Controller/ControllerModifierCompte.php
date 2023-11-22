@@ -66,7 +66,7 @@ if(!empty($_POST)) {
 if(isset($_POST['submit'])){
     echo 'feur1';
     //echo $_SESSION['login'];
-    if(!empty($_POST['lastName']) || !empty($_POST['firstName']) || !empty($_POST['login'])) {
+    if(!empty($_POST['lastName']) || !empty($_POST['firstName']) || !empty($_POST['login']) || !empty($_POST['mail'])) {
         echo 'feur2';
         if (!empty($_POST['lastName'])) {
             echo 'feur3';
@@ -78,6 +78,13 @@ if(isset($_POST['submit'])){
         }
         if (!empty($_POST['login'])) {
             modifLogin($conn, $_SESSION['login'], $_POST['login']);
+            echo '<script>
+            alert("Veuillez vous reconnecter");
+            window.location.href = "../Controller/logout.php";
+            </script>';
+        }
+        if(!empty($_POST['mail'])){
+            modifEmail($conn,$_SESSION['login'],$_POST['mail']);
         }
         echo 'feur';
         echo '<script>

@@ -13,6 +13,7 @@ $conn = require '../Model/Database.php';
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="ModifierCompte.css">
+    <script src="../Controller/ControllerPageProfilJS.js"></script>
     <title>Modification du mot de passe</title>
 </head>
 <body>
@@ -21,6 +22,8 @@ $conn = require '../Model/Database.php';
     <h1 class="TexteProfil">
         Voici vos informartions
     </h1>
+    <button class="btn btn-light" type="submit" name="retourAccueil" onclick="goBackHomePage()">Retour à l'accueil</button>
+    <button id="disconnect" class="btn btn-light" type="submit" name="disconnect" onclick="disconnect()">Deconnexion</button>
 </header>
 <section class="display">
 
@@ -40,6 +43,8 @@ $conn = require '../Model/Database.php';
             <input type="text" id="firstName" name="firstName" placeholder="Nom de famille">
             <br>
             <input type="text" id="login" name="login" placeholder="Identifiant de connexion">
+            <br>
+            <input type="email" id="mail" name="mail" placeholder="Adresse mail">
             <br>
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Valider les modifications </button>
         </form>

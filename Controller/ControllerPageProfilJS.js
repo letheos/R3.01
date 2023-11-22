@@ -28,5 +28,13 @@ function disconnect(){
  * This function redirect to the password modification page
  */
 function modificate(){
-    window.location.href='PageModifierCompte.php'
+    window.location.href='PageModifierCompte.php';
 }
+/*
+function close(){
+    disconnect();
+}
+
+window.addEventListener('beforeunload',close);
+
+ */

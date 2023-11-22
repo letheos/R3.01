@@ -44,5 +44,10 @@ function modifFirstName($conn,$login,$firstName){
 
 function modifLogin($conn,$oldLogin,$newLogin){
     $req = $conn->prepare("UPDATE Utilisateur SET login = ? WHERE login = ?");
-    $req->execute(array($oldLogin,$newLogin));
+    $req->execute(array($newLogin,$oldLogin));
+}
+
+function modifEmail($conn,$login,$mail){
+    $req = $conn->prepare("UPDATE Utilisateur SET email = ? WHERE login = ?");
+    $req->execute(array($mail,$login));
 }

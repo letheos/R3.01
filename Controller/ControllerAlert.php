@@ -5,40 +5,27 @@ require "../Model/ModelAlert.php";
 $_SESSION["login"]="Michel";
 
 /**
- * @param $conn
- * @param $login
+ * @param PDO $conn
+ * @param string $login
  * @return void
- * Cette fonction affiche une notification permettant d'aller sur la page concentrant toutes les alertes
+ * This function launch a notification, indicating there are reminders
  */
-function RemindAlert($conn,$login){
+function RemindAlert(PDO $conn, string $login){
     if (hasPastAlert($conn,$login)){
-        $alertes=selectPastAlert($conn,$login);
-        /*if(count($alertes)>2) {
-            $message=$alertes[0][1].":".$alertes[0][0].'<br>'+$alertes[1][1].":".$alertes[1][0]."<br>"."Et ".count($alertes)-2 . "autres rappels";
-
-        }
-        elseif (count($alertes)==2){
-            $message=$alertes[0][1].":".$alertes[0][0].'<br>'+$alertes[1][1].":".$alertes[1][0];
-        }
-        else{
-            $message=$alertes[0][1].":".$alertes[0][0];
-        }*/
         echo "<script>";
         echo "alertToShow();";
         echo "</script>";
-
-
     }
-
 }
 
 /**
- * @param $conn
- * @param $login
- * @return void
- * Cette fonction affiche l'entiereté des alertes
+ * @param PDO $conn
+ * @param string $login
+ * @param boolean $future
+ * @return array|Exception|false|PDOException
+ * This function put all the alerts for a given user depending on future (if true all the alerts/false only past ones)
  */
-function ListAlert($conn,$login,$future)
+function ListAlert(PDO $conn, string $login, bool $future)
 {
     if ($future) {
         $results = selectAlert($conn, $login, true);
@@ -49,33 +36,32 @@ function ListAlert($conn,$login,$future)
 }
 
 
-if (isset($_POST['Appliquer'])){
-    $_SESSION["futur"]=$_POST["Future"];
+if (isset($_POST['Apply'])){
+    $_SESSION["Future"]=$_POST["Future"];
     header('Location: ../View/PageAlertes.php');
     die();
 }
 
-if(isset($_POST['Ajouter'])){
+if(isset($_POST['Add'])){
 
-    if ($_POST['note']==='Astley'){
+    if ($_POST['Note']==='Astley'){
         header('Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         die();
     }
 
-        //Confirm() js -> PHP , Ajax ?
     if ($_POST['Global']){
 
-        addAlert($conn, "global", $_POST['date'], $_POST['note']);
+        addAlert($conn, "global", $_POST['Date'], $_POST['Note']);
     }
     else{
 
-        addAlert($conn, $_SESSION["login"], $_POST['date'], $_POST['note']);
+        addAlert($conn, $_SESSION["login"], $_POST['Date'], $_POST['Note']);
     }
     header('Location: ../View/PageAlertes.php');
     die();
 }
 
-if(isset($_POST['Supprimer'])){
+if(isset($_POST['Delete'])){
     deleteAlert($conn,$_POST['id'],$_SESSION['login']);
     header('Location: ../View/PageAlertes.php');
     die();
@@ -84,11 +70,10 @@ if(isset($_POST['Supprimer'])){
 
 <script>
     function alertToShow() {
-        var confirmation =confirm("Vous avez des alertes a voir,souhaitez vous les consulter ?");
+        let confirmation =confirm("Vous avez des alertes a voir,souhaitez vous les consulter ?");
         if (confirmation) {
             window.location.href = "../View/PageAlertes.php";
         }
-
     }
 </script>
 

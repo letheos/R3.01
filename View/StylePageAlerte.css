@@ -1,27 +1,31 @@
 body{
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     margin: 0;
 }
 
 .alert{
-    border-style: solid;
     min-height: 10%;
     max-height: 40%;
+    border: 2px solid;
+    margin-bottom: 2%;
+
 }
 
 .affichage{
+    flex: 2;
     height: 50%;
+
 }
 
 .gestion {
+    flex:1;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-#show, #add {
-    flex: 1;
-}
 
 .banner h1 {
     font-size: 30px;
@@ -39,9 +43,8 @@ body{
 
 
 .bas{
-    position: relative;
-    bottom: 0;
     width: 100%;
+    flex-shrink: 0%;
 }
 .nomFooter{
     background: #0f94b4;
@@ -68,3 +71,9 @@ textarea[name=note]
     min-height: 75px;
 
 }
+footer {
+    background: #0f94b4;
+    margin-top: auto;
+    padding: 10px;
+}
+

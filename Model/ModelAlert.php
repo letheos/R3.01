@@ -2,14 +2,14 @@
     $conn = require "../Model/Database.php";
 
 /**
- * @param $conn
- * @param $login
+ * @param PDO $conn  The db connection
+ * @param string $login    The login of a user
  * @return bool|Exception|PDOException
- * Cette fonction renvoie true si une alerte doit etre rappelée
+ * This function returns true if the user has at least one alert that needs reminder
  */
 
 
-function hasPastAlert($conn,$login){
+function hasPastAlert(PDO $conn, string $login){
     $req = $conn->prepare("SELECT COUNT(idalert) FROM alert JOIN ALERTUTILISATEUR WHERE login = ? AND remindAT<CURRENT_DATE and seen= false");
     try {
         $req->execute(array($login));
@@ -23,12 +23,12 @@ function hasPastAlert($conn,$login){
 
 
 /**
- * @param $conn
- * @param $login
- * @return Exception|mixed|PDOException
- * Fonction qui récupère toutes les alertes passées et les met en "seen" concernant un utilisateur donné
+ * @param PDO $conn   The db connection
+ * @param string $login    The login of a user
+ * @return array|Exception|false|PDOException
+ * This function set all the alert for a user that needs a reminder to 'seen', meaning he saw them and don't need any more reminder.
  */
-function selectPastAlert($conn, $login){
+function selectPastAlert(PDO $conn, string $login){
     try {
         $sql = 'SELECT note,remindAt,idAlert FROM Alert JOIN ALERTUTILISATEUR USING (IDALERT) WHERE login = ? AND remindAT<CURRENT_TIMESTAMP' ;
         $req = $conn->prepare($sql);
@@ -38,19 +38,19 @@ function selectPastAlert($conn, $login){
         return $e;
     }
     foreach ($req as $row){
-        setAlertSeen($conn,$row[2]);
+        setAlertSeen($conn,$row[2],$login);
     }
     return $req->fetchAll();
 }
 
 /**
- * @param $conn
- * @param $login
- * @param $future
- * @return Exception|mixed|PDOException
- * Selectionne la liste des alertes d'un utilisateurs selon un parametre future determinant si l'on filtre les anlertes futures ou non
+ * @param PDO $conn   The db connection
+ * @param string $login The login of a user
+ * @param boolean $future   A boolean, on which depends if all user's alert are shown or only the outdated ones
+ * @return array|Exception|false|PDOException
+ * This function put in an array all the alert for a user (depending on the future param)
  */
-function selectAlert($conn,$login,$future){
+function selectAlert(PDO $conn, string $login, bool $future){
     try {
         $sql = "SELECT IDAlert,note,remindAt FROM alert join AlertUTILISATEUR USING (IDALERT) WHERE login = ? ";
         if(!$future) {
@@ -70,60 +70,56 @@ function selectAlert($conn,$login,$future){
 
 
 /**
- * @param $conn
- * @param $id
- * @return Exception|mixed|PDOException
- * Cette fonction passe le parametre "seen" en true, indiquant qu'une alerte n'a plus besoin d'être rappelée
+ * @param PDO $conn   The db connection
+ * @param int $idAlert   The id of an alert
+ * @param string $login The login of a user
+ * @return array|Exception|false|PDOException
+ * This function set a specific alert at 'seen' for a given user
  */
-function setAlertSeen($conn,$idAlert,$login){
+function setAlertSeen(PDO $conn, int $idAlert, string $login){
     try {
-        $sql = "UPDATE alertUtilisateur set seen=true WHERE idalert = ? and login=?";
+        $sql = "UPDATE alertUtilisateur set seen=true WHERE idalert = ? and login = ?";
         $req = $conn->prepare($sql);
         $req->execute(array($idAlert,$login));
     }catch (PDOException $e){
         return $e;
     }
-    $res =$req->fetchAll();
-    return $res;
+    return $req->fetchAll();
 }
 
 /**
- * @param $conn
- * @param $login
- * @param $remindAt
- * @param $note
+ * @param PDO $conn   The db connection
+ * @param string $login  The login of a user
+ * @param string $remindAt  A date
+* @param string $note     A string
  * @return Exception|PDOException|void
- * Cette fonction permet d'ajouter une alerte
+ * This function add an alert to the given user, or to all users
  */
-function addAlert($conn,$login,$remindAt,$note)
+function addAlert(PDO $conn, string $login, string $remindAt, string $note)
 {
     try {
 
         $date = date('Y-m-d', strtotime($remindAt));
-        $requete = "Insert into alert (remindAt,note) VALUES (?,?);";
-        $resultat = $conn->prepare($requete);
-        $resultat->execute(array($date, $note));
-        $requete2 = "SELECT idAlert from Alert ORDER BY idAlert DESC LIMIT 1;";
-        $resultat2 = $conn->prepare($requete2);
-        $resultat2->execute();
-        $id=$resultat2->fetchcolumn();
+        $request = "Insert into alert (remindAt,note) VALUES (?,?);";
+        $result = $conn->prepare($request);
+        $result->execute(array($date, $note));
+        $id=$conn ->lastInsertId();
 
         if($login=="global"){
 
-            //vilaine tentative
-            $requete3 = "SELECT LOGIN from UTILISATEUR;";
-            $resultat3 = $conn->prepare($requete3);
-            $resultat3->execute();
-            foreach ($resultat3 as $row){
-                $requete4 = "INSERT INTO ALERTUTILISATEUR VALUES (?,?,false);";
-                $resultat4 = $conn->prepare($requete4);
-                $resultat4->execute(array($id,$row[0]));
+            $request2 = "SELECT LOGIN from UTILISATEUR;";
+            $result2 = $conn->prepare($request2);
+            $result2->execute();
+            foreach ($result2 as $row){
+                $request3 = "INSERT INTO ALERTUTILISATEUR VALUES (?,?,false);";
+                $result3 = $conn->prepare($request3);
+                $result3->execute(array($id,$row[0]));
             }
         }
         else{
-            $requete5 = "INSERT INTO ALERTUTILISATEUR VALUES (?,?,false);";
-            $resultat5 = $conn->prepare($requete5);
-            $resultat5->execute(array($id,$login));
+            $request4 = "INSERT INTO ALERTUTILISATEUR VALUES (?,?,false);";
+            $result4 = $conn->prepare($request4);
+            $result4->execute(array($id,$login));
         }
     } catch (PDOException $e) {
         return $e;
@@ -131,22 +127,32 @@ function addAlert($conn,$login,$remindAt,$note)
 }
 
 /**
- * @param $conn
- * @param $id
+ * @param PDO $conn   The db connection
+ * @param int $id   The id of an alert
+ * @param string $login  The login of a user
  * @return Exception|PDOException|void
- * Cette fonction permet de supprimer une alerte
+ * This function delete an alert for a user, then search if this alert is still link with other users, if not it delete it globally
  */
-function deleteAlert($conn,$id,$login){
+function deleteAlert(PDO $conn, int $id, string $login){
     try {
-        $requete = "DELETE from AlertUtilisateur WHERE idalert = ? and login = ?;";
-        $resultat = $conn->prepare($requete);
-        $resultat->execute(array($id,$login));
+        $request = "DELETE from AlertUtilisateur WHERE idalert = ? and login = ?;";
+        $result = $conn->prepare($request);
+        $result->execute(array($id,$login));
 
+        $request2="SELECT idalert from Alert LEFT JOIN AlertUtilisateur using (idalert) group by idalert HAVING count(login)=0;";
+        $result2 = $conn->prepare($request2);
+        $result2->execute();
+
+        foreach ($result2 as $row){
+            $request3="DELETE from Alert where idalert = ?;";
+            $result3 = $conn->prepare($request3);
+            $result3->execute(array($row[0]));
+        }
     } catch (PDOException $e) {
         return $e;
     }
 }
 
 
-?>
+
 

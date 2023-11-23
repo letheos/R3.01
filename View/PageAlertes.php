@@ -2,11 +2,11 @@
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerAlert.php";
 $f=false;
-if(isset($_SESSION["futur"])){
-    $f=$_SESSION["futur"];
+if(isset($_SESSION["Future"])){
+    $f=$_SESSION["Future"];
 }
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -32,19 +32,27 @@ if(isset($_SESSION["futur"])){
             <div id="show">
                 <form method='POST' action="../Controller/ControllerAlert.php">
                     Montrer alertes prévues
-                    <input type='checkbox' name='Future' value='on'> <br>
-                    <input type='submit' name='Appliquer' value='Appliquer'>
+                    <label>
+                        <input type='checkbox' name='Future' value='on'>
+                    </label> <br>
+                    <input type='submit' name='Apply' value='Appliquer'>
                 </form>
             </div>
             <div id="add">
                 <form method="POST" action="../Controller/ControllerAlert.php">
                     <p>Ajouter une nouvelle alerte:</p>
-                    <input type="date" name="date" min= <?php echo Date('Y-m-d')  ?> value=<?php echo Date('Y-m-d') ?> >
-                    <textarea name="note" maxlength="300" required ></textarea>
+                    <label>
+                        <input type="date" name="Date" min= <?php echo Date('Y-m-d')  ?> value=<?php echo Date('Y-m-d') ?> >
+                    </label>
+                    <label>
+                        <textarea name="Note" maxlength="300" required ></textarea>
+                    </label>
                     <br>
-                    Alerte génerale:
-                    <input type='checkbox' name='Global' value='on'> <br>
-                    <input type='submit' name='Ajouter' value='Ajouter'>
+                    Alerte génerale (Tous les utilisateurs seront notifiés):
+                    <label>
+                        <input type='checkbox' name='Global' value='on'>
+                    </label> <br>
+                    <input type='submit' name='Add' value='Ajouter'>
                 </form>
             </div>
         </section>
@@ -57,7 +65,7 @@ if(isset($_SESSION["futur"])){
             <div class="alert"> Date :<?=$row[2]?>
                 <br> <p id="lanote"> Note:<?=$row["note"] ?> </p>
                 <form method="POST" action="../Controller/ControllerAlert.php">
-                    <input type="submit" name="Supprimer" value="Supprimer" >
+                    <input type="submit" name="Delete" value="Supprimer" >
                     <input type="hidden" name="id" value="<?=$row[0]?>" >
                     </form>
                 </div>
@@ -66,7 +74,7 @@ if(isset($_SESSION["futur"])){
         </section>
     <section class="bas">
 
-        <!--<footer>
+        <footer>
             <div class="nomFooter">
                 <p>
                     Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
@@ -78,7 +86,7 @@ if(isset($_SESSION["futur"])){
                     2023/2024 UPHF
                 </p>
             </div>
-        </footer>-->
+        </footer>
 
     </section>
     </body>

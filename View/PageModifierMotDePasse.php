@@ -1,4 +1,4 @@
-<?php include '../Model/ModelConnexion.php';
+<?php
 $conn = require "../Model/Database.php";
 
 session_start();

@@ -1,6 +1,11 @@
 <?php
 
-include '../Model/ModelConnexion.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include '../Model/ModelInsertUpdateDelete.php';
+include '../Model/ModelSelect.php';
 $conn = require "../Model/Database.php";
 session_start();
 

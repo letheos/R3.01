@@ -1,12 +1,6 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 include '../Model/ModelModificationCompte.php';
-
 $conn = require '../Model/Database.php';
 
 /**
@@ -70,17 +64,33 @@ if(!empty($_POST)) {
 */
 
 if(isset($_POST['submit'])){
-    echo 'feur1';
+    $validite = true;
     //echo $_SESSION['login'];
     if(!empty($_POST['lastName']) || !empty($_POST['firstName']) || !empty($_POST['login']) || !empty($_POST['mail'])) {
-        echo 'feur2';
         if (!empty($_POST['lastName'])) {
-            echo 'feur3';
-            modifLastName($conn, $_SESSION['login'], $_POST['lastName']);
-            echo 'feur4';
+            if(!preg_match('/[^A-Za-z0-9"\'\,\;]/',$_POST['lastName']) && !preg_match("/[0-9]/", $_POST['lastName'])) {
+                modifLastName($conn, $_SESSION['login'], $_POST['lastName']);
+            }else{
+                $validite = false;
+                echo '<script>
+                alert("Erreur dans le prenom : caracteres invalides");
+                </script>';
+            }
         }
         if (!empty($_POST['firstName'])) {
-            modifFirstName($conn, $_SESSION['login'], $_POST['firstName']);
+            if(!preg_match('/[^A-Za-z0-9"\'\,\;]/',$_POST['firstName']) && !preg_match("/[0-9]/", $_POST['firstName'])) {
+                modifFirstName($conn, $_SESSION['login'], $_POST['firstName']);
+            }else{
+                $validite = false;
+                echo '<script>
+                alert("Erreur dans le nom : caracteres invalides");
+                </script>';
+            }
+        }
+        if(!empty($_POST['mail'])){
+            if(filter_var($_POST['mail'],FILTER_VALIDATE_EMAIL)) {
+                modifEmail($conn, $_SESSION['login'], $_POST['mail']);
+            }
         }
         if (!empty($_POST['login'])) {
             modifLogin($conn, $_SESSION['login'], $_POST['login']);
@@ -89,14 +99,15 @@ if(isset($_POST['submit'])){
             window.location.href = "../Controller/logout.php";
             </script>';
         }
-        if(!empty($_POST['mail'])){
-            modifEmail($conn,$_SESSION['login'],$_POST['mail']);
+        if($validite) {
+            echo '<script>
+            alert("Modifications effectuées");
+            window.location.href = "../View/PageModifierCompte.php";
+            </script>';
         }
-        echo 'feur';
         echo '<script>
-        alert("Modifications effectuées");
-        window.location.href = "../View/PageModifierCompte.php";
-        </script>';
+            window.location.href = "../View/PageModifierCompte.php";
+            </script>';
     }else {
         echo '<script>
         alert("Aucune modification");

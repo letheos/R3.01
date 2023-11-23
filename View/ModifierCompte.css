@@ -71,8 +71,6 @@ section.modify button {
     text-align: center;
 }
 
-
-
 .banner h1 {
     font-size: 30px;
     color: #eeeeee;
@@ -123,7 +121,6 @@ body {
     align-items: center;
     height: 3vh;
     font: 15px/18px sans-serif;
-
 }
 
 .banner button{
@@ -133,8 +130,3 @@ body {
 .banner button:not(:last-child){
     margin-right: 35.7%; /* Ajustez la valeur selon l'espace souhaité */
 }
-
-
-
-
-

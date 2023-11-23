@@ -7,8 +7,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="styleCreation.css">
-    <script ref = ></script>
+    <link rel="stylesheet" href="PageCreationcss.css">
+
     <title>Document</title>
 
     <script src = "../Controller/jsCreation.js"></script>
@@ -79,6 +79,27 @@
                 <?php
                 displayformations($conn); ?>
             </select>
+
+
+        </div>
+
+        <div class = rounded-box2 id="formations">
+            <div class="choices-container">
+
+                <?php
+
+                affichageRadioButton($conn);
+                ?>
+
+            </div>
+
+
+            <div class=select-all-container">
+
+                <label class="label-select-all">
+                    <input type="checkbox" id="select-all" name="select-all" > Sélectionner tout
+                </label>
+            </div>
         </div>
         <br>
         <!--partie mot de passe de l'inscription-->

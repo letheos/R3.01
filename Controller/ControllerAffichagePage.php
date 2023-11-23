@@ -5,7 +5,7 @@
  * @author Nathan Strady
  */
 
-require "../Model/ModelCreationCompte.php";
+require "../Model/ModelSelect.php";
 
 /**
  * Fonction affichant une lise déroulante ayant tout les prcours
@@ -15,7 +15,7 @@ require "../Model/ModelCreationCompte.php";
 function displayDropdown($conn) {
     $result = selectAllFormation($conn);
 
-    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours()" required>';
+    echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcours.php\')" required>';
 
     echo '<option value="AucuneOption" selected disabled> Choisir le département </option>';
 
@@ -26,4 +26,3 @@ function displayDropdown($conn) {
     echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>';
 }
-

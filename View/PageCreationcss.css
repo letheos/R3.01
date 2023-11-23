@@ -22,8 +22,28 @@
     padding: 20px;
     background: whitesmoke;
     text : white;
-}
 
+}
+.rounded-box2 {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text : white;
+    max-width: 500px; /* Vous pouvez définir la largeur maximale souhaitée en pixels ou d'autres unités CSS */
+    width: 100%; /* Assure que la div occupe 100% de la largeur de son conteneur */
+    background-color: #e0e0e0; /* Exemple de couleur de fond */
+    padding: 10px;
+    text-align: center;
+}
+.rounded-box3 {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text : white;
+    text-align: center;
+}
 body{
 
     center : all;
@@ -140,4 +160,51 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.choices-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px; /* Espace entre les colonnes et les lignes */
+}
+
+
+.radio-button-columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.choices {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.countdiv{
+    border: 1px solid #000;
+    text-align: center;
+
+}
+.count-item {
+    border: 1px solid #000;
+    padding: 5px; /* Ajustez l'espacement interne selon vos besoins */
+    margin: 5px; /* Ajoutez une marge entre les éléments internes */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Crée 4 colonnes de largeur égale */
+    /* Ajoute une marge entre les colonnes (facultatif) */
+}
+
+.grid-item {
+    border: 1px solid #000;
+    text-align: center;
+    width: 100px;
+}
+.formation{
+    font-weight: bold;
 }

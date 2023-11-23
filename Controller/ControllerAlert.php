@@ -1,8 +1,10 @@
 <?php
 session_start();
 $conn = require "../Model/Database.php";
-require "../Model/ModelAlert.php";
-$_SESSION["login"]="Michel";
+require "../Model/ModelSelect.php";
+require "../Model/ModelInsertUpdateDelete.php";
+
+$_SESSION["login"]="alice.smith";
 
 /**
  * @param PDO $conn

@@ -66,20 +66,42 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 }
 
-function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation){
 
+function adduserbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role){
 
-    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
+    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?)";
     $res = $conn->prepare($requete);
     $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
 
     try {
-        $res->execute(array($login,$newpswrd,$firstname,$lastname,$role,$formation,$email,null,null));
-
+        $res->execute(array($login,$newpswrd,$lastname,$firstname,$role,$email,null,null));
     }
     catch (PDOException $e){
         echo $e->getMessage();
     }
 
     return $res;
+}
+
+
+/**
+ * @param $conn PDO
+ * @param $login string
+ * @param $formations string
+ * @return void
+ *
+ *fonction qui associe dans la bdd un utilisateur à un rôle via une table associative
+ *
+ */
+function addrolesbdd($conn,$login,$formations)
+{
+    $requete = "Insert into formationsutilisateurs values (?,?)";
+    $res = $conn->prepare($requete);
+    try{
+        for ($x = 0; $x < count($formations); $x++) {
+            $res->execute(array($login, $formations[$x]));
+        }}
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 }

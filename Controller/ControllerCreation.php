@@ -3,8 +3,9 @@
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
-
-include  '../Model/ModelCreation.php';
+include '../Model/ModelInsertUpdateDelete.php';
+include '../Model/ModelSelect.php';
+//include  '../Model/ModelCreation.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -284,7 +285,7 @@ function displaycounts(){
     echo "</div>";
     //TODO terminer la répartition des éléments dans le tableau et afficher les counts
 }
-displaycounts();
+
 
 ?>
 

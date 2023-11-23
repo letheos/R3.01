@@ -5,10 +5,6 @@
  * @return mixed
  * Requête de selection des candidats actifs
  */
-
-
-
-
 function selectCandidatesActives($conn, $isNotActive){
     $sql = "SELECT * FROM infoCandidate 
          WHERE isInActiveSearch = ?";
@@ -170,53 +166,32 @@ GROUP BY ic.idCandidate;
     return $req->fetch();
 }
 
-/**
- * Fonction qui supprime un candidat et toute ses informations.
- * @param $conn : Connection à la base de donnée
- * @param $id : Id du candidat à supprimer
- * @return void : Ne renvoie rien, supprime juste le candidat
- */
-function deleteCandidate($conn, $id){
-    $sqlReq1="DELETE FROM CandidateAddress WHERE idCandidate = ?"; //Suppression des adresses
-    $sqlReq2="DELETE FROM CandidateZone WHERE idCandidate = ?"; //Suppression des Zones
-    $sqlReq3="DELETE FROM Candidate WHERE idCandidate = ?"; //Suppression des autres information candidats
-
-    //Activation de la requête supression des adresses
-    $sqlReq1 = $conn->prepare($sqlReq1);
-    $sqlReq1->execute(array($id));
-
-    //Activation de la requête supression des zones de recherche
-    $sqlReq2 = $conn->prepare($sqlReq2);
-    $sqlReq2->execute(array($id));
-
-    //Activation de la requête supression du candidat
-    $sqlReq3 = $conn->prepare($sqlReq3);
-    $sqlReq3->execute(array($id));
-}
-function getbyid($conn,$id){
+function isInActiveSearch($conn,$id){
     $sql = "Select isInActiveSearch from candidate where idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return $req->fetch();
 }
 
+/**
+ * Fonction qui vérifie l'existance d'un email dans la base de donnée
+ * @param $conn : Connexion à la bdd
+ * @param $email : Email du candidat
+ * @return bool Renvoie un boulean contenant le résultat
+ */
 
-
-function setEtatTrue($conn,$id)
-{
-    $sql = "UPDATE Candidate SET isInActiveSearch = 1 WHERE idCandidate=?";
+function isEmailAlreadyExist($conn, $email): bool {
+    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
     $req = $conn->prepare($sql);
-    $req->execute(array($id));
-    return true;
+    $req->execute(array($email));
+    $result = $req->fetch();
+    return !empty($result);
 }
 
-
-function setEtatFalse($conn,$id)
-{
-    $sql = "UPDATE Candidate SET isInActiveSearch = 0 WHERE idCandidate=?";
+function isPhoneNumberAlreadyExist($conn, $phone): bool {
+    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
     $req = $conn->prepare($sql);
-    $req->execute(array($id));
-    return true;
-
+    $req->execute(array($phone));
+    $result = $req->fetch();
+    return !empty($result);
 }
-

@@ -5,7 +5,8 @@
  */
 
 $conn = require '../Model/Database.php';
-require '../Model/ModelSelectAffichage.php';
+require '../Model/ModelInsertUpdateDelete.php';
+
 
 if(isset($_POST['activate'])){
     $id = $_POST['idValue'];
@@ -18,3 +19,4 @@ if (isset($_POST['desactivate'])){
     setEtatFalse($conn, $id);
     header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
 }
+

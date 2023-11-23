@@ -1,4 +1,4 @@
-function onChangeUpdateDisplayParcours() {
+function onChangeUpdateDisplayParcours(link) {
 
     var selectedFormation = document.getElementById("formation").value;
     var parcoursSelect = document.getElementById("parcours");
@@ -14,6 +14,12 @@ function onChangeUpdateDisplayParcours() {
             var parcoursData = this.response;
             console.log(parcoursData);
 
+            var option = document.createElement("option");
+            option.setAttribute("value", "");
+            option.text = "Choisir le parcours";
+            option.selected = true;
+            option.disabled = true;
+            parcoursSelect.appendChild(option);
 
             // Remplit la liste déroulante avec les options de parcours
             parcoursData.forEach(function (parcours)
@@ -25,12 +31,13 @@ function onChangeUpdateDisplayParcours() {
             });
 
 
+
         } else if (this.readyState === 4) {
-            alert("Une erreur est survenue...");
+            alert(console.log(this.response));
 
         }
     };
-    xhr.open("POST", "../Controller/ControllerParcours.php", true);
+    xhr.open("POST", link, true);
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify({ formation: selectedFormation }));

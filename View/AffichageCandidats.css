@@ -28,6 +28,11 @@ body {
 
 }
 
+.bottomBanner .buttonActivationCandidates {
+    position: relative;
+    left: 1270px; /* Espace à droite par rapport au bord droit du footer */
+}
+
 
 
 .affichage {
@@ -109,13 +114,3 @@ section.filtreCandidats{
 .filtreCandidats label {
     color: #eeeeee;
 }
-
-
-
-
-
-
-
-
-
-

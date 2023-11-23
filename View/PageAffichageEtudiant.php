@@ -1,7 +1,6 @@
 <?php
 $conn = require "../Model/Database.php";
-require "../Model/ModelSelectAffichage.php";
-require "../Controller/ControllerAffichageEtudiant.php";
+include "../Controller/ControllerAffichageEtudiant.php";
 
 ?>
 
@@ -56,17 +55,21 @@ require "../Controller/ControllerAffichageEtudiant.php";
     </section>
 </form>
 
-<form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php"
+<form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php">
 <section class="afficheCandidats">
     <div class="affichage" id="candidateList">
         <?php filtrage($conn); ?>
         <input type="hidden" id="candidateId" name="candidateId" value="">
     </div>
 </section>
+
+<footer class="bottomBanner">
+    <div class="buttonActivationCandidates">
+        <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
+    </div>
+</footer>
+
 </form>
-
-
-<footer class="bottomBanner"> </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/jsAffichage.js"></script>
 <script src="../Controller/js/Ajax.js"></script>

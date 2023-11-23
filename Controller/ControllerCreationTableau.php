@@ -2,13 +2,13 @@
 require_once "../Model/ModelCreationTableau.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST['finish'])){
+    if (isset($_POST['finish'])) {
         echo '<script>alert("a")</script>';
-}else{
-    $page = require_once "../View/PageAfficheTableau.php";
-    header($page);
+    } else {
+        $page = require_once "../View/PageAfficheTableau.php";
+        header($page);
 
-}
+    }
 }
 
 

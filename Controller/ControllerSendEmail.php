@@ -1,8 +1,13 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 
 //import des requêtes et des connections
-include "../Model/ModelConnexion.php";
+include "../Model/ModelInsertUpdateDelete.php";
+include "../Model/ModelSelect.php";
 include "../View/PageReinitialisation.php";
 $conn = require "../Model/Database.php";
 $mail = require '../Controller/ControllerMailConfig.php';

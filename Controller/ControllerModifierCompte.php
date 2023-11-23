@@ -1,6 +1,7 @@
 <?php
 session_start();
-include '../Model/ModelModificationCompte.php';
+include '../Model/ModelInsertUpdateDelete.php';
+include '../Model/ModelSelect.php';
 $conn = require '../Model/Database.php';
 
 /**
@@ -98,6 +99,7 @@ if(isset($_POST['submit'])){
             alert("Veuillez vous reconnecter");
             window.location.href = "../Controller/logout.php";
             </script>';
+
         }
         if($validite) {
             echo '<script>

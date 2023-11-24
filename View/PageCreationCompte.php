@@ -38,43 +38,42 @@ require '../Controller/ControllerAffichagePage.php';
 
 <body>
 
-<section>
-    <div class="rounded-box">
-        <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php">
-            <header>
-                <h1>
-                    Création d'un Candidat
-                </h1>
-                <span class="text-danger">Champs obligatoire(*)</span>
-            </header>
-            <?php
-            if(isset($_SESSION["message"])){
-                if ($_SESSION['success'] == 0) {?>
-                    <div class="alert alert-danger">
-                        <?php echo $_SESSION["message"]; ?>
-                    </div>
-                <?php } else { ?>
-                    <div class="alert alert-success">
-                        <?php echo $_SESSION["message"]; ?>
-                    </div>
-                    <?php
-                }
-                unset($_SESSION["erreur"]);
-                session_destroy();
-            }
-            ?>
-
-
+    <section>
             <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Informations Candidat
+                <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php" enctype="multipart/form-data">
+                <header>
+                    <h1>
+                        Création d'un Candidat
+                    </h1>
+                    <span class="text-danger">Champs obligatoire(*)</span>
                 </header>
-                <div class="ineForm">
-                    <label> INE </label>
-                    <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Z]{2}" >
+                    <?php
+                    if(isset($_SESSION["message"])){
+                        if ($_SESSION['success'] == 0) {?>
+                            <div class="alert alert-danger">
+                                <?php echo $_SESSION["message"]; ?>
+                            </div>
+                        <?php } else { ?>
+                            <div class="alert alert-success">
+                                <?php echo $_SESSION["message"]; ?>
+                            </div>
+                            <?php
+                        }
+                        unset($_SESSION["erreur"]);
+                        session_destroy();
+                    }
+                    ?>
 
-                </div>
 
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Informations Candidat
+                    </header>
+                    <div class="ineForm">
+                        <label> INE </label>
+                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Z]{2}" >
+
+                    </div>
 
                     <div class="lastNameForm">
                         <label for="lastName">Nom <span class="text-danger">*</span></label>
@@ -108,74 +107,76 @@ require '../Controller/ControllerAffichagePage.php';
                             utilsScript:
                                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
                         });
-              </script>
+                    </script>
 
-                <div class="permisBButton">
-                    <label class="form-check-label" >Permis</label>
-                    <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="0" checked>
-                    <label for="permisNon">Non</label>
+                    <div class="permisBButton">
+                        <label class="form-check-label" >Permis</label>
+                        <input class="form-check-input" type="radio" name="permisB" id="permisNon" value="0" checked>
+                        <label for="permisNon">Non</label>
 
-                    <input class="form-check-input" type="radio" name="permisB" id="permisOui" value="1">
-                    <label for="permisOui">Oui</label>
-                </div>
-            </div>
-
-            <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Adresse(s) d'habitation(s) du candidat <span class="text-danger">*</span>
-                </header>
-
-                <div class="adressForm">
-                    <div class="adressFormTemplate">
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="address[]" placeholder="Adresse d'habitation " required size="50">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="cityCandidate[]" placeholder="Ville" required>
-                        </div>
+                        <input class="form-check-input" type="radio" name="permisB" id="permisOui" value="1">
+                        <label for="permisOui">Oui</label>
                     </div>
                 </div>
-                <div class="adressButton">
-                    <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addCompleteAddress()"> Ajout adresse </button>
-                    <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
-                </div>
 
-            </div>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Adresse(s) d'habitation(s) du candidat <span class="text-danger">*</span>
+                    </header>
 
-            <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Zone(s) de recherche <span class="text-danger">*</span>
-                </header>
-                <div class="cityForm">
-                    <div id="citySearch1" name="citySearch1">
-                        <input type="text" class="form-control " id="citySearch" name="citySearch[]" placeholder="Zone 1" required>
-                        <label for="rayon">Rayon :</label>
-                        <input type="number" id="rayon" name="rayon[]" min="0" step="1" required>
-                        <span>Km</span>
+                    <div class="adressForm">
+                        <div class="adressFormTemplate">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="address[]" placeholder="Adresse d'habitation " required size="50">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="cityCandidate[]" placeholder="Ville" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="adressButton">
+                        <button id="addAddress" class="btn btn-outline-primary" type="button" onclick="addCompleteAddress()"> Ajout adresse </button>
+                        <button id="delAddress" class="btn btn-outline-primary" type="button" onclick="delAdressInput()"> Supprimer adresse</button>
                     </div>
 
                 </div>
 
-                <div class="buttonCityForm" >
-                    <button class="btn btn-outline-primary" type="button" id="addCityForm" name="addCityForm" onclick="addResearchZone()"> Ajout zone de recherche </button>
-                    <button class="btn btn-outline-primary" type="button" id="delCityForm" name="delCityForm" onclick="delReserchZone()"> Supprimer zone de recherche </button>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Zone(s) de recherche <span class="text-danger">*</span>
+                    </header>
+                    <div class="cityForm">
+                        <div id="citySearch1" name="citySearch1">
+                            <input type="text" class="form-control " id="citySearch" name="citySearch[]" placeholder="Zone 1" required>
+                            <label for="rayon">Rayon :</label>
+                            <input type="number" id="rayon" name="rayon[]" min="0" step="1" required>
+                            <span>Km</span>
+                        </div>
+
+                    </div>
+
+                    <div class="buttonCityForm" >
+                        <button class="btn btn-outline-primary" type="button" id="addCityForm" name="addCityForm" onclick="addResearchZone()"> Ajout zone de recherche </button>
+                        <button class="btn btn-outline-primary" type="button" id="delCityForm" name="delCityForm" onclick="delReserchZone()"> Supprimer zone de recherche </button>
+                    </div>
                 </div>
-            </div>
 
 
 
-            <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Formation actuelle du candidat <span class="text-danger">*</span>
-                </header>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Formation actuelle du candidat <span class="text-danger">*</span>
+                    </header>
 
-                <div class="choices-container">
-                    <?php
-                    displayDropdown($conn);
-                    ?>
+                    <div class="choices-container">
+                            <?php
+                            displayDropdown($conn);
+                            ?>
+
+                    </div>
 
                     <div class="parcoursForm">
                         <select name="parcours" id="parcours" class="form-select" required>
@@ -192,54 +193,55 @@ require '../Controller/ControllerAffichagePage.php';
                         </select>
                     </div>
                 </div>
-            </div>
 
 
-            <!-- Commentaire temporaire, demande avis client
-           <div class=select-all-container">
-                <label class="label-select-all">
-                    <input class="select-all" type="checkbox" id="select-all" name="select-all"> Sélectionner tout
-                </label>
-           </div>
+                     <!-- Commentaire temporaire, demande avis client
+                    <div class=select-all-container">
+                         <label class="label-select-all">
+                             <input class="select-all" type="checkbox" id="select-all" name="select-all"> Sélectionner tout
+                         </label>
+                    </div>
 
-           <div class="rounded-box formation-list-zone" style="display: none;">
-               <header>Ordre des formations</header>
-               <ol id="formation-list" draggable="true" style="display: none;">
-               </ol>
-           </div>
-           -->
+                    <div class="rounded-box formation-list-zone" style="display: none;">
+                        <header>Ordre des formations</header>
+                        <ol id="formation-list" draggable="true" style="display: none;">
+                        </ol>
+                    </div>
+                    -->
 
 
-            <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Entreprises
-                </header>
-                <div class="typeCompanySearchForm">
-                    <label for="typeCompanySearch">Type d'Entreprise Recherchées</label>
-                    <textarea id="typeCompanySearch" name="typeCompanySearch" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Entreprises
+                    </header>
+                    <div class="typeCompanySearchForm">
+                        <label for="typeCompanySearch">Type d'Entreprise Recherchées</label>
+                        <textarea id="typeCompanySearch" name="typeCompanySearch" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                    </div>
+
+                    <div class="downloadButton">
+                        <label for="cv">Inserer le cv ici</label>
+                        <input type="file" name="cvFile" id="cv" accept=".pdf, .png, .jpg, .jpeg">
+                    </div>
                 </div>
 
-                <div class="downloadButton">
-                    <label for="cv">Inserer le cv ici</label>
-                    <input type="file"  name="cv" accept=".pdf">
+                <div class="rounded-box">
+                    <header class="rounded-box-title">
+                        Remarques
+                    </header>
+                    <div class="remarks">
+                        <textarea id="text-area" name="remarksText" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                    </div>
                 </div>
-            </div>
 
-            <div class="rounded-box">
-                <header class="rounded-box-title">
-                    Remarques
-                </header>
-                <div class="remarks">
-                    <textarea id="text-area" name="remarksText" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+
+
+                <div class="submitButton">
+                    <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
                 </div>
+
+                </form>
             </div>
-
-
-
-            <div class="submitButton">
-                <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
-            </div>
-
 
     </section>
 
@@ -251,3 +253,4 @@ require '../Controller/ControllerAffichagePage.php';
     <script src="../Controller/js/processFormNumber.js"></script>
 </body>
 </html>
+

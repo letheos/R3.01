@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // on génère les variables
     const selectRole = document.getElementById('idRole');
-    const selectFormation = document.getElementById('divFormation');
+    const selectFormation = document.getElementById('idFormation');
     const formations = document.getElementById('formations')
     selectRole.addEventListener('change', function() {
         const activeRole = selectRole.value;

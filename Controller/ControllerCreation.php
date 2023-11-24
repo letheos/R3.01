@@ -1,15 +1,8 @@
-
 <?php
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
-include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
-//include  '../Model/ModelCreation.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
@@ -30,9 +23,8 @@ function sendmailinscription($mail,$emailuser){
         print_r($exception->getMessage());
     }
 }
-function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$formations,$role,$objmail)
+function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$role,$objmail)
 {
-    $formation = array($formation);
     //on modifie la valeur de formaiton selon la valeur selectionnée dans la formation
     if( $_POST['selectFormation'] == "mph"){
         $formation = 'mph';
@@ -46,18 +38,17 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 
 
     //on modifie la valeur de role selon le role sélectionné dans le select
-    if ($_POST['role'] == "Chef de Département"){
+    if ($_POST['role'] == "Chef de département"){
         $role = 1;
     }
     elseif ($_POST['role'] == 'Secrétaire'){
         $role = 2;
     }
-    elseif ($_POST['role'] == 'Chargé de Développement'){
+    elseif ($_POST['role'] == 'Chargé de développement'){
         $role = 3;
     }
 
 
-    $role = intval($role);
     $Errormsg = "";
     $sucessMessage = "";
 
@@ -147,16 +138,9 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         //nous avons passé toutes les conditions , on renvoie donc un message de succès
         $sucessMessage = "Enregistré avec succès";
         /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
+        echo "je vais essayer d'ajouter";
 
-        adduserbdd($conn,$pswd,$lastName,$firstName,$mail,$login,$role);
-        if($role != 1){
-            addrolesbdd($conn,$login,$formations);
-        }
-        else{
-            addrolesbdd($conn,$login,$formation);
-        }
-
-
+        addbdd($conn,$pswd,$lastName,$firstName,$mail,$login,$role,$formation);
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 
         try{
@@ -183,9 +167,8 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 <?php
 
 if (isset($_POST['login'])) {
-
     //on vérifie que les critères rentrés par l'utilisateur sont valides et si c'est le cas on l'enregistre dans la base
-    $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['formations'],$_POST['selectRole'],$objmail);
+    $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['selectRole'],$objmail);
     $_SESSION['message'] = $message;
     $_SESSION['confirmation'] = $_POST['confirmation'];
     $_SESSION['lastName'] = $_POST['lastName'];
@@ -194,7 +177,6 @@ if (isset($_POST['login'])) {
     $_SESSION['login'] = $_POST['login'];
     $_SESSION['selectFormation'] = $_POST['selectFormation'];
     $_SESSION['selectRole'] = $_POST['selectRole'];
-
     header('Location: ../View/PageCreation.php');
 }
 
@@ -206,11 +188,12 @@ function affichageRadioButton($conn){
         $formationName = $rows['nameFormation'];
 
         echo '<label class="choices">';
-        echo '<input type="checkbox"" name="formations[]" value="' . $formationName . '">';
+        echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
         echo $formationName;
         echo '</label>';
     };
 }
+
 function displayformations($conn) {
     $formations = selectAllFormation($conn);
 
@@ -221,76 +204,7 @@ function displayformations($conn) {
     }
 }
 
-function displaycandidatescount()
-{
-    $conn = require("../Model/Database.php");
-    $namesoformation = selectAllFormationnames($conn);
-
-
-    echo "<div>";
-    foreach ($namesoformation as $formationName) {
-        echo "<div class='rounded-box'>";
-        echo '<h3>' . $formationName['nameFormation'] . ' :'.countformation($conn,$formationName['nameFormation']) .'</h3>';
-        foreach (selectallstudies($conn, $formationName['nameFormation']) as $parcours) {
-            echo "<p>{$parcours['nameParcours']} : " . countstudentsstudies($conn, $parcours['nameParcours']) . "</p>";
-        }
-        echo "</div>";
-    }
-    echo "</div>";
-}
-
-
-
-
-/*
- * fonction qui permet d'afficher les effectifs d'élèves sur une page
- */
-function displaycounts(){
-    $conn = require("../Model/Database.php");
-    //appel à une bdd
-    $namesofformation = selectAllFormationnames($conn);
-    //on récupère tout les noms des formations
-    echo "<div class = 'rounded-box'>";
-    foreach ($namesofformation as $formationName){
-        //on fait une boucle pour afficher les noms de chaque formation dans une grille
-        echo "<div class = grid-container>";
-        echo "<div class = grid-item><p class = formation>".$formationName['nameFormation']."</p></div>";
-        echo "<div class = grid-item>Actifs</div>";
-        echo "<div class = grid-item>Non-actifs</div>";
-        echo "<div class = grid-item>total</div>";
-
-        echo "</div>";
-        //si notre formation actuelle possède des parcours style parcours A/B on affiche les parcours 1 à 1 avec l'effectif correspondant
-        if (!empty(selectallstudies($conn,$formationName['nameFormation']))){
-            foreach (selectallstudies($conn,$formationName['nameFormation']) as $parcours){
-                echo "<div class = grid-container>";
-                echo "<div class = grid-item>".$parcours['nameParcours']."</p></div>";
-                echo "<div class = grid-item>".countstudentstudiesactive($conn,$parcours['nameParcours'])."</div>";
-                echo "<div class = grid-item>".countstudentsstudies($conn,$parcours['nameParcours'])-countstudentstudiesactive($conn,$parcours['nameParcours'])."</div>";
-                echo "<div class = grid-item>".countstudentsstudies($conn,$parcours['nameParcours'])."</div>";
-                echo "</div>";
-            }
-        }
-        //si aucun parcours n'existe alors on affiche "parcours unique" et l'effectif de la formation entière
-        else{
-            echo "<div class = grid-container>";
-            echo "<div class = grid-item> Parcours unique</div>";
-            echo "<div class = grid-item>".countformationactive($conn,$formationName['nameFormation'])."</div>";
-            echo "<div class = grid-item>".countformation($conn,$formationName['nameFormation'])-countformationactive($conn,$formationName['nameFormation'])."</div>";
-            echo "<div class = grid-item>".countformation($conn,$formationName['nameFormation'])."</div>";
-            echo "</div>";
-        }
-
-    }
-    echo "</div>";
-    //TODO terminer la répartition des éléments dans le tableau et afficher les counts
-}
-
 
 ?>
-
-
-
-<link rel="stylesheet" href="../View/PageCreationcss.css">
 
 

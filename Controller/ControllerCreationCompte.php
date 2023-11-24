@@ -106,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($success == 1) {
-            // Déplacez le fichier téléchargé vers le dossier d'upload
             if (!move_uploaded_file($cv['tmp_name'], $uploadFile)) {
                 // Il y a eu une erreur lors du déplacement du fichier
                 $msg = "Erreur lors du déplacement du fichier";

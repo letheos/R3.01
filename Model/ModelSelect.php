@@ -3,7 +3,17 @@
  * @author : Nathan Strady
  */
 
-
+/**
+ * Fonction qui envoie toute les formations de la bdd
+ * @param $conn : Connection à la bdd
+ * @return mixed : Renvoie le résultat de la requête sql
+ */
+function selectAllFormation($conn){
+    $sql = "SELECT * FROM Formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+}
 
 function selectParcours($conn, $nameFormation){
     $sql = "SELECT Parcours.*
@@ -107,102 +117,4 @@ function exist($conn,$mail,$login)
     return $existence;
 
 
-}
-
-/**
- * @param $conn PDO
- * @return mixed
- * Fonction qui renvoie toutes les formations de la bdd
- */
-function selectAllFormation($conn){
-    $sql = "SELECT * FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchAll();
-}
-
-/**
- * @param $conn PDO
- * @return mixed
- *fonction qui renvoie tout les noms de formations de la bdd
- */
-function selectAllFormationnames($conn)
-{$sql = "SELECT nameFormation FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchAll();
-}
-
-/**
- * @param $conn PDO
- * @param $nameformation string
- * @return mixed
- * fonction qui renvoie tout les parcours
- */
-function selectallstudies($conn, $nameformation){
-    $sql = "SELECT nameParcours FROM parcours WHERE nameFormationParcours = ?";
-    $res = $conn->prepare($sql);
-    $res->execute(array($nameformation));
-    if ($res->rowCount() == 0) {
-        return array();}
-    return $res->fetchAll();
-}
-
-
-/**
- * @param $conn PDO
- * @param $parcours string
- * @return mixed
- * fonction qui renvoie le nombre de candidats dans un parcours
- */
-function countstudentsstudies($conn,$parcours){
-    $sql = "SELECT count(idCandidate) from candidate where nameParcours = ?";
-    $res = $conn->prepare($sql);
-    $res->execute(array($parcours));
-    return $res->fetchColumn();
-}
-
-/**
- * @param $conn PDO
- * @param $parcours string
- * @return mixed
- * fonction qui renvoie le nombre d'étudiants actifs dans un parcours.
- */
-function countstudentstudiesactive($conn,$parcours){
-    $sql = "SELECT count(idCandidate) from candidate where nameParcours = ? and isInActiveSearch = 1";
-    $res = $conn->prepare($sql);
-    $res->execute(array($parcours));
-    return $res->fetchColumn();
-}
-
-/**
- * @param $conn PDO
- * @param $formation string
- * @return int|mixed
- * fonction qui renvoie le nombre de gens dans une formation
- */
-
-function countformation($conn,$formation){
-    $total = 0;
-    $parcours = selectallstudies($conn,$formation);
-    foreach ($parcours as $p){
-        $total += countstudentsstudies($conn,$p["nameParcours"]);
-    }
-    return $total;
-}
-
-/**
- * @param $conn PDO
- * @param $formation string
- * @return int|mixed
- * fonction qui renvoie le nombre de personnes dans une formation
- */
-function countformationactive($conn,$formation){
-    $total = 0;
-    $parcours = selectallstudies($conn,$formation);
-    foreach ($parcours as $p){
-        //on compte dans le total le nombre de personne dans chaque parcours de la formation en question
-        $total += countstudentstudiesactive($conn,$p["nameParcours"]);
-    }
-    return $total;
 }

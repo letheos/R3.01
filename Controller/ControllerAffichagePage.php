@@ -26,3 +26,4 @@ function displayDropdown($conn) {
     echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>';
 }
+

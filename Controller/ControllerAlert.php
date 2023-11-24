@@ -4,7 +4,7 @@ $conn = require "../Model/Database.php";
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 
-$_SESSION["login"]="alice.smith";
+$_SESSION["login"]="benjamin.massy";
 
 /**
  * @param PDO $conn

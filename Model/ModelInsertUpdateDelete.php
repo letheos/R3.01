@@ -66,23 +66,23 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 }
 
-function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation){
+function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation)
+{
 
 
     $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
     $res = $conn->prepare($requete);
-    $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
+    $newpswrd = password_hash($pswrd, PASSWORD_DEFAULT);
 
     try {
-        $res->execute(array($login,$newpswrd,$firstname,$lastname,$role,$formation,$email,null,null));
+        $res->execute(array($login, $newpswrd, $firstname, $lastname, $role, $formation, $email, null, null));
 
-    }
-    catch (PDOException $e){
+    } catch (PDOException $e) {
         echo $e->getMessage();
     }
 
     return $res;
-
+}
 /**
  * @param $conn : Connection to the database
  * @param $login : User login
@@ -184,9 +184,12 @@ function modifLogin($conn,$oldLogin,$newLogin){
     $req = $conn->prepare("UPDATE Utilisateur SET login = ? WHERE login = ?");
     $req->execute(array($newLogin,$oldLogin));
 }
-function modifEmail($conn,$login,$mail){
+function modifEmail($conn,$login,$mail)
+{
     $req = $conn->prepare("UPDATE Utilisateur SET email = ? WHERE login = ?");
-    $req->execute(array($mail,$login));
+    $req->execute(array($mail, $login));
+}
+/**
  * @param PDO $conn   The db connection
  * @param string $login  The login of a user
  * @param string $remindAt  A date
@@ -251,3 +254,40 @@ function deleteAlert(PDO $conn, int $id, string $login){
         return $e;
     }
 }
+
+function setEtatTrue($conn,$id)
+{
+    $sql = "UPDATE Candidate SET isInActiveSearch = 1 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
+}
+
+
+function setEtatFalse($conn,$id)
+{
+    $sql = "UPDATE Candidate SET isInActiveSearch = 0 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
+
+}
+
+function deleteCandidate($conn, $id){
+    $sqlReq1="DELETE FROM CandidateAddress WHERE idCandidate = ?"; //Suppression des adresses
+    $sqlReq2="DELETE FROM CandidateZone WHERE idCandidate = ?"; //Suppression des Zones
+    $sqlReq3="DELETE FROM Candidate WHERE idCandidate = ?"; //Suppression des autres information candidats
+
+    //Activation de la requête supression des adresses
+    $sqlReq1 = $conn->prepare($sqlReq1);
+    $sqlReq1->execute(array($id));
+
+    //Activation de la requête supression des zones de recherche
+    $sqlReq2 = $conn->prepare($sqlReq2);
+    $sqlReq2->execute(array($id));
+
+    //Activation de la requête supression du candidat
+    $sqlReq3 = $conn->prepare($sqlReq3);
+    $sqlReq3->execute(array($id));
+}
+

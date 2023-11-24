@@ -92,18 +92,23 @@ function isPhoneNumberAlreadyExist($conn, $phone): bool {
     return !empty($result);
 }
 
-function verfication($conn,$mail,$login){
+function verfication($conn,$mail,$login)
+{
     //on vérifie que la personne existe bien dans l'adresse
-    try {
-        $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
 
-        $res = $conn->prepare($request0);
-        $res->execute(array($mail,$login));
-        if ($res->rowCount() == 0){
-            return false;
-        } else{
-            return true;
-        }
+    $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
+
+    $res = $conn->prepare($request0);
+    $res->execute(array($mail, $login));
+    if ($res->rowCount() == 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+    /**
  * @param PDO $conn  The db connection
  * @param string $login    The login of a user
  * @return bool|Exception|PDOException
@@ -127,7 +132,7 @@ function exist($conn,$mail,$login)
     $existence = verfication($conn, $mail, $login);
     //$existence = verfication($conn,$_POST['email'],$_POST['login']);
     return $existence;
-
+}
 
 
 //This is used to setup the timezone of PHPStorm as the Europe/Paris one
@@ -356,4 +361,156 @@ function selectAlert(PDO $conn, string $login, bool $future){
     }
 
     return $res;
+}
+
+/**
+ * @param $conn
+ * @param $isNotActive
+ * @return mixed
+ * Requête de selection des candidats actifs
+ */
+function selectCandidatesActives($conn, $isNotActive){
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE isInActiveSearch = ?";
+
+    $req = $conn->prepare($sql);
+    $req->execute(array($isNotActive));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats par formation
+ */
+function selectCandidatesByFormation($conn, $choixFormation, $isActive){
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE nameFormation = ? AND isInActiveSearch = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixFormation,$isActive));
+    return $req->fetchAll();
+}
+
+
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $choixNom
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats en fonction du nom et de la formation
+ */
+function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $choixFormation));
+    return $req->fetchAll();
+}
+
+function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND nameParcours = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours,  $choixFormation));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn
+ * @param $choixNom
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats en fonction du nom
+ */
+
+function selectCandidatesByName($conn, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND name LIKE ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByParcours($conn, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours, $choixFormation));
+    return $req->fetchAll();
+}
+
+
+/**
+ * @param $conn
+ * @return mixed
+ * Requête de selection des formations pour la liste déroulante
+ */
+function allFormation($conn){
+    $sql = "SELECT * FROM Formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+
+}
+
+function selectCandidatById($conn,$id){
+    $sql = "
+SELECT
+    ic.idCandidate,
+    ic.INE,
+    ic.name,
+    ic.firstName,
+    ic.phoneNumber,
+    ic.candidateMail,
+    ic.nameParcours,
+    f.nameFormation,
+    ic.yearOfFormation,
+    ic.isInActiveSearch,
+    ic.permisB,
+    ic.typeCompanySearch,
+    ic.cv,
+    ic.remarks,
+    GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP, ', ', candidateaddress.addressLabel, ', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
+    GROUP_CONCAT(DISTINCT CONCAT(candidatezone.cityName, ' (Rayon: ', candidatezone.radius, ' km)') SEPARATOR ', ') AS zones
+FROM infocandidate ic
+LEFT JOIN candidateaddress ON ic.idCandidate = candidateaddress.idCandidate
+LEFT JOIN candidatezone ON ic.idCandidate = candidatezone.idCandidate
+LEFT JOIN parcours p ON ic.nameParcours = p.nameParcours
+LEFT JOIN formation f ON p.nameFormationParcours = f.nameFormation
+WHERE ic.idCandidate = ?
+GROUP BY ic.idCandidate;
+";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetch();
+}
+
+function isInActiveSearch($conn,$id){
+    $sql = "Select isInActiveSearch from candidate where idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetch();
 }

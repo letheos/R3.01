@@ -80,14 +80,15 @@ function insertSearchZone($conn, $idCandidate, $searchCity, $radius){
  * @param $searchZone : Les zones de recherches du candidats
  * @return void
  */
-function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $email, $phoneNumber, $nameParcours, $permisB, $typeCompanySearch, $remark, $adresses, $searchZone, $cvPath) {
+function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $email, $phoneNumber, $nameParcours, $permisB, $typeCompanySearch, $remark, $adresses, $searchZone, $cvPath)
+{
     $sql = "INSERT INTO Candidate (INE, name, firstName,  candidateMail, phoneNumber, nameParcours, yearOfFormation, isInActiveSearch, permisB, typeCompanySearch, cv, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)";
     $req = $conn->prepare($sql);
     $req->execute(array($INE, $name, $firstName, $email, $phoneNumber, $nameParcours, $yearOfFormation, $permisB, $typeCompanySearch, $cvPath, $remark));
     $idCandidate = $conn->lastInsertId();
 
 
-    foreach ($adresses as $adressData){
+    foreach ($adresses as $adressData) {
         $cp = $adressData['CP'];
         $addr = $adressData['Address'];
         $city = $adressData['City'];
@@ -95,10 +96,12 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
 
     }
 
-    foreach ($searchZone as $zone){
+    foreach ($searchZone as $zone) {
         $search = $zone["SearchCity"];
         $radius = $zone["RadiusCity"];
         insertSearchZone($conn, $idCandidate, $search, $radius);
+    }
+}
 
 /**
  * @param PDO $conn   The db connection
@@ -245,6 +248,7 @@ function modifEmail($conn,$login,$mail){
     $req->execute(array($mail,$login));
 }
 
+/**
  * @param PDO $conn   The db connection
  * @param int $id   The id of an alert
  * @param string $login  The login of a user

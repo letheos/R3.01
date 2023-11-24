@@ -192,12 +192,6 @@ require '../Controller/ControllerAffichagePage.php';
                         </select>
                     </div>
                 </div>
-
-                <div class="yearOfFormationForm">
-                    <select name="yearOfFormation">
-                        <!--A COMPLETER -->
-                    </select>
-                </div>
             </div>
 
 

@@ -167,11 +167,14 @@ GROUP BY ic.idCandidate;
     return $req->fetch();
 }
 
-function isInActiveSearch($conn,$id){
+function isInActiveSearch($conn,$id)
+{
     $sql = "Select isInActiveSearch from candidate where idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
-
+    $result = $req->fetch();
+    return $result;
+}
 
 //This is used to setup the timezone of PHPStorm as the Europe/Paris one
 date_default_timezone_set('Europe/Paris');
@@ -194,10 +197,12 @@ function isLoginExist($conn, $login){
  * @return mixed
  * This function get the Email of a user using his login
  */
-function searchEmail($conn, $login){
+function searchEmail($conn, $login)
+{
     $req = $conn->prepare("SELECT email from Utilisateur WHERE login = ?");
     $req->execute(array($login));
     return $req->fetch();
+}
 
 /**
  * Fonction qui test la présence du candidat dans la bdd via son INE
@@ -247,13 +252,15 @@ function isEmailAlreadyExist($conn, $email): bool {
     return !empty($result);
 }
 
-function isPhoneNumberAlreadyExist($conn, $phone): bool {
+function isPhoneNumberAlreadyExist($conn, $phone): bool
+{
     $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($phone));
     $result = $req->fetch();
     return !empty($result);
-
+}
+/**
  * @param $conn : Connection to the database
  * @param $login : User login
  * @param $password : User password
@@ -394,7 +401,8 @@ function getInfosLogin($conn,$login){
     return $result;
 }
 
-function getRole($conn,$login){
+function getRole($conn,$login)
+{
     $reqObtenirIdRole = $conn->prepare("SELECT idRole FROM Utilisateur WHERE login=?");
     $reqObtenirIdRole->execute(array($login));
     $idRole = $reqObtenirIdRole->fetch();
@@ -403,6 +411,9 @@ function getRole($conn,$login){
     $reqObtenirNomRole->execute(array((int)$idRole));
     $result = $reqObtenirNomRole->fetch();
     return $result;
+}
+
+/**
 
  * @param PDO $conn  The db connection
  * @param string $login    The login of a user
@@ -416,20 +427,6 @@ function hasPastAlert(PDO $conn, string $login){
     try {
         $req->execute(array($login));
         $result = $req->fetchAll();
-}
-
-function verfication($conn,$mail,$login){
-    //on vérifie que la personne existe bien dans l'adresse
-    try {
-        $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
-
-        $res = $conn->prepare($request0);
-        $res->execute(array($mail,$login));
-        if ($res->rowCount() == 0){
-            return false;
-        } else{
-            return true;
-        }
     }
     catch (PDOException $e){
         return $e;
@@ -437,28 +434,47 @@ function verfication($conn,$mail,$login){
     return $result[0][0]!=0;
 }
 
+function verfication($conn, $mail, $login)
+{
+    //on vérifie que la personne existe bien dans l'adresse
+    try {
+        $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
+
+        $res = $conn->prepare($request0);
+        $res->execute(array($mail, $login));
+        if ($res->rowCount() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (PDOException $e) {
+        return $e;
+    }
+    return $result[0][0] != 0;
+}
+
 
 /**
- * @param PDO $conn   The db connection
- * @param string $login    The login of a user
+ * @param PDO $conn The db connection
+ * @param string $login The login of a user
  * @return array|Exception|false|PDOException
  * This function set all the alert for a user that needs a reminder to 'seen', meaning he saw them and don't need any more reminder.
  */
-function selectPastAlert(PDO $conn, string $login){
+function selectPastAlert(PDO $conn, string $login)
+{
     try {
-        $sql = 'SELECT note,remindAt,idAlert FROM Alert JOIN ALERTUTILISATEUR USING (IDALERT) WHERE login = ? AND remindAT<CURRENT_TIMESTAMP' ;
+        $sql = 'SELECT note,remindAt,idAlert FROM Alert JOIN ALERTUTILISATEUR USING (IDALERT) WHERE login = ? AND remindAT<CURRENT_TIMESTAMP';
         $req = $conn->prepare($sql);
         $req->execute(array($login));
-    }
-    catch (PDOException $e){
+    } catch (PDOException $e) {
         return $e;
     }
-    foreach ($req as $row){
-        setAlertSeen($conn,$row[2],$login);
+    foreach ($req as $row) {
+        setAlertSeen($conn, $row[2], $login);
     }
 }
 
-function exist($conn,$mail,$login)
+function exist($conn, $mail, $login)
 {
 
     $existence = verfication($conn, $mail, $login);
@@ -473,7 +489,8 @@ function exist($conn,$mail,$login)
  * @return mixed
  * Fonction qui renvoie toutes les formations de la bdd
  */
-function selectAllFormation($conn){
+function selectAllFormation($conn)
+{
     $sql = "SELECT * FROM Formation";
     $req = $conn->prepare($sql);
     $req->execute();
@@ -481,36 +498,38 @@ function selectAllFormation($conn){
 }
 
 /**
- * @param PDO $conn   The db connection
+ * @param PDO $conn The db connection
  * @param string $login The login of a user
- * @param boolean $future   A boolean, on which depends if all user's alert are shown or only the outdated ones
+ * @param boolean $future A boolean, on which depends if all user's alert are shown or only the outdated ones
  * @return array|Exception|false|PDOException
  * This function put in an array all the alert for a user (depending on the future param)
  */
-function selectAlert(PDO $conn, string $login, bool $future){
+function selectAlert(PDO $conn, string $login, bool $future)
+{
     try {
         $sql = "SELECT IDAlert,note,remindAt FROM alert join AlertUTILISATEUR USING (IDALERT) WHERE login = ? ";
-        if(!$future) {
-            $sql=$sql . "AND remindAt<=Current_DATE ";
+        if (!$future) {
+            $sql = $sql . "AND remindAt<=Current_DATE ";
         }
-        $sql=$sql. "ORDER BY RemindAt DESC";
+        $sql = $sql . "ORDER BY RemindAt DESC";
         $req = $conn->prepare($sql);
         $req->execute(array($login));
-        $res =$req->fetchAll();
-    }
-    catch (PDOException $e){
+        $res = $req->fetchAll();
+    } catch (PDOException $e) {
         return $e;
     }
 
     return $res;
 }
 
+/**
  * @param $conn PDO
  * @return mixed
  *fonction qui renvoie tout les noms de formations de la bdd
  */
 function selectAllFormationnames($conn)
-{$sql = "SELECT nameFormation FROM Formation";
+{
+    $sql = "SELECT nameFormation FROM Formation";
     $req = $conn->prepare($sql);
     $req->execute();
     return $req->fetchAll();
@@ -522,12 +541,14 @@ function selectAllFormationnames($conn)
  * @return mixed
  * fonction qui renvoie tout les parcours
  */
-function selectallstudies($conn, $nameformation){
+function selectallstudies($conn, $nameformation)
+{
     $sql = "SELECT nameParcours FROM parcours WHERE nameFormationParcours = ?";
     $res = $conn->prepare($sql);
     $res->execute(array($nameformation));
     if ($res->rowCount() == 0) {
-        return array();}
+        return array();
+    }
     return $res->fetchAll();
 }
 
@@ -538,7 +559,8 @@ function selectallstudies($conn, $nameformation){
  * @return mixed
  * fonction qui renvoie le nombre de candidats dans un parcours
  */
-function countstudentsstudies($conn,$parcours){
+function countstudentsstudies($conn, $parcours)
+{
     $sql = "SELECT count(idCandidate) from candidate where nameParcours = ?";
     $res = $conn->prepare($sql);
     $res->execute(array($parcours));
@@ -551,7 +573,8 @@ function countstudentsstudies($conn,$parcours){
  * @return mixed
  * fonction qui renvoie le nombre d'étudiants actifs dans un parcours.
  */
-function countstudentstudiesactive($conn,$parcours){
+function countstudentstudiesactive($conn, $parcours)
+{
     $sql = "SELECT count(idCandidate) from candidate where nameParcours = ? and isInActiveSearch = 1";
     $res = $conn->prepare($sql);
     $res->execute(array($parcours));
@@ -565,11 +588,12 @@ function countstudentstudiesactive($conn,$parcours){
  * fonction qui renvoie le nombre de gens dans une formation
  */
 
-function countformation($conn,$formation){
+function countformation($conn, $formation)
+{
     $total = 0;
-    $parcours = selectallstudies($conn,$formation);
-    foreach ($parcours as $p){
-        $total += countstudentsstudies($conn,$p["nameParcours"]);
+    $parcours = selectallstudies($conn, $formation);
+    foreach ($parcours as $p) {
+        $total += countstudentsstudies($conn, $p["nameParcours"]);
     }
     return $total;
 }
@@ -580,12 +604,17 @@ function countformation($conn,$formation){
  * @return int|mixed
  * fonction qui renvoie le nombre de personnes dans une formation
  */
-function countformationactive($conn,$formation){
+function countformationactive($conn, $formation)
+{
     $total = 0;
-    $parcours = selectallstudies($conn,$formation);
-    foreach ($parcours as $p){
+    $parcours = selectallstudies($conn, $formation);
+    foreach ($parcours as $p) {
         //on compte dans le total le nombre de personne dans chaque parcours de la formation en question
-        $total += countstudentstudiesactive($conn,$p["nameParcours"]);
+        $total += countstudentstudiesactive($conn, $p["nameParcours"]);
     }
     return $total;
 }
+
+
+
+

@@ -42,7 +42,7 @@ function choiceAllOptionWithActive($conn, $isActive){
         // Utilisez un lien vers la page des détails du candidat
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete" onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -66,7 +66,7 @@ function choiceAllCandidatesByFormation($conn, $choixFormation,  $isActive){
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"  onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -81,7 +81,7 @@ function choiceAllCandidatesByParcours($conn, $parcours, $isActive){
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"  onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -104,7 +104,7 @@ function choiceAllCandidatesByNameAndParcours($conn, $choixNom,$parcours, $isAct
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"  onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -128,7 +128,7 @@ function choiceAllCandidatesByNameAndFormation($conn, $choixFormation,  $isActiv
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"  onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -150,7 +150,7 @@ function choiceAllCandidatesByName($conn, $isActive, $choixNom){
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"  onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {
@@ -172,7 +172,7 @@ function choiceAllCandidatesByFormationAndParcours($conn, $choixFormation, $parc
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> ' . $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] . '<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=' . $row["idCandidate"] . '">Détail</a>' . '
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" ' . $row['idCandidate'] . ' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" ' . $row['idCandidate'] . ' "  value="delete" onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value=" ' . $row['idCandidate'] . ' "> Rendre Inactif';
         } else {
@@ -195,7 +195,7 @@ function choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixF
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
-        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " onclick="showAlert(this)">Supprimer</button> ';
+        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id=" '.  $row['idCandidate'] .' " value="delete"   onclick="showAlert(this)">Supprimer</button> ';
         if ($isActive){
             echo '<input type="checkbox" name="checkboxActif[]" value="'.$row['idCandidate'].'"> Rendre Inactif';
         } else {

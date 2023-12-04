@@ -109,12 +109,10 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
 
 function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
 {
-    echo '<script>alert("e")</script>';
     $req = $conn->prepare($sql);
     if ($parcours == "allParcours" && $formation == "allFormations") {
         //if $parcours has the value allParcours and $formation has the value allFormations
         //do the request
-
         $params = array($isPermis);
         $req->execute($params);
         return $req->fetchall();
@@ -122,48 +120,22 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
     if ($parcours != "allParcours" && $formation != "allFormations") {
         //if $parcours hasn't the value allParcours and $formation hasn't the value allFormations
         //do the request
-
         $params = array( $isPermis, $formation, $parcours);
-        echo "<br>";
-
         $req->execute($params);
         return $req->fetchall();
-
     }
-    if ($parcours == "allParcours" && $formation != "allFormations") {
-        //if $parcours has the value allParcours and $formation hasn't the value allFormations
-        //do the request
-        $params = array($isPermis, $formation);
+    if (($parcours == "allParcours" && $formation != "allFormations") || ($parcours != "allParcours" && $formation == "allFormations")) {
+        // If $parcours has the value allParcours and $formation hasn't the value allFormations
+        // OR $parcours hasn't the value allParcours and $formation has the value allFormations
+        // Do the request
+        $params = array($isPermis, ($parcours == "allParcours") ? $formation : $parcours);
         $req->execute($params);
-        return $req->fetchall();
-
+        return $req->fetchAll();
     }
-    if ($parcours != "allParcours" && $formation == "allFormations") {
-        //if $parcours hasn't the value allParcours and $formation has the value allFormations
-        //do the request
-        $params = array( $isPermis, $parcours);
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
-    $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
-
-    return $tableau;
+    return null;
 }
 
-function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn, $ine)
-{
-    if ($isPermis) {
-        $sql = "SELECT () FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
-    }
-    //problème vient quand je mes des conditions
-    $sql = "SELECT * FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
-    $req = $conn->prepare($sql);
-    $params = array($year, $isActif, $isPermis);
-    $req->execute($params);
-    return $req->fetchall();
 
-}
 
 
 /**

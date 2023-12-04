@@ -1,0 +1,166 @@
+.rounded-box {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0; /* Remove default margin for body element */
+}
+
+
+/* Center the form elements vertically and add spacing */
+.rounded-box input  {
+    margin-bottom: 10px; /* Add some vertical spacing between elements */
+}
+
+.rounded-box select {
+    margin-bottom:  10px;
+}
+
+.rounded-box-title{
+    font-size: 20px;
+}
+
+/* Add some padding to labels for spacing */
+.rounded-box label {
+    text-align: left;
+    flex: 1; /* Pour que le label occupe autant d'espace que l'input */
+}
+
+.adressFormTemplate {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
+.text-danger {
+    color: red; /* Couleur du texte en rouge */
+    font-size: 14px; /* Taille de la police */
+    margin-top: 5px; /* Marge en haut pour l'éloigner légèrement du champ */
+}
+
+.adressFormTemplate {
+    display: flex;
+    flex-direction: row; /* Par défaut, les éléments seront alignés horizontalement */
+    justify-content: space-between; /* Espacez les éléments également horizontalement */
+    align-items: center; /* Centrez verticalement les éléments dans le conteneur */
+}
+
+.form-group {
+    flex: 1; /* Les éléments du formulaire auront une largeur égale dans le conteneur */
+    margin-right: 10px; /* Ajoutez un espace entre les éléments du formulaire */
+}
+
+
+/* Center the submit button */
+.submitButton {
+    text-align: center;
+}
+
+.formationRadioButton {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espace entre les éléments */
+}
+
+
+
+
+label {
+    order: -1; /* Change the order to display label on top */
+    margin-bottom: 5px; /* Add spacing between label and input */
+}
+
+/* Style pour la zone de la liste des formations */
+.formation-list-zone {
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Bordure autour de la zone */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+
+}
+
+/* Style pour le titre "Ordre des formations" */
+.formation-list-zone header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Style pour la liste ordonnée (ol) de formations */
+#formation-list {
+    list-style: none; /* Pour supprimer les puces de liste */
+    padding: 0;
+    border: 1px dashed #ccc; /* Bordure pointillée pour la zone de glisser-déposer */
+    background-color: #fff;
+    min-height: 100px; /* Hauteur minimale pour la zone de glisser-déposer */
+    max-height: 300px; /* Hauteur maximale pour limiter la taille de la zone */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si la liste dépasse la hauteur maximale */
+    margin-top: 5px; /* Marge en haut de la liste */
+}
+
+/* Style pour les éléments de la liste ordonnée (li) */
+#formation-list li {
+    background-color: #f9f9f9; /* Couleur de fond des éléments de la liste */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd; /* Bordure autour des éléments */
+    cursor: move; /* Curseur de type "move" pour indiquer que les éléments sont déplaçables */
+}
+
+/* Style pour l'élément en cours de glissement */
+#formation-list li:active {
+    opacity: 0.6; /* Réduire l'opacité lorsqu'un élément est en cours de glissement */
+}
+
+
+/*
+.choices-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+*/
+
+/* Styles pour la case à cocher "Sélectionner tout" */
+.select-all-conteiner {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    padding: 20px;
+}
+
+
+/* Styles pour les cases à cocher */
+.choices input[type="checkbox"] {
+    margin-right: 10px; /* Espace entre la case à cocher et le label */
+}
+
+/* Styles pour les labels */
+.choices label {
+    margin: 0; /* Supprimer toute marge par défaut du label */
+}
+
+.label-select-all{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+

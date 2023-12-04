@@ -84,6 +84,22 @@ CREATE TABLE `candidatezone` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dashBoard`
+--
+CREATE TABLE `dashBoard` (
+  `idDashBoard` INT AUTO_INCREMENT PRIMARY KEY ,
+  `isPermis` tinyint(1) NOT NULL,
+  `year` text NOT NULL,
+  `formation` text NOT NULL,
+  `parcours` text NOT NULL,
+  `isIne` tinyint(1) NOT NULL,
+  `isAddress` tinyint(1) NOT NULL,
+  `isPhone` tinyint(1) NOT NULL
+);ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `connectionattempt`
 --
 

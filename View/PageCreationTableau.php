@@ -1,5 +1,5 @@
 <?php
-require_once "../Controller/ControllerCreationTableau.php";
+require "../Controller/ControllerCreationTableau.php";
 $conn = require "../Model/Database.php";
 ?>
 
@@ -43,7 +43,7 @@ TODO faire un input qui passe avec une api pour la ville
         <div class="formation">
             <div class="menuDeroulFormation">
                 <label for="formations">formation :</label>
-                <select name="formations" title="formations" id="formations" >
+                <select name="formations" title="formations" id="formations" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerAfficheTableau.php')" >
 
                     <option value="allFormations" selected>touts les formations</option>
                     <?php

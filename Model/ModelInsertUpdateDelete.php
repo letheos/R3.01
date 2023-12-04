@@ -1,4 +1,6 @@
+
 <?php
+
 
 /**
  * @param $isPermis boolean
@@ -8,14 +10,31 @@
  * @param $isIne boolean
  * @param $isAddress boolean
  * @param $isPhone boolean
- * @param $idUser string //a trouver comment récupérer l'user pour pouvoir l'enregistré dans la bdd
+ * @param $login string
+ * @param $conn PDO
+ * @return void
+ */
+function insertNewDashBoardForUser($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone,$login, $conn){
+    //crée un nouveau tableau de bord
+    insertNewDashBoard($isPermis,$year,$formation,$parcours,$isIne,$isAddress,$isPhone,$conn);
+    //récup le dernier id
+    $lastId = getLastIdDashBoard($conn);
+    insertNewUserDashBoard($login,$lastId,$conn);
+    //insérer dans la table associative
+}
+/**
+ * @param $isPermis boolean
+ * @param $year string
+ * @param $formation string
+ * @param $parcours string
+ * @param $isIne boolean
+ * @param $isAddress boolean
+ * @param $isPhone boolean
  * @param $conn PDO //the connection at the database
  * @return boolean
  * this funtion insert à new tableau de bord in the database is link it whit an user
  */
-
-function insertNewDashBoard1($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser, $conn){
-    $user = getUserWithId($idUser, $conn);
+function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn){
     $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
     $params = array($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone);
@@ -31,17 +50,10 @@ function insertNewDashBoard1($isPermis, $year, $formation, $parcours, $isIne, $i
         return false;
     }
 }
+function insertNewUserDashBoard($login,$idDashBoard,$conn){
 
-//TODO changer le nom en insertNewDashBoard
-function insertNewDashBoard2($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser,$conn){
-    $user = getUserWithId($idUser, $conn);
-    $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
-    $req = $conn->prepare($sql);
-$params = array( $isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone);
-    $req->execute($params);
-    //$req->execute($isPermis, $year, $formation, $parcours, $isIne, $isPhone);
-    return $req->fetchall();
 }
+
 
 /**
  * @param $idDashBoard int
@@ -77,4 +89,9 @@ function deleteUserDashBoard($login, $idDashBoard, $conn){
     } Catch(PDOException $e){
         return $e->getMessage();
     }
+}
+function getLastIdDashBoard($conn){
+    $sql = "SELECT idDashBoard FROM DashBoard WHERE id = LAST_INSERT_ID()";
+    $req = $conn->prepare($sql);
+    return $req->execute();
 }

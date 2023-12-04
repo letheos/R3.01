@@ -1,5 +1,5 @@
 <?php
-require_once "../Model/ModelCreationTableau.php";
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['finish'])) {

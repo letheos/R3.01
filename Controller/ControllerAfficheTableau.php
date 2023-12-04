@@ -1,6 +1,7 @@
 <?php
-require "../Model/ModelCreationTableau.php";
+require "../Model/ModelSelect.php";
 $conn = require "../Model/Database.php";
+/*
 if(isset($_POST['validate'])){
     // toute les valeurs
     echo '<script>alert("a")</script>';
@@ -23,8 +24,13 @@ if(isset($_POST['validate'])){
 
 function controllergetStudentsWithConditions($isPermis, $year ,$formation, $conn ,$parcours ,$ine ,$address ,$phone){
     //trouver coment envoyer les paramètres
-    echo '<script>alert("c")</script>';
+
     return getStudentsWithConditions($isPermis,$year,$formation,$conn,$parcours,$ine,$address,$phone);
 }
 return getStudentsWithConditions($_POST['isPermis'],$_POST['formAnnee'],$_POST['formations'],$_POST['parcours'],$conn,$_POST['isIne'],$_POST['isIne'],$_POST['isPhone']);
 
+*/
+function ControlerGetDashBoardPerUser($login){
+    $conn = require "../Model/Database.php";
+    return getDashBoardPerUser($login,$conn);
+}

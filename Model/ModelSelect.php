@@ -17,11 +17,8 @@
 
 function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
-
     if($year == "allYears"){
-
         $fin = " FROM infocandidate  WHERE permisB =(?)";
-
     } else{
         $fin = " FROM infocandidate  WHERE yearOfFormation =(?) AND permisB =(?)";
     }
@@ -50,10 +47,8 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
     $sql = $deb .= $fin;
     if($year == "allYears"){
         return getStudentsWithoutYears($isPermis,$formation,$parcours,$conn,$sql);
-
     }
-    echo $sql;
-    //return $test;
+
     $req = $conn->prepare($sql);
     if ($parcours == "allParcours" && $formation == "allFormations") {
         //if $parcours has the value allParcours and $formation has the value allFormations
@@ -68,8 +63,6 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         //do the request
 
         $params = array($year, $isPermis, $formation, $parcours);
-        echo "<br>";
-
         $req->execute($params);
         return $req->fetchall();
 
@@ -90,9 +83,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         return $req->fetchall();
 
     }
-    $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
-
-    return $tableau;
+    return null;
 }
 /**
  * @param $isActif bool
@@ -135,9 +126,6 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
     return null;
 }
 
-
-
-
 /**
  * @param $conn PDO
  * @return String[]
@@ -165,7 +153,8 @@ function getParcoursWithConditions($conn, $parcours)
 {
     $sql = "SELECT * FROM parcours WHERE nameParcours LIKE(?)";
     $req = $conn->prepare($sql);
-    $req->execute($parcours);
+    $params = Array($parcours);
+    $req->execute($params);
     return $req->fetchall();
 }
 
@@ -174,7 +163,6 @@ function getParcoursWithConditions($conn, $parcours)
  * @return String[]
  * take a PDO connexion and return all the formation in the databse
  */
-
 function getAllFormation($conn)
 {
     $sql = "SELECT * FROM formation";
@@ -189,12 +177,12 @@ function getAllFormation($conn)
  * @return Array[String]
  * return
  */
-
 function getFormationWithCoditions($conn, $formation)
 {
     $sql = "SELECT * FROM formation WHERE nameFormation LIKE(?)";
     $req = $conn->prepare($sql);
-    $req->execute($formation);
+    $params = Array($formation);
+    $req->execute($params);
     return $req->fetchall();
 }
 
@@ -210,34 +198,47 @@ function getUserWithLogin($login, $conn)
 {
     $sql = "SELECT login FROM Utilisateur WHERE login = ?";
     $req = $conn->prepare($sql);
-    $req->execute([$login]); // Pass the parameter as an array
-    $value = $req->fetch();
-    return $value;
+    $params = Array($login);
+    $req->execute($params); // Pass the parameter as an array
+    return $req->fetch();
 }
 
 /**
  * @param $login String id of the user
  * @param $conn PDO connection to a database
  * @return String[]
- *
+ *Take as parameters a login for a user and a connection to a database,
+ * then return all values that his dashboard contains
  */
 function getDashBoardPerUser($login,$conn){
 
     $sql = "SELECT * FROM UserDashBoard WHERE login = ?";
     $req = $conn->prepare($sql);
-    $req->execute([$login]);
+    $params = Array($login);
+    $req->execute($params);
     $dashBoards = $req->fetchall();
     $result= [];
-    foreach ($dashBoards as $id){
+    print_r($dashBoards);
+    foreach ($dashBoards[0] as $id){
         $result[] = getDashBoardPerId($id,$conn);
     }
     return $result;
 }
 
+/**
+ * @param $id int id of the dashboard
+ * @param $conn PDO connection to a database
+ * @return String[] the values of the dashboard
+ * Take as parameters an ID for a dashboard and a connection to a database,
+ * then return the value in the database for the given ID
+ */
 function getDashBoardPerId($id,$conn){
+    //echo '<script>alert("ici")</script>';
+    //echo($id);
     $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
     $req = $conn->prepare($sql);
-    $req->execute($id);
+
+    $req->execute([$id]);
     return  $req->fetchall();
 
 }

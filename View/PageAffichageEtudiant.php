@@ -37,15 +37,16 @@ include "../Controller/ControllerAffichageEtudiant.php";
             <label for="parcours" class="form-select-label"> Parcours </label>
             <select class="form-select" name="parcours" id="parcours">
                 <option value=""> Choisir un parcours </option>
+                <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
             </select>
         </div>
 
         <div class="formName">
-            <input type="text" class="form-control" name="nameCandidates" id="nameCandidates" placeholder="Filtrage par nom">
+            <input type="text" class="form-control" name="nameCandidates" id="nameCandidates" value="<?php echo $_POST['nameCandidates'] ?>" placeholder="Filtrage par nom">
         </div>
 
         <div class="checkbox">
-            <input class="form-check" type="checkbox" name="isActive" id="isActive">
+            <input class="form-check" type="checkbox" name="isActive" id="isActive" <?php echo ($_POST['isActive'] === 'on') ? 'checked' : ''; ?>>
             <label for="isNotActive" class="form-check-label"> Non-actif </label>
         </div>
 

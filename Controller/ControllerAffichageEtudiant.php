@@ -16,12 +16,15 @@ require '../Model/ModelSelect.php';
 //Fonction d'affichage des candidats
 function listAffichageSelect($conn){
     $selected = '';
+    $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
     $results = allFormation($conn);
     echo '<select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours(\'../Controller/ControllerParcoursAffichage.php\')">', "\n";
     echo '<option value="" selected="selected" disabled> Choisir la formation </option>';
     foreach($results as $row)
     {
-        echo "\t",'<option value="', $row['nameFormation'] ,'"', $selected ,'>', $row['nameFormation'] ,'</option>',"\n";
+        $optionValue = $row['nameFormation'];
+        $selected = ($selectedFormation == $optionValue) ? 'selected' : '';
+        echo "\t", '<option value="', $optionValue, '"', $selected, '>', $optionValue, '</option>', "\n";
     }
     echo '<option value="Aucune Option" > Aucune Option </option>';
     echo '</select>',"\n";
@@ -191,7 +194,7 @@ function choiceAllCandidatesByFormationAndParcours($conn, $choixFormation, $parc
  * @return void : Modifie l'affichage de la page
  */
 function choiceAllCandidatesByNameFormationAndParcours($conn, $choixNom, $choixFormation, $parcours, $isActive){
-    $results = selectCandidatesByNameFormationAndParcours($conn,$parcours, $choixNom, $choixFormation, $isActive);
+    $results = selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive);
     foreach ($results as $row) {
         echo '
         <p class="candidates" id="candidats"> '. $row['firstName'] . " " . $row['name'] . " " . $row['nameParcours'] .'<br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id='.$row["idCandidate"].'">Détail</a>'.'
@@ -235,7 +238,7 @@ function filtrage($conn)
     // Exécuter les requêtes en fonction des critères de filtrage
     if ($hasFormationFilter && $hasNomFilter && $hasParcoursFilter) {
         // Filtrage par formation, nom et parcours
-        choiceAllCandidatesByNameFormationAndParcours($conn, $choixFormation, $choixNom, $parcours, $isActive);
+        choiceAllCandidatesByNameFormationAndParcours($conn,  $choixNom, $choixFormation, $parcours, $isActive);
     } elseif ($hasFormationFilter && $hasNomFilter) {
         // Filtrage par formation et nom
         choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);

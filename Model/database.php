@@ -1,7 +1,7 @@
 <?php
 //Fichier des créations de la connexion
 
-$conn = new PDO("mysql:host=localhost;dbname=localDatabase2", "root", "root");
+$conn = new PDO("pgsql:host= iutinfo-sgbd.uphf.fr;dbname=iutinfo204", "iutinfo204", "RJZJ6d34");
 return $conn
 
 ?>

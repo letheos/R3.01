@@ -291,3 +291,25 @@ function deleteCandidate($conn, $id){
     $sqlReq3->execute(array($id));
 }
 
+function insertCommunication($conn,$id,$note){
+    try {
+        $sql = "INSERT INTO Communication (idcandidat,date,note) VALUES (?,current_timestamp,?)";
+        $req = $conn->prepare($sql);
+        $req->execute(array($id, $note));
+    }
+    catch (PDOException $e) {
+        return $e;
+    }
+}
+
+function deleteCommunication($conn,$candidateid,$noteid){
+    try {
+        $sql = "DELETE FROM Communication WHERE idmessage = ? and idcandidate = ?";
+        $req = $conn->prepare($sql);
+        $req->execute(array($noteid,$candidateid));
+    }
+    catch (PDOException $e) {
+        return $e;
+    }
+}
+

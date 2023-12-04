@@ -514,3 +514,13 @@ function isInActiveSearch($conn,$id){
     $req->execute(array($id));
     return $req->fetch();
 }
+
+function selectcomm($conn,$idcandidate){
+    $sql = "Select note,test,idmessage from communication where idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idcandidate));
+    return $req->fetchall();
+}
+
+
+

@@ -188,12 +188,14 @@ function isEmailAlreadyExist($conn, $email): bool {
     return !empty($result);
 }
 
-function isPhoneNumberAlreadyExist($conn, $phone): bool {
+function isPhoneNumberAlreadyExist($conn, $phone): bool
+{
     $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($phone));
     $result = $req->fetch();
     return !empty($result);
+}
 
 /**
  * @author : Nathan Strady
@@ -209,28 +211,6 @@ function selectAllFormation($conn){
     $req = $conn->prepare($sql);
     $req->execute();
     return $req->fetchAll();
-}
-
-function selectParcours($conn, $nameFormation){
-    $sql = "SELECT Parcours.*
-            FROM Parcours
-            JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
-            WHERE Formation.nameFormation = ?;
-            ";
-    $req = $conn->prepare($sql);
-    $req->execute(array($nameFormation));
-    $results = $req->fetchAll();
-    return $results;
-}
-
-function allParcours($conn){
-    $sql = "SELECT Parcours.*
-            FROM Parcours
-            ";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    $results = $req->fetchAll();
-    return $results;
 }
 
 /**
@@ -266,27 +246,6 @@ function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
 
 }
 
-/**
- * Fonction qui vérifie l'existance d'un email dans la base de donnée
- * @param $conn : Connexion à la bdd
- * @param $email : Email du candidat
- * @return bool Renvoie un boulean contenant le résultat
- */
-function isEmailAlreadyExist($conn, $email): bool {
-    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($email));
-    $result = $req->fetch();
-    return !empty($result);
-}
-
-function isPhoneNumberAlreadyExist($conn, $phone): bool {
-    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($phone));
-    $result = $req->fetch();
-    return !empty($result);
-}
 
 function verfication($conn,$mail,$login){
     //on vérifie que la personne existe bien dans l'adresse

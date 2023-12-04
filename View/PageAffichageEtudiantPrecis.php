@@ -54,7 +54,7 @@ $infotCandidat = selectCandidatById($conn, $id);
                     }
                     ?>
                     <input type="hidden" id="idValue" name="idValue" value="<?php echo $id ?>">
-                    <a class="btn btn-primary" href="./PageModifcationCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
+                    <a class="btn btn-primary" href="./PageModifierCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
                 </div>
             </form>
         </div>

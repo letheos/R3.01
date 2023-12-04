@@ -1,7 +1,7 @@
 <?php
 
-require_once "../Model/ModelCreationTableau.php";
-$tableau = require "../Controller/ControllerAfficheTableau.php";
+
+//tableau = require "../Controller/ControllerAfficheTableau.php";
 
 ?>
 <!doctype html>
@@ -40,21 +40,54 @@ $tableau = require "../Controller/ControllerAfficheTableau.php";
     <link rel="stylesheet" href="StylePageCreationTableau.css">
     <title>Document</title>
 </head>
-<body>
+<p>
 
 
+    <?php
+
+    //$conn = require "../Model/Database.php";
+    require "../Controller/ControllerAfficheTableau.php";
+    /*
+    $test = getStudentsWithConditions(0,"1er","Informatique","Parcours Informatique B",$conn,1,0,0);
+    $p = getUserWithId("user1",$conn);
+
+    foreach ($p as $t) {
+
+        print_r($p);
+
+    }
+    */
+    $dashBoards = ControlerGetDashBoardPerUser("utilisateur1");
+
+    foreach ($dashBoards
+
+    as $dashBoard) {
+    foreach ($dashBoard
+
+    as $valeur) {
+    ?>
+<div class="rounded-box">
+    <li>le tableau de bord numéro <?= $valeur[0] ?>   </li>
+    <?php if ($valeur[1]) {
+        echo '<li>ont le permis</li>';
+    } else {
+        echo "<li>n'ont pas le permis</li>";
+    } ?>
+    <li> année d'étude : <?= $valeur[2] ?>   </li>
+    <li> formation : <?= $valeur[3] ?>   </li>
+    <li>recherche les étudiants ayant comme parcours : <?= $valeur[4] ?>   </li>
+    <?php echo $valeur[5] ? "<li>affiche l'INE</li>" : "<li> n'affiche pas l'INE</li>"; ?>
+    <?php echo $valeur[6] ? "<li>affiche l'adresse</li>" : "<li> n'affiche pas l'adresse</li>"; ?>
+    <?php echo $valeur[7] ? "<li>affiche le téléphone</li>" : "<li> n'affiche pas le téléphone</li>"; ?>
+    <button>supprimer</button>
+    <button>modifier</button>
+</div>
+<br>
 <?php
 
-$conn = require "../Model/Database.php";
+}
+//var_dump($dashBoard);
 
-$test = getStudentsWithConditions(1,"allYears","Informatique","Parcours Informatique B",$conn,0,1,0);
-echo $tableau;
-
-foreach ($test as $student) {
-    foreach ($student as $value){?>
-        <p><?= $value ?></p>
-    <?php
-    }
 }
 ?>
 <footer class="bottomBanner">

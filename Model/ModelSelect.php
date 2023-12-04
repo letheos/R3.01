@@ -124,6 +124,7 @@ function selectParcours($conn, $nameFormation){
     return $results;
 }
 
+
 function allParcours($conn){
     $sql = "SELECT Parcours.*
             FROM Parcours

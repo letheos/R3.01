@@ -1,4 +1,4 @@
-function onChangeUpdateDisplayParcours(link) {
+function onChangeUpdateDisplayParcours(link, selectedFormation, selectedParcours) {
 
     var selectedFormation = document.getElementById("formation").value;
     var parcoursSelect = document.getElementById("parcours");
@@ -27,6 +27,10 @@ function onChangeUpdateDisplayParcours(link) {
                 var option = document.createElement("option");
                 option.value = parcours.nameParcours;
                 option.text = parcours.nameParcours;
+                if (parcours.nameParcours == selectedParcours){
+                    option.selected = true;
+                }
+
                 parcoursSelect.appendChild(option);
             });
 
@@ -45,3 +49,4 @@ function onChangeUpdateDisplayParcours(link) {
     return false
 
 }
+

@@ -102,6 +102,97 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 }
 
+function updateAddr($conn, $idAddr, $cp, $addr, $city){
+    $sql = "UPDATE CandidateAddress SET cp = ?, addressLabel = ?, city = ? WHERE idAddr = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($cp, $addr, $city, $idAddr));
+}
+
+function updateZone($conn, $idZone, $city, $radius){
+    $sql = "UPDATE CandidateZone SET cityName = ?, radius = ? WHERE idZone = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($city, $radius, $idZone));
+}
+
+function updateNameCandidate($conn, $id, $name){
+    $sql = "UPDATE Candidate SET name = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($name, $id));
+    return true;
+}
+
+function updateFirstNameCandidate($conn, $id, $firstName){
+    $sql = "UPDATE Candidate SET firstName = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($firstName, $id));
+    return true;
+}
+
+function updateMailCandidate($conn, $id, $candidateMail){
+    $sql = "UPDATE Candidate SET candidateMail = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($candidateMail, $id));
+    return true;
+}
+
+function updateCVCandidate($conn, $id, $cv){
+    $sql = "UPDATE Candidate SET cv = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($cv, $id));
+    return true;
+}
+
+function updatePhoneNumberCandidate($conn, $id, $phone){
+    $sql = "UPDATE Candidate SET phoneNumber = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($phone, $id));
+    return true;
+}
+
+function updateParcoursCandidate($conn, $id, $parcours){
+    $sql = "UPDATE Candidate SET nameParcours = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($parcours, $id));
+    return true;
+}
+
+function updateFormationCandidate($conn, $id, $formation){
+    $sql = "UPDATE Candidate SET nameFormation = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($formation, $id));
+    return true;
+}
+
+function updateYearOfFormationCandidate($conn, $id, $yearOfFormation){
+    $sql = "UPDATE Candidate SET yearOfFormation = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($yearOfFormation, $id));
+    return true;
+}
+
+function updateDriverLicenceCandidate($conn, $id, $driverLicence){
+    $sql = "UPDATE Candidate SET yearOfFormation = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($driverLicence, $id));
+    return true;
+}
+
+
+function updateTextAreaCandidate($conn, $id, $textArea){
+    $sql = "UPDATE Candidate SET typeCompanySearch = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($textArea, $id));
+    return true;
+}
+
+
+
+function updateRemarksCandidate($conn, $id, $remarks){
+    $sql = "UPDATE Candidate SET remarks = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($remarks, $id));
+    return true;
+}
 
 function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation){
 

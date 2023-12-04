@@ -34,7 +34,8 @@
         "php": ">=7.3",
         "ext-ctype": "*",
         "ext-filter": "*",
-        "ext-hash": "*"
+        "ext-hash": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",

@@ -1,5 +1,5 @@
 <?php
-$conn = require "Database.php";
+//$conn = require "Database.php";
 /**
  * @param $isActif bool
  * @param $isPermis bool
@@ -14,9 +14,10 @@ $conn = require "Database.php";
  * this function do a request that can change if some param change like $ine, $address and $phone
  * return the result of the request
  */
+
 function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
-    echo '<script>alert("d")</script>';
+
     if($year == "allYears"){
 
         $fin = " FROM infocandidate  WHERE permisB =(?)";
@@ -105,6 +106,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
  * take in parameters all the values and the request sql
  * return the result of the request
  */
+
 function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
 {
     echo '<script>alert("e")</script>';
@@ -148,7 +150,7 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
 
     return $tableau;
 }
-/*
+
 function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn, $ine)
 {
     if ($isPermis) {
@@ -163,12 +165,13 @@ function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn
 
 }
 
-*/
+
 /**
  * @param $conn PDO
  * @return String[]
  * take a PDO connection and return all the date in Parcours
  */
+
 function getAllParcours($conn)
 {
     $sql = "SELECT * FROM parcours";
@@ -185,6 +188,7 @@ function getAllParcours($conn)
  * @return String[]
  * take a PDO connexion and an educative parcours and return all the parcours in the database that correspond
  */
+
 function getParcoursWithConditions($conn, $parcours)
 {
     $sql = "SELECT * FROM parcours WHERE nameParcours LIKE(?)";
@@ -198,6 +202,7 @@ function getParcoursWithConditions($conn, $parcours)
  * @return String[]
  * take a PDO connexion and return all the formation in the databse
  */
+
 function getAllFormation($conn)
 {
     $sql = "SELECT * FROM formation";
@@ -212,6 +217,7 @@ function getAllFormation($conn)
  * @return Array[String]
  * return
  */
+
 function getFormationWithCoditions($conn, $formation)
 {
     $sql = "SELECT * FROM formation WHERE nameFormation LIKE(?)";
@@ -221,16 +227,45 @@ function getFormationWithCoditions($conn, $formation)
 }
 
 /**
- * @param $idUser String
+ * @param $login String
  * @param $conn PDO
  * @return mixed
- * this function take in parameter the id of a user and a connection to the database
+ * this function take in parameter the login of a user and a connection to the database
  * return the user
  */
-function getUserWithId($idUser,$conn)
+
+function getUserWithLogin($login, $conn)
 {
-    $sql = "SELECT * FROM Utilisateur WHERE login = ?";
+    $sql = "SELECT login FROM Utilisateur WHERE login = ?";
     $req = $conn->prepare($sql);
-    $req->execute($idUser);
-    return $req->fetchall();
+    $req->execute([$login]); // Pass the parameter as an array
+    $value = $req->fetch();
+    return $value;
+}
+
+/**
+ * @param $login String id of the user
+ * @param $conn PDO connection to a database
+ * @return String[]
+ *
+ */
+function getDashBoardPerUser($login,$conn){
+
+    $sql = "SELECT * FROM UserDashBoard WHERE login = ?";
+    $req = $conn->prepare($sql);
+    $req->execute([$login]);
+    $dashBoards = $req->fetchall();
+    $result= [];
+    foreach ($dashBoards as $id){
+        $result[] = getDashBoardPerId($id,$conn);
+    }
+    return $result;
+}
+
+function getDashBoardPerId($id,$conn){
+    $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
+    $req = $conn->prepare($sql);
+    $req->execute($id);
+    return  $req->fetchall();
+
 }

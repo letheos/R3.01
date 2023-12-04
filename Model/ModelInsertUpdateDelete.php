@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @param $isPermis boolean
  * @param $year string
@@ -12,7 +13,8 @@
  * @return boolean
  * this funtion insert à new tableau de bord in the database is link it whit an user
  */
-function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser, $conn){
+
+function insertNewDashBoard1($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser, $conn){
     $user = getUserWithId($idUser, $conn);
     $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
@@ -30,8 +32,8 @@ function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $is
     }
 }
 
-/*
-function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser,$conn){
+//TODO changer le nom en insertNewDashBoard
+function insertNewDashBoard2($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser,$conn){
     $user = getUserWithId($idUser, $conn);
     $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
@@ -40,4 +42,39 @@ $params = array( $isPermis, $year, $formation, $parcours, $isIne, $isAddress, $i
     //$req->execute($isPermis, $year, $formation, $parcours, $isIne, $isPhone);
     return $req->fetchall();
 }
-*/
+
+/**
+ * @param $idDashBoard int
+ * @param $conn PDO
+ * @return string|void
+ * take in parameter a login and an id of a dashBoard and a connection to a database
+ * delete the dashboard in teh table dashboard
+ */
+function deleteDashBoard($idDashBoard,$conn){
+    try{
+        $sql = "DELETE FROM dashBoard WHERE idTableauDeBord = ?;";
+        $req = $conn->prepare($sql);
+        $req -> execute($idDashBoard);
+    }Catch(PDOException $e){
+        return $e->getMessage();
+    }
+}
+
+/**
+ * @param $login String //get with the session
+ * @param $idDashBoard int // get with a select
+ * @param $conn PDO //connection to the database
+ * @return string|void
+ * take in parameter a login and an id of a dashBoard and a connection to a database
+ * delete the dashboard in the table userDashBoard
+ */
+function deleteUserDashBoard($login, $idDashBoard, $conn){
+    try{
+        $sql = "DELETE FROM userdashboard WHERE idTableauDeBord = ? AND login = ?";
+        $req = $conn->prepare($sql);
+        $req -> execute($idDashBoard,$login);
+
+    } Catch(PDOException $e){
+        return $e->getMessage();
+    }
+}

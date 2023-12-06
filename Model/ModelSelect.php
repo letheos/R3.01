@@ -212,15 +212,22 @@ function getUserWithLogin($login, $conn)
  */
 function getDashBoardPerUser($login,$conn){
 
-    $sql = "SELECT * FROM UserDashBoard WHERE login = ?";
+    $sql = "SELECT idDashBoard FROM UserDashBoard WHERE login = ?";
     $req = $conn->prepare($sql);
     $params = Array($login);
     $req->execute($params);
-    $dashBoards = $req->fetchall();
-    $result= [];
-    print_r($dashBoards);
-    foreach ($dashBoards[0] as $id){
-        $result[] = getDashBoardPerId($id,$conn);
+
+
+    $dashBoards = $req->fetchall()  ;
+
+    //get the idDashBoard for a login pass in parameter
+    $result= Array();
+    $lesid = Array();
+    //get all the value in the database for some idDashBoard
+    foreach ($dashBoards as $id){
+        //print_r($id);
+        Array_push($lesid,$id[0]);
+        Array_push($result,getDashBoardPerId($id[0],$conn));
     }
     return $result;
 }
@@ -233,8 +240,8 @@ function getDashBoardPerUser($login,$conn){
  * then return the value in the database for the given ID
  */
 function getDashBoardPerId($id,$conn){
-    //echo '<script>alert("ici")</script>';
-    //echo($id);
+
+
     $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
     $req = $conn->prepare($sql);
 

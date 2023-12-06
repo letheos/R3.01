@@ -135,6 +135,28 @@ function allParcours($conn){
     return $results;
 }
 
+function selectIdAddrByCandidate($conn, $id){
+    $sql="
+         SELECT idAddr FROM infocandidate ic 
+         LEFT JOIN candidateaddress ca ON ic.idCandidate = ca.idCandidate
+         WHERE ic.idCandidate = ?
+         ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($id));
+    return $stmt->fetchAll();
+}
+
+function selectIdZoneByCandidate($conn, $id){
+    $sql="
+         SELECT idZone FROM infocandidate ic 
+         LEFT JOIN candidatezone cz ON ic.idCandidate = cz.idCandidate
+         WHERE ic.idCandidate = ?
+         ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($id));
+    return $stmt->fetchAll();
+}
+
 function selectCandidatById($conn,$id){
     $sql = "
 SELECT

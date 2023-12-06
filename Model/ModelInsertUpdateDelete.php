@@ -95,8 +95,8 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 
     foreach ($searchZone as $zone){
-        $search = $zone["SearchCity"];
-        $radius = $zone["RadiusCity"];
+        $search = $zone["cityName"];
+        $radius = $zone["radius"];
         insertSearchZone($conn, $idCandidate, $search, $radius);
 
     }
@@ -135,12 +135,6 @@ function updateMailCandidate($conn, $id, $candidateMail){
     return true;
 }
 
-function updateCVCandidate($conn, $id, $cv){
-    $sql = "UPDATE Candidate SET cv = ? WHERE idCandidate = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute(array($cv, $id));
-    return true;
-}
 
 function updatePhoneNumberCandidate($conn, $id, $phone){
     $sql = "UPDATE Candidate SET phoneNumber = ? WHERE idCandidate = ?";
@@ -153,13 +147,6 @@ function updateParcoursCandidate($conn, $id, $parcours){
     $sql = "UPDATE Candidate SET nameParcours = ? WHERE idCandidate = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute(array($parcours, $id));
-    return true;
-}
-
-function updateFormationCandidate($conn, $id, $formation){
-    $sql = "UPDATE Candidate SET nameFormation = ? WHERE idCandidate = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute(array($formation, $id));
     return true;
 }
 
@@ -185,12 +172,39 @@ function updateTextAreaCandidate($conn, $id, $textArea){
     return true;
 }
 
-
-
 function updateRemarksCandidate($conn, $id, $remarks){
     $sql = "UPDATE Candidate SET remarks = ? WHERE idCandidate = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute(array($remarks, $id));
+    return true;
+}
+
+function updateIneCandidate($conn, $id, $ine){
+    $sql = "UPDATE Candidate SET INE = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($ine, $id));
+    return true;
+}
+
+function updateCVCandidate($conn, $id, $cvPath){
+    $sql="UPDATE Candidate SET cv = ? WHERE idCandidate = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($cvPath, $id));
+    return true;
+}
+
+
+function deleteAddr($conn, $idAddr){
+    $sql = "DELETE FROM candidateaddress WHERE idAddr = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($idAddr));
+    return true;
+}
+
+function deleteZone($conn, $idZone){
+    $sql = "DELETE FROM candidatezone WHERE idZone = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(array($idZone));
     return true;
 }
 

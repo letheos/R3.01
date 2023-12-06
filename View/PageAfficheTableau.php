@@ -1,7 +1,16 @@
 <?php
 
+require "../Controller/ControllerAfficheTableau.php";
 
-//tableau = require "../Controller/ControllerAfficheTableau.php";
+if (isset($_SESSION['login'])) {
+    $User = $_SESSION['login'];
+}
+else{
+    session_start();
+    $_SESSION['login'] = "utilisateur2";
+    $User = $_SESSION['login'];
+}
+
 
 ?>
 <!doctype html>
@@ -18,7 +27,7 @@
 <header class="banner">
     <form>
         <h1 class="TexteProfil">
-            Création de tableau de bord
+            Affichage des tableau de bord
         </h1>
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
@@ -37,59 +46,46 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="StylePageCreationTableau.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="StylePageAfficheTableau.css">
+    <title>PageAfficheDashBoard</title>
 </head>
 <p>
 
 
     <?php
+    $dashBoards = ControlerGetDashBoardPerUser($_SESSION['login']);
 
-    //$conn = require "../Model/Database.php";
-    require "../Controller/ControllerAfficheTableau.php";
-    /*
-    $test = getStudentsWithConditions(0,"1er","Informatique","Parcours Informatique B",$conn,1,0,0);
-    $p = getUserWithId("user1",$conn);
-
-    foreach ($p as $t) {
-
-        print_r($p);
-
-    }
-    */
-    $dashBoards = ControlerGetDashBoardPerUser("utilisateur1");
-
-    foreach ($dashBoards
-
-    as $dashBoard) {
-    foreach ($dashBoard
-
-    as $valeur) {
+    foreach ($dashBoards as $dashBoard) {
+    //print_r($dashBoard);
+    foreach ($dashBoard as $valeur) {
     ?>
 <div class="rounded-box">
-    <li>le tableau de bord numéro <?= $valeur[0] ?>   </li>
-    <?php if ($valeur[1]) {
-        echo '<li>ont le permis</li>';
+    <li><?= $valeur[0] ?>   </li>
+    <li style="display: none">le tableau de bord numéro <?= $valeur[1] ?>   </li>
+    <?php if ($valeur[2]) {
+        echo '<li style="display: none">ont le permis</li>';
     } else {
-        echo "<li>n'ont pas le permis</li>";
+        echo "<li style='display: none' >n'ont pas le permis</li>";
     } ?>
-    <li> année d'étude : <?= $valeur[2] ?>   </li>
-    <li> formation : <?= $valeur[3] ?>   </li>
-    <li>recherche les étudiants ayant comme parcours : <?= $valeur[4] ?>   </li>
-    <?php echo $valeur[5] ? "<li>affiche l'INE</li>" : "<li> n'affiche pas l'INE</li>"; ?>
-    <?php echo $valeur[6] ? "<li>affiche l'adresse</li>" : "<li> n'affiche pas l'adresse</li>"; ?>
-    <?php echo $valeur[7] ? "<li>affiche le téléphone</li>" : "<li> n'affiche pas le téléphone</li>"; ?>
+    <li style="display: none"> année d'étude : <?= $valeur[3] ?>   </li>
+    <li style="display: none"> formation : <?= $valeur[4] ?>   </li>
+    <li style='display: none'>>recherche les étudiants ayant comme parcours : <?= $valeur[5] ?>   </li>
+    <?php echo $valeur[6] ? "<li style='display: none'> INE affiché</li>" : "<li style='display: none'> INE non affiché</li>"; ?>
+    <?php echo $valeur[7] ? "<li style='display: none'>adresse affiché</li>" : "<li style='display: none'> adresse non affiché</li>"; ?>
+    <?php echo $valeur[8] ? "<li style='display: none'>numéro de téléphone affiché</li>" : "<li style='display: none'> numéro de téléphone non affiché</li>"; ?>
+
+    <button > <img src="C:\document\but2\sae\stest.png" alt="+" /> </button>
     <button>supprimer</button>
     <button>modifier</button>
 </div>
 <br>
 <?php
-
 }
-//var_dump($dashBoard);
-
 }
 ?>
+
+
+<button>Ajouter un tableau de bord</button>
 <footer class="bottomBanner">
     <div class="nomFooter">
         <p>

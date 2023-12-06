@@ -515,8 +515,22 @@ function isInActiveSearch($conn,$id){
     return $req->fetch();
 }
 
-function selectcomm($conn,$idcandidate){
+function selectComm($conn,$idcandidate){
     $sql = "Select note,test,idmessage from communication where idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idcandidate));
+    return $req->fetchall();
+}
+
+function selectCandidate($conn,$firstname,$lastname){
+    $sql = "Select name,firstname,idcandidate from Candidate where firstname ILIKE ? or Candidate.name ILIKE ?;";
+    $req = $conn->prepare($sql);
+    $req->execute(array($firstname,$lastname));
+    return $req->fetchall();
+}
+
+function getCandidate($conn,$idcandidate){
+    $sql = "Select name,firstname from Candidate where idcandidate = ?;";
     $req = $conn->prepare($sql);
     $req->execute(array($idcandidate));
     return $req->fetchall();

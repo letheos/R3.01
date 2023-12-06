@@ -2,6 +2,7 @@
 require "../Controller/ControllerCommunication.php";
 $conn = require "../Model/database.php";
 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,11 +22,12 @@ $conn = require "../Model/database.php";
         </h1>
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+
         </button>
     </form>
 </header>
 
-<?php showCandidate($conn,"%","%"); ?>
+<?php showComm($conn,$_SESSION["candidate"]); ?>
 
 
 

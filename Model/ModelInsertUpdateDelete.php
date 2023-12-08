@@ -295,12 +295,12 @@ function addCommunication($conn,$id,$note,$img){
     try {
         if(is_null($img)) {
 
-            $sql = "INSERT INTO Communication (idcandidat,dateCommunication,note) VALUES (?,current_timestamp,?)";
+            $sql = "INSERT INTO Communication (idcandidate,dateCommunication,note) VALUES (?,current_timestamp,?)";
             $req = $conn->prepare($sql);
             $req->execute(array($id, $note));
         }
         else{
-            $sql = "INSERT INTO Communication (idcandidat,dateCommunication,img) VALUES (?,current_timestamp,?)";
+            $sql = "INSERT INTO Communication (idcandidate,dateCommunication,img) VALUES (?,current_timestamp,?)";
             $req = $conn->prepare($sql);
             $req->execute(array($id, $img));
         }
@@ -310,11 +310,11 @@ function addCommunication($conn,$id,$note,$img){
     }
 }
 
-function deleteCommunication($conn,$candidateid,$commid){
+function deleteCommunication($conn,$commid){
     try {
-        $sql = "DELETE FROM Communication WHERE idmessage = ? and idcandidate = ?";
+        $sql = "DELETE FROM Communication WHERE idmessage = ?";
         $req = $conn->prepare($sql);
-        $req->execute(array($commid,$candidateid));
+        $req->execute(array($commid));
     }
     catch (PDOException $e) {
         return $e;

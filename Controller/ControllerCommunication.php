@@ -83,7 +83,7 @@ if(isset($_POST['Add'])){
 
 
 if(isset($_POST["Delete"])){
-    deleteCommunication($conn,1,$_POST["idmessage"]);
+    deleteCommunication($conn,$_POST["idmessage"]);
     header('Location: ../View/PageCommunicationPrecise.php');
     die();
 }

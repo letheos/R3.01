@@ -19,6 +19,8 @@ $conn = require "../Model/database.php";
         <h1 class="TexteProfil">
             Communication
         </h1>
+
+
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
         </button>
@@ -36,7 +38,6 @@ $conn = require "../Model/database.php";
         <div class="nomFooter">
             <p>
                 Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-
             </p>
         </div>
         <div class="origineFooter">

@@ -516,7 +516,7 @@ function isInActiveSearch($conn,$id){
 }
 
 function selectComm($conn,$idcandidate){
-    $sql = "Select note,test,idmessage from communication where idCandidate=?";
+    $sql = "Select note,dateCommunication,idmessage,img from communication where idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($idcandidate));
     return $req->fetchall();

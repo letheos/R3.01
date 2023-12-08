@@ -29,6 +29,25 @@ $conn = require "../Model/database.php";
 
 <?php showComm($conn,$_SESSION["candidate"]); ?>
 
+<section>
+    <div id="add">
+        <form method="POST" action="../Controller/ControllerCommunication.php">
+            <p>Ajouter une nouvelle information:</p>
+            <label>
+                <textarea name="Note" maxlength="300" required ></textarea>
+            </label>
+            <div class="downloadButton">
+                <label for="img">Ajouter une piece jointe</label>
+                <input type="file" name="imgbutton" id="imgbutton" accept=".pdf, .png, .jpg, .jpeg">
+            </div>
+            <br>
+            <input type='submit' name='Add' value='Ajouter'>
+        </form>
+    </div>
+</section>
+
+
+
 
 
 

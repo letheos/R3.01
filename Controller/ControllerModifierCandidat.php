@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($success == 1){
-        $msg = "Modification réalisée avec succes ! ";
+        $msg = "Modification(s) réalisée(s) avec succès ! ";
         session_start();
         $_SESSION['message'] = $msg;
         header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");

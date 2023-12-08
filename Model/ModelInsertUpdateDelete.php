@@ -83,3 +83,33 @@ function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formatio
 
     return $res;
 }
+
+function adduserbdd($conn,$pswrd,$lastname,$firstname,$email,$login,$role){
+
+    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,null,null)";
+    $res = $conn->prepare($requete);
+    $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
+
+    try{
+        $res->execute(array($login,$newpswrd,$lastname,$firstname,$role,$email));
+    }catch (PDOException $e){
+        echo 'tamerelapute';
+    }
+
+
+
+    return $res;
+}
+
+function addrolesbdd($conn,$login,$formations)
+{
+    $requete = "Insert into formationsutilisateurs values (?,?)";
+    $res = $conn->prepare($requete);
+    try{
+        for ($x = 0; $x < count($formations); $x++) {
+            $res->execute(array($login, $formations[$x]));
+        }}
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}

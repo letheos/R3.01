@@ -75,8 +75,13 @@ else{
     <?php echo $valeur[8] ? "<li style='display: none'>numéro de téléphone affiché</li>" : "<li style='display: none'> numéro de téléphone non affiché</li>"; ?>
 
     <button > <img src="C:\document\but2\sae\stest.png" alt="+" /> </button>
-    <button>supprimer</button>
-    <button>modifier</button>
+    <form <!-- mettre en action la fonction supprimer -->>
+        <button>supprimer</button>
+    </form>
+
+    <form <!-- mettre en action la fonction modifier -->>
+        <button>modifier</button>
+    </form>
 </div>
 <br>
 <?php
@@ -84,8 +89,9 @@ else{
 }
 ?>
 
-
-<button>Ajouter un tableau de bord</button>
+<form action="../View/PageCreationTableau.php">
+    <button>Ajouter un tableau de bord</button>
+</form>
 <footer class="bottomBanner">
     <div class="nomFooter">
         <p>

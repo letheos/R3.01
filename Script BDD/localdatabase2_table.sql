@@ -96,7 +96,7 @@ CREATE TABLE `dashBoard` (
   `isIne` tinyint(1) NOT NULL,
   `isAddress` tinyint(1) NOT NULL,
   `isPhone` tinyint(1) NOT NULL
-);ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

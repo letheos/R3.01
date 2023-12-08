@@ -1,11 +1,20 @@
 <?php
+/**
+ * Controller du fichier de modification Candidat
+ * @author Nathan Strady
+ */
+
+//Appel des fichiers importants
 $conn = require "../Model/Database.php";
 require "../Model/ModelInsertUpdateDelete.php"; // Assurez-vous d'inclure le fichier contenant vos fonctions de mise à jour
 require "../Model/ModelSelect.php";
 require "GestionDonnees.php";
 
+//Gestion des erreurs
 $msg = "erreur script";
 $success = 1;
+
+//Fichier des cvs
 $directory = './upload/';
 
 
@@ -13,37 +22,27 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
-// Vérifiez si l'ID est présent dans l'URL
+//Récupère l'id dans l'url
 if (isset($_POST['id'])) {
-    // Récupérez l'ID depuis l'URL
     $id=$_POST['id'];
 } else {
-    // Gérez le cas où l'ID n'est pas présent dans le formulaire
-    exit("ID non spécifié dans le formulaire");
+    exit("ERREUR SERVEUR : ID non spécifié dans le formulaire");
 }
 
 
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $success == 1) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Les zones et adresses du candidat dans la base de donnée
     $adresses = regroupAdresses($_POST['cp'], $_POST['address'], $_POST['cityCandidate']);
     $searchZone = regroupSearchZone($_POST['citySearch'], $_POST['rayon']);
 
     //Verification de la présence des informations pour modification
-    if (isset($_POST["INE"])){
-        if (!isCandidateExistWithIne($conn, $_POST["INE"])) {
+    if (isset($_POST["INE"]) && $success == 1){
+        if (!isCandidateExistWithIneWithIdVerification($conn, $_POST["INE"], $id)) {
             updateIneCandidate($conn, $id, $_POST["INE"]);
         } else {
-            exit("Arrête");
-            /*
-            echo '
-                  <script>
-                  alert("INE DEJA EXISTANT");
-                  document.location.href = "../View/PageModificationCandidat.php?id='. $id .'"; 
-                  </script> 
-                 ';
-            */
+            $success = 0;
+            $msg = "INE DEJA EXISTANT";
         }
     }
 
@@ -56,11 +55,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success == 1) {
     }
 
     if (isset($_POST['canditateEmail'])){
-        updateMailCandidate($conn, $id, $_POST['canditateEmail']);
+        if(!isEmailAlreadyExistWithIdVerification($conn, $_POST['canditateEmail'], $id)) {
+            updateMailCandidate($conn, $id, $_POST['canditateEmail']);
+        } else {
+            $success = 0;
+            $msg = "EMAIL DEJA EXISTANT";
+        }
     }
 
-    if (isset($_POST['typePhone'])){
-        updatePhoneNumberCandidate($conn, $id, $_POST['typePhone']);
+    if (isset($_POST['typePhone']) && $success == 1) {
+        if (!isPhoneNumberAlreadyExistWithIdVerification($conn, $_POST['typePhone'], $id)) {
+            updatePhoneNumberCandidate($conn, $id, $_POST['typePhone']);
+        } else {
+            $success = 0;
+            $msg = "NUMERO DE TELEPHOENE DEJA EXISTANT";
+        }
     }
 
     if (isset($_POST['permisB'])){
@@ -104,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success == 1) {
             $cp = $address['CP'];
             $addr = $address['Address'];
             $city = $address['City'];
-            $currentAddr = $address['idAddr'] ?? null;
+            $currentAddr = $address['idAddr'] ?? null; //Opération ternaire qui vérifie si on à bien l'élement ou non
             if ($currentAddr !== null) {
                 updateAddr($conn, $currentAddr, $cp, $addr, $city);
             } else {
@@ -126,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success == 1) {
         foreach ($searchZone as $zone) {
             $city = $zone['cityName'];
             $radius = $zone['radius'];
-            $currentAddr = $zone['idZone'] ?? null;
+            $currentAddr = $zone['idZone'] ?? null; //Opération ternaire qui vérifie si on à bien l'élement ou non
             if ($currentAddr !== null) {
                 updateZone($conn, $currentAddr, $city, $radius);
             } else {
@@ -135,13 +144,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success == 1) {
         }
     }
 
-    header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
-
-
-
-
+    if ($success == 1){
+        $msg = "Modification réalisée avec succes ! ";
+        session_start();
+        $_SESSION['message'] = $msg;
+        header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
+    } else {
+        echo '
+              <script>
+              alert("'. $msg .'");
+              document.location.href = "../View/PageModifierCandidat.php?id='. $id .'"; 
+              </script> 
+             ';
+    }
 } else {
-    $success = 0;
-    $msg = "Problème lors de l'envoie de la demande de moficiation";
-    header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
+    exit("Problème lors de l'envoie");
 }
+
+
+

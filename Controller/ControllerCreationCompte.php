@@ -78,9 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    // Vérifications supplémentaires
     if ($success === 1) {
-        // Vos vérifications existantes
         if (isCandidateExistWithNameAndFirstname($conn, $name, $firstName)) {
             $msg = "Candidat déjà présent";
             $success = 0;

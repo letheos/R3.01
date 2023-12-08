@@ -211,6 +211,14 @@ function isEmailAlreadyExist($conn, $email): bool {
     return !empty($result);
 }
 
+function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool {
+    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($email));
+    $result = $req->fetch();
+    return !empty($result) && $result['idCandidate'] != $id;
+}
+
 function isPhoneNumberAlreadyExist($conn, $phone): bool
 {
     $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
@@ -220,15 +228,16 @@ function isPhoneNumberAlreadyExist($conn, $phone): bool
     return !empty($result);
 }
 
-/**
- * @author : Nathan Strady
- */
+function isPhoneNumberAlreadyExistWithIdVerification($conn, $phone, $id): bool
+{
+    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($phone));
+    $result = $req->fetch();
+    return !empty($result) && $result['idCandidate'] != $id;
+}
 
-/**
- * Fonction qui envoie toute les formations de la bdd
- * @param $conn : Connection à la bdd
- * @return mixed : Renvoie le résultat de la requête sql
- */
+
 function selectAllFormation($conn){
     $sql = "SELECT * FROM Formation";
     $req = $conn->prepare($sql);
@@ -249,6 +258,16 @@ function isCandidateExistWithIne($conn, $INE): bool
     $req->execute(array($INE));
     $result = $req->fetch();
     return !empty($result);
+
+}
+
+function isCandidateExistWithIneWithIdVerification($conn, $INE, $id): bool
+{
+    $sql = "SELECT * from Candidate WHERE INE = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($INE));
+    $result = $req->fetch();
+    return !empty($result) && $result['idCandidate'] != $id;
 
 }
 

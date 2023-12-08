@@ -2,12 +2,15 @@
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
 
+} else {
+    exit("ERREUR : LOGIN MANQUANT");
 }
 
 $infotCandidat = selectCandidatById($conn, $id);
@@ -34,6 +37,7 @@ $infotCandidat = selectCandidatById($conn, $id);
     </header>
 
 
+
     <section class="Affiche">
         <div class="rounded-box">
             <?php
@@ -57,6 +61,16 @@ $infotCandidat = selectCandidatById($conn, $id);
                     <a class="btn btn-primary" href="./PageModifierCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
                 </div>
             </form>
+            <?php
+            session_start();
+            if(isset($_SESSION["message"])){ ?>
+                <div class="alert alert-success">
+                <?php echo $_SESSION["message"]; ?>
+                </div>
+                <?php
+            }
+                session_destroy();
+            ?>
         </div>
     </section>
 

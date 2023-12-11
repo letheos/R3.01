@@ -6,3 +6,7 @@ function ControllerGetDashBoardPerUser($login){
     $conn = require "../Model/Database.php";
     return getDashBoardPerUser($login,$conn);
 }
+function ControllerGetYearWitDashBoard($idDashboard){
+    $conn = require "../Model/Database.php";
+
+}

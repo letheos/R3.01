@@ -38,48 +38,49 @@ else{
 
     <?php
     $dashBoards = ControllerGetDashBoardPerUser($_SESSION['login']);
-    //récup les id de dashboard
-    //récup les formation année etc
-    print_r($dashBoards);
-    $i = 0;
+   $i = 0;
     foreach ($dashBoards as $dashBoard) {
         $i+=1;
-    //print_r($dashBoard);
-    foreach ($dashBoard as $valeur) {
-    ?>
-<div class="rounded-box" >
-    <li><?= $valeur[0] ?>   </li>
-    <div id="elementCacher" style="display: block">
-    <li >le tableau de bord numéro <?= $valeur[1] ?>   </li>
-    <?php if ($valeur[2]) {
-        echo '<li>ont le permis</li>';
-    } else {
-        echo "<li>n'ont pas le permis</li>";
-    } ?>
 
-    <?php echo $valeur[3] ? "<li> INE affiché</li>" : "<li > INE non affiché</li>"; ?>
-    <?php echo $valeur[4] ? "<li>adresse affiché</li>" : "<li > adresse non affiché</li>"; ?>
-    <?php echo $valeur[5] ? "<li>numéro de téléphone affiché</li>" : "<li > numéro de téléphone non affiché</li>"; ?>
+        foreach ($dashBoard as $valeur) {?>
+
+    <div class="rounded-box" >
+        <li> <?= $valeur[0] ?>   </li>
+
+        <div id= <?= $i ?> style="display: block">
+        <li >le tableau de bord numéro <?= $valeur[1] ?>   </li>
+    <?php
+    echo $valeur[2] ? "<li>ont le permis</li>" : "<li>n'ont pas le permis</li>";
+    echo $valeur[3] ? "<li> INE affiché</li>" : "<li > INE non affiché</li>";
+    echo $valeur[4] ? "<li>adresse affiché</li>" : "<li > adresse non affiché</li>";
+    echo $valeur[5] ? "<li>numéro de téléphone affiché</li>" : "<li > numéro de téléphone non affiché</li>"; ?>
+
+
     </div>
-    <script src="../Controller/JsDisplayDashBoard.js"></script>
-
-    <input onclick="affiche()" type="button" value="-" id="btnCache<?=$i?>">
+            <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
+            <input onclick="changeDisplay(<?=$i?>)" type="button" value="-" id=<?="btnChangeDisplay".$i?>>
 
-    <form >
-        <!-- mettre en action la fonction supprimer -->
-        <button>supprimer</button>
 
-        <!-- mettre en action la fonction modifier -->
-        <button>modifier</button>
-    </form>
-</div>
+
+
+            <form >
+                 <!-- mettre en action la fonction supprimer -->
+
+                <button>supprimer</button>
+
+                <!-- mettre en action la fonction modifier -->
+                <button>modifier</button>
+                </form>
+        </div>
+
 <br>
 <?php
 }
 }
 ?>
+
 
 <form action="../View/PageCreationTableau.php">
     <button>Ajouter un tableau de bord</button>

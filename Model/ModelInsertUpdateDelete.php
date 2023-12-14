@@ -90,8 +90,49 @@ function deleteUserDashBoard($login, $idDashBoard, $conn){
         return $e->getMessage();
     }
 }
+
+/**
+ * @param $login String
+ * @param $conn PDO
+ * @return void
+ * delete all the dashboard from one user
+ */
+function deleteDashBoardForUser($login, $conn){
+    $sql = "DELETE FROM userdashboard where login = ? ";
+}
+
+/**
+ * @param $conn PDO
+ * @return mixed
+ * Get the id of the last dashboard insert in the database
+ */
 function getLastIdDashBoard($conn){
     $sql = "SELECT idDashBoard FROM DashBoard WHERE id = LAST_INSERT_ID()";
     $req = $conn->prepare($sql);
     return $req->execute();
 }
+
+/**
+ * @param $conn PDO
+ * @return mixed
+ * This function get all the dashboards that hasn't own by someone
+ */
+function crumbCollector($conn){
+    $sql = "SELECT dashboard.idDashBoard FROM dashboard LEFT JOIN userdashboard ON dashboard.idDashBoard = userdashboard.idDashBoard WHERE userdashboard.idDashBoard IS NULL;";
+    $req = $conn->prepare($sql);
+    return $req->execute();
+}
+
+/**
+ * @param $conn
+ * @return void
+ * This function delete all the dashboard
+ */
+function deleteAllOldDashBoard($conn){
+    $idOldDashBoard = crumbCollector($conn);
+    if(empty($idOldDashBoard)){
+        return null;
+    }
+
+}
+

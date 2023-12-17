@@ -5,6 +5,7 @@ function onChangeUpdateDisplayParcours(link, selectedFormation, selectedParcours
     //Initialisation de la requête
     var xhr = new XMLHttpRequest();
 
+
     xhr.onreadystatechange = function(){
         if (this.readyState === 4 && this.status === 200  ){
             // Efface toutes les options actuelles de la liste déroulante

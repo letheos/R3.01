@@ -15,7 +15,7 @@ $msg = "erreur script";
 $success = 1;
 
 //Fichier des cvs
-$directory = './upload/';
+$directory = '../upload/';
 
 
 error_reporting(E_ALL);
@@ -96,6 +96,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cv = $_FILES['cvFile'];
         $uploadFile = $directory . basename($cv['name']);
         updateCVCandidate($conn, $id, $uploadFile);
+        $extensions = array(".pdf");
+        $extension = strrchr($cv['name'], '.');
+
+        if (!in_array($extension, $extensions)) {
+            $msg = "Vous devez uploader un fichier de type pdf, jpeg, jpg ou png";
+            $success = 0;
+        }
+
+        if ($success == 1) {
+            if (!move_uploaded_file($cv['tmp_name'], $uploadFile)) {
+                // Il y a eu une erreur lors du déplacement du fichier
+                $msg = "Erreur lors du déplacement du fichier";
+                $success = 0;
+            }
+        } else {
+            // Il y a eu une erreur lors du téléchargement du fichier
+            $msg = "Erreur lors du téléchargement du fichier : " . $cv['error'];
+            $success = 0;
+        }
 
     }
 

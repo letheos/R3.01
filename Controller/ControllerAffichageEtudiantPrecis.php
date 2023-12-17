@@ -1,4 +1,7 @@
 <?php
+
+use Acme\Util\ImageExtractor;
+
 $conn = require "../Model/Database.php";
 require '../Model/ModelSelect.php';
 
@@ -25,9 +28,10 @@ function afficherEtudiant($conn, $id)
                 <br> Zone : " . $result['zones'] . "
                 <br> " . ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B") . "
                 <br> " . ($result['isInActiveSearch'] ? "Est en recherche active" : "N'est pas en recherche active") . "
-                <br> " . (isset($result['cv']) ? "<a href=" . $result['cv'] . " download> Télécharger le CV </a>" : "CV non disponible") . '
+               <br> " . (isset($result['cv']) ? "<a href='../Controller/ControllerGeneratePreview.php?id=$id' target='_blank'> Voir le CV </a>" : "CV non disponible") . '
             </p>
         </div>';
+
 
     echo $enteteBoxHTML . $informationBoxHTML;
 }

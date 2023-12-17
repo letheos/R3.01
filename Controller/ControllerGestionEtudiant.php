@@ -1,9 +1,4 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $conn = require '../Model/Database.php';
 require '../Model/ModelSelect.php';
 require '../Model/ModelInsertUpdateDelete.php';
@@ -14,8 +9,6 @@ $delete = $_POST['delete'];
 $checkboxActif = $_POST['checkboxActif'];
 $checkboxNonActif = $_POST['checkboxNonActif'];
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 
 if (!empty($delete)) {
@@ -38,10 +31,6 @@ if (!empty($delete)) {
 
     header("Location: ../View/PageAffichageEtudiant.php");
 }
-else
-{
-    print_r($_POST);
-}
 
 if (!empty($checkboxActif)){
     foreach($checkboxActif as $idCandidate){
@@ -54,4 +43,8 @@ if (!empty($checkboxActif)){
         setEtatTrue($conn, $idCandidate);
     }
     header("Location: ../View/PageAffichageEtudiant.php");
+} else {
+    echo '<script> alert("Veuillez selectionner un candidat") 
+           document.location.href = "../View/PageAffichageEtudiant.php"; 
+          </script> ';
 }

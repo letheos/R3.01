@@ -19,9 +19,24 @@
     text : white;
     max-width: 33%;
 
+
+}
+.modif {
+    position: fixed;
+    right: 100;
+
 }
 
+.theDashBoards{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
 
+.t{
+    position: flex;
+}
 
 
 .banner{
@@ -37,9 +52,12 @@
     width: 100%;
     margin: 0;
     padding: 20px;
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
 
+}
 
+#show{
+    max-width: 50%;
 }

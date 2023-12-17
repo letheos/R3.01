@@ -1,12 +1,12 @@
 <?php
-
+session_start();
 require "../Controller/ControllerAfficheTableau.php";
 
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 }
 else{
-    session_start();
+
     $_SESSION['login'] = "user1";
     $User = $_SESSION['login'];
 }
@@ -35,7 +35,7 @@ else{
     </form>
 </header>
 
-
+<section class="theDashBoards">
     <?php
     $dashBoards = ControllerGetDashBoardPerUser($_SESSION['login']);
    $i = 0;
@@ -60,7 +60,7 @@ else{
             <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
-            <input onclick="changeDisplay(<?=$i?>)" type="button" value="-" id=<?="btnChangeDisplay".$i?>>
+            <input onclick="changeDisplay(<?=$i?>)" type="button"  value="-" id=<?="btnChangeDisplay".$i?>>
 
 
 
@@ -71,8 +71,14 @@ else{
                 <button>supprimer</button>
 
                 <!-- mettre en action la fonction modifier -->
-                <button>modifier</button>
+
+
+                <button id="show"> afficher tableau de bord</button>
                 </form>
+
+            <form>
+                <input type="button" value="modifier" class="modif" id=<?=$i?> >
+            </form>
         </div>
 
 <br>
@@ -81,7 +87,7 @@ else{
 }
 ?>
 
-
+</section>
 <form action="../View/PageCreationTableau.php">
     <button>Ajouter un tableau de bord</button>
 </form>

@@ -6,36 +6,22 @@
  * try to show or hide the element in the div elementCacher (nom provisiore)
  */
 
-function affiche(){
-    var divCacher = document.getElementById("elementCacher")
 
-    let cache = document.getElementById('btnCache');
-
-    if(divCacher.style.display == "none"){
-        divCacher.style.display = "block"
-    } else{
-        divCacher.style.display = "none"
-    }
-    if (cache.value == '-')
-        cache.value = '+'
-    else
-        cache.value = '-'
-}
 
 function changeDisplay(id){
-    var divCacher = document.getElementById(id)
+    var divCacher = document.getElementById(id);
 
-    let hide = document.getElementById('btnCache'.id);
+    var hide = document.getElementById('btnChangeDisplay'+id);
 
 
     if(divCacher.style.display === "none"){
-        divCacher.style.display = "block"
+        divCacher.style.display = "block";
+        hide.value = '-';
+
     } else{
-        divCacher.style.display = "none"
+        divCacher.style.display = "none";
+        hide.value = '+';
+
     }
-    if (hide.value === '-')
-        hide.value = '+'
-    else
-        hide.value = '-'
 }
 

@@ -3,6 +3,7 @@ $conn = require "../Model/Database.php";
 include "../Controller/ControllerAffichage.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
 
 ?>
 
@@ -37,8 +38,8 @@ ini_set('display_errors', 1);
             ?>
 
             <label for="parcours" class="form-select-label"> Parcours </label>
-            <select class="form-select" name="parcours" id="parcours">
-                <option value=""> Choisir un parcours </option>
+            <select class="form-select" name="parcours" id="parcours" >
+                <option value="" selected disabled> Choisir un parcours </option>
                 <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
             </select>
 
@@ -53,28 +54,57 @@ ini_set('display_errors', 1);
 
         <div class="buttonSubmit">
             <button class="btn btn-primary" type="submit" name="cancel" id="cancel"> Annuler </button>
-            <button class="btn btn-primary" type="submit" name="submit" id="submit"> Envoyez à </button>
+            <button class="btn btn-primary" type="submit" name="submit" id="submit"> Envoyez les CV(s) de </button>
         </div>
     </section>
 </form>
 
-<form id="send-form" method="POST" action="">
+<form id="send-form" method="POST" action="../Controller/ControllerSendCandidateCV.php">
+
+    <?php
+    if(isset($_SESSION["message"])){
+        if ($_SESSION['success'] == 0) {?>
+            <div class="alert alert-danger">
+                <?php echo $_SESSION["message"]; ?>
+            </div>
+        <?php } else { ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION["message"]; ?>
+            </div>
+            <?php
+        }
+        unset($_SESSION["erreur"]);
+        session_destroy();
+    }
+    ?>
+
+
     <section class="sendMail">
         <div class="destinataire">
             <div class="input-container">
-                <label for="sendDest" class="form-select-label"> Destinataire </label>
-                <textarea class="sendDest" placeholder="Destinataire"></textarea>
+                <label for="to" class="form-select-label"> Destinataire </label>
+                <textarea class="to" name="to" placeholder="Destinataire"></textarea>
             </div>
         </div>
 
         <div class="corps">
             <div class="input-container">
-                <label for="sendMessage" class="form-select-label"> Message du Mail </label>
-                <textarea class="sendMessage" placeholder="Ecrivez le mail"></textarea>
+                <label for="message" class="form-select-label"> Message du Mail </label>
+                <textarea class="message" name="message" placeholder="Ecrivez le mail"></textarea>
             </div>
         </div>
+
+
+
     </section>
+
+
+
+    <footer class="bottomBanner">
+        <button class="btn btn-primary" type="submit" name="submit" id="submit"> Envoyer</button>
+    </footer>
 </form>
 
-
-<footer class="bottomBanner"> </footer>
+<script src="../Controller/js/Ajax.js"></script>
+</body>
+</html>

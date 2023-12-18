@@ -1,6 +1,6 @@
-
 <?php
-
+//TODO faire fonction qui enlève les formations à un dashboard
+//TODO faire fonction qui ajoute les formations à un dashboard
 
 /**
  * @param $isPermis boolean
@@ -14,14 +14,16 @@
  * @param $conn PDO
  * @return void
  */
-function insertNewDashBoardForUser($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone,$login, $conn){
+function insertNewDashBoardForUser($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $login, $conn)
+{
     //crée un nouveau tableau de bord
-    insertNewDashBoard($isPermis,$year,$formation,$parcours,$isIne,$isAddress,$isPhone,$conn);
+    insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn);
     //récup le dernier id
     $lastId = getLastIdDashBoard($conn);
-    insertNewUserDashBoard($login,$lastId,$conn);
+    insertNewUserDashBoard($login, $lastId, $conn);
     //insérer dans la table associative
 }
+
 /**
  * @param $isPermis boolean
  * @param $year string
@@ -34,7 +36,8 @@ function insertNewDashBoardForUser($isPermis, $year, $formation, $parcours, $isI
  * @return boolean
  * this funtion insert à new tableau de bord in the database is link it whit an user
  */
-function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn){
+function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn)
+{
     $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
     $params = array($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone);
@@ -50,7 +53,9 @@ function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $is
         return false;
     }
 }
-function insertNewUserDashBoard($login,$idDashBoard,$conn){
+
+function insertNewUserDashBoard($login, $idDashBoard, $conn)
+{
 
 }
 
@@ -62,12 +67,13 @@ function insertNewUserDashBoard($login,$idDashBoard,$conn){
  * take in parameter a login and an id of a dashBoard and a connection to a database
  * delete the dashboard in teh table dashboard
  */
-function deleteDashBoard($idDashBoard,$conn){
-    try{
+function deleteDashBoard($idDashBoard, $conn)
+{
+    try {
         $sql = "DELETE FROM dashBoard WHERE idTableauDeBord = ?;";
         $req = $conn->prepare($sql);
-        $req -> execute($idDashBoard);
-    }Catch(PDOException $e){
+        $req->execute($idDashBoard);
+    } catch (PDOException $e) {
         return $e->getMessage();
     }
 }
@@ -80,33 +86,31 @@ function deleteDashBoard($idDashBoard,$conn){
  * take in parameter a login and an id of a dashBoard and a connection to a database
  * delete the dashboard in the table userDashBoard
  */
-function deleteUserDashBoard($login, $idDashBoard, $conn){
-    try{
-        $sql = "DELETE FROM userdashboard WHERE idTableauDeBord = ? AND login = ?";
+function deleteUserDashBoard($login, $idDashBoard, $conn)
+{
+    echo '<script>alert("model")</script>';
+    try {
+        $sql = "DELETE FROM userdashboard WHERE idDashBoard = ? AND login = ?";
         $req = $conn->prepare($sql);
-        $req -> execute($idDashBoard,$login);
+        $req->execute(array($idDashBoard, $login));
 
-    } Catch(PDOException $e){
+        header('location:../Controller/ControllerAfficheTableau.php');
+
+
+    } catch (PDOException $e) {
         return $e->getMessage();
     }
 }
 
-/**
- * @param $login String
- * @param $conn PDO
- * @return void
- * delete all the dashboard from one user
- */
-function deleteDashBoardForUser($login, $conn){
-    $sql = "DELETE FROM userdashboard where login = ? ";
-}
+
 
 /**
  * @param $conn PDO
  * @return mixed
  * Get the id of the last dashboard insert in the database
  */
-function getLastIdDashBoard($conn){
+function getLastIdDashBoard($conn)
+{
     $sql = "SELECT idDashBoard FROM DashBoard WHERE id = LAST_INSERT_ID()";
     $req = $conn->prepare($sql);
     return $req->execute();
@@ -117,22 +121,44 @@ function getLastIdDashBoard($conn){
  * @return mixed
  * This function get all the dashboards that hasn't own by someone
  */
-function crumbCollector($conn){
+function crumbCollector($conn)
+{
     $sql = "SELECT dashboard.idDashBoard FROM dashboard LEFT JOIN userdashboard ON dashboard.idDashBoard = userdashboard.idDashBoard WHERE userdashboard.idDashBoard IS NULL;";
     $req = $conn->prepare($sql);
-    return $req->execute();
+    $req->execute();
+    return null;
+}
+
+
+/**
+ * @param $conn PDO
+ * @return void
+ * This function delete all the dashboard when they own to nobody
+ */
+function deleteAllOldDashBoard($conn)
+{
+    $idOldDashBoard = crumbCollector($conn);
+    if (empty($idOldDashBoard)) {
+        return null;
+    }
+    foreach ($idOldDashBoard as $id) {
+        //enleve les formation
+        deleteFormationDashboard($id, $conn);
+        deleteDashBoard($id, $conn);
+    }
 }
 
 /**
- * @param $conn
+ * @param $idDashBoard int
+ * @param $conn PDO
  * @return void
- * This function delete all the dashboard
+ * This function delete the formations of a dashboard
  */
-function deleteAllOldDashBoard($conn){
-    $idOldDashBoard = crumbCollector($conn);
-    if(empty($idOldDashBoard)){
-        return null;
-    }
+function deleteFormationDashboard($idDashBoard, $conn)
+{
+    $sql = "DELETE FROM dashboardparcours where idDashBoard = ? ; ";
+    $req = $conn->prepare($sql);
+    //problème au paramètre en puissance
+    $req->execute($idDashBoard);
 
 }
-

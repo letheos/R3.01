@@ -7,8 +7,9 @@ $conn = require "../Model/Database.php";
  * @param $conn
  * @return void
  */
-function ControllerDeleteDashBoard($login,$idDashBoard,$conn){
+function ControllerDeleteDashBoard($login, $idDashBoard, $conn)
+{
     deleteDashBoard($idDashBoard, $conn);
-    deleteUserDashBoard($login,$idDashBoard,$conn);
+    deleteUserDashBoard($login, $idDashBoard, $conn);
 }
 

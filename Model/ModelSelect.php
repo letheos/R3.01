@@ -15,11 +15,11 @@
  * return the result of the request
  */
 
-function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
+function getStudentsWithConditions($isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
-    if($year == "allYears"){
+    if ($year == "allYears") {
         $fin = " FROM infocandidate  WHERE permisB =(?)";
-    } else{
+    } else {
         $fin = " FROM infocandidate  WHERE yearOfFormation =(?) AND permisB =(?)";
     }
     $deb = "SELECT name,firstName,nameFormation,nameParcours,yearOfFormation,isInActiveSearch";
@@ -45,8 +45,8 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         $fin .= " AND nameParcours = (?)";
     }
     $sql = $deb .= $fin;
-    if($year == "allYears"){
-        return getStudentsWithoutYears($isPermis,$formation,$parcours,$conn,$sql);
+    if ($year == "allYears") {
+        return getStudentsWithoutYears($isPermis, $formation, $parcours, $conn, $sql);
     }
 
     $req = $conn->prepare($sql);
@@ -85,6 +85,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
     }
     return null;
 }
+
 /**
  * @param $isActif bool
  * @param $isPermis bool
@@ -98,7 +99,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
  * return the result of the request
  */
 
-function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
+function getStudentsWithoutYears($isPermis, $formation, $parcours, $conn, $sql)
 {
     $req = $conn->prepare($sql);
     if ($parcours == "allParcours" && $formation == "allFormations") {
@@ -111,7 +112,7 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
     if ($parcours != "allParcours" && $formation != "allFormations") {
         //if $parcours hasn't the value allParcours and $formation hasn't the value allFormations
         //do the request
-        $params = array( $isPermis, $formation, $parcours);
+        $params = array($isPermis, $formation, $parcours);
         $req->execute($params);
         return $req->fetchall();
     }
@@ -153,7 +154,7 @@ function getParcoursWithConditions($conn, $parcours)
 {
     $sql = "SELECT * FROM parcours WHERE nameParcours LIKE(?)";
     $req = $conn->prepare($sql);
-    $params = Array($parcours);
+    $params = array($parcours);
     $req->execute($params);
     return $req->fetchall();
 }
@@ -177,11 +178,11 @@ function getAllFormation($conn)
  * @return Array[String]
  * return
  */
-function getFormationWithCoditions($conn, $formation)
+function getFormationWithConditions($conn, $formation)
 {
     $sql = "SELECT * FROM formation WHERE nameFormation LIKE(?)";
     $req = $conn->prepare($sql);
-    $params = Array($formation);
+    $params = array($formation);
     $req->execute($params);
     return $req->fetchall();
 }
@@ -198,7 +199,7 @@ function getUserWithLogin($login, $conn)
 {
     $sql = "SELECT login FROM Utilisateur WHERE login = ?";
     $req = $conn->prepare($sql);
-    $params = Array($login);
+    $params = array($login);
     $req->execute($params); // Pass the parameter as an array
     return $req->fetch();
 }
@@ -210,24 +211,24 @@ function getUserWithLogin($login, $conn)
  *Take as parameters a login for a user and a connection to a database,
  * then return all values that his dashboard contains
  */
-function getDashBoardPerUser($login,$conn){
+function getDashBoardPerUser($login, $conn)
+{
 
     $sql = "SELECT idDashBoard FROM UserDashBoard WHERE login = ?";
     $req = $conn->prepare($sql);
-    $params = Array($login);
+    $params = array($login);
     $req->execute($params);
 
 
-    $dashBoards = $req->fetchall()  ;
-
+    $dashBoards = $req->fetchall();
     //get the idDashBoard for a login pass in parameter
-    $result= Array();
-    $lesid = Array();
+    $result = array();
+    $idDashBoard = array();
     //get all the value in the database for some idDashBoard
-    foreach ($dashBoards as $id){
+    foreach ($dashBoards as $id) {
         //print_r($id);
-        Array_push($lesid,$id[0]);
-        Array_push($result,getDashBoardPerId($id[0],$conn));
+        Array_push($idDashBoard, $id[0]);
+        Array_push($result, getDashBoardPerId($id[0], $conn));
     }
     return $result;
 }
@@ -239,13 +240,14 @@ function getDashBoardPerUser($login,$conn){
  * Take as parameters an ID for a dashboard and a connection to a database,
  * then return the value in the database for the given ID
  */
-function getDashBoardPerId($id,$conn){
+function getDashBoardPerId($id, $conn)
+{
 
 
     $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
     $req = $conn->prepare($sql);
 
     $req->execute([$id]);
-    return  $req->fetchall();
+    return $req->fetchall();
 
 }

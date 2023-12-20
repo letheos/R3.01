@@ -27,8 +27,9 @@ session_start();
     </h1>
 </header>
 
-<form id="filter-form" method="POST" action="">
 
+
+<form id="send-form" method="POST" action="../Controller/ControllerSendCandidateCV.php">
     <section class="filtreCandidats">
 
         <div class="selection">
@@ -45,21 +46,21 @@ session_start();
 
             <label for="year" class="form-select-label"> Année de formation</label>
             <select class="form-select" name="year" id="year">
-                <option value="FirstYear"> 1ère Année</option>
-                <option value="SecondYear"> 2ème Année</option>
-                <option value="ThirdYear"> 3ème Année</option>
+                <option value="1ère Année"> 1ère Année</option>
+                <option value="2ème Année"> 2ème Année</option>
+                <option value="3ème Année"> 3ème Année</option>
             </select>
         </div>
 
 
         <div class="buttonSubmit">
-            <button class="btn btn-primary" type="submit" name="cancel" id="cancel"> Annuler </button>
-            <button class="btn btn-primary" type="submit" name="submit" id="submit"> Envoyez les CV(s) de </button>
+            <button class="btn btn-primary" type="button" name="submit" id="add" onclick="addText()"> Envoyez les CV(s) de </button>
         </div>
     </section>
-</form>
 
-<form id="send-form" method="POST" action="../Controller/ControllerSendCandidateCV.php">
+
+
+
 
     <?php
     if(isset($_SESSION["message"])){
@@ -80,6 +81,11 @@ session_start();
 
 
     <section class="sendMail">
+        <div class="from" id="from">
+            <ol id="fromCV" style="list-style-type: none;">
+            </ol>
+        </div>
+
         <div class="destinataire">
             <div class="input-container">
                 <label for="to" class="form-select-label"> Destinataire </label>
@@ -106,5 +112,6 @@ session_start();
 </form>
 
 <script src="../Controller/js/Ajax.js"></script>
+<script src="../Controller/js/ControllerSendCandidateCVJS.js"></script>
 </body>
 </html>

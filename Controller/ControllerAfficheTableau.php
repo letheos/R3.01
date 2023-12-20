@@ -13,11 +13,10 @@ $conn = require "../Model/Database.php";
 
 
 if (isset($_POST['idDashboard'])) {
-    //echo '<script>alert("voulez vous supprimer ce tableau de bord ?")</script>';
     $idDashboardForDelette = $_POST['idDashboard'];
     echo $_POST['idDashboard'];
-    ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
 
+    //ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
     header('location:../View/PageAfficheTableau.php');
 }
 
@@ -47,7 +46,6 @@ function ControllerGetYearWitDashBoard($idDashboard)
  */
 function ControllerDeleteDashBoard($idDashboard, $login)
 {
-    echo '<script>alert("controler")</script>';
     $conn = require "../Model/Database.php";
     deleteUserDashBoard($login, $idDashboard, $conn);
 }

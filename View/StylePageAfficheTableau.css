@@ -1,9 +1,13 @@
+/*
+cursor: text;
+ */
+
 .banner h1 {
     font-size: 30px;
     color: #eeeeee;
 }
 
-.banner{
+.banner {
     background: #0f94b4;
     width: 100%;
     margin: 0;
@@ -16,30 +20,65 @@
     border-radius: 10px;
     padding: 20px;
     background: whitesmoke;
-    text : white;
+    text: white;
     max-width: 33%;
 
 
 }
+
 .modif {
     position: fixed;
     right: 100;
 
 }
 
-.theDashBoards{
+.theDashBoards {
     display: flex;
     justify-content: space-between;
     margin-bottom: 50px;
     margin-top: 50px;
 }
 
-.t{
+.t {
     position: flex;
 }
 
+#createDashboard {
+    text-align: right;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* Vous pouvez ajuster cette valeur pour arrondir davantage les coins */
+    cursor: grab;
+}
 
-.banner{
+.btn-light {
+    text-align: left;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* Vous pouvez ajuster cette valeur pour arrondir davantage les coins */
+    cursor: grab;
+    margin-bottom: 10px;
+}
+
+.btnChangeDisplay {
+    cursor: row-resize;
+    background-color: grey;
+    color: #gre;
+}
+
+.btnChangeDisplay:hover {
+    background-color: #2d2d35;
+}
+
+.btnDelete:hover {
+    background-color: #bb2323;
+}
+
+.banner {
     background: #0f94b4;
     width: 100%;
     margin: 0;
@@ -47,7 +86,7 @@
     text-align: center;
 }
 
-.bottomBanner{
+.bottomBanner {
     background: #0f94b4;
     width: 100%;
     margin: 0;
@@ -58,6 +97,6 @@
 
 }
 
-#show{
+#show {
     max-width: 50%;
 }

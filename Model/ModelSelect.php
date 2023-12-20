@@ -242,12 +242,42 @@ function getDashBoardPerUser($login, $conn)
  */
 function getDashBoardPerId($id, $conn)
 {
-
-
     $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
     $req = $conn->prepare($sql);
-
     $req->execute([$id]);
     return $req->fetchall();
+}
 
+/**
+ * @param $conn PDO
+ * @return array|false
+ * Return all the idRole that are in the database
+ */
+function getAllRole($conn){
+    $sql = "SELECT idRole FROM role ";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+}
+
+/**
+ * @param $conn PDO
+ * @param $role int
+ * @return array|false
+ * get the login for all the user with an id give
+ */
+function getAllPeopleWithRole($conn, $role){
+    $sql = "SELECT login FROM utilisateur where idRole = ? ";
+    $req = $conn->prepare($sql);
+    $req->execute($role);
+    return $req->fetchall();
+}
+
+/**
+ * @param $conn PDO
+ * @return void
+ * valeur[0] = 0, valeur[1] = 1
+ */
+function numberOfStudentInActiveSearch($conn){
+    $sql = "SELECT count(*) FROM infocandidate GROUP BY infocandidate.isInActiveSearch; ";
 }

@@ -35,11 +35,12 @@ if (isset($_SESSION['login'])) {
     </form>
 
     <form action="../View/PageCreationTableau.php">
-        <button id="createDashboard">Ajouter un tableau de bord</button>
+        <button id="createDashboard">Ajouter un tableau de bord +</button>
     </form>
 </header>
 
 <section class="theDashBoards">
+
     <?php
     $dashBoards = ControllerGetDashBoardPerUser($_SESSION['login']);
     $i = 0;
@@ -51,6 +52,9 @@ if (isset($_SESSION['login'])) {
         foreach ($dashBoard as $valeur) { ?>
 
             <div class="rounded-box">
+                <input onclick="changeDisplay(<?= $i ?>)" type="button" class="btnChangeDisplay" value="-"
+                       id=<?= "btnChangeDisplay" . $i ?>>
+
                 <li> <?= $valeur[0] ?>   </li>
 
                 <div id= <?= $i ?> style="display:block">
@@ -66,14 +70,13 @@ if (isset($_SESSION['login'])) {
                 <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
-                <input onclick="changeDisplay(<?= $i ?>)" type="button" class="btnChangeDisplay" value="-"
-                       id=<?= "btnChangeDisplay" . $i ?>>
 
 
-                <form method="post" action="../Controller/ControllerAfficheTableau.php">
+                <!-- action="../Controller/ControllerAfficheTableau.php" -->
+                <form method="post" >
                     <!-- mettre en action la fonction supprimer -->
 
-                    <button id="<?= "delete" . $i ?>" class="btnDelete" type="submit" onclick="afficherAlerte()">supprimer</button>
+                    <button id="<?= "delete" . $i ?>" class="btnDelete"   onclick="showAlert(this)" >supprimer</button>
                     <input type="hidden" value="<?= $valeur[1] ?>" name="idDashboard">
                     <!-- mettre input hidden + validation -->
                     <!-- mettre en action la fonction modifier -->
@@ -81,11 +84,11 @@ if (isset($_SESSION['login'])) {
                 </form>
 
                 <form action="">
-                    <button id="<?= "show" . $i ?>" type="submit" class="btnShow"> afficher tableau de bord</button>
+                    <button id="<?= "show".$i ?>" type="submit" class="btnShow"> afficher tableau de bord</button>
                 </form>
 
-                <form action="PageModifDashBoard.php">
-                    <button type="submit" value="modifier" class="modif" id="<?= $i ?>" class="btnModif"> modifier
+                <form action="">
+                    <button type="submit" value="modifier" id="<?= $i ?>" class="btnModif"> modifier
                     </button>
                 </form>
             </div>
@@ -104,6 +107,8 @@ if (isset($_SESSION['login'])) {
             Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
 
         </p>
+        <p>
+            <a href="https://www.uphf.fr/"  > site uphf </a> </p>
     </div>
     <div class="origineFooter">
         <p>

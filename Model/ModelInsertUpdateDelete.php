@@ -162,3 +162,27 @@ function deleteFormationDashboard($idDashBoard, $conn)
     $req->execute($idDashBoard);
 
 }
+
+/**
+ * @param $conn PDO
+ * @param $idDashBoard int
+ * @param $login String
+ * @return void
+ */
+function addDashBoardForUser($conn, $idDashBoard, $login){
+    $sql = "INSERT INTO userdashboard(idDashBoard,login) values(?,?)";
+    $req = $conn->prepare($sql);
+    $req->execute(Array($idDashBoard,$login));
+}
+/**
+ * @param $conn PDO
+ * @param $loginsUsers Array
+ * @param $idDashBoard int
+ * @return void
+ * add for all the user in the array $loginsUsers the dashboard that have the id $idDashBoard
+ */
+function insertDashboardForUser($conn, $loginsUsers, $idDashBoard){
+    foreach ($loginsUsers as $login){
+        addDashBoardForUser($conn,$idDashBoard,$login);
+    }
+}

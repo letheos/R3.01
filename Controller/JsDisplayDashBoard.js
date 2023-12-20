@@ -6,16 +6,17 @@
  * try to show or hide the element in the div elementCacher (nom provisiore)
  */
 
-function afficherAlerte() {
-    var resultat = window.confirm("Voulez-vous continuer ?");
+function showAlert(button) {
+    var confirmation = window.confirm("Voulez-vous supprimer ce candidat ?");
+    if (confirmation) {
+        var candidateId = button.getAttribute("data-id");
 
-    // Vérifier le résultat de l'alerte
-    if (resultat) {
-        // L'utilisateur a cliqué sur "OK"
-        alert("Vous avez choisi de continuer.");
-    } else {
-        // L'utilisateur a cliqué sur "Annuler"
-        alert("Vous avez choisi d'annuler.");
+        // Récupérer le champ de formulaire caché pour l'ID du candidat
+        var candidateIdInput = document.getElementById('candidateId');
+        candidateIdInput.value = candidateId;
+
+        // Soumettre le formulaire
+        document.getElementById('delete-form').submit();
     }
 }
 

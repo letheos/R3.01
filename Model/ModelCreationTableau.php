@@ -277,3 +277,15 @@ function getUserWithId($idUser,$conn)
     return $req->fetchall();
 }
 
+
+function selectParcours($conn, $nameFormation){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
+            WHERE Formation.nameFormation = ?;
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($nameFormation));
+    $results = $req->fetchAll();
+    return $results;
+}

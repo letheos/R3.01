@@ -8,17 +8,17 @@ $y='%';
 $n="%";
 if(isset($_POST['nom'])){
     $n=$_POST['nom'];
-    echo "la 1:".$n;
+
 }
 if(isset($_SESSION['formation'])){
     $f=$_SESSION['formation'];}
-echo "la 2:".$f;
+
 if(isset($_SESSION['parcours'])){
     $p=$_SESSION['formation'];
     echo "la 3:".$p;}
 if(isset($_SESSION['year'])){
     $y=$_SESSION['year'];
-    echo "la 4:".$y;
+
 }
 
 ?>
@@ -47,7 +47,7 @@ if(isset($_SESSION['year'])){
                 <div class="selection">
                     <label for="formation" class="form-select-label"> Département </label>
                     <?php
-                    listAffichageSelect($conn); //
+                    listAffichageSelect($conn);
                     ?>
                     <label for="parcours" class="form-select-label"> Parcours </label>
                     <select class="form-select" name="parcours" id="parcours" >
@@ -69,7 +69,7 @@ if(isset($_SESSION['year'])){
         </form>
 </header>
 
-<?php showCandidate($conn, "%",$f,$p,$y); ?>
+<?php showCandidate($conn, $n,$f,$p,$y); ?>
 
 
 

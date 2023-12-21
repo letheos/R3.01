@@ -31,7 +31,7 @@ $conn = require "../Model/database.php";
 
 <section>
     <div id="add">
-        <form method="POST" action="../Controller/ControllerCommunicationPrecise.php">
+        <form method="POST" action="../Controller/ControllerCommunicationPrecise.php" enctype="multipart/form-data">
             <p>Ajouter une nouvelle information:</p>
             <label>
                 <textarea name="Note" maxlength="300" ></textarea>
@@ -70,3 +70,4 @@ $conn = require "../Model/database.php";
 </section>
 </body>
 </html>
+<script src="../Controller/js/ControllerCommunicationJS.js"></script>

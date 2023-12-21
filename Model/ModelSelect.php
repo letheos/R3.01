@@ -538,3 +538,12 @@ function getCandidate($conn,$idcandidate){
 
 
 
+function selectCandidatesByFormationWithParcoursWithYear($conn,$name,$formation, $parcours, $yearOfFormation){
+    $sql = "SELECT name,firstname,idCandidate FROM infoCandidate
+            WHERE (name ilike ? or firstname ilike ?)  AND nameParcours like ? AND yearOfFormation like ? and nameformation like ?;";
+    $req = $conn->prepare($sql);
+    $req->execute(array($name,$name, $parcours, $yearOfFormation,$formation));
+    return $req->fetchAll();
+}
+
+

@@ -2,6 +2,24 @@
 require "../Controller/ControllerCommunication.php";
 include "../Controller/ControllerAffichage.php";
 $conn = require "../Model/database.php";
+$f='%';
+$p='%';
+$y='%';
+$n="%";
+if(isset($_POST['nom'])){
+    $n=$_POST['nom'];
+    echo "la 1:".$n;
+}
+if(isset($_SESSION['formation'])){
+    $f=$_SESSION['formation'];}
+echo "la 2:".$f;
+if(isset($_SESSION['parcours'])){
+    $p=$_SESSION['formation'];
+    echo "la 3:".$p;}
+if(isset($_SESSION['year'])){
+    $y=$_SESSION['year'];
+    echo "la 4:".$y;
+}
 
 ?>
 <!DOCTYPE html>
@@ -16,11 +34,14 @@ $conn = require "../Model/database.php";
 </head>
 <body>
 <header class="banner">
+    <button class="btn btn-light" type="submit" name="retourAccueil"
+            onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+    </button>
     <form>
         <h1 class="TexteProfil">
             Communication
         </h1>
-        <form id="send-form" method="POST" action="../Controller/ControllerSendCandidateCV.php">
+        <form id="send-form" method="POST" action="../Controller/ControllerCommunication.php">
             <section class="filtreCandidats">
 
                 <div class="selection">
@@ -28,31 +49,27 @@ $conn = require "../Model/database.php";
                     <?php
                     listAffichageSelect($conn); //
                     ?>
-
                     <label for="parcours" class="form-select-label"> Parcours </label>
                     <select class="form-select" name="parcours" id="parcours" >
                         <option value="" selected disabled> Choisir un parcours </option>
                         <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
                     </select>
-
                     <label for="year" class="form-select-label"> Année de formation</label>
                     <select class="form-select" name="year" id="year">
                         <option value="1ère Année"> 1ère Année</option>
                         <option value="2ème Année"> 2ème Année</option>
                         <option value="3ème Année"> 3ème Année</option>
                     </select>
+                    <label for="name" class="form-select-label"> Nom</label>
+                        <input type="text" id="name" name="name">
+
+                    <button class="btn btn-outline-primary" type="submit" name="filtrer">Filtrer</button>
                 </div>
             </section>
-
-
-
-        <button class="btn btn-light" type="submit" name="retourAccueil"
-                onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
-        </button>
-    </form>
+        </form>
 </header>
 
-<?php showCandidate($conn,"%","%"); ?>
+<?php showCandidate($conn, "%",$f,$p,$y); ?>
 
 
 

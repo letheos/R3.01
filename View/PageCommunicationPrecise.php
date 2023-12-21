@@ -1,5 +1,5 @@
 <?php
-require "../Controller/ControllerCommunication.php";
+require "../Controller/ControllerCommunicationPrecise.php";
 $conn = require "../Model/database.php";
 
 
@@ -31,10 +31,10 @@ $conn = require "../Model/database.php";
 
 <section>
     <div id="add">
-        <form method="POST" action="../Controller/ControllerCommunication.php">
+        <form method="POST" action="../Controller/ControllerCommunicationPrecise.php">
             <p>Ajouter une nouvelle information:</p>
             <label>
-                <textarea name="Note" maxlength="300" required ></textarea>
+                <textarea name="Note" maxlength="300" ></textarea>
             </label>
             <div class="downloadButton">
                 <label for="img">Ajouter une piece jointe</label>

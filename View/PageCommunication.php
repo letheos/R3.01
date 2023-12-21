@@ -1,5 +1,6 @@
 <?php
 require "../Controller/ControllerCommunication.php";
+include "../Controller/ControllerAffichage.php";
 $conn = require "../Model/database.php";
 
 ?>
@@ -19,6 +20,30 @@ $conn = require "../Model/database.php";
         <h1 class="TexteProfil">
             Communication
         </h1>
+        <form id="send-form" method="POST" action="../Controller/ControllerSendCandidateCV.php">
+            <section class="filtreCandidats">
+
+                <div class="selection">
+                    <label for="formation" class="form-select-label"> Département </label>
+                    <?php
+                    listAffichageSelect($conn); //
+                    ?>
+
+                    <label for="parcours" class="form-select-label"> Parcours </label>
+                    <select class="form-select" name="parcours" id="parcours" >
+                        <option value="" selected disabled> Choisir un parcours </option>
+                        <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
+                    </select>
+
+                    <label for="year" class="form-select-label"> Année de formation</label>
+                    <select class="form-select" name="year" id="year">
+                        <option value="1ère Année"> 1ère Année</option>
+                        <option value="2ème Année"> 2ème Année</option>
+                        <option value="3ème Année"> 3ème Année</option>
+                    </select>
+                </div>
+            </section>
+
 
 
         <button class="btn btn-light" type="submit" name="retourAccueil"

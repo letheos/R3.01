@@ -1,5 +1,5 @@
 <?php
-//$conn = require "Database.php";
+$conn = require "Database.php";
 /**
  * @param $isActif bool
  * @param $isPermis bool
@@ -16,6 +16,7 @@
  */
 function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
+    echo '<script>alert("d")</script>';
     if($year == "allYears"){
 
         $fin = " FROM infocandidate  WHERE permisB =(?)";
@@ -47,7 +48,6 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
     }
     $sql = $deb .= $fin;
     if($year == "allYears"){
-        //a retravailler
         return getStudentsWithoutYears($isPermis,$formation,$parcours,$conn,$sql);
 
     }
@@ -67,24 +67,27 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         //do the request
 
         $params = array($year, $isPermis, $formation, $parcours);
-
+        echo "<br>";
 
         $req->execute($params);
         return $req->fetchall();
 
     }
-    if (($parcours == "allParcours" && $formation != "allFormations") || ($parcours != "allParcours" && $formation == "allFormations")) {
-        // If $parcours has for value "allParcours" and $formation hasn't the value "allFormations"
-        // ro if $parcours hasn't the value "allParcours" and $formation has the value "allFormations"
-
-        // Déterminer la valeur à utiliser dans la requête en fonction des conditions
-        $value = ($parcours == "allParcours") ? $formation : $parcours;
-
-
-        $params = array($year, $isPermis, $value);
+    if ($parcours == "allParcours" && $formation != "allFormations") {
+        //if $parcours has the value allParcours and $formation hasn't the value allFormations
+        //do the request
+        $params = array($year, $isPermis, $formation);
         $req->execute($params);
+        return $req->fetchall();
 
-        return $req->fetchAll();
+    }
+    if ($parcours != "allParcours" && $formation == "allFormations") {
+        //if $parcours hasn't the value allParcours and $formation has the value allFormations
+        //do the request
+        $params = array($year, $isPermis, $parcours);
+        $req->execute($params);
+        return $req->fetchall();
+
     }
     $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
 
@@ -104,6 +107,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
  */
 function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
 {
+    echo '<script>alert("e")</script>';
     $req = $conn->prepare($sql);
     if ($parcours == "allParcours" && $formation == "allFormations") {
         //if $parcours has the value allParcours and $formation has the value allFormations
@@ -118,7 +122,7 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
         //do the request
 
         $params = array( $isPermis, $formation, $parcours);
-
+        echo "<br>";
 
         $req->execute($params);
         return $req->fetchall();
@@ -140,9 +144,9 @@ function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
         return $req->fetchall();
 
     }
-    //$tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
+    $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
 
-    return null;
+    return $tableau;
 }
 /*
 function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn, $ine)
@@ -227,7 +231,7 @@ function getFormationWithCoditions($conn, $formation)
  * @param $idUser string //a trouver comment récupérer l'user pour pouvoir l'enregistré dans la bdd
  * @param $conn PDO //the connection at the database
  * @return boolean
- * this function insert a new dash board in the database for a user
+ * this funtion insert à new tableau de bord in the database is link it whit an user
  */
 function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $idUser, $conn){
     $user = getUserWithId($idUser, $conn);
@@ -259,19 +263,18 @@ $params = array( $isPermis, $year, $formation, $parcours, $isIne, $isAddress, $i
 }
 */
 /**
- * @param $login String
+ * @param $idUser String
  * @param $conn PDO
  * @return mixed
- * this function take in parameter the login of a user and a connection to the database
+ * this function take in parameter the id of a user and a connection to the database
  * return the user
  */
-function getUserWithLogin($login, $conn)
+function getUserWithId($idUser,$conn)
 {
-    $sql = "SELECT login FROM Utilisateur WHERE login = ?";
+    $sql = "SELECT * FROM Utilisateur WHERE login = ?";
     $req = $conn->prepare($sql);
-    $req->execute([$login]); // Pass the parameter as an array
-    $value = $req->fetch();
-    return $value;
+    $req->execute($idUser);
+    return $req->fetchall();
 }
 
 

@@ -1,51 +1,30 @@
 <?php
-//TODO efface quand meme si tu dis non
-if (!isset($_SESSION['login'])) {
-    $_SESSION['login'] = "user1";
-}
-$User = $_SESSION['login'];
-
-require "../Model/ModelSelect.php";
-require "../Model/ModelInsertUpdateDelete.php";
-
-
+require "../Model/ModelCreationTableau.php";
 $conn = require "../Model/Database.php";
+if(isset($_POST['validate'])){
+    // toute les valeurs
+    echo '<script>alert("a")</script>';
 
+    if(isset($_POST["formations"]) and isset($_POST["parcours"]) and isset($_POST["formAnnee"]) and isset($_POST["isPermis"]) ){
+        if(isset($_POST["isPhone"])){$isPhone = 1;}
+        if(isset($_POST["isIne"])){$isIne = 1;}
+        if(isset($_POST["isAddress"])){$isAddress = 1;}
+        if(!(isset($_POST["isPhone"]))){$isPhone = 0;}
+        if(!(isset($_POST["isIne"]))){$isIne = 0;}
+        if(!(isset($_POST["isAddress"]))){$isAddress = 0;}
 
-if (isset($_POST['idDashboard'])) {
-    $idDashboardForDelette = $_POST['idDashboard'];
-    echo $_POST['idDashboard'];
+        controllergetStudentsWithConditions($_POST['isPermis'],$_POST['formAnnee'],$_POST['formations'],$_POST['parcours'],$conn,$isIne,$isAddress,$isAddress);
+        header("Location: ../View/PageAfficheTabeau.php");
 
-    //ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
-    header('location:../View/PageAfficheTableau.php');
+    }
 }
 
-/**
- * @param $login String
- * @return String[]
- */
-function ControllerGetDashBoardPerUser($login)
-{
-    $conn = require "../Model/Database.php";
-    return getDashBoardPerUser($login, $conn);
-}
 
-/**
- * @param $idDashboard int
- * @return void
- */
-function ControllerGetYearWitDashBoard($idDashboard)
-{
-    $conn = require "../Model/Database.php";
-}
 
-/**
- * @param $idDashboard int
- * @param $login String
- * @return void
- */
-function ControllerDeleteDashBoard($idDashboard, $login)
-{
-    $conn = require "../Model/Database.php";
-    deleteUserDashBoard($login, $idDashboard, $conn);
+function controllergetStudentsWithConditions($isPermis, $year ,$formation, $conn ,$parcours ,$ine ,$address ,$phone){
+    //trouver coment envoyer les paramètres
+    echo '<script>alert("c")</script>';
+    return getStudentsWithConditions($isPermis,$year,$formation,$conn,$parcours,$ine,$address,$phone);
 }
+return getStudentsWithConditions($_POST['isPermis'],$_POST['formAnnee'],$_POST['formations'],$_POST['parcours'],$conn,$_POST['isIne'],$_POST['isIne'],$_POST['isPhone']);
+

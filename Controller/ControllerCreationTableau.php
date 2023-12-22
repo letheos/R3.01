@@ -6,7 +6,6 @@ require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['finish'])) {
         echo '<script>alert("a")</script>';
@@ -45,4 +44,33 @@ function controllerGetAllFormations($conn){
 function controllerGetAllRole($conn){
     return getAllRole($conn);
 }
+//
+function generateAccordion($conn)
+{
+    $formations = getAllFormation($conn);
+    foreach ($formations as $index => $formation) {
+        $parcours = selectParcours($conn, $formation['nameFormation']);
+        $checkboxId = $formation['nameFormation'];
+        $collapseId = 'collapse' . $index;
+        echo '<div class="accordion-item">';
+        echo '<strong class="accordion-header" id="heading' . $index . '">';
+        echo '<input class="form-check-input" type="checkbox" name="selectedFormation[]" id="' . $checkboxId . '" onchange="toggleAccordion(\'' . $checkboxId . '\')" data-formation="' . $formation['nameFormation'] . '"> ';
+        echo $formation['nameFormation'];
+        echo "</input>";
+        echo '</strong>';
+        echo '<div id="' . $collapseId . '" class="accordion-collapse collapse" aria-labelledby="heading' . $index . '"">';
+        echo '<div class="accordion-body">';
+        foreach($parcours as $indexParcours => $parcour){
+            echo '<div class="form-check">';
+            echo '<input class="form-check-input" type="checkbox" id="parcours' . $indexParcours . '" name="selectedParcours[]" value="' . $parcour['nameParcours'] . '">';
+            echo '<label class="form-check-label" for="parcours' . $indexParcours . '">' . $parcour['nameParcours'] . '</label>';
+            echo '</div>';
+        }
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+    }
+
+}
+
 

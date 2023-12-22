@@ -289,3 +289,4 @@ function selectParcours($conn, $nameFormation){
     $results = $req->fetchAll();
     return $results;
 }
+

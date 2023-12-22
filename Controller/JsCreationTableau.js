@@ -10,97 +10,7 @@
 let blocCount = 0;
 const maxBlocs = 3;
 
-document.addEventListener("DOMContentLoaded", function (){
 
-    //valeur pour ajouter un Blocs de paramètres
-    let buttonAddFormation = document.getElementById('addFormation');
-    let buttonDelParams = document.getElementById('delParams');
-    const formSettings = document.getElementById('settingsData');
-    function addBlcockFormation(){
-        if(blocCount < maxBlocs){
-            const newSection = document.createElement("section");
-            newSection.className = "newBlocFormation";
-            newSection.innerHTML = `<p>Bloc ${blocCount + 1}</p><button class="supprimerBloc">Supprimer</button>`;
-            newSection.innerHTML = `
-        <p>Bloc ${blocCount + 1}</p>
-        
-        <button class="delBlock">Supprimer</button>
-       
-
-            <div class="formation">
-            <div class="menuDeroulFormation">
-                <label for="formations">formation :</label>
-                <select name="formations" title="formations" id="formations" >
-
-                    <option value="allFormations" selected>toutes les formations</option>
-                    <?php
-                    $parcours = controllerGetAllFormations($conn);
-                    foreach ($parcours as $parcour) { ?>
-                        <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-
-            <br>
-            <div class="menuDeroulParcours">
-                <label for="parcours">Parcours de l'étudiant</label>
-                <select name="parcours" title="parcours" id="parcours">
-                    <option value="allParcours" selected>tous les parcours</option>
-                    <?php
-                    $parcours = controllerGetAllParcours($conn);
-                    foreach ($parcours as $parcour) { ?>
-                        <option value="<?= $parcour[0] ?>"><?= $parcour[0] ?></option>
-                    <?php } ?>on>parcours C
-                    </option>
-                </select>
-            </div>
-        </div>
-
-        `;
-            formSettings.appendChild(newSection);
-            blocCount++;
-            mettreEnEcouteSuppression(newSection);
-        }else{
-            alert("Vous avez atteint le nombre maximum de blocs (4).")
-        }
-    }
-
-    /**
-     *
-     */
-    function showformation(){
-        if (blocCount == maxBlocs){
-           null
-        }
-        else{
-            blocCount +=1;
-            actuel = "formation"+blocCount
-            bloc = document.getElementById(actuel)
-            bloc.style.display = "block"
-        }
-
-
-    }
-
-    /**
-     *
-     * @param bloc
-     */
-    function delBloc(bloc) {
-        formSettings.removeChild(bloc);
-        blocCount--;
-    }
-    //mettre le nom en glaouche
-    function mettreEnEcouteSuppression(bloc) {
-        const buttondelete = bloc.querySelector('.delBlock');
-        buttondelete.addEventListener('click', function () {
-            delBloc(bloc);
-        });
-    }
-    buttonAddFormation.addEventListener('click', showformation);
-    document.getElementById('addFormation').addEventListener('click', showformation);
-
-})
 
 
 function réduitParam(){
@@ -134,10 +44,7 @@ function hideformation(formationid){
     }
 }
 
-/**
- *
- * @param blocid
- */
+
 function changeselection(blocid){
     document.getElementById("formations"+blocid)
     for (x = 0;x<3;x++){
@@ -147,6 +54,26 @@ function changeselection(blocid){
 
         }
     }
+}
+
+function toggleAccordion(checkboxId) {
+    const checkbox = document.getElementById(checkboxId);
+    const accordionItem = checkbox.closest(".accordion-item");
+    const collapseTargetId = accordionItem.querySelector(".accordion-collapse").getAttribute("id");
+    const collapseTarget = new bootstrap.Collapse(document.getElementById(collapseTargetId));
+
+    // Ferme toutes les checkboxes à l'intérieur de la liste accordéon
+    if (checkbox.checked) {
+        const accordionBody = accordionItem.querySelector(".accordion-body");
+        const checkboxesInsideList = accordionBody.querySelectorAll('.form-check-input');
+        checkboxesInsideList.forEach(innerCheckbox => {
+            innerCheckbox.checked = false;
+        });
+    }
+
+    //
+    const opened = accordionItem.dataset.opened === "true";
+    accordionItem.dataset.opened = (!opened).toString();
 }
 
 /**

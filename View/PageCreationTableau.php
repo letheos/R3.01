@@ -50,6 +50,7 @@ TODO faire un input qui passe avec une api pour la ville
                 ?>
             </div>
         </div>
+    </div>
         <!--bonnes fermetures de balises -->
 
         <div class=column>
@@ -89,6 +90,8 @@ TODO faire un input qui passe avec une api pour la ville
 
 
             </div>
+        </div>
+
             <form method="post" action="../Controller/ControllerCreationTableau.php">
                 <div class="rounded-box">
                     <h2>Role à inclure dans la création du tableau de bord</h2>
@@ -106,7 +109,7 @@ TODO faire un input qui passe avec une api pour la ville
                     } ?>
             </form>
         </div>
-    </div>
+
 
     <div class=column>
         <div class="rounded-box">
@@ -119,7 +122,7 @@ TODO faire un input qui passe avec une api pour la ville
             </label>
         </div>
     </div>
-
+</div>
     <footer class="bottomBanner">
         <div class="nomFooter">
             <p>

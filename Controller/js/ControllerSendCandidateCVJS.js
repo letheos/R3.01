@@ -14,7 +14,7 @@ function addText() {
             console.log("Ajoute");
             // Création des éléments utiles
             var li = document.createElement("li");
-            var text = document.createTextNode("Vous envoyez le CV des : Formation : " + formation.value + " du Parcours : " + parcours.value + " des " + year.value);
+            var text = document.createTextNode("Vous envoyez le CV des " + formation.value + " du Parcours : " + parcours.value + " des " + year.value);
             var button = document.createElement("button");
             var hidden = document.createElement("input");
 

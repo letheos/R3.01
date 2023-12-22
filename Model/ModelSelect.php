@@ -1,5 +1,4 @@
 <?php
-$conn = require "Database.php";
 /**
  * @param $isActif bool
  * @param $isPermis bool
@@ -263,6 +262,8 @@ function getAllRole($conn){
     return $req->fetchall();
 }
 
+
+
 /**
  * @param $id int id of the dashboard
  * @param $conn PDO connection to a database
@@ -337,5 +338,17 @@ function getFormationWithConditions($conn, $formation)
     $params = array($formation);
     $req->execute($params);
     return $req->fetchall();
+}
+
+function selectParcours($conn, $nameFormation){
+    $sql = "SELECT Parcours.*
+            FROM Parcours
+            JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
+            WHERE Formation.nameFormation = ?;
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($nameFormation));
+    $results = $req->fetchAll();
+    return $results;
 }
 

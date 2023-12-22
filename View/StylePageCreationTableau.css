@@ -44,14 +44,13 @@
     padding: 20px;
     background: whitesmoke;
     text: white;
-    max-width: 100%; /* Limiter la largeur à 100% de la largeur parente */
     box-sizing: border-box;
 }
 
 .column {
     width: 25%;
     padding: 10px;
-box-sizing: border-box;
+
 }
 
 .container {

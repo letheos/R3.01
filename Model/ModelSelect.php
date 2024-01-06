@@ -15,7 +15,7 @@
  */
 function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
-    echo '<script>alert("d")</script>';
+
     if($year == "allYears"){
 
         $fin = " FROM infocandidate  WHERE permisB =(?)";
@@ -286,7 +286,7 @@ function getDashBoardPerId($id, $conn)
  *Take as parameters a login for a user and a connection to a database,
  * then return all values that his dashboard contains
  */
-function getDashBoardPerUser($login, $conn)
+function getDashBoardPerUser(string $login, $conn): array
 {
 
     $sql = "SELECT idDashBoard FROM UserDashBoard WHERE login = ?";
@@ -352,3 +352,15 @@ function selectParcours($conn, $nameFormation){
     return $results;
 }
 
+/**
+ * @param $conn PDO
+ * @return void
+ * valeur[0] = 0, valeur[1] = 1
+ */
+function numberOfStudentInActiveSearch($conn)
+{
+    $sql = "SELECT count(*) FROM infocandidate GROUP BY infocandidate.isInActiveSearch; ";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+}

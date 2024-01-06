@@ -47,6 +47,7 @@ TODO faire un input qui passe avec une api pour la ville
             <div class="accordion" id="choicesDep">
                 <?php
                 generateAccordion($conn);
+                //todo faire du javascript pour garder dans la session la valeur de l'accordéon sélectionnée
                 ?>
             </div>
         </div>
@@ -59,7 +60,7 @@ TODO faire un input qui passe avec une api pour la ville
 
                 <div id="checkBoxIne">
                     <input type="checkbox" id="ine" name="isIne" value="1">
-                    <label for="ine">ine affiché (par défault non)</label>
+                    <label for="ine">ine affiché (par défaut non)</label>
 
                     <input hidden="hidden" type="checkbox" id="ine" name="isIne" value="0">
                 </div>
@@ -107,8 +108,9 @@ TODO faire un input qui passe avec une api pour la ville
                         <br>
                         <?php
                     } ?>
+                </div>
             </form>
-        </div>
+
 
 
     <div class=column>
@@ -123,6 +125,7 @@ TODO faire un input qui passe avec une api pour la ville
         </div>
     </div>
 </div>
+
     <footer class="bottomBanner">
         <div class="nomFooter">
             <p>

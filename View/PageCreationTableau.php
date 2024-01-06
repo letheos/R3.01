@@ -58,7 +58,7 @@ TODO faire un input qui passe avec une api pour la ville
                 <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
                 <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="isIne" value="1">
+                    <input type="checkbox" id="ine" name="isIne" value="1" >
                     <label for="ine">ine affiché (par défault non)</label>
 
                     <input hidden="hidden" type="checkbox" id="ine" name="isIne" value="0">
@@ -76,7 +76,7 @@ TODO faire un input qui passe avec une api pour la ville
                     }
                 </script>
 
-                <div id="checkBoxAddress">
+                <div class="checkBoxAddress">
                     <input type="checkbox" id="address" name="isAddress" value="1">
                     <label for="address"> Adresse affichée (par défaut non)</label>
 
@@ -86,6 +86,11 @@ TODO faire un input qui passe avec une api pour la ville
                     <input type="checkbox" id="phone" name="isPhone" value="1">
                     <label for="phone"> numéro de téléphone (par défaut non) </label>
 
+                </div>
+
+                <div class = "checkboxpermis">
+                    <input type="checkbox" id ="permis" name="ispermis" value="1">
+                    <label for="permis">permis affiché (par défaut non)</label>
                 </div>
 
 

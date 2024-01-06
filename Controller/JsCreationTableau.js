@@ -219,3 +219,38 @@ function onchangelockannée(){
     let buttonsannee0 = [buttonannee0,buttonannee1,buttonannee2,buttonannee3]
 
 }*/
+document.addEventListener('DOMContentLoaded', function () {
+
+    var accordionState = sessionStorage.getItem('accordionState');
+    if (accordionState) {
+
+        var selectedFormations = JSON.parse(accordionState);
+        selectedFormations.forEach(function (formation) {
+            var checkbox = document.getElementById(formation);
+            if (checkbox) {
+                checkbox.checked = true;
+                toggleAccordion(formation);
+            }
+        });
+    }
+
+
+    var checkboxes = document.querySelectorAll('input[name="selectedFormation[]"]');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            saveAccordionState();
+        });
+    });
+
+    function saveAccordionState() {
+
+        var selectedFormations = [];
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedFormations.push(checkbox.id);
+            }
+        });
+
+        sessionStorage.setItem('accordionState', JSON.stringify(selectedFormations));
+    }
+});

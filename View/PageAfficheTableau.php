@@ -1,4 +1,5 @@
 <?php
+//TODO mettre dans la sessions les parametres du tableau de bord si tu clique sur modifier ou les envoyer en post
 session_start();
 require "../Controller/ControllerAfficheTableau.php";
 
@@ -6,7 +7,7 @@ if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 } else {
 
-    $_SESSION['login'] = "user1";
+    $_SESSION['login'] = "login1";
     $User = $_SESSION['login'];
 }
 
@@ -88,7 +89,7 @@ if (isset($_SESSION['login'])) {
                 </form>
 
                 <form action="">
-                    <button type="submit" value="modifier" id="<?= $i ?>" class="btnModif"> modifier
+                    <button type="submit" value="modifier" id="<?= $i ?>" class="btnModif" onclick="checked(<?=$valeur[2]?>,<?= $valeur[3] ?>,<?= $valeur[4] ?>,<?=$valeur[5] ?>,<?= $i ?>)"> modifier
                     </button>
                 </form>
             </div>

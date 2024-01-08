@@ -1,7 +1,11 @@
 <?php
 require "../Controller/ControllerCreationTableau.php";
 $conn = require "../Model/Database.php";
-
+if(isset($_POST['ine']) and isset($_POST['address']) and isset($_POST['phone']) and isset($_POST['permis'])){
+    //fonction qui change les valuers et je l'appelle la avec les valeurs en paramètres
+    //condition php avec un $_POST qui appelle une fonction js
+}
+$_POST['phone'] = true;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -12,6 +16,7 @@ TODO pour tout les input de type option, avoir les données de manières dynamiq
 TODO formation dynamique : en cours
 TODO relier au controller qui relie au model
 TODO faire un input qui passe avec une api pour la ville
+TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionner
 -->
 <!doctype html>
 <html lang="en">
@@ -25,9 +30,10 @@ TODO faire un input qui passe avec une api pour la ville
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="StylePageCreationTableau.css">
     <title>creationTableauDeBord</title>
+    <script src="../Controller/JsCreationTableau.js"></script>
 </head>
-
 <body>
+
 <header class="banner">
     <form>
         <h1 class="TexteProfil">
@@ -83,7 +89,7 @@ TODO faire un input qui passe avec une api pour la ville
                 </div>
 
                 <div class="checkBoxPhone">
-                    <input type="checkbox" id="phone" name="isPhone" value="1">
+                    <input type="checkbox" id="phone" name="isPhone" value="1" <?php if($_POST['phone']) echo 'checked' ?> >
                     <label for="phone"> numéro de téléphone (par défaut non) </label>
 
                 </div>
@@ -149,7 +155,6 @@ TODO faire un input qui passe avec une api pour la ville
 
 
 </body>
-
 </html>
 
 

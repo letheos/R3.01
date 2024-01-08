@@ -88,8 +88,12 @@ if (isset($_SESSION['login'])) {
                     <button id="<?= "show".$i ?>" type="submit" class="btnShow"> afficher tableau de bord</button>
                 </form>
 
-                <form action="">
+                <form action="PageCreationTableau.php" method="post">
                     <button type="submit" value="modifier" id="<?= $i ?>" class="btnModif" onclick="checked(<?=$valeur[2]?>,<?= $valeur[3] ?>,<?= $valeur[4] ?>,<?=$valeur[5] ?>,<?= $i ?>)"> modifier
+                    <input type="hidden" id="ine" value="<?=$valeur[2]?>">
+                    <input type="hidden" id="address" value="<?= $valeur[3] ?>">
+                    <input type="hidden" id="phone" value="<?= $valeur[4]?>">
+                    <input type="hidden" id="permis" value="<?= $valeur[5]?>">
                     </button>
                 </form>
             </div>

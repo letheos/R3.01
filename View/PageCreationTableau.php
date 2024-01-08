@@ -6,6 +6,9 @@ if(isset($_POST['ine']) and isset($_POST['address']) and isset($_POST['phone']) 
     //condition php avec un $_POST qui appelle une fonction js
 }
 $_POST['phone'] = true;
+$_POST['permis'] = true;
+$_POST['ine'] = true;
+$_POST['address'] = true;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -64,7 +67,8 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
                 <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="isIne" value="1">
+                    <input type="checkbox" id="ine" name="isIne" value="1" <?php if((isset($_POST['ine'])) and $_POST['ine']) echo 'checked' ?>>
+
                     <label for="ine">ine affiché (par défaut non)</label>
 
                     <input hidden="hidden" type="checkbox" id="ine" name="isIne" value="0">
@@ -83,19 +87,19 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 </script>
 
                 <div id="checkBoxAddress">
-                    <input type="checkbox" id="address" name="isAddress" value="1">
+                    <input type="checkbox" id="address" name="isAddress" value="1" <?php if((isset($_POST['address'])) and $_POST['address']) echo 'checked' ?> >
                     <label for="address"> Adresse affichée (par défaut non)</label>
 
                 </div>
 
                 <div class="checkBoxPhone">
-                    <input type="checkbox" id="phone" name="isPhone" value="1" <?php if($_POST['phone']) echo 'checked' ?> >
+                    <input type="checkbox" id="phone" name="isPhone" value="1" <?php if((isset($_POST['phone'])) and $_POST['phone']) echo 'checked' ?> >
                     <label for="phone"> numéro de téléphone (par défaut non) </label>
 
                 </div>
 
                 <div class = "checkboxpermis">
-                    <input type="checkbox" id ="permis" name="ispermis" value="1">
+                    <input type="checkbox" id ="permis" name="ispermis" value="1"<?php if((isset($_POST['permis'])) and $_POST['permis']) echo 'checked' ?> >
                     <label for="permis">permis affiché (par défaut non)</label>
                 </div>
 

@@ -19,7 +19,7 @@ $conn = require "../Model/database.php";
     <form>
         <h1 class="TexteProfil">
             Communication
-        </h1>
+        </h1>Test
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
 
@@ -42,6 +42,7 @@ $conn = require "../Model/database.php";
             </div>
             <br>
             <input type='submit' name='Add' value='Ajouter'>
+
         </form>
     </div>
 </section>

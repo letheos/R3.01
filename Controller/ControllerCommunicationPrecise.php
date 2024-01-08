@@ -30,9 +30,11 @@ function showComm($conn, $idcandidate){
         echo '</div> <br>' . date('Y-m-d H:i',strtotime($row[1])) .
             '<input type="hidden" name="idmessage" value="'.$row[2].'">
         <div class="buttonSubmit">
-        <button class="btn btn-primary" type="button" onclick="transformToTextarea(\'candidates'.$row[2].'\')">Modifier</button>
+        <button class="btn btn-primary" type="button" onclick="modificationOn(\'candidates'.$row[2].'\')">Modifier</button>
+        <button class="btn btn-primary" type="button" name="Valider" value="Valider" id="validerButton" style="display:none" onclick="modificationOff(\'candidates'.$row[2].'\')">
 </div>
         <input type="submit" name="Delete" value="Supprimer" >
+         
         </form>';
     }
 }

@@ -1,6 +1,7 @@
 <?php
-$conn = require "../Model/Database.php";
+$conn = require "../Model/database.php";
 require '../Model/ModelSelect.php';
+
 
 
 

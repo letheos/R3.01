@@ -53,7 +53,7 @@ if(!empty($_POST['infos'])) {
         $msg = "Mail envoyée avec succés";
         sendEmail($conn, $mail, $to, $_POST['message'], $infos_decode);
     } else {
-        $msg = "Manque le destinataire";
+        $msg = "Il manque le destinataire";
         $success = 0;
     }
 

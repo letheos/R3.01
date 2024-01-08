@@ -15,7 +15,8 @@ function addText() {
             // Création des éléments utiles
             var li = document.createElement("li");
             var text = document.createTextNode("Vous envoyez le CV des " + formation.value + " du Parcours : " + parcours.value + " des " + year.value);
-            var button = document.createElement("button");
+            var del = document.createElement("button");
+            var detail = document.createElement("button");
             var hidden = document.createElement("input");
 
             // Config de hidden
@@ -23,16 +24,24 @@ function addText() {
             hidden.name = "infos[]";
             hidden.value = JSON.stringify({formation: formation.value, parcours: parcours.value, year: year.value});
 
-            // Config de button
-            button.name = "del";
-            button.id = "del";
-            button.innerHTML = "X";
-            button.onclick = () => delText(button);
+            // Config du bouton supprimer
+            del.name = "del";
+            del.id = "del";
+            del.className = "btn btn-danger";
+            del.innerHTML = "X";
+            del.onclick = () => delText(del);
+
+            // Config du bouton, voir les détails
+            detail.name = "sendTo";
+            detail.id = "sendTo";
+            detail.className = "btn btn-primary";
+            detail.innerHTML = "Choisir les candidats";
 
             // Ajout des enfants
             li.appendChild(text);
             li.appendChild(hidden);
-            li.appendChild(button);
+            li.appendChild(del);
+            li.appendChild(detail);
             fromCV.appendChild(li);
         }
     }

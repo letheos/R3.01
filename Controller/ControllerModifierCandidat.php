@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         updateRemarksCandidate($conn, $id, $_POST['remarks']);
     }
 
-    if (isset($_FILES['cvFile'])){
+    if (isset($_FILES['cvFile']) && $_FILES['cvFile']['size'] > 0){
         $cv = $_FILES['cvFile'];
         $uploadFile = $directory . basename($cv['name']);
         updateCVCandidate($conn, $id, $uploadFile);
@@ -110,12 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $msg = "Erreur lors du déplacement du fichier";
                 $success = 0;
             }
-        } else {
-            // Il y a eu une erreur lors du téléchargement du fichier
-            $msg = "Erreur lors du téléchargement du fichier : " . $cv['error'];
-            $success = 0;
         }
-
     }
 
     if (isset($adresses)){

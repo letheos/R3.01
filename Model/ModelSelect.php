@@ -50,3 +50,12 @@ function selectCandidatesByParcoursWithYear($conn, $parcours, $yearOfFormation, 
     $req->execute(array($isActive, $parcours, $yearOfFormation));
     return $req->fetchAll();
 }
+
+
+function selectCandidatesNameByParcoursWithYear($conn, $parcours, $yearOfFormation, $isActive){
+    $sql = "SELECT idCandidate, name, firstName, typeCompanySearch, cv FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ? AND yearOfFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours, $yearOfFormation));
+    return $req->fetchAll();
+}

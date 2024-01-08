@@ -6,12 +6,13 @@ function addText() {
     var year = document.getElementById("year");
     var fromCV = document.getElementById("fromCV");
 
-    // Vérifiez si les valeurs sont non vides
     if (formation.value !== "" && parcours.value !== "" && year.value !== "") {
         var isUnique = isElementUnique(fromCV, formation.value, parcours.value, year.value);
 
         if (isUnique) {
-            console.log("Ajoute");
+            var modal = createModal(parcours.value, year.value);
+            document.body.appendChild(modal);
+
             // Création des éléments utiles
             var li = document.createElement("li");
             var text = document.createTextNode("Vous envoyez le CV des " + formation.value + " du Parcours : " + parcours.value + " des " + year.value);
@@ -34,8 +35,11 @@ function addText() {
             // Config du bouton, voir les détails
             detail.name = "sendTo";
             detail.id = "sendTo";
+            detail.type = "button";
             detail.className = "btn btn-primary";
             detail.innerHTML = "Choisir les candidats";
+            detail.onclick = () => displayModal(modal);
+
 
             // Ajout des enfants
             li.appendChild(text);
@@ -47,11 +51,113 @@ function addText() {
     }
 }
 
-function delText(button){
+function createModal(parcours, year, candidateData) {
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.id = "modal"+parcours+year;
+
+    var modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+
+    var modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header";
+    var headerText = document.createTextNode(parcours+" "+year);
+    modalHeader.appendChild(headerText);
+
+    var modalBody = document.createElement("div");
+    modalBody.className = "modal-body";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function(){
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var responseData = this.response;
+
+                if (responseData.length > 0) {
+                    responseData.forEach(candidate => {
+                        var candidateCheckbox = document.createElement("input");
+                        candidateCheckbox.type = "checkbox";
+                        candidateCheckbox.name = "candidateCheckbox";
+                        candidateCheckbox.value = candidate.idCandidate; // Vous devriez ajuster cela en fonction de l'ID ou de l'identifiant de votre candidat
+
+                        var candidateLabel = document.createElement("label");
+                        candidateLabel.textContent = candidate.name + " " + candidate.firstName + " Type d'entreprise : " + candidate.typeCompanySearch;
+
+                        var candidateDiv = document.createElement("div");
+                        candidateDiv.appendChild(candidateCheckbox);
+                        candidateDiv.appendChild(candidateLabel);
+
+                        modalBody.appendChild(candidateDiv);
+                    });
+                } else {
+                    var noCandidateInfo = document.createElement("p");
+                    noCandidateInfo.textContent = "No candidate information available.";
+                    modalBody.appendChild(noCandidateInfo);
+                }
+            } else {
+                console.error('Error:', this.status, this.statusText);
+            }
+        }
+    };
+    xhr.open("POST", "../Controller/AjaxDisplayCandidate.php", true);
+    xhr.responseType = "json";
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({ parcours: parcours, year: year }));
+
+
+    var modalClose = document.createElement("span");
+    modalClose.className = "close";
+    modalClose.innerHTML = "&times;";
+    modalClose.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    modalHeader.appendChild(modalClose);
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modal.appendChild(modalContent);
+
+    modal.style.display = "none";
+
+    return modal;
+}
+
+
+
+function displayModal(modal){
+    modal.style.display = "block";
+}
+
+
+
+function delText(button) {
     var elementLi = button.parentNode;
     var listeUl = elementLi.parentNode;
+
+    // Extract parcours and year information from the hidden input in the li
+    var hiddenInput = elementLi.querySelector('input[name="infos[]"]');
+    var info = JSON.parse(hiddenInput.value);
+    var parcours = info.parcours;
+    var year = info.year;
+
+    // Construct the modal id based on parcours and year
+    var modalId = "modal" + parcours + year;
+
+    // Remove the modal associated with the deleted element
+    removeAssociatedModal(modalId);
+
+    // Remove the li element
     listeUl.removeChild(elementLi);
 }
+
+function removeAssociatedModal(modalId) {
+    var modalToRemove = document.getElementById(modalId);
+    if (modalToRemove) {
+        modalToRemove.parentNode.removeChild(modalToRemove);
+    }
+}
+
 
 function isElementUnique(ulElement, formationValue, parcoursValue, yearValue) {
     var lis = ulElement.getElementsByTagName("li");

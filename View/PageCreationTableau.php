@@ -2,14 +2,7 @@
 require "../Controller/ControllerCreationTableau.php";
 session_start();
 $conn = require "../Model/Database.php";
-if(isset($_POST['ine']) and isset($_POST['address']) and isset($_POST['phone']) and isset($_POST['permis'])){
-    //fonction qui change les valuers et je l'appelle la avec les valeurs en paramètres
-    //condition php avec un $_POST qui appelle une fonction js
-}
-$_POST['phone'] = true;
-$_POST['permis'] = true;
-$_POST['ine'] = true;
-$_POST['address'] = true;
+
 
 if(isset($_SESSION['role'])){
     $Role = $_SESSION['role'];
@@ -102,7 +95,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
                 <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="isIne" value="1" <?php if((isset($_POST['ine'])) and $_POST['ine']) echo 'checked' ?>>
+                    <input type="checkbox" id="ine" name="isIne" value="1" >
 
                     <label for="ine">ine affiché (par défaut non)</label>
 
@@ -122,19 +115,19 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 </script>
 
                 <div id="checkBoxAddress">
-                    <input type="checkbox" id="address" name="isAddress" value="1" <?php if((isset($_POST['address'])) and $_POST['address']) echo 'checked' ?> >
+                    <input type="checkbox" id="address" name="isAddress" value="1"  >
                     <label for="address"> Adresse affichée (par défaut non)</label>
 
                 </div>
 
                 <div class="checkBoxPhone">
-                    <input type="checkbox" id="phone" name="isPhone" value="1" <?php if((isset($_POST['phone'])) and $_POST['phone']) echo 'checked' ?> >
+                    <input type="checkbox" id="phone" name="isPhone" value="1" >
                     <label for="phone"> numéro de téléphone (par défaut non) </label>
 
                 </div>
 
                 <div class = "checkboxpermis">
-                    <input type="checkbox" id ="permis" name="ispermis" value="1"<?php if((isset($_POST['permis'])) and $_POST['permis']) echo 'checked' ?> >
+                    <input type="checkbox" id ="permis" name="ispermis" value="1" >
                     <label for="permis">permis affiché (par défaut non)</label>
                 </div>
 
@@ -144,6 +137,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
             <form method="post" action="../Controller/ControllerCreationTableau.php">
                 <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
+                    <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
                     <h2>Role à inclure dans la création du tableau de bord</h2>
                     <?php
                     $roles = controllerGetAllRole($conn);
@@ -175,8 +169,8 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
 <div class="column">
     <div class="rounded-box">
-        <label>entrée le nom du tableau de bord</label>
-        <input type="text">
+        <label for="title" >entrée le nom du tableau de bord</label>
+        <input id="title" type="text">
     </div>
 </div>
 </div>

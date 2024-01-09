@@ -186,3 +186,28 @@ function insertDashboardForUser($conn, $loginsUsers, $idDashBoard){
         addDashBoardForUser($conn,$idDashBoard,$login);
     }
 }
+
+function UpdateParcoursDashBoard(){
+
+}
+
+/**
+ * @param $name String
+ * @param $isPermis bool
+ * @param $isIne bool
+ * @param $isAddress bool
+ * @param $isPhone bool
+ * @param $idDashBoard int
+ * @param $conn PDO
+ * @return void
+ * change the value of a dashboard's information with his id give in parameter
+ */
+function upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn){
+    $sql = "UPDATE dashboard
+            SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?
+            WHERE idDashBoard = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard));
+
+}
+

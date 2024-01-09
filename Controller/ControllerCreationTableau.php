@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
+//TODO
 function addValuesOfADashBoard(){}
 
 /**
@@ -42,7 +42,8 @@ function controllerGetAllParcours($conn){
  * @return String[]
  * take a PDO connection and return the values of getAllFormation
  */
-function controllerGetAllFormations($conn){
+function controllerGetAllFormations(PDO $conn): array
+{
     return getAllFormation($conn);
 }
 
@@ -54,7 +55,7 @@ function controllerGetAllFormations($conn){
 function controllerGetAllRole($conn){
     return getAllRole($conn);
 }
-//
+
 function generateAccordion($conn)
 {
     $formations = getAllFormation($conn);

@@ -56,6 +56,37 @@ function changeselection(blocid){
     }
 }
 
+function changeValueCheckBox(idCheckBox) {
+    var checkbox = document.getElementById(idCheckBox);
+
+    // Toggle the checked state of the checkbox
+    checkbox.checked = !checkbox.checked;
+}
+
+function checked(isPermis,isIne,isAddress,isPhone,id){
+    var ineShow = document.getElementById('ine');
+    var addressShow =  document.getElementById('address');
+    var phoneShow = document.getElementById('phone');
+    var permisShow = document.getElementById('permis');
+    if(isPermis){
+        permisShow.checked = true;
+        permisShow.value = 1;
+
+    } if(isIne){
+        ineShow.checked = true;
+        ineShow.value = 1;
+    } if(isPhone){
+        phoneShow.checked = true;
+        phoneShow.value = 1;
+    } if(isAddress){
+        permisShow.checked = true;
+        permisShow.value = 1;
+    }
+
+
+}
+
+
 function toggleAccordion(checkboxId) {
     const checkbox = document.getElementById(checkboxId);
     const accordionItem = checkbox.closest(".accordion-item");

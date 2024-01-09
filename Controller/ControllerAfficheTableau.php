@@ -14,9 +14,10 @@ $conn = require "../Model/Database.php";
 
 if (isset($_POST['idDashboard'])) {
     $idDashboardForDelette = $_POST['idDashboard'];
-    echo $_POST['idDashboard'];
 
-    //ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
+
+    ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
+    crumbCollector($conn);
     header('location:../View/PageAfficheTableau.php');
 }
 

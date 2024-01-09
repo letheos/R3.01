@@ -19,7 +19,7 @@ function showComm($conn, $idcandidate){
     $candidat = getCandidate($conn,$idcandidate);
     echo "<h1> Liste des échanges avec " . $candidat[0][0] ."  ". $candidat[0][1] . "</h1>";
     foreach ($results as $row) {
-        echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post">
+        echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post" id="'.$row[2].'">
             <div class="candidates" id="candidates'.$row[2].'">';
         if($row[0]=="") {
             echo '<img src="../upload/'. $row[3] . '" width="10%" height="10%"/>';
@@ -29,13 +29,14 @@ function showComm($conn, $idcandidate){
         }
         echo '</div> <br>' . date('Y-m-d H:i',strtotime($row[1])) .
             '<input type="hidden" name="idmessage" value="'.$row[2].'">
-        <div class="buttonSubmit">
-        <button class="btn btn-primary" type="button" onclick="modificationOn(\'candidates'.$row[2].'\')">Modifier</button>
-        <button class="btn btn-primary" type="button" name="Valider" value="Valider" id="validerButton" style="display:none" onclick="modificationOff(\'candidates'.$row[2].'\')">
-</div>
+        <div class="buttonSubmit" id="bouton_candidates'.$row[2].'">
+        <button class="btn btn-primary" type="button" name="Modify" id="Modify" onclick="transformToTextarea(\'candidates'.$row[2].'\')">Modifier</button>
+        <button class="btn btn-primary" type="button" name="Validate" id="Validate" value="Valider" id="valider" style="display:none" onclick="executerFormulaire('.$row[2].')"> Valider </button>
         <input type="submit" name="Delete" value="Supprimer" >
-         
-        </form>';
+         </div>
+        </form>
+        ';
+
     }
 }
 
@@ -75,6 +76,8 @@ if(isset($_POST["Voir"])){
 
 }
 
+
+
 if(isset($_POST['Add'])) {
     if (($_POST['Note']!="") && $success==1) {
         addCommunication($conn, $_SESSION['candidate'], $_POST['Note'], $uploadFile);
@@ -100,3 +103,4 @@ if(isset($_POST["Delete"])){
     die();
 }
 
+echo $_POST["la"];

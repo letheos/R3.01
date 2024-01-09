@@ -19,7 +19,7 @@ $conn = require "../Model/database.php";
     <form>
         <h1 class="TexteProfil">
             Communication
-        </h1>Test
+        </h1>
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
 

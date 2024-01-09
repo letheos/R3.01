@@ -14,8 +14,7 @@ if(isset($_SESSION['formation'])){
     $f=$_SESSION['formation'];}
 
 if(isset($_SESSION['parcours'])){
-    $p=$_SESSION['formation'];
-    echo "la 3:".$p;}
+    $p=$_SESSION['formation'];}
 if(isset($_SESSION['year'])){
     $y=$_SESSION['year'];
 

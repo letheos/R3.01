@@ -24,7 +24,7 @@ if (isset($_POST['idDashboard'])) {
  * @param $login String
  * @return String[]
  */
-function ControllerGetDashBoardPerUser($login)
+function ControllerGetDashBoardPerUser(string $login): array
 {
     $conn = require "../Model/Database.php";
     return getDashBoardPerUser($login, $conn);
@@ -43,9 +43,11 @@ function ControllerGetYearWitDashBoard($idDashboard)
  * @param $idDashboard int
  * @param $login String
  * @return void
+ * this function use deleteUserDashBoard and remove a dashboard for a login pass in parameter
  */
 function ControllerDeleteDashBoard($idDashboard, $login)
 {
     $conn = require "../Model/Database.php";
     deleteUserDashBoard($login, $idDashboard, $conn);
 }
+

@@ -18,6 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
+function addValuesOfADashBoard(){}
+
+/**
+ * @return int
+ */
+function ControlerLastInsert(){
+    $conn = require "../Model/Database.php";
+    return getLastIdDashBoard($conn);
+}
+
 /**
  * @param $conn PDO
  * @return mixed
@@ -73,4 +83,13 @@ function generateAccordion($conn)
 
 }
 
-
+/**
+ * @param $idDashBoard
+ * @return Array
+ * this function return the value that GetFormationForADashBoard return with the parameter idDashBoard
+ */
+function ControllerGetFormationForADashBoard($idDashBoard): array
+{
+    $conn = require "../Model/Database.php";
+    return GetFormationForADashBoard($conn,$idDashBoard);
+}

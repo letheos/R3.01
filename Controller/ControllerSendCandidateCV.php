@@ -9,15 +9,15 @@ $mail = require '../Controller/ControllerMailConfig.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-function sendEmail($conn, $from, $to, $msg, $infos_decode) {
+function sendEmail($conn, $from, $to, $msg, $infos) {
     // Création et envoie du from
     $from->setFrom('bncorp.auto@gmail.com');
     $from->addAddress($to);
     $from->isHTML(true);
 
     // Add attachments
-    foreach ($infos_decode as $info) {
-        $candidate = selectCandidatesByParcoursWithYear($conn, $info['parcours'], $info['year'], 1);
+    foreach ($infos as $info) {
+        $candidate = selectCvById($conn, $info);
         foreach ($candidate as $cv) {
             $from->AddAttachment($cv['cv']);
         }
@@ -34,29 +34,23 @@ function sendEmail($conn, $from, $to, $msg, $infos_decode) {
     }
 }
 
-function translateArray($infos){
-
-    $infos_decode = [];
-    for ($i = 0 ; $i<count($infos) ; $i++){
-        $infos_decode[$i] = json_decode($infos[$i], true);
-    }
-    return $infos_decode;
-}
 
 $to = $_POST['to'];
 
 $success = 1;
 
-if(!empty($_POST['infos'])) {
-    $infos_decode = translateArray($_POST['infos']);
+if(!empty($_POST['candidateCheckbox'])) {
     if (!empty($to)){
         $msg = "Mail envoyée avec succés";
-        sendEmail($conn, $mail, $to, $_POST['message'], $infos_decode);
+        sendEmail($conn, $mail, $to, $_POST['message'], $_POST['candidateCheckbox']);
     } else {
         $msg = "Il manque le destinataire";
         $success = 0;
     }
 
+} else {
+    $msg = "Vous n'avez pas selectionné de CV";
+    $success = 0;
 }
 
 
@@ -65,6 +59,7 @@ session_start();
 $_SESSION['success'] = $success;
 $_SESSION['message'] = $msg;
 header("Location: ../View/PageSendCandidateCV.php");
+
 
 
 

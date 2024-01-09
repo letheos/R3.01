@@ -5,9 +5,12 @@ function addText() {
     var parcours = document.getElementById("parcours");
     var year = document.getElementById("year");
     var fromCV = document.getElementById("fromCV");
+    var form = document.getElementById("send-form");
+
 
     if (formation.value !== "" && parcours.value !== "" && year.value !== "") {
         var isUnique = isElementUnique(fromCV, formation.value, parcours.value, year.value);
+
 
         if (isUnique) {
             var modal = createModal(parcours.value, year.value);
@@ -47,6 +50,7 @@ function addText() {
             li.appendChild(del);
             li.appendChild(detail);
             fromCV.appendChild(li);
+            form.appendChild(modal);
         }
     }
 }
@@ -61,6 +65,7 @@ function createModal(parcours, year, candidateData) {
 
     var modalHeader = document.createElement("div");
     modalHeader.className = "modal-header";
+    modalHeader.style.backgroundColor = "#0f94b4"
     var headerText = document.createTextNode(parcours+" "+year);
     modalHeader.appendChild(headerText);
 
@@ -78,7 +83,7 @@ function createModal(parcours, year, candidateData) {
                     responseData.forEach(candidate => {
                         var candidateCheckbox = document.createElement("input");
                         candidateCheckbox.type = "checkbox";
-                        candidateCheckbox.name = "candidateCheckbox";
+                        candidateCheckbox.name = "candidateCheckbox[]";
                         candidateCheckbox.value = candidate.idCandidate; // Vous devriez ajuster cela en fonction de l'ID ou de l'identifiant de votre candidat
 
                         var candidateLabel = document.createElement("label");
@@ -105,6 +110,25 @@ function createModal(parcours, year, candidateData) {
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify({ parcours: parcours, year: year }));
 
+    var selectAllButton = document.createElement("button");
+    var unselectAllButton = document.createElement("button");
+    unselectAllButton.type="button";
+    unselectAllButton.className = "btn btn-primary";
+    unselectAllButton.textContent = "Tout décocher";
+    unselectAllButton.onclick = function () {
+        uncheckAllCandidates(modalBody);
+    };
+
+    selectAllButton.type = "button";
+    selectAllButton.className = "btn btn-primary";
+    selectAllButton.textContent = "Tout cocher";
+    selectAllButton.onclick = function () {
+        // Appeler la fonction pour cocher tous les checkboxes
+        checkAllCandidates(modalBody);
+    };
+
+    modalHeader.appendChild(selectAllButton);
+    modalHeader.appendChild(unselectAllButton);
 
     var modalClose = document.createElement("span");
     modalClose.className = "close";
@@ -121,6 +145,20 @@ function createModal(parcours, year, candidateData) {
     modal.style.display = "none";
 
     return modal;
+}
+
+function checkAllCandidates(container) {
+    var checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.checked = true;
+    });
+}
+
+function uncheckAllCandidates(container) {
+    var checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+    });
 }
 
 

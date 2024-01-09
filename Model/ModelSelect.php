@@ -59,3 +59,13 @@ function selectCandidatesNameByParcoursWithYear($conn, $parcours, $yearOfFormati
     $req->execute(array($isActive, $parcours, $yearOfFormation));
     return $req->fetchAll();
 }
+
+function selectCvById($conn, $idCandidate){
+    $sql = "
+           SELECT cv FROM infoCandidate
+           WHERE idCandidate = ? 
+           ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idCandidate));
+    return $req->fetchAll();
+}

@@ -1,5 +1,6 @@
 <?php
 require "../Controller/ControllerCreationTableau.php";
+session_start();
 $conn = require "../Model/Database.php";
 if(isset($_POST['ine']) and isset($_POST['address']) and isset($_POST['phone']) and isset($_POST['permis'])){
     //fonction qui change les valuers et je l'appelle la avec les valeurs en paramètres
@@ -9,6 +10,13 @@ $_POST['phone'] = true;
 $_POST['permis'] = true;
 $_POST['ine'] = true;
 $_POST['address'] = true;
+
+if(isset($_SESSION['role'])){
+    $Role = $_SESSION['role'];
+}else{
+    $Role = $_SESSION['role'] = 'Admin';
+}
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -51,14 +59,41 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
 <div class=container>
     <div class=column>
-        <div class=rounded-box>
-            <h2> Choix des parcours </h2>
+        <div class="rounded-box">
+            <h2>Choix des parcours</h2>
             <div class="accordion" id="choicesDep">
                 <?php
-                generateAccordion($conn);
-                ?>
+                $formations = getAllFormation($conn);
+                if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
+                    $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
+                }
+                foreach ($formations as $index => $formation) {
+                    $parcours = selectParcours($conn, $formation['nameFormation']);
+                    $checkboxId = $formation['nameFormation'];
+                    $collapseId = 'collapse' . $index;
+                    ?>
+                    <div class="accordion-item">
+                        <strong class="accordion-header" id="<?= 'heading' . $index ?>">
+                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
+                            <?= $formation['nameFormation'] ?>
+                        </strong>
+                        <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
+                            <div class="accordion-body">
+                                <?php
+                                foreach ($parcours as $indexParcours => $parcour) {
+                                    ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
+                                        <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
+
     </div>
         <!--bonnes fermetures de balises -->
 
@@ -108,7 +143,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
         </div>
 
             <form method="post" action="../Controller/ControllerCreationTableau.php">
-                <div class="rounded-box">
+                <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
                     <h2>Role à inclure dans la création du tableau de bord</h2>
                     <?php
                     $roles = controllerGetAllRole($conn);
@@ -117,7 +152,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                         $id += 1;
 
                         ?>
-                        <input type="checkbox" id="<?= 'role' . $id ?>" name="<?= $role[1] ?>" value="1">
+                        <input type="checkbox" id="<?= 'role' . $id ?>" name="<?= $role[1] ?>" value="1" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] === $role[1]) echo 'checked' ?> >
                         <label for="<?= 'role' . $id ?>"> inclure <?php echo $role[1] ?></label>
                         <br>
                         <?php
@@ -137,7 +172,16 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
             </label>
         </div>
     </div>
+
+<div class="column">
+    <div class="rounded-box">
+        <label>entrée le nom du tableau de bord</label>
+        <input type="text">
+    </div>
 </div>
+</div>
+
+
     <footer class="bottomBanner">
         <div class="nomFooter">
             <p>

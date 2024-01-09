@@ -15,7 +15,7 @@
  */
 function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
 {
-
+    echo '<script>alert("d")</script>';
     if($year == "allYears"){
 
         $fin = " FROM infocandidate  WHERE permisB =(?)";
@@ -93,7 +93,6 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
     return $tableau;
 }
 /**
- * @param $isActif bool
  * @param $isPermis bool
  * @param $formation string
  * @param $parcours string
@@ -286,7 +285,7 @@ function getDashBoardPerId($id, $conn)
  *Take as parameters a login for a user and a connection to a database,
  * then return all values that his dashboard contains
  */
-function getDashBoardPerUser(string $login, $conn): array
+function getDashBoardPerUser($login, $conn)
 {
 
     $sql = "SELECT idDashBoard FROM UserDashBoard WHERE login = ?";
@@ -340,7 +339,12 @@ function getFormationWithConditions($conn, $formation)
     return $req->fetchall();
 }
 
-function selectParcours($conn, $nameFormation){
+/**
+ * @param $conn
+ * @param $nameFormation
+ * @return mixed
+ */
+function SelectParcours($conn, $nameFormation){
     $sql = "SELECT Parcours.*
             FROM Parcours
             JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
@@ -351,16 +355,8 @@ function selectParcours($conn, $nameFormation){
     $results = $req->fetchAll();
     return $results;
 }
-
-/**
- * @param $conn PDO
- * @return void
- * valeur[0] = 0, valeur[1] = 1
- */
-function numberOfStudentInActiveSearch($conn)
-{
-    $sql = "SELECT count(*) FROM infocandidate GROUP BY infocandidate.isInActiveSearch; ";
-    $req = $conn->prepare($sql);
-    $req->execute();
+function GetFormationForADashBoard($conn, $idDashBoard){
+    $sql = "select * from dashboardparcours where idDashBoard = ?;";
+    $req = $conn->execute(array($idDashBoard));
     return $req->fetchAll();
 }

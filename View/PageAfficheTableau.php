@@ -6,9 +6,14 @@ require "../Controller/ControllerAfficheTableau.php";
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 } else {
-
     $_SESSION['login'] = "login1";
     $User = $_SESSION['login'];
+}
+if (isset($_SESSION['role'])) {
+    $Role = $_SESSION['role'];
+} else {
+    $_SESSION['role'] = 'User';
+    $Role = $_SESSION['login'];
 }
 
 
@@ -94,6 +99,7 @@ if (isset($_SESSION['login'])) {
                     <input type="hidden" id="address" value="<?= $valeur[3] ?>">
                     <input type="hidden" id="phone" value="<?= $valeur[4]?>">
                     <input type="hidden" id="permis" value="<?= $valeur[5]?>">
+                        <input type="hidden" id="formation" value="<?php  ?>">
                     </button>
                 </form>
             </div>

@@ -360,3 +360,104 @@ function GetFormationForADashBoard($conn, $idDashBoard){
     $req = $conn->execute(array($idDashBoard));
     return $req->fetchAll();
 }
+
+function allFormation($conn){
+    $sql = "SELECT * FROM Formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+
+}
+
+function selectCandidatesActives($conn, $isNotActive){
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE isInActiveSearch = ?";
+
+    $req = $conn->prepare($sql);
+    $req->execute(array($isNotActive));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats par formation
+ */
+function selectCandidatesByFormation($conn, $choixFormation, $isActive){
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE nameFormation = ? AND isInActiveSearch = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixFormation,$isActive));
+    return $req->fetchAll();
+}
+
+
+/**
+ * @param $conn
+ * @param $choixFormation
+ * @param $choixNom
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats en fonction du nom et de la formation
+ */
+function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $choixFormation));
+    return $req->fetchAll();
+}
+
+function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND nameParcours = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours,  $choixFormation));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn
+ * @param $choixNom
+ * @param $isActive
+ * @return mixed
+ * Requête de selection des candidats en fonction du nom
+ */
+
+function selectCandidatesByName($conn, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND name LIKE ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByParcours($conn, $parcours, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $choixNomPattern,  $parcours, $choixFormation));
+    return $req->fetchAll();
+}

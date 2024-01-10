@@ -166,10 +166,9 @@ if (isset($_POST['login'])) {
     -Commenter les fonctions
     -Règler les quelques bugs existants
     **/
-    echo'feur';
+
     //on vérifie que les critères rentrés par l'utilisateur sont valides et si c'est le cas on l'enregistre dans la base
     $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['formations'],$_POST['selectRole'],$objmail);
-    echo'feur2';
     $_SESSION['message'] = $message;
     $_SESSION['confirmation'] = $_POST['confirmation'];
     $_SESSION['lastName'] = $_POST['lastName'];

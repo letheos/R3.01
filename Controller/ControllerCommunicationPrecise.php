@@ -14,6 +14,7 @@ $success = 0;
 $directory = '../upload/';
 
 
+
 function showComm($conn, $idcandidate){
     $results = selectcomm($conn, $idcandidate);
     $candidat = getCandidate($conn,$idcandidate);
@@ -22,7 +23,7 @@ function showComm($conn, $idcandidate){
         echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post" id="'.$row[2].'">
             <div class="candidates" id="candidates'.$row[2].'">';
         if($row[0]=="") {
-            echo '<img src="../upload/'. $row[3] . '" width="10%" height="10%"/>';
+            echo '<img src="../upload/'. $row[3] . '" width="10%" height="30%"/>';
         }
         else {
             echo $row[0];
@@ -95,12 +96,14 @@ if(isset($_POST['Add'])) {
 }
 
 
-
+if(isset($_POST["la"])){
+    updateComm($conn,$_POST["idmessage"],$_POST["la"]);
+    header('Location: ../View/PageCommunicationPrecise.php');
+    die();
+}
 
 if(isset($_POST["Delete"])){
     deleteCommunication($conn,$_POST["idmessage"]);
     header('Location: ../View/PageCommunicationPrecise.php');
     die();
 }
-
-echo $_POST["la"];

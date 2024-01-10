@@ -1,9 +1,8 @@
 <?php
 require "../Controller/ControllerCommunicationPrecise.php";
 $conn = require "../Model/database.php";
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

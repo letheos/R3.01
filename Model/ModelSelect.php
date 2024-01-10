@@ -352,3 +352,12 @@ function GetFormationForADashBoard($conn, $idDashBoard){
     $req = $conn->execute(array($idDashBoard));
     return $req->fetchAll();
 }
+
+function getderniertableau($conn){
+    $sql = "SELECT idDashBoard FROM dashboard ORDER BY idDashBoard DESC LIMIT 1;" ;
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+
+
+}

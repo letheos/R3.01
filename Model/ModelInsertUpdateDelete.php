@@ -258,10 +258,10 @@ function addParcourDashboard($idDashbaord,$parcour,$conn){
  */
 function addFormationNewDashboard($parcour,$conn){
     require 'ModelSelect.php';
-    //$idDashbaord =
+    $idDashBoard = $conn ->lastInsertId();
     $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
-    //$req-> execute(array($idDashbaord,$parcour));
+    $req-> execute(array($idDashbaord,$parcour));
 }
 
 /**

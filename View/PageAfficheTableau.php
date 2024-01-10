@@ -1,7 +1,7 @@
 <?php
 //TODO mettre dans la sessions les parametres du tableau de bord si tu clique sur modifier ou les envoyer en post
 session_start();
-require "../Controller/ControllerAfficheTableau.php";
+require "../Controller/ControllerModifTableau.php";
 
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
@@ -79,10 +79,10 @@ if (isset($_SESSION['role'])) {
 
 
                 <!-- action="../Controller/ControllerAfficheTableau.php" -->
-                <form method="post" >
+                <form method="post" action="../Controller/ControllerAfficheTableau.php">
                     <!-- mettre en action la fonction supprimer -->
 
-                    <button id="<?= "delete" . $i ?>" class="btnDelete"   onclick="showAlert(this)" >supprimer</button>
+                    <button id="<?= "delete".$i ?>" class="btnDelete" >supprimer</button>
                     <input type="hidden" value="<?= $valeur[1] ?>" name="idDashboard">
                     <!-- mettre input hidden + validation -->
                     <!-- mettre en action la fonction modifier -->
@@ -93,13 +93,15 @@ if (isset($_SESSION['role'])) {
                     <button id="<?= "show".$i ?>" type="submit" class="btnShow"> afficher tableau de bord</button>
                 </form>
 
-                <form action="PageCreationTableau.php" method="post">
-                    <button type="submit" value="modifier" id="<?= $i ?>" class="btnModif" onclick="checked(<?=$valeur[2]?>,<?= $valeur[3] ?>,<?= $valeur[4] ?>,<?=$valeur[5] ?>,<?= $i ?>)"> modifier
-                    <input type="hidden" id="ine" value="<?=$valeur[2]?>">
-                    <input type="hidden" id="address" value="<?= $valeur[3] ?>">
-                    <input type="hidden" id="phone" value="<?= $valeur[4]?>">
-                    <input type="hidden" id="permis" value="<?= $valeur[5]?>">
-                        <input type="hidden" id="formation" value="<?php  ?>">
+                <form action="PageModifDashBoard.php" method="post">
+                    <button type="submit" value="modifier"  id="<?= $i ?>" class="btnModif" "> modifier
+                    <input type="hidden" name="ine"         id="ine"         value="<?=$valeur[2]?>">
+                    <input type="hidden" name="address"     id="address"     value="<?= $valeur[3] ?>">
+                    <input type="hidden" name="phone"       id="phone"       value="<?= $valeur[4]?>">
+                    <input type="hidden" name="permis"      id="permis"      value="<?= $valeur[5]?>">
+                    <input type="hidden" name="title"       id="title"       value="<?= $valeur[0]?>">
+                    <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $valeur[1]?>">
+
                     </button>
                 </form>
             </div>

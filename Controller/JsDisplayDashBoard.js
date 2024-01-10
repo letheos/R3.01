@@ -6,20 +6,29 @@
  * try to show or hide the element in the div elementCacher (nom provisiore)
  */
 
-function showAlert(button) {
+function showAlert(button,id) {
+    alert('validation'+id)
     var confirmation = window.confirm("Voulez-vous supprimer ce candidat ?");
     if (confirmation) {
-        var candidateId = button.getAttribute("data-id");
+        var validation = document.getElementById('validation'+id);
+        validation.value = '1';
+        alert(validation.value);
+        //document.getElementById('deleteForm'+id).submit();
 
-        // Récupérer le champ de formulaire caché pour l'ID du candidat
-        var candidateIdInput = document.getElementById('candidateId');
-        candidateIdInput.value = candidateId;
-
-        // Soumettre le formulaire
-        document.getElementById('delete-form').submit();
+    }else{
+        var validation = document.getElementById('validation'+id)
+        validation.value = '0';
+        alert(validation.value);
+        //document.getElementById('deleteForm'+id).submit();
     }
 }
 
+
+/**
+ *
+ * @param id String
+ * hide or show the values that à dashbaord
+ */
 function changeDisplay(id){
     var divCacher = document.getElementById(id);
 
@@ -35,23 +44,5 @@ function changeDisplay(id){
         hide.value = '+';
 
     }
-}
-
-function checked(isPermis,isIne,isAddress,isPhone,id){
-    var ineShow = document.getElementById('ine');
-    var addressShow =  document.getElementById('address');
-    var phoneShow = document.getElementById('phone');
-    var permisShow = document.getElementById('permis');
-    if(isPermis){
-        permisShow.checked = true;
-    } if(isIne){
-        ineShow.checked = true;
-    } if(isPhone){
-        phoneShow.checked = true;
-    } if(isAddress){
-        permisShow.checked = true;
-    }
-
-
 }
 

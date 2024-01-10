@@ -13,9 +13,9 @@
  * this function do a request that can change if some param change like $ine, $address and $phone
  * return the result of the request
  */
-function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone)
+function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone): array
 {
-    echo '<script>alert("d")</script>';
+
     if($year == "allYears"){
 
         $fin = " FROM infocandidate  WHERE permisB =(?)";
@@ -61,17 +61,7 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         $req->execute($params);
         return $req->fetchall();
     }
-    if ($parcours != "allParcours" && $formation != "allFormations") {
-        //if $parcours hasn't the value allParcours and $formation hasn't the value allFormations
-        //do the request
 
-        $params = array($year, $isPermis, $formation, $parcours);
-        echo "<br>";
-
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
     if ($parcours == "allParcours" && $formation != "allFormations") {
         //if $parcours has the value allParcours and $formation hasn't the value allFormations
         //do the request
@@ -80,17 +70,19 @@ function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $co
         return $req->fetchall();
 
     }
-    if ($parcours != "allParcours" && $formation == "allFormations") {
+    if  ($parcours != "allParcours" && $formation == "allFormations") {
         //if $parcours hasn't the value allParcours and $formation has the value allFormations
         //do the request
         $params = array($year, $isPermis, $parcours);
         $req->execute($params);
         return $req->fetchall();
 
+    } else{
+        $params = array($year, $isPermis, $formation, $parcours);
+        $req->execute($params);
+        return $req->fetchall();
     }
-    $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
 
-    return $tableau;
 }
 /**
  * @param $isPermis bool

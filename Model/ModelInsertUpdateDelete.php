@@ -1,6 +1,8 @@
 <?php
 //TODO faire fonction qui enlève les formations à un dashboard
 //TODO faire fonction qui ajoute les formations à un dashboard
+//TODO faire implémenté les année des étudiants et les ajoutés
+//TODO si on crée un dashboard faire des fonction qui récupère le last insert id
 
 /**
  * @param $isPermis boolean
@@ -187,8 +189,79 @@ function insertDashboardForUser($conn, $loginsUsers, $idDashBoard){
     }
 }
 
-function UpdateParcoursDashBoard(){
+/**
+ * @param $idDashboard int
+ * @param $conn PDO
+ * @return void
+ * Delete all the parcours of a dashboard
+ */
+function suprAllParcourDashboard($idDashboard,$conn){
+    $sql = "DELETE FROM dashboardparcours WHERE idDashBoard = ?";
+    $req = $conn ->prepare($sql);
+    $req -> execute(array($idDashboard));
+}
 
+/**
+ * @param $selectedParcours Array
+ * @param $idDashBard int
+ * @param $conn PDO
+ * @return void
+ * Add all the parcours that are in selectedParcours
+ */
+function UpdateParcoursDashBoard($selectedParcours,$idDashBard,$conn){
+    //remove all the formation of a dashboard
+    suprAllParcourDashboard($idDashBard, $conn);
+    //for each parcours add it to the dashboard
+    foreach ($selectedParcours as $parcour){
+        addParcourDashboard($idDashBard,$parcour,$conn);
+    }
+}
+
+/**
+ * @param $parcours string
+ * @param $idDashBard int
+ * @param $conn PDO
+ * @return bool
+ * Check if a dashboard have a formation
+ */
+function aDejaLeParcours($parcours,$idDashBard,$conn){
+    $sql ="SELECT * FROM dashboardparcours where idDashBoard = ? and nameParcours = ?;";
+    $req = $conn ->prepare($sql);
+    $req -> execute(array($idDashBard, $parcours));
+    $result = $req->fetch();
+    if(empty($result)){
+        return false;
+    } else{
+        return true;
+    }
+
+}
+
+/**
+ * @param $idDashbaord int
+ * @param $parcour String
+ * @param $conn PDO
+ * @return void
+ * Add a formation give in parameter and a year give to a dashboard
+ */
+function addParcourDashboard($idDashbaord,$parcour,$conn){
+    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+    $req = $conn->prepare($sql);
+    $req-> execute(array($idDashbaord,$parcour));
+}
+
+/**
+ * @param $parcour String
+ * @param $conn PDO
+ * @return void
+ * Add a formation for a new dashboard
+ */
+function addFormationNewDashboard($parcour,$conn){
+    require 'ModelSelect.php';
+    $idDashBoard = $conn ->lastInsertId();
+    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+    $req = $conn->prepare($sql);
+    $req-> execute(array($idDashbaord,$parcour));
 }
 
 /**
@@ -202,12 +275,30 @@ function UpdateParcoursDashBoard(){
  * @return void
  * change the value of a dashboard's information with his id give in parameter
  */
-function upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn){
+function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, bool $isAddress, bool $isPhone, int $idDashBoard, PDO $conn){
     $sql = "UPDATE dashboard
             SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?
             WHERE idDashBoard = ?";
+    if($isPermis){
+        $isPermis = 1;
+    } else{
+        $isPermis = 0;
+    } if($isIne){
+        $isIne = 1;
+    } else{
+        $isIne = 0;
+    }if($isAddress){
+        $isAddress = 1;
+    } else{
+        $isAddress = 0;
+    }if($isPhone){
+        $isPhone = 1;
+    } else{
+        $isPhone = 0;
+    }
     $req = $conn->prepare($sql);
-    $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard));
+    return $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard));
+
 
 }
 

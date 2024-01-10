@@ -85,7 +85,9 @@ function checked(isPermis,isIne,isAddress,isPhone,id){
 
 
 }
-
+function headder(){
+    window.location.href = '../View/PageAfficheTableau.php';
+}
 
 function toggleAccordion(checkboxId) {
     const checkbox = document.getElementById(checkboxId);

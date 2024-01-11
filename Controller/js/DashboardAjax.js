@@ -1,4 +1,4 @@
-function onChangeUpdateDisplayMultiple(link) {
+function onChangeUpdateDisplayMultiple(link, data) {
     var selectedFormationElement = document.getElementById("formation");
     var selectedFormation = selectedFormationElement.options[selectedFormationElement.selectedIndex].value;
 
@@ -19,6 +19,7 @@ function onChangeUpdateDisplayMultiple(link) {
 
             // Clear existing checkboxes
             parcoursContainer.innerHTML = "";
+            console.log(parcoursData);
 
             // Create checkboxes based on parcoursData
             parcoursData.forEach(function (parcours) {
@@ -44,7 +45,7 @@ function onChangeUpdateDisplayMultiple(link) {
     xhr.open("POST", link, true);
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({ formations: selectedCheckboxes }));
+    xhr.send(JSON.stringify({ formations: selectedCheckboxes, parcours: data }));
 
     return false;
 }

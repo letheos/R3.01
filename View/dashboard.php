@@ -1,12 +1,14 @@
 <?php
-require "../Controller/ControllerAffichageDashboard.php";
 require "../Controller/ControllerAffichageEtudiant.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$formationHere = ["Génie mécanique et productique","Génie industriel et maintenance","Génie électrique et informatique industrielle"];
-$parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours X - GIM", "Parcours 1 - GMP"];
+$formationHere = ["Informatique","Génie industriel et maintenance","Génie électrique et informatique industrielle"];
+$parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informatique B", "Parcours X - GIM"];
 ?>
+<script>
+const data = <?php echo json_encode($parcoursHere); ?>;
+</script>
 
 <!doctype html>
 <html lang="fr">
@@ -29,7 +31,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours X - GIM
     </h1>
 </header>
 
-<form id="filter-form" method="POST" action="../View/dashboard.php">
+<form id="filter-form" method="POST" action="../Controller/ControllerDashboard.php">
 
     <section class="filtreCandidats">
 
@@ -45,7 +47,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours X - GIM
                 <div class="checkboxes-container" id="checkboxesFormation">
                     <?php foreach ($formationHere as $formation) { ?>
                         <label for="<?php echo $formation; ?>">
-                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php')" value="<?php echo $formation; ?>"> <?php echo $formation; ?>
+                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data)" value="<?php echo $formation; ?>"> <?php echo $formation; ?>
                         </label>
                     <?php } ?>
                 </div>
@@ -93,9 +95,14 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours X - GIM
         <div class="buttonActivationCandidates">
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
         </div>
-    </footer>
 
+        <div>
+
+        </div>
+    </footer>
 </form>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/js/DashboardAjax.js"></script>
 </body>

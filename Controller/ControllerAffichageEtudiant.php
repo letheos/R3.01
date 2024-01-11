@@ -263,6 +263,54 @@ function filtrage($conn)
     }
 }
 
+function filtrageMultiple($conn)
+{
+    if (isset($_POST["submit"])) {
+        $choixFormation = $_POST["formation"];
+        $choixNom = $_POST["nameCandidates"];
+        $parcours = $_POST['parcours'];
+    }
+
+
+    //Traitement de la checkbox
+    if (isset($_POST["isActive"])) {
+        $isActive = 0;
+    } else {
+        $isActive = 1;
+    }
+
+    $hasFormationFilter = !empty($choixFormation) && $choixFormation !== "Aucune Option";
+    $hasNomFilter = !empty($choixNom);
+    $hasParcoursFilter = !empty($parcours);
+
+
+    // Exécuter les requêtes en fonction des critères de filtrage
+    if ($hasFormationFilter && $hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par formation, nom et parcours
+        choiceAllCandidatesByNameFormationAndParcours($conn,  $choixNom, $choixFormation, $parcours, $isActive);
+    } elseif ($hasFormationFilter && $hasNomFilter) {
+        // Filtrage par formation et nom
+        choiceAllCandidatesByNameAndFormation($conn, $choixFormation, $isActive, $choixNom);
+    } elseif ($hasFormationFilter && $hasParcoursFilter) {
+        // Filtrage par formation et parcours
+        choiceAllCandidatesByFormationAndParcours($conn, $choixFormation, $parcours, $isActive);
+    } elseif ($hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par nom et parcours
+        choiceAllCandidatesByNameAndParcours($conn, $choixNom, $parcours, $isActive);
+    } elseif ($hasFormationFilter) {
+        // Filtrage par formation uniquement
+        choiceAllCandidatesByFormation($conn, $choixFormation, $isActive);
+    } elseif ($hasNomFilter) {
+        // Filtrage par nom uniquement
+        choiceAllCandidatesByName($conn, $isActive, $choixNom);
+    } elseif ($hasParcoursFilter) {
+        // Filtrage par parcours uniquement
+        choiceAllCandidatesByParcours($conn, $parcours, $isActive);
+    } else {
+        // Aucun critère de filtrage sélectionné, afficher tous les candidats
+        choiceAllOptionWithActive($conn, $isActive);
+    }
+}
 
 
 

@@ -10,11 +10,12 @@ require "../Model/ModelInsertUpdateDelete.php";
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
 
-    ControllerUpdateParcoursDashBoard($_POST['parcoursSelected'],$_POST['idDashboard']);
-    $finis = ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard']);
-    if($finis){
+    if(isset($_POST['validate'])){
+        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard']);
+        //ControllerUpdateParcoursDashBoard($_POST['parcoursSelected'],$_POST['idDashboard']);
         header('location:../View/PageAfficheTableau.php');
     }
+
 }
 
 

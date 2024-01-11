@@ -1,5 +1,4 @@
 <?php
-$conn = require "../Model/Database.php";
 include "../Controller/ControllerAffichageEtudiant.php";
 
 ?>
@@ -30,9 +29,18 @@ include "../Controller/ControllerAffichageEtudiant.php";
 
         <div class="selection">
             <label for="formation" class="form-select-label"> Département </label>
-            <?php
-            listAffichageSelect($conn); //
-            ?>
+            <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
+                <option value="" selected="selected" disabled> Choisir la formation </option>
+                <?php $formations = getAllFormation();
+                $selected = '';
+                $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
+                foreach ($formations as $formation)
+                {
+                    $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : '';?>
+                    <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option><?php
+                } ?>
+                <option value="Aucune Option" > Aucune Option </option>
+            </select>
 
             <label for="parcours" class="form-select-label"> Parcours </label>
             <select class="form-select" name="parcours" id="parcours">
@@ -59,7 +67,23 @@ include "../Controller/ControllerAffichageEtudiant.php";
 <form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php">
 <section class="afficheCandidats">
     <div class="affichage" id="candidateList">
-        <?php filtrage($conn); ?>
+        <?php
+        $candidates = filtrage();
+        foreach ($candidates as $candidate)
+        {   ?>
+            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+            <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id="<?php echo $candidate['idCandidate']; ?>" onclick="showAlert(this)">Supprimer</button>
+            <?php
+            if ($candidate['isInActiveSearch']) {
+            ?>
+                <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
+            <?php
+            } else {
+            ?>
+                <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
+            <?php
+            }
+        } ?>
         <input type="hidden" id="candidateId" name="candidateId" value="">
     </div>
 </section>

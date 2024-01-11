@@ -11,8 +11,18 @@ require "../Model/ModelInsertUpdateDelete.php";
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
 
     if(isset($_POST['validate'])){
+
+        echo '<br>';
+        echo $_POST['choix'];
+        echo '<br>';
+
+
+        foreach ($_POST['selectedParcours'] as $parcour){
+            echo $parcour;
+        }
+
         ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard']);
-        //ControllerUpdateParcoursDashBoard($_POST['parcoursSelected'],$_POST['idDashboard']);
+        ControllerUpdateParcoursDashBoard($_POST['selectedParcours'],$_POST['idDashboard'],$_POST['choix']);
         header('location:../View/PageAfficheTableau.php');
     }
 
@@ -72,15 +82,31 @@ function ControllerGetDashBoardPerUser(string $login): array
     return getDashBoardPerUser($login, $conn);
 }
 
+/**
+ * @param $name string
+ * @param $isPermis bool
+ * @param $isIne bool
+ * @param $isAddress bool
+ * @param $isPhone bool
+ * @param $idDashBoard int
+ * @return void
+ * send to the function UpdateParametreDashBoard the value usefull to modify his parameters
+ */
 function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard){
     $conn = require "../Model/Database.php";
     upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn);
 
 }
 
-function ControllerUpdateParcoursDashBoard($parcoursSelected,$idDashboard){
+/**
+ * @param $parcoursSelected Array
+ * @param $idDashboard int
+ * @return void
+ * send to the function UpdateParcoursDashBoard the formations selected and the id of the dashbaord
+ */
+function ControllerUpdateParcoursDashBoard($parcoursSelected,$idDashboard,$year){
     $conn = require "../Model/Database.php";
-    UpdateParcoursDashBoard($parcoursSelected,$idDashboard,$conn);
+    UpdateParcoursDashBoard($parcoursSelected,$idDashboard,$year,$conn);
 }
 
 

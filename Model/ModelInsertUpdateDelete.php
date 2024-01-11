@@ -208,12 +208,12 @@ function suprAllParcourDashboard($idDashboard,$conn){
  * @return void
  * Add all the parcours that are in selectedParcours
  */
-function UpdateParcoursDashBoard($selectedParcours,$idDashBard,$conn){
+function UpdateParcoursDashBoard($selectedParcours,$idDashBard,$year,$conn){
     //remove all the formation of a dashboard
     suprAllParcourDashboard($idDashBard, $conn);
     //for each parcours add it to the dashboard
     foreach ($selectedParcours as $parcour){
-        addParcourDashboard($idDashBard,$parcour,$conn);
+        addParcourDashboard($idDashBard,$parcour,$year,$conn);
     }
 }
 
@@ -244,10 +244,10 @@ function aDejaLeParcours($parcours,$idDashBard,$conn){
  * @return void
  * Add a formation give in parameter and a year give to a dashboard
  */
-function addParcourDashboard($idDashbaord,$parcour,$conn){
-    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+function addParcourDashboard($idDashbaord,$parcour,$year,$conn){
+    $sql = "INSERT INTO dashboardparcours(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,?)";
     $req = $conn->prepare($sql);
-    $req-> execute(array($idDashbaord,$parcour));
+    $req-> execute(array($idDashbaord,$parcour,$year));
 }
 
 /**
@@ -261,7 +261,7 @@ function addFormationNewDashboard($parcour,$conn){
     $idDashBoard = $conn ->lastInsertId();
     $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
-    $req-> execute(array($idDashbaord,$parcour));
+    $req-> execute(array($idDashBoard,$parcour));
 }
 
 /**

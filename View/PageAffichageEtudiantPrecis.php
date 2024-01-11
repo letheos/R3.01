@@ -40,11 +40,31 @@ $infotCandidat = selectCandidatById($conn, $id);
 
     <section class="Affiche">
         <div class="rounded-box">
-            <?php
-            afficherEtudiant($conn,$id);
-            ?>
+            <?php $result = getStudentId($id); ?>
+            <div class="enteteBox">
+                <h2> Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?> </h2>
+                <p class="candidates">
+                    Email : <?php echo $result["candidateMail"]; ?>
+                    <br> Numéro de téléphone : <?php echo $result['phoneNumber']; ?>
+                    <br> Formation : <?php echo $result['nameFormation']; ?>
+                    <br> Parcours : <?php echo $result['nameParcours']; ?>
+                    <br> Année de formation : <?php echo $result['yearOfFormation']; ?> </br>
+                </p>
+            </div>
 
-            <form method="post" action="../Controller/ControllerActifInactif.php">
+            <div class="informationBox">
+                <p>
+                    <br> <?php echo (isset($result['INE']) ? 'INE : ' . $result['INE'] : 'INE non disponible'); ?>
+                    <br> Type d'entreprise recherchée : <?php echo $result['typeCompanySearch']; ?>
+                    <br> Adresse : <?php echo $result['addresses']; ?>
+                    <br> Zone : <?php echo $result['zones']; ?>
+                    <br> <?php echo ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B"); ?>
+                    <br> <?php echo ($result['isInActiveSearch'] ? "Est en recherche active" : "N'est pas en recherche active"); ?>
+                    <br> <?php echo (isset($result['cv']) ? "<a href='../Controller/ControllerGeneratePreview.php?id=$id' target='_blank'> Voir le CV </a>" : "CV non disponible"); ?>
+                </p>
+            </div>
+
+                <form method="post" action="../Controller/ControllerActifInactif.php">
                 <div class="buttonIsActivate">
                     <?php
                     $donnes = isInActiveSearch($conn,$id);

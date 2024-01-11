@@ -1,4 +1,4 @@
-function onChangeUpdateDisplayParcours(link) {
+function onChangeUpdateDisplayParcours(link, parcourSelected) {
 
     var selectedFormation = document.getElementById("formation").value;
     var parcoursSelect = document.getElementById("parcours");
@@ -45,6 +45,7 @@ function onChangeUpdateDisplayParcours(link) {
     return false
 
 }
+
 
 
 

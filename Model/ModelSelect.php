@@ -337,7 +337,7 @@ function getFormationWithConditions($conn, $formation)
  * @return mixed
  */
 function SelectParcours($conn, $nameFormation){
-    $sql = "SELECT Parcours.*
+    $sql = "SELECT Parcours.nameParcours
             FROM Parcours
             JOIN Formation ON Parcours.nameFormationParcours = Formation.nameFormation
             WHERE Formation.nameFormation = ?;

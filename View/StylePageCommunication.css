@@ -55,9 +55,8 @@ form {
 }
 
 .btn-outline-primary {
-    background-color: transparent;
-    color: #3498db;
-    border: 1px solid #3498db;
+    color: #000000;
+    border: 1px solid #000000;
     padding: 5px 10px;
     cursor: pointer;
 }

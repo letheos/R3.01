@@ -30,7 +30,11 @@ function isContentAnImage(Id) {
     var messageDiv = document.getElementById(Id);
     var content = messageDiv.innerHTML.trim();
     var isImage = content.startsWith('<img')
-    return isImage;
+    if (isImage){
+        return true;
+    }
+
+    return false;
 }
 
 function transformToTextarea(Id) {

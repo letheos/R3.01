@@ -1,22 +1,17 @@
 <?php
 require "../Model/ModelInsertUpdateDelete.php";
-
 $conn = require "../Model/database.php";
 
 session_start();
 
-if(isset($_POST['nom'])){
-    $_SESSION['nom"']=$_POST['nom'];
-}
-if(isset($_POST['formation'])){
-    $_SESSION['formation']=$_POST['formation'];}
-if(isset($_SESSION['parcours'])){
-    $_SESSION['formation']=$_POST['formation'];}
-if(isset($_SESSION['year'])){
-    $_SESSION['year']=$_POST['year'];
-}
+if(isset($_POST['filtrer'])){
+    header('Location: couille');
+    $_SESSION["nomr"] = $_POST['name'] ?? "%";
+    $_SESSION["formationr"] = $_POST['formation'] ?? "%";
+    $_SESSION["parcoursr"] = $_POST['parcours'] ?? "%";
+    $_SESSION["yearr"] = $_POST['year'] ?? "%";
 
-
+}
 
 function showCandidate($conn,$name,$formation,$parcours,$year){
     $results = selectCandidatesByFormationWithParcoursWithYear($conn,$name,$formation,$parcours,$year);
@@ -29,11 +24,3 @@ function showCandidate($conn,$name,$formation,$parcours,$year){
         </form>';
     }
 }
-
-
-
-
-
-
-
-

@@ -2,23 +2,6 @@
 require "../Controller/ControllerCommunication.php";
 include "../Controller/ControllerAffichage.php";
 $conn = require "../Model/database.php";
-$f='%';
-$p='%';
-$y='%';
-$n="%";
-if(isset($_POST['nom'])){
-    $n=$_POST['nom'];
-
-}
-if(isset($_SESSION['formation'])){
-    $f=$_SESSION['formation'];}
-
-if(isset($_SESSION['parcours'])){
-    $p=$_SESSION['formation'];}
-if(isset($_SESSION['year'])){
-    $y=$_SESSION['year'];
-
-}
 
 ?>
 <!DOCTYPE html>
@@ -68,7 +51,9 @@ if(isset($_SESSION['year'])){
         </form>
 </header>
 
-<?php showCandidate($conn, $n,$f,$p,$y); ?>
+<?php showCandidate($conn,$_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);
+echo $_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"];
+?>
 
 
 

@@ -65,6 +65,11 @@ input[type='submit'] {
     gap: 10px;
 }
 
+form{
+    padding-bottom:5% ;
+
+}
+
 .btn-primary {
     background-color: #3498db;
     color: #fff;

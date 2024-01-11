@@ -23,7 +23,7 @@ function showComm($conn, $idcandidate){
         echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post" id="'.$row[2].'">
             <div class="candidates" id="candidates'.$row[2].'">';
         if($row[0]=="") {
-            echo '<img src="../upload/'. $row[3] . '" width="10%" height="30%"/>';
+            echo '<img src="../upload/'. $row[3] . '" width="20%" height="20%"/>';
         }
         else {
             echo $row[0];

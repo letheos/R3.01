@@ -7,7 +7,7 @@ $formationHere = ["Informatique","Génie industriel et maintenance","Génie éle
 $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informatique B", "Parcours X - GIM"];
 ?>
 <script>
-const data = <?php echo json_encode($parcoursHere); ?>;
+    const data = <?php echo json_encode($parcoursHere); ?>;
 </script>
 
 <script>
@@ -112,7 +112,7 @@ const data = <?php echo json_encode($parcoursHere); ?>;
             $candidates = filtrageMultiple();
             foreach ($candidates as $candidate)
             {   ?>
-            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
                 <?php
                 if ($candidate['isInActiveSearch']) {
                     ?>

@@ -12,7 +12,7 @@ if(isset($_GET['id'])){
     exit("ERREUR : LOGIN MANQUANT");
 }
 
-$infotCandidat = selectCandidatById($conn, $id);
+$infotCandidat = getStudentId($id);
 ?>
 
 <!doctype html>
@@ -29,7 +29,7 @@ $infotCandidat = selectCandidatById($conn, $id);
 <body>
 
 <header class="banner">
-    <a class="btn btn-light" href="./PageAffichageEtudiant.php" style="position: absolute; top: 0; left: 0;"> Retour à l'affichage candidat </a>
+    <a class="btn btn-light" href="./dashboard.php" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
     <h1>
         Le candidat
     </h1>

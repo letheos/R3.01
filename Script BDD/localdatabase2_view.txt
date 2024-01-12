@@ -1,15 +1,10 @@
--- Structure for view `infocandidate`
---
-DROP VIEW IF EXISTS `infocandidate`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate` AS
 SELECT
     `candidate`.`idCandidate` AS `idCandidate`,
     `candidate`.`INE` AS `INE`,
     `candidate`.`name` AS `name`,
     `candidate`.`firstName` AS `firstName`,
-	`candidate`.`phoneNumber`AS `phoneNumber`, 
-	`candidate`.`candidateMail`AS `candidateMail`,
+    `candidate`.`phoneNumber` AS `phoneNumber`, 
+    `candidate`.`candidateMail` AS `candidateMail`,
     `candidate`.`nameParcours` AS `nameParcours`,
     `formation`.`nameFormation` AS `nameFormation`,
     `candidate`.`yearOfFormation` AS `yearOfFormation`,
@@ -18,9 +13,9 @@ SELECT
     `candidate`.`typeCompanySearch` AS `typeCompanySearch`,
     `candidate`.`cv` AS `cv`,
     `candidate`.`remarks` AS `remarks`,
+    `candidate`.`foundApp` AS `foundApp`, -- Added field
     GROUP_CONCAT(DISTINCT `candidateaddress`.`idAddr` SEPARATOR ',') AS `AddressesIDs`,
     GROUP_CONCAT(DISTINCT `candidatezone`.`idZone` SEPARATOR ',') AS `ZonesRechercheIDs`
-    `candidate`.`foundApp` AS `foundApp`
 FROM (
     (
         (

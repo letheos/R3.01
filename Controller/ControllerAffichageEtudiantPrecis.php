@@ -11,4 +11,9 @@ function isActive($id){
     global $conn;
     return isInActiveSearch($conn, $id);
 }
+
+function getCandidatById($id){
+    global $conn;
+    return selectCandidatById($conn, $id);
+}
 ?>

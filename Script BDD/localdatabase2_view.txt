@@ -20,6 +20,7 @@ SELECT
     `candidate`.`remarks` AS `remarks`,
     GROUP_CONCAT(DISTINCT `candidateaddress`.`idAddr` SEPARATOR ',') AS `AddressesIDs`,
     GROUP_CONCAT(DISTINCT `candidatezone`.`idZone` SEPARATOR ',') AS `ZonesRechercheIDs`
+    `candidate`.`foundApp` AS `foundApp`
 FROM (
     (
         (

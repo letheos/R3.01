@@ -17,7 +17,7 @@ $directory = '../upload/';
 
 function showComm($conn, $idcandidate){
     $results = selectcomm($conn, $idcandidate);
-    $candidat = getCandidate($conn,$idcandidate);
+    $candidat = selectCandidatewithId($conn,$idcandidate);
     echo "<h1> Liste des échanges avec " . $candidat[0][0] ."  ". $candidat[0][1] . "</h1>";
     foreach ($results as $row) {
         echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post" id="'.$row[2].'">

@@ -2,7 +2,18 @@
 require "../Controller/ControllerCommunication.php";
 include "../Controller/ControllerAffichage.php";
 $conn = require "../Model/database.php";
-
+if (!isset($_SESSION["nomr"])) {
+    $_SESSION["nomr"] = "%";
+}
+if (!isset($_SESSION["formationr"])) {
+    $_SESSION["formationr"] = "%";
+}
+if (!isset($_SESSION["parcoursr"])) {
+    $_SESSION["parcoursr"] = "%";
+}
+if (!isset($_SESSION["yearr"])) {
+    $_SESSION["yearr"] = "%";
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,7 +30,6 @@ $conn = require "../Model/database.php";
     <button class="btn btn-light" type="submit" name="retourAccueil"
             onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
     </button>
-    <form>
         <h1 class="TexteProfil">
             Communication
         </h1>
@@ -51,9 +61,7 @@ $conn = require "../Model/database.php";
         </form>
 </header>
 
-<?php showCandidate($conn,$_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);
-echo $_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"];
-?>
+<?php showCandidate($conn,$_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);?>
 
 
 

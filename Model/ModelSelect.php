@@ -522,14 +522,14 @@ function selectComm($conn,$idcandidate){
     return $req->fetchall();
 }
 
-function selectCandidate($conn,$firstname,$lastname){
+function selectCandidatewithName($conn,$firstname,$lastname){
     $sql = "Select name,firstname,idcandidate from Candidate where firstname ILIKE ? or Candidate.name ILIKE ?;";
     $req = $conn->prepare($sql);
     $req->execute(array($firstname,$lastname));
     return $req->fetchall();
 }
 
-function getCandidate($conn,$idcandidate){
+function selectCandidatewithId($conn,$idcandidate){
     $sql = "Select name,firstname from Candidate where idcandidate = ?;";
     $req = $conn->prepare($sql);
     $req->execute(array($idcandidate));

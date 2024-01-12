@@ -291,6 +291,14 @@ function deleteCandidate($conn, $id){
     $sqlReq3->execute(array($id));
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @param $note
+ * @param $img
+ * @return Exception|PDOException|void
+ * this function adds a communication
+ */
 function addCommunication($conn,$id,$note,$img){
     try {
         if(is_null($img)) {
@@ -310,6 +318,12 @@ function addCommunication($conn,$id,$note,$img){
     }
 }
 
+/**
+ * @param $conn
+ * @param $commid
+ * @return Exception|PDOException|void
+ * this function delete every sign of a communication
+ */
 function deleteCommunication($conn,$commid){
     try {
         $sql = "DELETE FROM Communication WHERE idmessage = ?";
@@ -321,6 +335,13 @@ function deleteCommunication($conn,$commid){
     }
 }
 
+/**
+ * @param $conn
+ * @param $commid
+ * @param $newmsg
+ * @return Exception|PDOException|void
+ This function update a communication (only a text, not a picture)
+ */
 function updateComm($conn,$commid,$newmsg)
 {
     try{

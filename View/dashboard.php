@@ -110,21 +110,39 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
         <div class="affichage" id="candidateList">
             <?php
             $candidates = filtrageMultiple();
-            foreach ($candidates as $candidate)
-            {   ?>
-            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
-                <?php
-                if ($candidate['isInActiveSearch']) {
-                    ?>
-                    <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
-                    <?php
-                } else {
-                    ?>
-                    <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
-                    <?php
-                }
-                } ?>
-                <input type="hidden" id="candidateId" name="candidateId" value="">
+            foreach ($candidates as $candidate) {
+                ?>
+                <div class="candidates" id="candidats">
+                    <p>
+                        <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br>
+                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+
+                        <?php
+                        if ($candidate['foundApp'] == 0) {
+                            ?>
+                            <span style="color: #bb2323">N'a pas d'alternance</span>
+                            <?php
+                        } else {
+                            ?>
+                            <span style="color: green">A une Alternance</span>
+                            <?php
+                        }
+                        ?>
+
+                        <?php
+                        if ($candidate['isInActiveSearch']) {
+                            ?>
+                            <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
+                            <?php
+                        } else {
+                            ?>
+                            <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
+                            <?php
+                        }
+                        ?>
+                    </p>
+                </div>
+            <?php } ?>
         </div>
     </section>
 

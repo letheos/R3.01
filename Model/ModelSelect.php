@@ -188,7 +188,7 @@ function getParcoursWithConditions($conn, $parcours)
  * @return String[]
  * take a PDO connexion and return all the formation in the databse
  */
-function getAllFormation($conn)
+function allFormation($conn)
 {
     $sql = "SELECT * FROM formation";
     $req = $conn->prepare($sql);
@@ -360,14 +360,6 @@ function getderniertableau($conn){
     $req->execute();
     return $req->fetchall();
 
-
-}
-
-function allFormation($conn){
-    $sql = "SELECT * FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchAll();
 
 }
 

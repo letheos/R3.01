@@ -1,0 +1,102 @@
+.info-bubble {
+    display: none;
+    position: absolute;
+    background-color: #0f94b4;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+
+
+.Affiche {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.rounded-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+
+}
+
+.enteteBox {
+    background-color: #0f94b4; /* Couleur de fond de l'en-tête */
+    color: #fff; /* Couleur du texte de l'en-tête */
+    padding: 10px; /* Espacement autour de l'en-tête */
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.enteteBox h2 {
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+
+.informationBox {
+    margin-top: 20px;
+}
+
+.informationBox p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+.informationBox a {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.informationBox a:hover {
+    background-color: #0056b3;
+}
+
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.buttonIsActivate {
+    margin: 10px; /* Ajoutez de la marge autour de l'élément */
+    padding: 5px; /* Ajoutez un remplissage à l'intérieur de l'élément */
+    border: 1px solid #000; /* Ajoutez une bordure */
+    background-color: #f0f0f0; /* Changez la couleur de fond */
+}
+

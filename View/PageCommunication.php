@@ -61,8 +61,9 @@ if (!isset($_SESSION["yearr"])) {
         </form>
 </header>
 
+<section class="Candidats">
 <?php showCandidate($conn,$_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);?>
-
+</section>
 
 
 

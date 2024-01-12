@@ -38,11 +38,13 @@ function showCandidate($conn,$name,$formation,$parcours,$year){
     $results = selectCandidatesByFormationWithParcoursWithYear($conn,$name,$formation,$parcours,$year);
 
     foreach ($results as $row) {
-        echo '<form action="../Controller/ControllerCommunicationPrecise.php" method="Post">
-            <p class="message" id="message"> '. $row[1] . "   " . $row[0] .
+        echo '<div id="etudiant">
+            <form action="../Controller/ControllerCommunicationPrecise.php" method="Post">
+            <p class="message" id="message"> '. $row[1] . "   " . $row[0] .'</p>'  .
             '<input type="hidden" name="idcandidate" value="'.$row[2].'"'.'>',
         '<input type="submit" name="Voir" value="voir" >
-        </form>';
+        </form>
+        </div>';
     }
 }
 

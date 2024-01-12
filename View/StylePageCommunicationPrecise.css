@@ -95,3 +95,9 @@ footer {
 .nomFooter, .origineFooter {
     flex: 1;
 }
+
+#Candidats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as needed */
+}

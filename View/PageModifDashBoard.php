@@ -77,7 +77,26 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
 
     <div class=container>
-    <div class=column>
+        <div class="column">
+        <div class="rounded-box">
+            <h5>parcours déjà sélectionner à resélectionner pour les conserver</h5>
+            <?php
+            $parcours = ControllerGetFormationForADashBoard($_POST['idDashboard']);
+            foreach ($parcours as $parcour){?>
+                <p><?= $parcour[1] ?></p>
+
+            <?php
+            }
+            ?>
+            <h5>
+                année des étudiants en paramètres:
+            </h5>
+            <p><?= $parcours[0][2] ?></p>
+        </div>
+        </div>
+
+        <div class=column>
+
         <div class="rounded-box">
             <h2>Choix des parcours</h2>
             <div class="accordion" id="choicesDep">
@@ -102,7 +121,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                                 foreach ($parcours as $indexParcours => $parcour) {
                                     ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
+                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>" <?php if ($parcour['nameParcours'] == 'Parcours A - GEII'){echo 'checked';}?>  >
                                         <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
                                     </div>
                                 <?php } ?>

@@ -349,7 +349,8 @@ function SelectParcours($conn, $nameFormation){
 }
 function GetFormationForADashBoard($conn, $idDashBoard){
     $sql = "select * from dashboardparcours where idDashBoard = ?;";
-    $req = $conn->execute(array($idDashBoard));
+    $req = $conn->prepare($sql);
+    $req ->execute(array($idDashBoard));
     return $req->fetchAll();
 }
 

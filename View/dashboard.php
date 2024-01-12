@@ -10,6 +10,27 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
 const data = <?php echo json_encode($parcoursHere); ?>;
 </script>
 
+<script>
+    // Vérifie l'état des checkboxes pour activer la fonction ajax quand une case est déjà check au chargement de la page
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkboxes = document.querySelectorAll('input[name="formation[]"]:checked');
+        checkboxes.forEach(function(checkbox) {
+            onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data);
+        });
+    });
+
+    var checkboxes = document.querySelectorAll('input[name="formation[]"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener("change", function() {
+            if (this.checked) {
+                onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data);
+            }
+        });
+    });
+</script>
+
+
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -27,11 +48,11 @@ const data = <?php echo json_encode($parcoursHere); ?>;
 
 <header class="banner">
     <h1>
-        Les profils candidats
+        NOM DU DASHBOARD
     </h1>
 </header>
 
-<form id="filter-form" method="POST" action="../Controller/ControllerDashboard.php">
+<form id="filter-form" method="POST" action="../View/dashboard.php">
 
     <section class="filtreCandidats">
 
@@ -39,7 +60,7 @@ const data = <?php echo json_encode($parcoursHere); ?>;
             <label for="formation" class="form-select-label"> Département </label>
             <div class="multiselect" >
                 <div class="selectBox" onclick="showCheckboxes('checkboxesFormation')">
-                    <select class="form-select" name="formation" id="formation">
+                    <select class="form-select" id="formation">
                         <option>Selectionner plusieurs formations</option>
                     </select>
                     <div class="overSelect"></div>
@@ -47,7 +68,7 @@ const data = <?php echo json_encode($parcoursHere); ?>;
                 <div class="checkboxes-container" id="checkboxesFormation">
                     <?php foreach ($formationHere as $formation) { ?>
                         <label for="<?php echo $formation; ?>">
-                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data)" value="<?php echo $formation; ?>"> <?php echo $formation; ?>
+                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data)" value="<?php echo $formation; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation; ?>
                         </label>
                     <?php } ?>
                 </div>
@@ -59,7 +80,7 @@ const data = <?php echo json_encode($parcoursHere); ?>;
             <label for="parcours" class="form-select-label"> Parcours </label>
             <div class="multiselect">
                 <div class="selectBox" onclick="showCheckboxes('checkboxesParcours')">
-                    <select class="form-select" name="parcours" id="parcours">
+                    <select class="form-select"  id="parcours">
                         <option>Selectionner plusieurs parcours</option>
                     </select>
                     <div class="overSelect"></div>
@@ -84,20 +105,32 @@ const data = <?php echo json_encode($parcoursHere); ?>;
     </section>
 </form>
 
-<form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php">
+<form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php">
     <section class="afficheCandidats">
         <div class="affichage" id="candidateList">
-            <input type="hidden" id="candidateId" name="candidateId" value="">
+            <?php
+            $candidates = filtrageMultiple();
+            foreach ($candidates as $candidate)
+            {   ?>
+            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+                <?php
+                if ($candidate['isInActiveSearch']) {
+                    ?>
+                    <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
+                    <?php
+                } else {
+                    ?>
+                    <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
+                    <?php
+                }
+                } ?>
+                <input type="hidden" id="candidateId" name="candidateId" value="">
         </div>
     </section>
 
     <footer class="bottomBanner">
         <div class="buttonActivationCandidates">
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
-        </div>
-
-        <div>
-
         </div>
     </footer>
 </form>

@@ -1,3 +1,8 @@
+-- Structure for view `infocandidate`
+--
+DROP VIEW IF EXISTS `infocandidate`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate` AS
 SELECT
     `candidate`.`idCandidate` AS `idCandidate`,
     `candidate`.`INE` AS `INE`,

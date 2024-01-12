@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
     exit("ERREUR : LOGIN MANQUANT");
 }
 
-$infotCandidat = selectCandidatById($conn, $id);
+$infotCandidat = getCandidatById($id);
 ?>
 
 <!doctype html>
@@ -67,7 +67,7 @@ $infotCandidat = selectCandidatById($conn, $id);
                 <form method="post" action="../Controller/ControllerActifInactif.php">
                 <div class="buttonIsActivate">
                     <?php
-                    $donnes = isInActiveSearch($conn,$id);
+                    $donnes = isActive($id);
                     if ($donnes["isInActiveSearch"] == 1){?>
                         <button type="submit" class="btn btn-outline-danger" name="desactivate" >Rendre Inactif</button>
                     <?php

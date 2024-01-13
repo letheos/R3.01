@@ -244,12 +244,15 @@ function getUserWithId($idUser,$conn)
 
 /**
  * @param $conn PDO
- * @param $role int
+ * @param $role array
  * @return array|false
  * get the login for all the user with an id give
  */
 function getAllPeopleWithRole($conn, $role){
     $sql = "SELECT login FROM utilisateur where idRole = ? ";
+    for($i = 0;$i<sizeof($role)-1;$i++){
+        $sql.="AND idRole = ? ";
+    }
     $req = $conn->prepare($sql);
     $req->execute($role);
     return $req->fetchall();

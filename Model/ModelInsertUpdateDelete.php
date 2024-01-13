@@ -90,7 +90,7 @@ function deleteDashBoard($idDashBoard, $conn)
  */
 function deleteUserDashBoard($login, $idDashBoard, $conn)
 {
-    echo '<script>alert("model")</script>';
+
     try {
         $sql = "DELETE FROM userdashboard WHERE idDashBoard = ? AND login = ?";
         $req = $conn->prepare($sql);

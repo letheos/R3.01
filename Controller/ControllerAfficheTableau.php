@@ -1,7 +1,7 @@
 <?php
 //TODO efface quand meme si tu dis non
 if (!isset($_SESSION['login'])) {
-    $_SESSION['login'] = "user1";
+    $_SESSION['login'] = "magS";
 }
 $User = $_SESSION['login'];
 
@@ -14,10 +14,33 @@ $conn = require "../Model/Database.php";
 
 if (isset($_POST['idDashboard'])) {
     $idDashboardForDelette = $_POST['idDashboard'];
+    echo $_POST['idDashboard'];
 
 
     ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
     crumbCollector($conn);
+    ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
+    header('location:../View/PageAfficheTableau.php');
+}
+
+
+/*
+echo '<script>alert(" avant")</script>';
+if(isset($_POST['idDashboard'])) {
+    echo '<script>alert("après")</script>';
+
+    if($_POST['validation'] == '1'){
+        ControllerDeleteDashBoard($_POST['idDashboard'],  $_SESSION['login']);
+        //crumbCollector($conn);
+        echo '<script>alert(" validation")</script>';
+    } else{
+        echo '<script>alert("pas validation")</script>';
+    }
+
+    //$idDashboardForDelette = $_POST['idDashboard'];
+    //echo $_POST['idDashboard'];
+
+
     header('location:../View/PageAfficheTableau.php');
 }
 

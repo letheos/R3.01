@@ -3,64 +3,62 @@
 //TODO faire fonction qui ajoute les formations à un dashboard
 //TODO faire implémenté les année des étudiants et les ajoutés
 //TODO si on crée un dashboard faire des fonction qui récupère le last insert id
+//TODO fonction qui ajoute un dashboard a un utilisateur
+//TODO fonction qui ajoute un dashboard a des utilisateur pour un role donner
+
+
+//userdashboard bon insertNewUserDashBoard
+//create dashbaord  insertNewDashBoard
+// ajout un dashboard a des utilisateur insertDashboardForUser avec un idDashbaord et des login
+
+require 'ModelInsertUpdateDelete.php';
 
 /**
+ * @param $nameDashboard string
  * @param $isPermis boolean
- * @param $year string
- * @param $formation string
- * @param $parcours string
- * @param $isIne boolean
- * @param $isAddress boolean
- * @param $isPhone boolean
- * @param $login string
- * @param $conn PDO
- * @return void
- */
-function insertNewDashBoardForUser($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $login, $conn)
-{
-    //crée un nouveau tableau de bord
-    insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn);
-    //récup le dernier id
-    $lastId = getLastIdDashBoard($conn);
-    insertNewUserDashBoard($login, $lastId, $conn);
-    //insérer dans la table associative
-}
-
-/**
- * @param $isPermis boolean
- * @param $year string
- * @param $formation string
- * @param $parcours string
  * @param $isIne boolean
  * @param $isAddress boolean
  * @param $isPhone boolean
  * @param $conn PDO //the connection at the database
- * @return boolean
- * this funtion insert à new tableau de bord in the database is link it whit an user
+ * @return null
+ * this funtion insert à new dashboard in the database then a second function add it to the users
  */
-function insertNewDashBoard($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone, $conn)
+function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $conn)
 {
-    $sql = "INSERT INTO dashBoard (isPermis, yearOfFormation, formation, parcours, isIne, isAddress, isPhone) VALUES(?,?,?,?,?,?,?);";
+    $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone) VALUES(?,?,?,?,?);";
     $req = $conn->prepare($sql);
-    $params = array($isPermis, $year, $formation, $parcours, $isIne, $isAddress, $isPhone);
-
+    $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone);
     try {
         $req->execute($params);
-        // Omit the fetchall() line if you don't expect a result set.
-        // return $req->fetchAll();
-        return true; // Indicate success if no exception was thrown.
     } catch (PDOException $e) {
-        // Handle the exception, e.g., log the error or return false.
-        // echo "Error: " . $e->getMessage();
-        return false;
     }
 }
 
+/**
+ * @param $login string
+ * @param $idDashBoard int
+ * @param $conn
+ * @return void
+ * add a dashboard give in parameter with his id to a user give in parameter also
+ */
 function insertNewUserDashBoard($login, $idDashBoard, $conn)
 {
-
+    $sql = " INSERT INTO userdashboard(idDashBoard,login) VALUES(?,?); ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idDashBoard,$login));
 }
 
+/**
+ * @param $idRole int
+ * @param $idDashboard int
+ * @param $conn PDO
+ * @return void
+ * add the dashboard give in parameter for all the users that have the role give in parameter
+ */
+function insertDashboardForRole($idRole,$idDashboard,$conn){
+    $peoples = getAllPeopleWithRole($conn,$idRole);
+    insertDashboardForUser($conn,$peoples,$idDashboard);
+}
 
 /**
  * @param $idDashBoard int
@@ -183,7 +181,7 @@ function addDashBoardForUser($conn, $idDashBoard, $login){
  * @return void
  * add for all the user in the array $loginsUsers the dashboard that have the id $idDashBoard
  */
-function insertDashboardForUser($conn, $loginsUsers, $idDashBoard){
+function insertDashboardForUsers($conn, $loginsUsers, $idDashBoard){
     foreach ($loginsUsers as $login){
         addDashBoardForUser($conn,$idDashBoard,$login);
     }
@@ -548,5 +546,7 @@ function addbdd($conn, $pswrd, $lastname, $firstname, $email, $login, $role, $fo
 
     return $res;
 }
+
+
 
 

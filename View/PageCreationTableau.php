@@ -147,6 +147,11 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                     <h2>Role à inclure dans la création du tableau de bord</h2>
                     <?php
                     $roles = controllerGetAllRole($conn);
+                    $nbrRole = count($roles);
+                    ?>
+                    <input type="hidden" name="nbrRole" value="<?= $nbrRole ?>">
+                    <?=
+
                     $id = 0;
                     foreach ($roles as $role) {
                         $id += 1;

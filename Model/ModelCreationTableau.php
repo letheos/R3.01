@@ -291,7 +291,12 @@ function getUserWithId($idUser,$conn)
     return $req->fetchall();
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $nameFormation String
+ * @return mixed
+ * This function will get all the studies for one formation, by the name of the formation
+ */
 function selectParcours($conn, $nameFormation){
     $sql = "SELECT Parcours.*
             FROM Parcours

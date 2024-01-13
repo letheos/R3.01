@@ -323,9 +323,10 @@ function getFormationWithConditions($conn, $formation)
 }
 
 /**
- * @param $conn
- * @param $nameFormation
+ * @param $conn PDO
+ * @param $nameFormation String
  * @return mixed
+ * This function will get all the studies of a formation, by using the name of the formation in a sql query
  */
 function SelectParcours($conn, $nameFormation){
     $sql = "SELECT Parcours.nameParcours
@@ -338,6 +339,13 @@ function SelectParcours($conn, $nameFormation){
     $results = $req->fetchAll();
     return $results;
 }
+
+/**
+ * @param $conn PDO
+ * @param $idDashBoard Int
+ * @return mixed
+ * This function pick up all the informations of a dashboard, by using his id
+ */
 function GetFormationForADashBoard($conn, $idDashBoard){
     $sql = "select * from dashboardparcours where idDashBoard = ?;";
     $req = $conn->prepare($sql);
@@ -345,6 +353,11 @@ function GetFormationForADashBoard($conn, $idDashBoard){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @return mixed
+ * This function get the last dashboard created
+ */
 function getderniertableau($conn){
     $sql = "SELECT idDashBoard FROM dashboard ORDER BY idDashBoard DESC LIMIT 1;" ;
     $req = $conn->prepare($sql);
@@ -354,6 +367,25 @@ function getderniertableau($conn){
 
 }
 
+/**
+ * @param $conn PDO
+ * @return mixed
+ * This function get all the formation that exist in the table
+ */
+function allFormation($conn){
+    $sql = "SELECT * FROM Formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+
+}
+
+/**
+ * @param $conn PDO
+ * @param $isNotActive boolean
+ * @return mixed
+ * This function select all the candidates that are not in active search
+ */
 function selectCandidatesActives($conn, $isNotActive){
     $sql = "SELECT * FROM infoCandidate 
          WHERE isInActiveSearch = ?";
@@ -396,6 +428,15 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $choixFormation String
+ * @param $parcours String
+ * @param $isActive boolean
+ * @return mixed
+ * This function select the candidates by using the name of the formation,
+ * the name of the study and only if they are in active search
+ */
 function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
     $sql = "SELECT * FROM infoCandidate
                 WHERE isInActiveSearch = ? AND nameParcours = ? AND nameFormation = ?";
@@ -421,6 +462,13 @@ function selectCandidatesByName($conn, $choixNom, $isActive){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $parcours String
+ * @param $isActive boolean
+ * @return mixed
+ * This function select the candidates by using the name of the study and only if they are in active search
+ */
 function selectCandidatesByParcours($conn, $parcours, $isActive){
     $sql = "SELECT * FROM infoCandidate
             WHERE isInActiveSearch = ? AND nameParcours = ?";
@@ -429,6 +477,15 @@ function selectCandidatesByParcours($conn, $parcours, $isActive){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $parcours String
+ * @param $choixNom String
+ * @param $isActive boolean
+ * @return mixed
+ * This function select the candidates by using the name of the study,
+ *  the name of the candidate and only if they are in active search
+ */
 function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive){
     $sql = "SELECT * FROM infoCandidate
                 WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ?";
@@ -438,6 +495,16 @@ function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActiv
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $parcours String
+ * @param $choixNom String
+ * @param $choixFormation String
+ * @param $isActive boolean
+ * @return mixed
+ * This function select the candidates by using the name of the formation,
+ *  the name of the study, the name of the candidate and only if they are in active search
+ */
 function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive){
     $sql = "SELECT * FROM infoCandidate
                 WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";

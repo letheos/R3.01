@@ -5,23 +5,38 @@
 //TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
+$conn = require "../Model/Database.php";
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
 
     if(isset($_POST['validate'])){
-        //code ou appel pour crée un dashbaord de base
-        ControllerCreateNewDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_SESSION['login'],$_POST['selectedParcours']);
+        //crée un dashbaord et lui ajoute ces parcours
+        $idDashBoard = ControllerCreateDashboard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['selectedParcours'],$conn);
 
-        //puis le rajouter à tous les gens qui sont dans un role
-        if(isset($_POST['nbrRole']) and $_POST['nbrRole'] > 1){
-            $roles = [];
-            //appel function insert pour tous les gens qui on un role
-            for ($i =0; $i< $_POST['nbrRole']; $i++){
-                $roleString = 'role' . strval($i);
-                array_push($roles,$roleString);
+
+        $roles = [];
+        //vérifie que un des role est selectionner au moins
+        if(isset($_POST['secretaire']) or isset($_POST['Admin']) or isset($_POST['role2']) or isset($_POST['role3']) ){
+            if (isset($_POST['secretaire'])) {
+                array_push($roles, 2);
+            } elseif (isset($_POST['Admin'])) {
+                array_push($roles, 1);
+            } elseif (isset($_POST['role2'])) {
+                array_push($roles, 3);
+            } elseif (isset($_POST['role3'])) {
+                array_push($roles, 4);
             }
-            ControllerInsertDashboardForUsers($roleString);
+            //recup tous les users qui on le role
+            $users = ControllerGetAllPeopleWithRole($roles,$conn);
+            foreach ($users as $user){
+                //leur ajoute le dashbaord
+                ControllerAddDashBoardForUser($conn,$idDashBoard,$user);
+            }
 
+
+        } else{
+            //rajoute le dashbaord uniquement à l'utilisateur connecté
+            ControllerAddDashBoardForUser($conn,$idDashBoard,$_SESSION['login']);
         }
          header('location:../View/PageAfficheTableau.php');
     }
@@ -43,7 +58,8 @@ function ControlerLastInsert(){
  * @return mixed
  * take a PDO connection and return the values of getAllParcours
  */
-function controllerGetAllParcours($conn){
+function controllerGetAllParcours(){
+    $conn = require "../Model/Database.php";
     return getAllParcours($conn);
 }
 
@@ -52,8 +68,9 @@ function controllerGetAllParcours($conn){
  * @return String[]
  * take a PDO connection and return the values of getAllFormation
  */
-function controllerGetAllFormations(PDO $conn): array
+function controllerGetAllFormations( ): array
 {
+    $conn = require "../Model/Database.php";
     return getAllFormation($conn);
 }
 
@@ -62,7 +79,8 @@ function controllerGetAllFormations(PDO $conn): array
  * @return String[]
  * tkae a PDO connection and return the values of getAllRole
  */
-function controllerGetAllRole($conn){
+function controllerGetAllRole(){
+    $conn = require "../Model/Database.php";
     return getAllRole($conn);
 }
 
@@ -82,11 +100,11 @@ function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone
     //check si le dashbaord existe déjà si oui juste appelée la fonction qui ajoute un dashboard a un utilisateur
     //sinon crée un nouveau puis l'affectée
     $conn = require "../Model/Database.php";
-    if(selectdashboardid($conn,$name,$isPermis,$isIne,$isAddress,$isPhone) != false){
-    $idDashboard = $conn->LAST_INSERT_ID(); //trouver comment le récup
-    insertNewUserDashBoard($login,$idDashboard,$conn);
-    return $idDashboard;
-    //}
+    if(selectdashboardid($conn,$name,$isPermis,$isIne,$isAddress,$isPhone) != null){
+        $idDashboard = $conn->LAST_INSERT_ID(); //trouver comment le récup
+        insertNewUserDashBoard($login,$idDashboard,$conn);
+
+    }
     else{
         insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
         $idDashboard = $conn->LAST_INSERT_ID();
@@ -108,8 +126,8 @@ function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone
  * get the last dashboard insert and then get all the users that have one of the roles pass in parameter
  * then add to these users the dashboard
  */
-function ControllerInsertDashboardForUsers($roles){
-    $conn = require "../Model/Database.php";
+function ControllerInsertDashboardForUsers($roles,$conn){
+
     $idDashboard = $conn->LAST_INSERT_ID();
     $users = [];
     foreach ($roles as $role){
@@ -124,6 +142,47 @@ function ControllerInsertDashboardForUsers($roles){
         }
     }
 
+}
+
+function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$parcours,$conn){
+    insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
+    $idDashboard = $conn->LAST_INSERT_ID();
+    foreach ($parcours as $parcour){
+        addFormationNewDashboard($parcour,$conn,$idDashboard);
+    }
+    return $idDashboard;
+}
+
+/**
+ * @param $users array
+ * @param $idDashBoard int
+ * @param $conn PDO
+ * @return void
+ */
+function ControllerAddDashBoardUser($users,$idDashBoard,$conn){
+    insertDashboardForUsers($conn,$users,$idDashBoard);
+}
+
+/**
+ * @param $conn PDO
+ * @param $idDashBoard int
+ * @param $login string
+ * @return void
+ * add a dashboard pass in parameter to the user pass in parameter
+ */
+function ControllerAddDashBoardForUser($conn,$idDashBoard,$login)
+{
+    addDashBoardForUser($conn,$idDashBoard,$login);
+}
+
+/**
+ * @param $role array
+ * @param $conn PDO
+ * @return array
+ * return the value that getAllPeopleWithRole return with a list of role and a connection to a database pass in parameter
+ */
+function ControllerGetAllPeopleWithRole($role,$conn){
+    return getAllPeopleWithRole($conn,$role);
 }
 
 

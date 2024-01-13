@@ -254,9 +254,9 @@ function addParcourDashboard($idDashbaord,$parcour,$year,$conn){
  * @return void
  * Add a formation for a new dashboard
  */
-function addFormationNewDashboard($parcour,$conn){
+function addFormationNewDashboard($parcour,$conn,$idDashBoard){
     require 'ModelSelect.php';
-    $idDashBoard = $conn ->lastInsertId();
+
     $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
     $req-> execute(array($idDashBoard,$parcour));

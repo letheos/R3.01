@@ -166,6 +166,18 @@ function getAllParcours($conn)
     $req->execute();
     return $req->fetchall();
 }
+/**
+ * @param $conn PDO
+ * @return String[]
+ * take a PDO connexion and return all the formation in the databse
+ */
+function getAllFormation($conn)
+{
+    $sql = "SELECT * FROM formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+}
 
 
 
@@ -185,7 +197,18 @@ function getParcoursWithConditions($conn, $parcours)
     return $req->fetchall();
 }
 
-
+/**
+ * @param $conn PDO
+ * @return String[]
+ * take a PDO connexion and return all the formation in the databse
+ */
+function allFormation($conn)
+{
+    $sql = "SELECT * FROM formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+}
 
 /**
  * @param $conn PDO
@@ -367,18 +390,7 @@ function getderniertableau($conn){
 
 }
 
-/**
- * @param $conn PDO
- * @return mixed
- * This function get all the formation that exist in the table
- */
-function allFormation($conn){
-    $sql = "SELECT * FROM Formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchAll();
 
-}
 
 /**
  * @param $conn PDO

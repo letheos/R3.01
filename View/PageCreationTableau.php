@@ -101,7 +101,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
                 <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="isIne" value="1" <?php if((isset($_POST['ine'])) and $_POST['ine']) echo 'checked' ?>>
+                    <input type="checkbox" id="ine" name="isIne" value="1" >
 
                     <label for="ine">ine affiché (par défaut non)</label>
 
@@ -145,25 +145,25 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
                     <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
                     <h2>Role à inclure dans la création du tableau de bord</h2>
-                    <?php
-                    $roles = controllerGetAllRole($conn);
-                    $nbrRole = count($roles);
-                    ?>
-                    <input type="hidden" name="nbrRole" value="<?= $nbrRole ?>">
-                    <?=
 
-                    $id = 0;
-                    foreach ($roles as $role) {
-                        $id += 1;
 
-                        ?>
-                        <input type="checkbox" id="<?= 'role' . $id ?>" name="<?= $role[1] ?>" value="1" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] === $role[1]) echo 'checked' ?> >
-                        <label for="<?= 'role' . $id ?>"> inclure <?php echo $role[1] ?></label>
-                        <br>
-                        <?php
-                    } ?>
+                    <input type="checkbox" id="secretaire" name="secretaire" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "secretaire") echo 'checked' ?> >
+                    <label for="secretaire"> inclure secretaire</label>
+                    <br>
 
-        </div>
+                    <input type="checkbox" id="Admin" name="Admin" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "Admin") echo 'checked' ?> >
+                    <label for="Admin"> inclure Admin</label>
+                    <br>
+
+                    <input type="checkbox" id="role2" name="role2" value="role2" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role2") echo 'checked' ?> >
+                    <label for="role2"> inclure role2</label>
+                    <br>
+
+                    <input type="checkbox" id="role3" name="role3" value="role3" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role3") echo 'checked' ?> >
+                    <label for="role3"> inclure role3</label>
+                    <br>
+
+            </div>
 
 
     <div class=column>

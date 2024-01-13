@@ -46,46 +46,52 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
         </button>
-        <button type="submit" id="validate" name="validate">Valider les paramètres</button>
+    </form>
+    <form action="PageAfficheTableau.php">
+        <button  >Retourner voir les autres tableaux de bords</button>
     </form>
 </header>
 
-<div class=container>
-    <div class=column>
-        <div class="rounded-box">
-            <h2>Choix des parcours</h2>
-            <div class="accordion" id="choicesDep">
-                <?php
-                $formations = getAllFormation($conn);
-                if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
-                    $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
-                }
-                foreach ($formations as $index => $formation) {
-                    $parcours = selectParcours($conn, $formation['nameFormation']);
-                    $checkboxId = $formation['nameFormation'];
-                    $collapseId = 'collapse' . $index;
-                    ?>
-                    <div class="accordion-item">
-                        <strong class="accordion-header" id="<?= 'heading' . $index ?>">
-                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
-                            <?= $formation['nameFormation'] ?>
-                        </strong>
-                        <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
-                            <div class="accordion-body">
-                                <?php
-                                foreach ($parcours as $indexParcours => $parcour) {
-                                    ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
-                                        <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
-                                    </div>
-                                <?php } ?>
+<form id = "infostableau"  method="post" action="../Controller/ControllerCreationTableau.php">
+        <button type="submit" id = "envoyer" class = "centered">Valider Paramètres </button>
+
+
+    <div class=container>
+        <div class=column>
+            <div class="rounded-box">
+                <h2>Choix des parcours</h2>
+                <div class="accordion" id="choicesDep">
+                    <?php
+                    $formations = getAllFormation($conn);
+                    if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
+                        $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
+                    }
+                    foreach ($formations as $index => $formation) {
+                        $parcours = selectParcours($conn, $formation['nameFormation']);
+                        $checkboxId = $formation['nameFormation'];
+                        $collapseId = 'collapse' . $index;
+                        ?>
+                        <div class="accordion-item">
+                            <strong class="accordion-header" id="<?= 'heading' . $index ?>">
+                                <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
+                                <?= $formation['nameFormation'] ?>
+                            </strong>
+                            <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($parcours as $indexParcours => $parcour) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
+                                            <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
+                </div>
             </div>
-        </div>
 
     </div>
         <!--bonnes fermetures de balises -->
@@ -95,7 +101,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2 class="titreAffichage"> valeur pour l'affichage</h2>
 
                 <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="isIne" value="1" >
+                    <input type="checkbox" id="ine" name="isIne" value="1" <?php if((isset($_POST['ine'])) and $_POST['ine']) echo 'checked' ?>>
 
                     <label for="ine">ine affiché (par défaut non)</label>
 
@@ -151,7 +157,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                         <br>
                         <?php
                     } ?>
-            </form>
+
         </div>
 
 
@@ -174,26 +180,26 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
     </div>
 </div>
 </div>
+</form>
 
+<footer class="bottomBanner">
+    <div class="nomFooter">
+        <p>
+            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+        </p>
+    </div>
+    <div class="origineFooter">
+        <p>
+            2023/2024 UPHF
+        </p>
+    </div>
 
-    <footer class="bottomBanner">
-        <div class="nomFooter">
-            <p>
-                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-            </p>
-        </div>
-        <div class="origineFooter">
-            <p>
-                2023/2024 UPHF
-            </p>
-        </div>
+</footer>
 
-    </footer>
-
-    <script src="../Controller/JsCreationTableau.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
+<script src="../Controller/JsCreationTableau.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 
 
 </body>

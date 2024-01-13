@@ -1,3 +1,4 @@
+
 <?php
 $conn = require "Database.php";
 /**
@@ -208,6 +209,19 @@ function getAllFormation($conn)
 
 /**
  * @param $conn PDO
+ * @return mixed
+ * This function get the last dashboard created
+ */
+function getderniertableau($conn){
+    $sql = "SELECT TOP 1 * FROM dashoard
+ORDER BY id_colonne_auto_increment DESC;
+";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+}
+/**
+ * @param $conn PDO
  * @param $formation String
  * @return Array[String]
  * return
@@ -290,3 +304,35 @@ function selectParcours($conn, $nameFormation){
     return $results;
 }
 
+function selectdashboardid($conn,$title,$ispermis,$isine,$isadress,$isPhone){
+    $sql= "SELECT idDashBoard FROM dashboard 
+           where nameOfDashBoard = ? and isPermis = ? and isIne = ? and isAddress = ? and isPhone = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($title,$ispermis,$isine,$isadress,$isPhone));
+    $results = $req->fetchAll();
+    foreach ($results as $tableau){
+        $id = $tableau[0];
+        $sql2 = "Select idDashBoard from userdashboard where idDashBoard = ?";
+        $req2 = $conn->prepare($sql2);
+        $req2->execute(array($id));
+        $result = $req2->fetchAll();
+            if(!empty($result[0])){
+                return $id;
+            }
+    }
+}
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<?php $conn = require "Database.php";
+selectdashboardid($conn,'dashboard1',1,1,1,1); ?>
+</body>
+</html>

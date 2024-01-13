@@ -167,6 +167,14 @@ function getAllParcours($conn)
     return $req->fetchall();
 }
 
+function getAllFormation($conn)
+{
+    $sql = "SELECT * FROM formation";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchall();
+}
+
 //faire avec condition
 
 /**

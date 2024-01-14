@@ -11,7 +11,6 @@
 //create dashbaord  insertNewDashBoard
 // ajout un dashboard a des utilisateur insertDashboardForUser avec un idDashbaord et des login
 
-require 'ModelInsertUpdateDelete.php';
 
 /**
  * @param $nameDashboard string
@@ -317,6 +316,22 @@ function setEtatFalse($conn, $id)
     $req->execute(array($id));
     return true;
 
+}
+
+function setAppTrue($conn, $id)
+{
+    $sql = "UPDATE Candidate SET foundApp = 1 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
+}
+
+function setAppFalse($conn, $id)
+{
+    $sql = "UPDATE Candidate SET foundApp = 0 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
 }
 
 function deleteCandidate($conn, $id)

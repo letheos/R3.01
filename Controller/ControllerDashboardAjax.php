@@ -8,18 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $data = json_decode($post_data);
     $selectedFormations = $data->formations;
     $selectedParcours = $data->parcours;
-    $parcours = [];
-
-    foreach($selectedFormations as $formation){
-        $parcoursDatas = selectParcours($conn, $formation);
-        foreach($parcoursDatas as $parcoursItem){
-            if (in_array($parcoursItem['nameParcours'], $selectedParcours)) {
-                $parcours[] = $parcoursItem;
-            }
-
-        }
-    }
-
+    $parcours = selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours);
     echo json_encode($parcours);
-
 }

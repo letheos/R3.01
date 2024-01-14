@@ -166,20 +166,6 @@ function getAllParcours($conn)
     $req->execute();
     return $req->fetchall();
 }
-/**
- * @param $conn PDO
- * @return String[]
- * take a PDO connexion and return all the formation in the databse
- */
-function getAllFormation($conn)
-{
-    $sql = "SELECT * FROM formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchall();
-}
-
-
 
 //faire avec condition
 
@@ -398,15 +384,16 @@ function getderniertableau($conn){
 /**
  * @param $conn PDO
  * @param $isNotActive boolean
+ * @param $isFound boolean
  * @return mixed
- * This function select all the candidates that are not in active search
+ * This function selects all the candidates that are not in active search and have a specific alternance status
  */
-function selectCandidatesActives($conn, $isNotActive){
+function selectCandidatesActives($conn, $isNotActive, $isFound) {
     $sql = "SELECT * FROM infoCandidate 
-         WHERE isInActiveSearch = ?";
+         WHERE isInActiveSearch = ? AND foundApp = ?";
 
     $req = $conn->prepare($sql);
-    $req->execute(array($isNotActive));
+    $req->execute(array($isNotActive, $isFound));
     return $req->fetchAll();
 }
 
@@ -414,32 +401,33 @@ function selectCandidatesActives($conn, $isNotActive){
  * @param $conn
  * @param $choixFormation
  * @param $isActive
+ * @param $isFound
  * @return mixed
- * Requête de selection des candidats par formation
+ * Requête de sélection des candidats par formation
  */
-function selectCandidatesByFormation($conn, $choixFormation, $isActive){
+function selectCandidatesByFormation($conn, $choixFormation, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate 
-         WHERE nameFormation = ? AND isInActiveSearch = ?";
+         WHERE nameFormation = ? AND isInActiveSearch = ? AND foundApp = ?";
     $req = $conn->prepare($sql);
-    $req->execute(array($choixFormation,$isActive));
+    $req->execute(array($choixFormation, $isActive, $isFound));
     return $req->fetchAll();
 }
-
 
 /**
  * @param $conn
  * @param $choixFormation
  * @param $choixNom
  * @param $isActive
+ * @param $isFound
  * @return mixed
- * Requête de selection des candidats en fonction du nom et de la formation
+ * Requête de sélection des candidats en fonction du nom et de la formation
  */
-function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive){
+function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-                WHERE isInActiveSearch = ? AND name LIKE ? AND nameFormation = ?";
+                WHERE isInActiveSearch = ? AND foundApp = ? AND name LIKE ? AND nameFormation = ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $choixNomPattern,  $choixFormation));
+    $req->execute(array($isActive, $isFound, $choixNomPattern, $choixFormation));
     return $req->fetchAll();
 }
 
@@ -448,15 +436,16 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
  * @param $choixFormation String
  * @param $parcours String
  * @param $isActive boolean
+ * @param $isFound boolean
  * @return mixed
- * This function select the candidates by using the name of the formation,
- * the name of the study and only if they are in active search
+ * This function selects the candidates by using the name of the formation,
+ * the name of the study and only if they are in active search and found
  */
-function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive){
+function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-                WHERE isInActiveSearch = ? AND nameParcours = ? AND nameFormation = ?";
+                WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ? AND nameFormation = ?";
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $parcours,  $choixFormation));
+    $req->execute(array($isActive, $isFound, $parcours, $choixFormation));
     return $req->fetchAll();
 }
 
@@ -464,16 +453,16 @@ function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours
  * @param $conn
  * @param $choixNom
  * @param $isActive
+ * @param $isFound
  * @return mixed
- * Requête de selection des candidats en fonction du nom
+ * Requête de sélection des candidats en fonction du nom
  */
-
-function selectCandidatesByName($conn, $choixNom, $isActive){
+function selectCandidatesByName($conn, $choixNom, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-            WHERE isInActiveSearch = ? AND name LIKE ?";
+            WHERE isInActiveSearch = ? AND foundApp = ? AND name LIKE ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $choixNomPattern));
+    $req->execute(array($isActive, $isFound, $choixNomPattern));
     return $req->fetchAll();
 }
 
@@ -481,14 +470,15 @@ function selectCandidatesByName($conn, $choixNom, $isActive){
  * @param $conn PDO
  * @param $parcours String
  * @param $isActive boolean
+ * @param $isFound boolean
  * @return mixed
- * This function select the candidates by using the name of the study and only if they are in active search
+ * This function selects the candidates by using the name of the study and only if they are in active search and found
  */
-function selectCandidatesByParcours($conn, $parcours, $isActive){
+function selectCandidatesByParcours($conn, $parcours, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-            WHERE isInActiveSearch = ? AND nameParcours = ?";
+            WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ?";
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $parcours));
+    $req->execute(array($isActive, $isFound, $parcours));
     return $req->fetchAll();
 }
 
@@ -497,16 +487,17 @@ function selectCandidatesByParcours($conn, $parcours, $isActive){
  * @param $parcours String
  * @param $choixNom String
  * @param $isActive boolean
+ * @param $isFound boolean
  * @return mixed
- * This function select the candidates by using the name of the study,
- *  the name of the candidate and only if they are in active search
+ * This function selects the candidates by using the name of the study,
+ * the name of the candidate and only if they are in active search and found
  */
-function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive){
+function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ?";
+                WHERE isInActiveSearch = ? AND foundApp = ? AND name LIKE ? AND nameParcours = ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $choixNomPattern,  $parcours));
+    $req->execute(array($isActive, $isFound, $choixNomPattern, $parcours));
     return $req->fetchAll();
 }
 
@@ -516,17 +507,42 @@ function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActiv
  * @param $choixNom String
  * @param $choixFormation String
  * @param $isActive boolean
+ * @param $isFound boolean
  * @return mixed
- * This function select the candidates by using the name of the formation,
- *  the name of the study, the name of the candidate and only if they are in active search
+ * This function selects the candidates by using the name of the formation,
+ * the name of the study, the name of the candidate and only if they are in active search and found
  */
-function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive){
+function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
-                WHERE isInActiveSearch = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";
+                WHERE isInActiveSearch = ? AND foundApp = ? AND name LIKE ? AND nameParcours = ? AND nameFormation = ?";
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
-    $req->execute(array($isActive, $choixNomPattern,  $parcours, $choixFormation));
+    $req->execute(array($isActive, $isFound, $choixNomPattern, $parcours, $choixFormation));
     return $req->fetchAll();
+}
+
+/**
+ * @param PDO $conn
+ * @param array $selectedFormations
+ * @param array $selectedParcours
+ * @return array
+ * Cette fonction sélectionne les parcours en fonction des formations et des parcours sélectionnés.
+ */
+function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours)
+{
+    $parcours = [];
+
+    foreach ($selectedFormations as $formation) {
+        $parcoursDatas = selectParcours($conn, $formation);
+
+        foreach ($parcoursDatas as $parcoursItem) {
+            if (in_array($parcoursItem['nameParcours'], $selectedParcours)) {
+                $parcours[] = $parcoursItem;
+            }
+        }
+    }
+
+    return $parcours;
 }
 
 function allParcours($conn)
@@ -582,6 +598,7 @@ SELECT
     ic.typeCompanySearch,
     ic.cv,
     ic.remarks,
+    ic.foundApp,
     GROUP_CONCAT(DISTINCT CONCAT(candidateaddress.CP, ', ', candidateaddress.addressLabel, ', ', candidateaddress.city) SEPARATOR '; ') AS addresses,
     GROUP_CONCAT(DISTINCT CONCAT(candidatezone.cityName, ' (Rayon: ', candidatezone.radius, ' km)') SEPARATOR ', ') AS zones
 FROM infocandidate ic

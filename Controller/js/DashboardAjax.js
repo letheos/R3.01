@@ -1,4 +1,21 @@
-function onChangeUpdateDisplayMultiple(link, data) {
+
+document.addEventListener("DOMContentLoaded", function() {
+    var checkboxes = document.querySelectorAll('input[name="formation[]"]:checked');
+    checkboxes.forEach(function(checkbox) {
+        onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours);
+    });
+});
+
+var checkboxes = document.querySelectorAll('input[name="formation[]"]');
+checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener("change", function() {
+        if (this.checked) {
+            onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours);
+        }
+    });
+});
+
+function onChangeUpdateDisplayMultiple(link, data, selectedParcours) {
     var selectedFormationElement = document.getElementById("formation");
     var selectedFormation = selectedFormationElement.options[selectedFormationElement.selectedIndex].value;
 
@@ -19,7 +36,6 @@ function onChangeUpdateDisplayMultiple(link, data) {
 
             // Clear existing checkboxes
             parcoursContainer.innerHTML = "";
-            console.log(parcoursData);
 
             // Create checkboxes based on parcoursData
             parcoursData.forEach(function (parcours) {
@@ -30,6 +46,11 @@ function onChangeUpdateDisplayMultiple(link, data) {
                 checkbox.type = "checkbox";
                 checkbox.name = "parcours[]";
                 checkbox.value = parcours.nameParcours;
+
+                // Check the checkbox if it's in the selectedParcours array
+                if (selectedParcours.includes(parcours.nameParcours)) {
+                    checkbox.checked = true;
+                }
 
                 label.appendChild(checkbox);
                 label.appendChild(document.createTextNode(parcours.nameParcours));

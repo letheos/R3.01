@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : ven. 08 déc. 2023 à 09:09
--- Version du serveur : 5.7.24
--- Version de PHP : 8.0.1
+-- Host: localhost:3306
+-- Generation Time: Jan 14, 2024 at 01:27 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `localdatabase3`
+-- Database: `localdatabase3`
 --
+CREATE DATABASE IF NOT EXISTS `localdatabase3` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `localdatabase3`;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `blockip`
+-- Table structure for table `blockip`
 --
 
 CREATE TABLE `blockip` (
@@ -35,7 +37,7 @@ CREATE TABLE `blockip` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `candidate`
+-- Table structure for table `candidate`
 --
 
 CREATE TABLE `candidate` (
@@ -48,16 +50,17 @@ CREATE TABLE `candidate` (
   `isInActiveSearch` tinyint(1) NOT NULL,
   `permisB` tinyint(1) NOT NULL,
   `typeCompanySearch` text,
-  `cv` blob,
+  `cv` text,
   `remarks` text,
   `phoneNumber` varchar(20) DEFAULT NULL,
-  `candidateMail` text
+  `candidateMail` text,
+  `foundApp` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `candidateaddress`
+-- Table structure for table `candidateaddress`
 --
 
 CREATE TABLE `candidateaddress` (
@@ -71,7 +74,7 @@ CREATE TABLE `candidateaddress` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `candidatezone`
+-- Table structure for table `candidatezone`
 --
 
 CREATE TABLE `candidatezone` (
@@ -84,7 +87,7 @@ CREATE TABLE `candidatezone` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `connectionattempt`
+-- Table structure for table `connectionattempt`
 --
 
 CREATE TABLE `connectionattempt` (
@@ -97,7 +100,7 @@ CREATE TABLE `connectionattempt` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `dashboard`
+-- Table structure for table `dashboard`
 --
 
 CREATE TABLE `dashboard` (
@@ -112,7 +115,7 @@ CREATE TABLE `dashboard` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `dashboardparcours`
+-- Table structure for table `dashboardparcours`
 --
 
 CREATE TABLE `dashboardparcours` (
@@ -124,7 +127,7 @@ CREATE TABLE `dashboardparcours` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `formation`
+-- Table structure for table `formation`
 --
 
 CREATE TABLE `formation` (
@@ -133,7 +136,7 @@ CREATE TABLE `formation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `formation`
+-- Dumping data for table `formation`
 --
 
 INSERT INTO `formation` (`nameFormation`, `decription`) VALUES
@@ -150,7 +153,7 @@ INSERT INTO `formation` (`nameFormation`, `decription`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `formationsutilisateurs`
+-- Table structure for table `formationsutilisateurs`
 --
 
 CREATE TABLE `formationsutilisateurs` (
@@ -161,8 +164,8 @@ CREATE TABLE `formationsutilisateurs` (
 -- --------------------------------------------------------
 
 --
--- Doublure de structure pour la vue `infocandidate`
--- (Voir ci-dessous la vue réelle)
+-- Stand-in structure for view `infocandidate`
+-- (See below for the actual view)
 --
 CREATE TABLE `infocandidate` (
 `idCandidate` int(11)
@@ -177,8 +180,9 @@ CREATE TABLE `infocandidate` (
 ,`isInActiveSearch` tinyint(1)
 ,`permisB` tinyint(1)
 ,`typeCompanySearch` text
-,`cv` blob
+,`cv` text
 ,`remarks` text
+,`foundApp` tinyint(1)
 ,`AddressesIDs` text
 ,`ZonesRechercheIDs` text
 );
@@ -186,7 +190,7 @@ CREATE TABLE `infocandidate` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `parcours`
+-- Table structure for table `parcours`
 --
 
 CREATE TABLE `parcours` (
@@ -195,7 +199,7 @@ CREATE TABLE `parcours` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `parcours`
+-- Dumping data for table `parcours`
 --
 
 INSERT INTO `parcours` (`nameParcours`, `nameFormationParcours`) VALUES
@@ -211,7 +215,7 @@ INSERT INTO `parcours` (`nameParcours`, `nameFormationParcours`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
@@ -222,7 +226,7 @@ CREATE TABLE `role` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `userdashboard`
+-- Table structure for table `userdashboard`
 --
 
 CREATE TABLE `userdashboard` (
@@ -233,7 +237,7 @@ CREATE TABLE `userdashboard` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateur`
+-- Table structure for table `utilisateur`
 --
 
 CREATE TABLE `utilisateur` (
@@ -250,24 +254,24 @@ CREATE TABLE `utilisateur` (
 -- --------------------------------------------------------
 
 --
--- Structure de la vue `infocandidate`
+-- Structure for view `infocandidate`
 --
 DROP TABLE IF EXISTS `infocandidate`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate`  AS SELECT `candidate`.`idCandidate` AS `idCandidate`, `candidate`.`INE` AS `INE`, `candidate`.`name` AS `name`, `candidate`.`firstName` AS `firstName`, `candidate`.`phoneNumber` AS `phoneNumber`, `candidate`.`candidateMail` AS `candidateMail`, `candidate`.`nameParcours` AS `nameParcours`, `formation`.`nameFormation` AS `nameFormation`, `candidate`.`yearOfFormation` AS `yearOfFormation`, `candidate`.`isInActiveSearch` AS `isInActiveSearch`, `candidate`.`permisB` AS `permisB`, `candidate`.`typeCompanySearch` AS `typeCompanySearch`, `candidate`.`cv` AS `cv`, `candidate`.`remarks` AS `remarks`, group_concat(distinct `candidateaddress`.`idAddr` separator ',') AS `AddressesIDs`, group_concat(distinct `candidatezone`.`idZone` separator ',') AS `ZonesRechercheIDs` FROM ((((`candidate` left join `candidateaddress` on((`candidate`.`idCandidate` = `candidateaddress`.`idCandidate`))) left join `candidatezone` on((`candidate`.`idCandidate` = `candidatezone`.`idCandidate`))) left join `parcours` on((`candidate`.`nameParcours` = `parcours`.`nameParcours`))) left join `formation` on((`parcours`.`nameFormationParcours` = `formation`.`nameFormation`))) GROUP BY `candidate`.`idCandidate``idCandidate`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infocandidate`  AS SELECT `candidate`.`idCandidate` AS `idCandidate`, `candidate`.`INE` AS `INE`, `candidate`.`name` AS `name`, `candidate`.`firstName` AS `firstName`, `candidate`.`phoneNumber` AS `phoneNumber`, `candidate`.`candidateMail` AS `candidateMail`, `candidate`.`nameParcours` AS `nameParcours`, `formation`.`nameFormation` AS `nameFormation`, `candidate`.`yearOfFormation` AS `yearOfFormation`, `candidate`.`isInActiveSearch` AS `isInActiveSearch`, `candidate`.`permisB` AS `permisB`, `candidate`.`typeCompanySearch` AS `typeCompanySearch`, `candidate`.`cv` AS `cv`, `candidate`.`remarks` AS `remarks`, `candidate`.`foundApp` AS `foundApp`, group_concat(distinct `candidateaddress`.`idAddr` separator ',') AS `AddressesIDs`, group_concat(distinct `candidatezone`.`idZone` separator ',') AS `ZonesRechercheIDs` FROM ((((`candidate` left join `candidateaddress` on((`candidate`.`idCandidate` = `candidateaddress`.`idCandidate`))) left join `candidatezone` on((`candidate`.`idCandidate` = `candidatezone`.`idCandidate`))) left join `parcours` on((`candidate`.`nameParcours` = `parcours`.`nameParcours`))) left join `formation` on((`parcours`.`nameFormationParcours` = `formation`.`nameFormation`))) GROUP BY `candidate`.`idCandidate``idCandidate`  ;
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `blockip`
+-- Indexes for table `blockip`
 --
 ALTER TABLE `blockip`
   ADD PRIMARY KEY (`ip`);
 
 --
--- Index pour la table `candidate`
+-- Indexes for table `candidate`
 --
 ALTER TABLE `candidate`
   ADD PRIMARY KEY (`idCandidate`),
@@ -275,151 +279,151 @@ ALTER TABLE `candidate`
   ADD KEY `nameParcours` (`nameParcours`);
 
 --
--- Index pour la table `candidateaddress`
+-- Indexes for table `candidateaddress`
 --
 ALTER TABLE `candidateaddress`
   ADD PRIMARY KEY (`idAddr`),
   ADD KEY `idCandidate` (`idCandidate`);
 
 --
--- Index pour la table `candidatezone`
+-- Indexes for table `candidatezone`
 --
 ALTER TABLE `candidatezone`
   ADD PRIMARY KEY (`idZone`),
   ADD KEY `idCandidate` (`idCandidate`);
 
 --
--- Index pour la table `connectionattempt`
+-- Indexes for table `connectionattempt`
 --
 ALTER TABLE `connectionattempt`
   ADD PRIMARY KEY (`idConn`);
 
 --
--- Index pour la table `dashboard`
+-- Indexes for table `dashboard`
 --
 ALTER TABLE `dashboard`
   ADD PRIMARY KEY (`idDashBoard`);
 
 --
--- Index pour la table `dashboardparcours`
+-- Indexes for table `dashboardparcours`
 --
 ALTER TABLE `dashboardparcours`
   ADD PRIMARY KEY (`idDashBoard`,`nameParcours`),
   ADD KEY `nameParcours` (`nameParcours`);
 
 --
--- Index pour la table `formation`
+-- Indexes for table `formation`
 --
 ALTER TABLE `formation`
   ADD PRIMARY KEY (`nameFormation`);
 
 --
--- Index pour la table `formationsutilisateurs`
+-- Indexes for table `formationsutilisateurs`
 --
 ALTER TABLE `formationsutilisateurs`
   ADD KEY `loginutilisateur` (`loginutilisateur`),
   ADD KEY `formationname` (`formationname`);
 
 --
--- Index pour la table `parcours`
+-- Indexes for table `parcours`
 --
 ALTER TABLE `parcours`
   ADD PRIMARY KEY (`nameParcours`),
   ADD KEY `nameFormationParcours` (`nameFormationParcours`);
 
 --
--- Index pour la table `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`idRole`);
 
 --
--- Index pour la table `userdashboard`
+-- Indexes for table `userdashboard`
 --
 ALTER TABLE `userdashboard`
   ADD PRIMARY KEY (`idDashBoard`,`login`),
   ADD KEY `login` (`login`);
 
 --
--- Index pour la table `utilisateur`
+-- Indexes for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD PRIMARY KEY (`login`),
   ADD KEY `idRole` (`idRole`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `candidate`
+-- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
   MODIFY `idCandidate` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `candidateaddress`
+-- AUTO_INCREMENT for table `candidateaddress`
 --
 ALTER TABLE `candidateaddress`
   MODIFY `idAddr` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `candidatezone`
+-- AUTO_INCREMENT for table `candidatezone`
 --
 ALTER TABLE `candidatezone`
   MODIFY `idZone` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `connectionattempt`
+-- AUTO_INCREMENT for table `connectionattempt`
 --
 ALTER TABLE `connectionattempt`
   MODIFY `idConn` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `dashboard`
+-- AUTO_INCREMENT for table `dashboard`
 --
 ALTER TABLE `dashboard`
   MODIFY `idDashBoard` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `candidate`
+-- Constraints for table `candidate`
 --
 ALTER TABLE `candidate`
   ADD CONSTRAINT `candidate_ibfk_1` FOREIGN KEY (`nameParcours`) REFERENCES `parcours` (`nameParcours`);
 
 --
--- Contraintes pour la table `dashboardparcours`
+-- Constraints for table `dashboardparcours`
 --
 ALTER TABLE `dashboardparcours`
   ADD CONSTRAINT `dashboardparcours_ibfk_1` FOREIGN KEY (`idDashBoard`) REFERENCES `dashboard` (`idDashBoard`),
   ADD CONSTRAINT `dashboardparcours_ibfk_2` FOREIGN KEY (`nameParcours`) REFERENCES `parcours` (`nameParcours`);
 
 --
--- Contraintes pour la table `formationsutilisateurs`
+-- Constraints for table `formationsutilisateurs`
 --
 ALTER TABLE `formationsutilisateurs`
   ADD CONSTRAINT `formationsutilisateurs_ibfk_1` FOREIGN KEY (`loginutilisateur`) REFERENCES `utilisateur` (`login`),
   ADD CONSTRAINT `formationsutilisateurs_ibfk_2` FOREIGN KEY (`formationname`) REFERENCES `formation` (`nameFormation`);
 
 --
--- Contraintes pour la table `parcours`
+-- Constraints for table `parcours`
 --
 ALTER TABLE `parcours`
   ADD CONSTRAINT `parcours_ibfk_1` FOREIGN KEY (`nameFormationParcours`) REFERENCES `formation` (`nameFormation`);
 
 --
--- Contraintes pour la table `userdashboard`
+-- Constraints for table `userdashboard`
 --
 ALTER TABLE `userdashboard`
   ADD CONSTRAINT `userdashboard_ibfk_1` FOREIGN KEY (`idDashBoard`) REFERENCES `dashboard` (`idDashBoard`),
   ADD CONSTRAINT `userdashboard_ibfk_2` FOREIGN KEY (`login`) REFERENCES `utilisateur` (`login`);
 
 --
--- Contraintes pour la table `utilisateur`
+-- Constraints for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`idRole`) REFERENCES `role` (`idRole`);

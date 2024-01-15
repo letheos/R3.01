@@ -17,7 +17,7 @@ checkboxes.forEach(function(checkbox) {
 
 function onChangeUpdateDisplayMultiple(link, data, selectedParcours) {
     var selectedFormationElement = document.getElementById("formation");
-    var selectedFormation = selectedFormationElement.options[selectedFormationElement.selectedIndex].value;
+    var selectedFormation = selectedFormationElement.options[selectedFormationElement.selectedIndex].value
 
     // For checkboxes
     var checkboxes = document.getElementsByName("formation[]");
@@ -27,12 +27,15 @@ function onChangeUpdateDisplayMultiple(link, data, selectedParcours) {
         return checkbox.value;
     });
 
+    console.log(data);
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             var parcoursContainer = document.getElementById("checkboxesParcours");
             var parcoursData = this.response;
+            console.log(this.response);
+
 
             // Clear existing checkboxes
             parcoursContainer.innerHTML = "";
@@ -59,7 +62,6 @@ function onChangeUpdateDisplayMultiple(link, data, selectedParcours) {
             });
         } else if (this.readyState === 4) {
             console.error("Error in AJAX request:", this.response);
-            // Handle the error as needed
         }
     };
 

@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 
 require "../Controller/ControllerAffichageEtudiant.php";
 
+
 if (isset($_POST['parcours'])) {
     $selectedParcours = $_POST['parcours'];
 } else {
@@ -13,12 +14,18 @@ if (isset($_POST['parcours'])) {
 
 $idDashboard = $_GET['id'];
 $dashboardInfo = getDashBoardById($idDashboard);
-echo $dashboardInfo["nameOfDashBoard"];
 $dashboardFormations = getFormationOfADashboard($idDashboard);
-$dashboardCourses = getParcoursOfADashboard($idDashboard);
+$courses = [];
+foreach(getParcoursOfADashboard($idDashboard) as $parcours){
+    $courses[] = $parcours["nameParcours"];
+}
+
+
+
+
 ?>
 <script>
-    const data = <?php echo json_encode($dashboardCourses); ?>;
+    const data = <?php echo json_encode($courses); ?>;
     const selectedParcours = <?php echo json_encode($selectedParcours); ?>
 </script>
 
@@ -57,9 +64,9 @@ $dashboardCourses = getParcoursOfADashboard($idDashboard);
                     <div class="overSelect"></div>
                 </div>
                 <div class="checkboxes-container" id="checkboxesFormation">
-                    <?php foreach ($dashboardInfo as $formation) { ?>
-                        <label for="<?php echo $formation; ?>">
-                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation; ?>
+                    <?php foreach ($dashboardFormations as $formation) {?>
+                        <label for="<?php echo $formation['nameFormation']; ?>">
+                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation['nameFormation']; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation['nameFormation']; ?>
                         </label>
                     <?php } ?>
                 </div>

@@ -1,5 +1,5 @@
 <?php
-    $conn = require "../Model/Database.php";
+$conn = require "../Model/Database.php";
 require '../Model/ModelSelect.php';
 
 
@@ -17,6 +17,7 @@ function getParcoursOfADashboard($id){
     global $conn;
     return selectParcoursOfDashboard($conn, $id);
 }
+
 
 function getFormationOfADashboard($id){
     global $conn;

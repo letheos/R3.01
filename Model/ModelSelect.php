@@ -375,7 +375,7 @@ function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom,
  * @return array
  * Cette fonction sélectionne les parcours en fonction des formations et des parcours sélectionnés.
  */
-function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours)
+function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours): array
 {
     $parcours = [];
 
@@ -388,7 +388,6 @@ function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $sele
             }
         }
     }
-
     return $parcours;
 }
 

@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     $post_data = file_get_contents("php://input");
     $data = json_decode($post_data);
-    $selectedFormations = $data->formations;
-    $selectedParcours = $data->parcours;
-    $parcours = selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours);
-    echo json_encode($parcours);
+    $selectedFormation = $data->formations;
+    $courses = $data->parcours;
+    echo(json_encode(selectParcoursByFormationsAndParcours($conn, $selectedFormation, $courses)));
+
 }

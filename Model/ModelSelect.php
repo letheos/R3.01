@@ -605,7 +605,7 @@ function selectDashboardById($conn, $id){
            ";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
-    return $req->fetchAll();
+    return $req->fetch();
 }
 
 /**

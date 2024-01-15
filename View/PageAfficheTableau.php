@@ -57,8 +57,7 @@ $_SESSION['login'] = "admin";
 
     <?php
     $dashboards = ControllerGetDashBoardPerUser($_SESSION['login']);
-    foreach ($dashboards as $dashboardEntry) {
-        foreach ($dashboardEntry as $dashboard) {
+    foreach ($dashboards as $dashboard) {
             $idDashboard = $dashboard['idDashBoard'];
             $nameOfDashboard = $dashboard['nameOfDashBoard'];
             $isPermis = $dashboard['isPermis'];
@@ -114,7 +113,6 @@ $_SESSION['login'] = "admin";
 
                 <br>
             <?php
-        }
     }
     ?>
 

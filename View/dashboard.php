@@ -13,6 +13,7 @@ if (isset($_POST['parcours'])) {
 
 $idDashboard = $_GET['id'];
 $dashboardInfo = getDashBoardById($idDashboard);
+echo $dashboardInfo["nameOfDashBoard"];
 $dashboardFormations = getFormationOfADashboard($idDashboard);
 $dashboardCourses = getParcoursOfADashboard($idDashboard);
 ?>
@@ -38,7 +39,7 @@ $dashboardCourses = getParcoursOfADashboard($idDashboard);
 
 <header class="banner">
     <h1>
-        <?php echo isset($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashboard'] : "UNNAMED" ?>
+        <?php echo isset($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashBoard'] : "UNNAMED" ?>
     </h1>
 </header>
 

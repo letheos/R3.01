@@ -1,143 +1,5 @@
 <?php
-/**
- * @param $isActif bool
- * @param $isPermis bool
- * @param $year string
- * @param $formation string
- * @param $parcours string
- * @param $conn PDO
- * @param $ine bool
- * @param $address bool
- * @param $phone bool
- * @return String[]
- * this function do a request that can change if some param change like $ine, $address and $phone
- * return the result of the request
- */
-function getStudentsWithConditions( $isPermis, $year, $formation, $parcours, $conn, $ine, $address, $phone): array
-{
 
-    if($year == "allYears"){
-
-        $fin = " FROM infocandidate  WHERE permisB =(?)";
-
-    } else{
-        $fin = " FROM infocandidate  WHERE yearOfFormation =(?) AND permisB =(?)";
-    }
-    $deb = "SELECT name,firstName,nameFormation,nameParcours,yearOfFormation,isInActiveSearch";
-
-    if ($ine) {
-        //if the bool value $ine is true add INE in the SELECT
-        $deb .= ",INE";
-    }
-    if ($address) {
-        //if the bool value $address is true add AddressesIDs in the SELECT
-        $deb .= ",AddressesIDs";
-    }
-    if ($phone) {
-        //if the bool value $phone is true add phoneNumber in the SELECT
-        $deb .= ",phoneNumber";
-    }
-    if ($formation != "allFormations") {
-        //if the bool value $formation is true add nameFormation in the WHERE
-        $fin .= " AND nameFormation = (?)";
-    }
-    if ($parcours != "allParcours") {
-        //if the bool value $parcours is true add nameParcours in the WHERE
-        $fin .= " AND nameParcours = (?)";
-    }
-    $sql = $deb .= $fin;
-    if($year == "allYears"){
-        return getStudentsWithoutYears($isPermis,$formation,$parcours,$conn,$sql);
-
-    }
-    echo $sql;
-    //return $test;
-    $req = $conn->prepare($sql);
-    if ($parcours == "allParcours" && $formation == "allFormations") {
-        //if $parcours has the value allParcours and $formation has the value allFormations
-        //do the request
-
-        $params = array($year, $isPermis);
-        $req->execute($params);
-        return $req->fetchall();
-    }
-
-    if ($parcours == "allParcours" && $formation != "allFormations") {
-        //if $parcours has the value allParcours and $formation hasn't the value allFormations
-        //do the request
-        $params = array($year, $isPermis, $formation);
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
-    if  ($parcours != "allParcours" && $formation == "allFormations") {
-        //if $parcours hasn't the value allParcours and $formation has the value allFormations
-        //do the request
-        $params = array($year, $isPermis, $parcours);
-        $req->execute($params);
-        return $req->fetchall();
-
-    } else{
-        $params = array($year, $isPermis, $formation, $parcours);
-        $req->execute($params);
-        return $req->fetchall();
-    }
-
-}
-/**
- * @param $isPermis bool
- * @param $formation string
- * @param $parcours string
- * @param $conn PDO
- * @param $sql string
- * @return string[]
- * this function is use by getStudentsWithConditions when $year == allYears,
- * take in parameters all the values and the request sql
- * return the result of the request
- */
-function getStudentsWithoutYears( $isPermis, $formation, $parcours, $conn,$sql)
-{
-    echo '<script>alert("e")</script>';
-    $req = $conn->prepare($sql);
-    if ($parcours == "allParcours" && $formation == "allFormations") {
-        //if $parcours has the value allParcours and $formation has the value allFormations
-        //do the request
-
-        $params = array($isPermis);
-        $req->execute($params);
-        return $req->fetchall();
-    }
-    if ($parcours != "allParcours" && $formation != "allFormations") {
-        //if $parcours hasn't the value allParcours and $formation hasn't the value allFormations
-        //do the request
-
-        $params = array( $isPermis, $formation, $parcours);
-        echo "<br>";
-
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
-    if ($parcours == "allParcours" && $formation != "allFormations") {
-        //if $parcours has the value allParcours and $formation hasn't the value allFormations
-        //do the request
-        $params = array($isPermis, $formation);
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
-    if ($parcours != "allParcours" && $formation == "allFormations") {
-        //if $parcours hasn't the value allParcours and $formation has the value allFormations
-        //do the request
-        $params = array( $isPermis, $parcours);
-        $req->execute($params);
-        return $req->fetchall();
-
-    }
-    $tableau = ["Élément 1", "Élément 2", "Élément 3", "Élément 4", "Élément 5", "Élément 6"];
-
-    return $tableau;
-}
 /*
 function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn, $ine)
 {
@@ -195,6 +57,7 @@ function allFormation($conn)
     $req->execute();
     return $req->fetchall();
 }
+
 
 /**
  * @param $conn PDO
@@ -258,20 +121,7 @@ function getAllRole($conn){
 
 
 
-/**
- * @param $id int id of the dashboard
- * @param $conn PDO connection to a database
- * @return String[] the values of the dashboard
- * Take as parameters an ID for a dashboard and a connection to a database,
- * then return the value in the database for the given ID
- */
-function getDashBoardPerId($id, $conn)
-{
-    $sql = "SELECT * FROM DashBoard WHERE idDashBoard = ?";
-    $req = $conn->prepare($sql);
-    $req->execute([$id]);
-    return $req->fetchall();
-}
+
 
 /**
  * @param $login String id of the user
@@ -291,13 +141,10 @@ function getDashBoardPerUser($login, $conn)
 
     $dashBoards = $req->fetchall();
     //get the idDashBoard for a login pass in parameter
-    $result = array();
-    $idDashBoard = array();
+    $result = [];
     //get all the value in the database for some idDashBoard
-    foreach ($dashBoards as $id) {
-        //print_r($id);
-        Array_push($idDashBoard, $id[0]);
-        Array_push($result, getDashBoardPerId($id[0], $conn));
+    foreach ($dashBoards as $dashBoard) {
+        $result[] = selectDashboardById($conn, $dashBoard["idDashBoard"]);
     }
     return $result;
 }
@@ -745,3 +592,60 @@ function exist($conn, $mail, $login)
 
 }
 
+/**
+ * @param $id int id of the dashboard
+ * @param $conn PDO connection to a database
+ * @return String[] the values of the dashboard
+ * Take as parameters an ID for a dashboard and a connection to a database,
+ * then return the value in the database for the given ID
+ */
+function selectDashboardById($conn, $id){
+    $sql = "
+           SELECT * FROM dashboard WHERE idDashboard = ?
+           ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn PDO Connection to the database
+ * @param $id int Id of the dashboard
+ * @return mixed All the courses of the dashboard
+ *  Take as parameters an ID for a dashboard and a connection to a database,
+ *  then return the courses of the selected dashboard
+ */
+function selectParcoursOfDashboard($conn, $id){
+    $sql = "
+           SELECT dp.nameParcours
+           FROM dashboard d
+           JOIN dashboardparcours dp ON d.idDashBoard = dp.idDashBoard
+           JOIN parcours p USING (nameParcours)
+           JOIN formation f ON p.nameFormationParcours = f.nameFormation
+           WHERE d.idDashboard = ?;
+           ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn PDO Connection to the database
+ * @param $id int Id of the dashboard
+ * @return mixed All the formations of the dashboard
+ *  Take as parameters an ID for a dashboard and a connection to a database,
+ *  then return the formations of a selected dashboard
+ */
+function selectFormationOfDashboard($conn, $id){
+    $sql = "
+           SELECT DISTINCT f.nameFormation
+           FROM dashboard d
+           JOIN dashboardparcours dp ON d.idDashBoard = dp.idDashBoard
+           JOIN parcours p USING (nameParcours)
+           JOIN formation f ON p.nameFormationParcours = f.nameFormation
+           WHERE d.idDashboard = ?;
+           ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return $req->fetchAll();
+}

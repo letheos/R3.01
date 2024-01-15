@@ -1,12 +1,17 @@
 <?php
 //TODO mettre dans la sessions les parametres du tableau de bord si tu clique sur modifier ou les envoyer en post
 session_start();
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require "../Controller/ControllerModifTableau.php";
 
+/*
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 } else {
-    $_SESSION['login'] = "login1";
+    $_SESSION['login'] = "user1";
     $User = $_SESSION['login'];
 }
 if (isset($_SESSION['role'])) {
@@ -15,6 +20,8 @@ if (isset($_SESSION['role'])) {
     $_SESSION['role'] = 'User';
     $Role = $_SESSION['login'];
 }
+*/
+$_SESSION['login'] = "admin";
 
 
 ?>
@@ -25,6 +32,7 @@ if (isset($_SESSION['role'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StylePageAfficheTableau.css">
     <title>Page affiche les tableaux de bord</title>
 </head>
@@ -48,65 +56,63 @@ if (isset($_SESSION['role'])) {
 <section class="theDashBoards">
 
     <?php
-    $dashBoards = ControllerGetDashBoardPerUser($_SESSION['login']);
-    $i = 0;
+    $dashboards = ControllerGetDashBoardPerUser($_SESSION['login']);
+    foreach ($dashboards as $dashboardEntry) {
+        foreach ($dashboardEntry as $dashboard) {
+            $idDashboard = $dashboard['idDashBoard'];
+            $nameOfDashboard = $dashboard['nameOfDashBoard'];
+            $isPermis = $dashboard['isPermis'];
+            $isIne = $dashboard['isIne'];
+            $isAddress = $dashboard['isAddress'];
+            $isPhone = $dashboard['isPhone'];
+    ?>
+        <div class="rounded-box">
+            <input onclick="changeDisplay(<?= $idDashboard ?>)" type="button" class="btnChangeDisplay" value="-"
+                   id=<?= "btnChangeDisplay" . $idDashboard ?>>
 
-    foreach ($dashBoards as $dashBoard) {
+                    <li> <?= $nameOfDashboard ?>   </li>
 
-        $i += 1;
-
-        foreach ($dashBoard as $valeur) { ?>
-
-            <div class="rounded-box">
-                <input onclick="changeDisplay(<?= $i ?>)" type="button" class="btnChangeDisplay" value="-"
-                       id=<?= "btnChangeDisplay" . $i ?>>
-
-                <li> <?= $valeur[0] ?>   </li>
-
-                <div id= <?= $i ?> style="display:block">
-                    <li>le tableau de bord numéro <?= $valeur[1] ?>   </li>
-                    <?php
-                    echo $valeur[2] ? "<li>ont le permis</li>" : "<li>n'ont pas le permis</li>";
-                    echo $valeur[3] ? "<li> INE affiché</li>" : "<li > INE non affiché</li>";
-                    echo $valeur[4] ? "<li>adresse affiché</li>" : "<li > adresse non affiché</li>";
-                    echo $valeur[5] ? "<li>numéro de téléphone affiché</li>" : "<li > numéro de téléphone non affiché</li>"; ?>
+                    <div id= <?= $idDashboard ?> style="display:block">
+                        <?php
+                        echo $isPermis ? "<li>ont le permis</li>" : "<li>n'ont pas le permis</li>";
+                        echo $isIne ? "<li> INE affiché</li>" : "<li > INE non affiché</li>";
+                        echo $isAddress ? "<li>adresse affiché</li>" : "<li > adresse non affiché</li>";
+                        echo $isPhone ? "<li>numéro de téléphone affiché</li>" : "<li > numéro de téléphone non affiché</li>"; ?>
+                    </div>
+                    <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
+
+
+                    <!-- action="../Controller/ControllerAfficheTableau.php" -->
+                    <form method="post" action="../Controller/ControllerAfficheTableau.php">
+                        <!-- mettre en action la fonction supprimer -->
+
+                        <button id="<?= "delete".$idDashboard ?>" class="btnDelete" >supprimer</button>
+                        <input type="hidden" value="<?= $nameOfDashboard  ?>" name="idDashboard">
+                        <!-- mettre input hidden + validation -->
+                        <!-- mettre en action la fonction modifier -->
+
+                    </form>
+
+                    <form action="">
+                        <a class="btn btn-primary" href="./dashboard.php?id=<?php echo $idDashboard; ?>">Détail</a>
+                    </form>
+
+                    <form action="PageModifDashBoard.php" method="post">
+                        <button type="submit" value="modifier"  id="<?= $idDashboard ?>" class="btnModif" "> modifier
+                        <input type="hidden" name="ine"         id="ine"         value="<?=$isIne?>">
+                        <input type="hidden" name="address"     id="address"     value="<?= $isAddress ?>">
+                        <input type="hidden" name="phone"       id="phone"       value="<?= $isPhone?>">
+                        <input type="hidden" name="permis"      id="permis"      value="<?=  $isPermis ?>">
+                        <input type="hidden" name="title"       id="title"       value="<?= $nameOfDashboard?>">
+                        <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $idDashboard ?>">
+
+                        </button>
+                    </form>
                 </div>
-                <script src="../Controller/JsDisplayDashBoard.js"></script>
 
-
-
-
-                <!-- action="../Controller/ControllerAfficheTableau.php" -->
-                <form method="post" action="../Controller/ControllerAfficheTableau.php">
-                    <!-- mettre en action la fonction supprimer -->
-
-                    <button id="<?= "delete".$i ?>" class="btnDelete" >supprimer</button>
-                    <input type="hidden" value="<?= $valeur[1] ?>" name="idDashboard">
-                    <!-- mettre input hidden + validation -->
-                    <!-- mettre en action la fonction modifier -->
-
-                </form>
-
-                <form action="">
-                    <button id="<?= "show".$i ?>" type="submit" class="btnShow"> afficher tableau de bord</button>
-                </form>
-
-                <form action="PageModifDashBoard.php" method="post">
-                    <button type="submit" value="modifier"  id="<?= $i ?>" class="btnModif" "> modifier
-                    <input type="hidden" name="ine"         id="ine"         value="<?=$valeur[2]?>">
-                    <input type="hidden" name="address"     id="address"     value="<?= $valeur[3] ?>">
-                    <input type="hidden" name="phone"       id="phone"       value="<?= $valeur[4]?>">
-                    <input type="hidden" name="permis"      id="permis"      value="<?= $valeur[5]?>">
-                    <input type="hidden" name="title"       id="title"       value="<?= $valeur[0]?>">
-                    <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $valeur[1]?>">
-
-                    </button>
-                </form>
-            </div>
-
-            <br>
+                <br>
             <?php
         }
     }
@@ -130,6 +136,8 @@ if (isset($_SESSION['role'])) {
     </div>
 </footer>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
 

@@ -7,7 +7,7 @@ $conn = require "../Model/Database.php";
 if(isset($_SESSION['role'])){
     $Role = $_SESSION['role'];
 }else{
-    $Role = $_SESSION['role'] = 'Admin';
+    $Role = $_SESSION['role'] = 'admin';
 }
 
 
@@ -32,6 +32,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="stylesheet" href="StylePageCreationTableau.css">
     <title>creationTableauDeBord</title>
     <script src="../Controller/JsCreationTableau.js"></script>
@@ -53,7 +54,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 </header>
 
 <form id = "infostableau"  method="post" action="../Controller/ControllerCreationTableau.php">
-        <button type="submit" id = "envoyer" class = "centered">Valider Paramètres </button>
+        <button type="submit" id = "envoyer" name="validate" class = "centered">Valider Paramètres </button>
 
 
     <div class=container>
@@ -102,10 +103,8 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
                 <div id="checkBoxIne">
                     <input type="checkbox" id="ine" name="isIne" value="1" >
-
                     <label for="ine">ine affiché (par défaut non)</label>
 
-                    <input hidden="hidden" type="checkbox" id="ine" name="isIne" value="0">
                 </div>
                 <script>
                     function updateValue(checkbox) {
@@ -133,37 +132,38 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 </div>
 
                 <div class = "checkboxpermis">
-                    <input type="checkbox" id ="permis" name="ispermis" value="1" >
+                    <input type="checkbox" id ="permis" name="isPermis" value="1" >
                     <label for="permis">permis affiché (par défaut non)</label>
                 </div>
 
 
             </div>
         </div>
-
             <form method="post" action="../Controller/ControllerCreationTableau.php">
-                <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
-                    <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
-                    <h2>Role à inclure dans la création du tableau de bord</h2>
+                <div class="column">
+                    <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
+                        <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
+                        <h2>Role à inclure dans la création du tableau de bord</h2>
 
 
-                    <input type="checkbox" id="secretaire" name="secretaire" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "secretaire") echo 'checked' ?> >
-                    <label for="secretaire"> inclure secretaire</label>
-                    <br>
+                        <input type="checkbox" id="secretaire" name="secretaire" value="secretaire"  >
+                        <label for="secretaire"> inclure secretaire</label>
+                        <br>
 
-                    <input type="checkbox" id="Admin" name="Admin" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "Admin") echo 'checked' ?> >
-                    <label for="Admin"> inclure Admin</label>
-                    <br>
+                        <input type="checkbox" id="Admin" name="Admin" value="secretaire">
+                        <label for="Admin"> inclure Admin</label>
+                        <br>
 
-                    <input type="checkbox" id="role2" name="role2" value="role2" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role2") echo 'checked' ?> >
-                    <label for="role2"> inclure role2</label>
-                    <br>
+                        <input type="checkbox" id="role2" name="role2" value="role2">
+                        <label for="role2"> inclure role2</label>
+                        <br>
 
-                    <input type="checkbox" id="role3" name="role3" value="role3" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role3") echo 'checked' ?> >
-                    <label for="role3"> inclure role3</label>
-                    <br>
+                        <input type="checkbox" id="role3" name="role3" value="role3">
+                        <label for="role3"> inclure role3</label>
+                        <br>
 
-            </div>
+                    </div>
+                </div>
 
 
     <div class=column>
@@ -181,7 +181,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 <div class="column">
     <div class="rounded-box">
         <label for="title" >entrée le nom du tableau de bord</label>
-        <input id="title" type="text">
+        <input id="title" name="title" type="text">
     </div>
 </div>
 </div>

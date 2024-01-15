@@ -1,17 +1,37 @@
 
 <?php
 
+
 //TODO faire le controller pour pouvoir crée un tableau de bord dans la bdd quand théo aura fini
 //TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
+
+
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";
 
-if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$_SESSION['login'] = "admin";
+
+
+
+if(isset($_POST["title"])) {
 
     if(isset($_POST['validate'])){
+
+        $isIne = isset($_POST['isIne']) ? 1 : 0;
+
+        $isAddress = isset($_POST["isAddress"]) ? 1 : 0;
+
+        $isPhone = isset($_POST["isPhone"]) ? 1 : 0;
+
+        $isPermis = isset($_POST["isPermis"]) ? 1 : 0;
+
         //crée un dashbaord et lui ajoute ces parcours
-        $idDashBoard = ControllerCreateDashboard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['selectedParcours'],$conn);
+        $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $_POST['selectedParcours'],$conn);
 
 
         $roles = [];
@@ -39,8 +59,12 @@ if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
             ControllerAddDashBoardForUser($conn,$idDashBoard,$_SESSION['login']);
         }
          header('location:../View/PageAfficheTableau.php');
+    } else {
+        var_dump($_POST);
     }
 
+} else {
+    var_dump($_POST);
 }
 
 
@@ -49,7 +73,7 @@ if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
  * @return int
  */
 function ControlerLastInsert(){
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getLastIdDashBoard($conn);
 }
 
@@ -59,7 +83,7 @@ function ControlerLastInsert(){
  * take a PDO connection and return the values of getAllParcours
  */
 function controllerGetAllParcours(){
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getAllParcours($conn);
 }
 
@@ -70,7 +94,7 @@ function controllerGetAllParcours(){
  */
 function controllerGetAllFormations( ): array
 {
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getAllFormation($conn);
 }
 
@@ -80,7 +104,7 @@ function controllerGetAllFormations( ): array
  * tkae a PDO connection and return the values of getAllRole
  */
 function controllerGetAllRole(){
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getAllRole($conn);
 }
 
@@ -92,22 +116,20 @@ function controllerGetAllRole(){
  */
 function ControllerGetFormationForADashBoard($idDashBoard): array
 {
-    $conn = require "../Model/Database.php";
+    global $conn;
     return GetFormationForADashBoard($conn,$idDashBoard);
 
 }
 function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$login,$parcours){
     //check si le dashbaord existe déjà si oui juste appelée la fonction qui ajoute un dashboard a un utilisateur
     //sinon crée un nouveau puis l'affectée
-    $conn = require "../Model/Database.php";
+    global $conn;
     if(selectdashboardid($conn,$name,$isPermis,$isIne,$isAddress,$isPhone) != null){
-        $idDashboard = $conn->LAST_INSERT_ID(); //trouver comment le récup
-        insertNewUserDashBoard($login,$idDashboard,$conn);
+        $idDashboard = insertNewUserDashBoard($login,$idDashboard,$conn);
 
     }
     else{
-        insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
-        $idDashboard = $conn->LAST_INSERT_ID();
+        $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
         foreach ($parcours as $parcour){
             addFormationNewDashboard($parcour,$conn);
         }
@@ -145,8 +167,7 @@ function ControllerInsertDashboardForUsers($roles,$conn){
 }
 
 function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$parcours,$conn){
-    insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
-    $idDashboard = $conn->LAST_INSERT_ID();
+    $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
     foreach ($parcours as $parcour){
         addFormationNewDashboard($parcour,$conn,$idDashboard);
     }

@@ -27,10 +27,8 @@ function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPh
     $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone) VALUES(?,?,?,?,?);";
     $req = $conn->prepare($sql);
     $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone);
-    try {
-        $req->execute($params);
-    } catch (PDOException $e) {
-    }
+    $req->execute($params);
+    return $conn->lastInsertId();
 }
 
 /**
@@ -254,9 +252,8 @@ function addParcourDashboard($idDashbaord,$parcour,$year,$conn){
  * Add a formation for a new dashboard
  */
 function addFormationNewDashboard($parcour,$conn,$idDashBoard){
-    require 'ModelSelect.php';
 
-    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+    $sql = "INSERT INTO dashboardParcours(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
     $req-> execute(array($idDashBoard,$parcour));
 }

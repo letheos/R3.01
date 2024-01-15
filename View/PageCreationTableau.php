@@ -46,46 +46,52 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
         <button class="btn btn-light" type="submit" name="retourAccueil"
                 onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
         </button>
-        <button type="submit" id="validate" name="validate">Valider les paramètres</button>
+    </form>
+    <form action="PageAfficheTableau.php">
+        <button  >Retourner voir les autres tableaux de bords</button>
     </form>
 </header>
 
-<div class=container>
-    <div class=column>
-        <div class="rounded-box">
-            <h2>Choix des parcours</h2>
-            <div class="accordion" id="choicesDep">
-                <?php
-                $formations = getAllFormation($conn);
-                if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
-                    $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
-                }
-                foreach ($formations as $index => $formation) {
-                    $parcours = selectParcours($conn, $formation['nameFormation']);
-                    $checkboxId = $formation['nameFormation'];
-                    $collapseId = 'collapse' . $index;
-                    ?>
-                    <div class="accordion-item">
-                        <strong class="accordion-header" id="<?= 'heading' . $index ?>">
-                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
-                            <?= $formation['nameFormation'] ?>
-                        </strong>
-                        <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
-                            <div class="accordion-body">
-                                <?php
-                                foreach ($parcours as $indexParcours => $parcour) {
-                                    ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
-                                        <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
-                                    </div>
-                                <?php } ?>
+<form id = "infostableau"  method="post" action="../Controller/ControllerCreationTableau.php">
+        <button type="submit" id = "envoyer" class = "centered">Valider Paramètres </button>
+
+
+    <div class=container>
+        <div class=column>
+            <div class="rounded-box">
+                <h2>Choix des parcours</h2>
+                <div class="accordion" id="choicesDep">
+                    <?php
+                    $formations = getAllFormation($conn);
+                    if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
+                        $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
+                    }
+                    foreach ($formations as $index => $formation) {
+                        $parcours = selectParcours($conn, $formation['nameFormation']);
+                        $checkboxId = $formation['nameFormation'];
+                        $collapseId = 'collapse' . $index;
+                        ?>
+                        <div class="accordion-item">
+                            <strong class="accordion-header" id="<?= 'heading' . $index ?>">
+                                <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
+                                <?= $formation['nameFormation'] ?>
+                            </strong>
+                            <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($parcours as $indexParcours => $parcour) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>"  >
+                                            <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
+                </div>
             </div>
-        </div>
 
     </div>
         <!--bonnes fermetures de balises -->
@@ -139,20 +145,25 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
                     <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
                     <h2>Role à inclure dans la création du tableau de bord</h2>
-                    <?php
-                    $roles = controllerGetAllRole($conn);
-                    $id = 0;
-                    foreach ($roles as $role) {
-                        $id += 1;
 
-                        ?>
-                        <input type="checkbox" id="<?= 'role' . $id ?>" name="<?= $role[1] ?>" value="1" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] === $role[1]) echo 'checked' ?> >
-                        <label for="<?= 'role' . $id ?>"> inclure <?php echo $role[1] ?></label>
-                        <br>
-                        <?php
-                    } ?>
-            </form>
-        </div>
+
+                    <input type="checkbox" id="secretaire" name="secretaire" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "secretaire") echo 'checked' ?> >
+                    <label for="secretaire"> inclure secretaire</label>
+                    <br>
+
+                    <input type="checkbox" id="Admin" name="Admin" value="secretaire" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "Admin") echo 'checked' ?> >
+                    <label for="Admin"> inclure Admin</label>
+                    <br>
+
+                    <input type="checkbox" id="role2" name="role2" value="role2" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role2") echo 'checked' ?> >
+                    <label for="role2"> inclure role2</label>
+                    <br>
+
+                    <input type="checkbox" id="role3" name="role3" value="role3" <?php if((isset($_SESSION['role'])) and $_SESSION['role'] == "role3") echo 'checked' ?> >
+                    <label for="role3"> inclure role3</label>
+                    <br>
+
+            </div>
 
 
     <div class=column>
@@ -174,26 +185,26 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
     </div>
 </div>
 </div>
+</form>
 
+<footer class="bottomBanner">
+    <div class="nomFooter">
+        <p>
+            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+        </p>
+    </div>
+    <div class="origineFooter">
+        <p>
+            2023/2024 UPHF
+        </p>
+    </div>
 
-    <footer class="bottomBanner">
-        <div class="nomFooter">
-            <p>
-                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-            </p>
-        </div>
-        <div class="origineFooter">
-            <p>
-                2023/2024 UPHF
-            </p>
-        </div>
+</footer>
 
-    </footer>
-
-    <script src="../Controller/JsCreationTableau.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
+<script src="../Controller/JsCreationTableau.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 
 
 </body>

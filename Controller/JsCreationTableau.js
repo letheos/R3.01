@@ -9,16 +9,8 @@
 //Variable générale nécessaire pour la récupération de certaine donnée et l'initialisation des compteurs
 let blocCount = 0;
 const maxBlocs = 3;
-
-
-
-
 function réduitParam(){
-
-
-}
-
-/**
+}/**
  *
  * @param formationId
  */
@@ -234,24 +226,6 @@ function updateYearsOptions(yearsDropdownId, parcoursDropdownId) {
     }
 }
 
-/**
- *
- */
-
-/*
-function onchangelockannée(){
-    let buttonparcours0 = document.getElementById("parcours0")
-    let buttonparcours1 = document.getElementById("parcours1")
-    let buttonparcours2 = document.getElementById("parcours2")
-    let buttonparcours3 = document.getElementById("parcours3")
-    let buttonannee0 = document.getElementById("formAnnee0")
-    let buttonannee1 = document.getElementById("formAnnee1")
-    let buttonannee2 = document.getElementById("formAnnee2")
-    let buttonannee3 = document.getElementById("formAnnee3")
-    let buttonsparcours = [buttonparcours0,buttonparcours1,buttonparcours2,buttonparcours3]
-    let buttonsannee0 = [buttonannee0,buttonannee1,buttonannee2,buttonannee3]
-
-}*/
 document.addEventListener('DOMContentLoaded', function () {
 
     var accordionState = sessionStorage.getItem('accordionState');
@@ -287,3 +261,44 @@ document.addEventListener('DOMContentLoaded', function () {
         sessionStorage.setItem('accordionState', JSON.stringify(selectedFormations));
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function updateHiddenFields() {
+        var selectedFormations = [];
+        var selectedParcours = [];
+
+        document.querySelectorAll('input[name="selectedFormation[]"]:checked').forEach(function (checkboxFormation) {
+            selectedFormations.push(checkboxFormation.id);
+            document.querySelectorAll('input[name="selectedParcours[]"]:checked').forEach(function (parcourCheckbox) {
+                selectedParcours.push(parcourCheckbox.value);
+            });
+        });
+
+        document.getElementById('selectedFormations').value = JSON.stringify(selectedFormations);
+        document.getElementById('selectedParcours').value = JSON.stringify(selectedParcours);
+    }
+
+    checkboxesFormations.forEach(function (checkboxFormation) {
+        checkboxFormation.addEventListener('change', function () {
+            saveParameters();
+            updateHiddenFields();
+        });
+    });
+
+    checkboxesParcours.forEach(function (checkboxParcours) {
+        checkboxParcours.addEventListener('change', function () {
+            saveParameters();
+            updateHiddenFields();
+        });
+    });
+});
+
+
+
+
+
+
+
+

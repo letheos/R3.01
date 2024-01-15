@@ -1,35 +1,21 @@
 <?php
 require "../Controller/ControllerAffichageEtudiant.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
+if (isset($_POST['parcours'])) {
+    // Récupère la valeur de $_POST['parcours'] dans la variable $selectedParcours
+    $selectedParcours = $_POST['parcours'];
+} else {
+    // Si 'parcours' n'est pas défini, initialise $selectedParcours à une valeur par défaut ou laissez-le vide.
+    $selectedParcours = '';
+}
 
 $formationHere = ["Informatique","Génie industriel et maintenance","Génie électrique et informatique industrielle"];
-$parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informatique B", "Parcours X - GIM"];
+$parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informatique B", "Parcours X - GIM" , "Parcours A - GEII"];
 ?>
 <script>
     const data = <?php echo json_encode($parcoursHere); ?>;
+    const selectedParcours = <?php echo json_encode($selectedParcours); ?>
 </script>
-
-<script>
-    // Vérifie l'état des checkboxes pour activer la fonction ajax quand une case est déjà check au chargement de la page
-    document.addEventListener("DOMContentLoaded", function() {
-        var checkboxes = document.querySelectorAll('input[name="formation[]"]:checked');
-        checkboxes.forEach(function(checkbox) {
-            onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data);
-        });
-    });
-
-    var checkboxes = document.querySelectorAll('input[name="formation[]"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener("change", function() {
-            if (this.checked) {
-                onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data);
-            }
-        });
-    });
-</script>
-
-
 
 <!doctype html>
 <html lang="fr">
@@ -68,7 +54,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
                 <div class="checkboxes-container" id="checkboxesFormation">
                     <?php foreach ($formationHere as $formation) { ?>
                         <label for="<?php echo $formation; ?>">
-                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data)" value="<?php echo $formation; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation; ?>
+                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation; ?>
                         </label>
                     <?php } ?>
                 </div>
@@ -96,7 +82,12 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
 
         <div class="checkbox">
             <input class="form-check" type="checkbox" name="isActive" id="isActive" <?php echo (isset($_POST['isActive'])) ? 'checked' : ''; ?>>
-            <label for="isNotActive" class="form-check-label"> Non-actif </label>
+            <label for="isNotActive" class="form-check-label"> Affiche les Non-actifs </label>
+        </div>
+
+        <div class="checkbox">
+            <input class="form-check" type="checkbox" name="isFound" id="isFound" <?php echo (isset($_POST['isFound'])) ? 'checked' : ''; ?>>
+            <label for="isFound" class="form-check-label"> Affiche ceux qui ont une alternance </label>
         </div>
 
         <div class="buttonSubmit">
@@ -110,21 +101,41 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
         <div class="affichage" id="candidateList">
             <?php
             $candidates = filtrageMultiple();
-            foreach ($candidates as $candidate)
-            {   ?>
-            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
-                <?php
-                if ($candidate['isInActiveSearch']) {
-                    ?>
-                    <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
-                    <?php
-                } else {
-                    ?>
-                    <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
-                    <?php
-                }
-                } ?>
-                <input type="hidden" id="candidateId" name="candidateId" value="">
+            foreach ($candidates as $candidate) {
+                ?>
+                <div class="candidates" id="candidats">
+                    <p>
+                        <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br>
+                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+
+                        <?php
+                        if ($candidate['isInActiveSearch']) {
+                            ?>
+                            <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
+                            <?php
+                        } else {
+                            ?>
+                            <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
+                            <?php
+                        }
+                        ?>
+
+                        <?php if ($candidate['foundApp'] == 0) { ?>
+                            <input type="checkbox" name="checkboxNoAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
+                            Enlever la recherche d'alternance
+                        <?php } else { ?>
+                            <input type="checkbox" name="checkboxWithAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
+                            Rendre en recherche d'alternance
+                        <?php } ?>
+
+                        <br>
+
+                        <span style="color: <?php echo ($candidate['foundApp'] == 0) ? '#bb2323' : 'green'; ?>">
+                        <?php echo ($candidate['foundApp'] == 0) ? 'N\'a pas d\'alternance' : 'A une Alternance'; ?>
+                        </span>
+                    </p>
+                </div>
+            <?php } ?>
         </div>
     </section>
 

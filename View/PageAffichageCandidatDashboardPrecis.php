@@ -1,10 +1,6 @@
 <?php
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 if(isset($_GET['id'])){
     $id = $_GET['id'];
 
@@ -12,7 +8,9 @@ if(isset($_GET['id'])){
     exit("ERREUR : LOGIN MANQUANT");
 }
 
-$infotCandidat = getStudentId($id);
+$result = getStudentId($id);
+$alternanceText = ($result['foundApp'] == 0) ? "N'as pas d'alternance" : "A une alternance";
+$style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background-color: green;';
 ?>
 
 <!doctype html>
@@ -31,23 +29,21 @@ $infotCandidat = getStudentId($id);
 <header class="banner">
     <a class="btn btn-light" href="./dashboard.php" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
     <h1>
-        Le candidat
+        Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?>
     </h1>
 </header>
 
-
-
 <section class="Affiche">
     <div class="rounded-box">
-        <?php $result = getStudentId($id); ?>
-        <div class="enteteBox">
-            <h2> Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?> </h2>
+        <div class="enteteBox" style="<?php echo $style; ?>">
+            <h2> Informations </h2>
             <p class="candidates">
                 Email : <?php echo $result["candidateMail"]; ?>
                 <br> Numéro de téléphone : <?php echo $result['phoneNumber']; ?>
                 <br> Formation : <?php echo $result['nameFormation']; ?>
                 <br> Parcours : <?php echo $result['nameParcours']; ?>
-                <br> Année de formation : <?php echo $result['yearOfFormation']; ?> </br>
+                <br> Année de formation : <?php echo $result['yearOfFormation']; ?>
+                <br> <span><?php echo $alternanceText; ?> </span>
             </p>
         </div>
 
@@ -66,20 +62,30 @@ $infotCandidat = getStudentId($id);
         <form method="post" action="../Controller/ControllerActifInactif.php">
             <div class="buttonIsActivate">
                 <?php
-                $donnes = isActive($id);
-                if ($donnes["isInActiveSearch"] == 1){?>
+                if ($result["isInActiveSearch"] == 1){?>
                     <button type="submit" class="btn btn-outline-danger" name="desactivate" >Rendre Inactif</button>
                     <?php
                 } else {?>
 
-                    <button type="submit" class="btn btn-outline-success" name="activate"> Rendre Actif </button>
+                    <button type="submit" class="btn btn-outline-success" name="activate">Rendre Actif</button>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if ($result["foundApp"] == 1){?>
+                    <button type="submit" class="btn btn-outline-danger" name="noalternance">N'a pas d'alternance</button>
+                    <?php
+                } else {?>
+
+                    <button type="submit" class="btn btn-outline-success" name="alternance">A une alternance</button>
                     <?php
                 }
                 ?>
                 <input type="hidden" id="idValue" name="idValue" value="<?php echo $id ?>">
-                <a class="btn btn-primary" href="./PageModifierCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
             </div>
         </form>
+
         <?php
         session_start();
         if(isset($_SESSION["message"])){ ?>

@@ -64,3 +64,11 @@
     max-width: 100%;
     box-sizing: border-box;
 }
+.closed {
+    display: none !important;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+}

@@ -72,6 +72,7 @@ function filtrage()
 function filtrageMultiple()
 {
     global $conn;
+
     if (isset($_POST["submit"])) {
         $choixFormations = isset($_POST["formation"]) ? $_POST["formation"] : [];
         $choixNom = isset($_POST["nameCandidates"]) ? $_POST["nameCandidates"] : "";
@@ -80,6 +81,7 @@ function filtrageMultiple()
 
     // Traitement de la checkbox
     $isActive = isset($_POST["isActive"]) ? 0 : 1;
+    $isFound = isset($_POST["isFound"]) ? 1 : 0;
 
     $hasFormationFilter = !empty($choixFormations) && $choixFormations[0] !== "Aucune Option";
     $hasNomFilter = !empty($choixNom);
@@ -91,7 +93,7 @@ function filtrageMultiple()
         $result = [];
         foreach ($choixFormations as $formation) {
             foreach ($choixParcours as $parcours) {
-                $result = array_merge($result, selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $formation, $isActive));
+                $result = array_merge($result, selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $formation, $isActive, $isFound));
             }
         }
         return $result;
@@ -99,7 +101,7 @@ function filtrageMultiple()
         // Filtrage par formation et nom
         $result = [];
         foreach ($choixFormations as $formation) {
-            $result = array_merge($result, selectCandidatesByNameAndFormation($conn, $formation, $choixNom, $isActive));
+            $result = array_merge($result, selectCandidatesByNameAndFormation($conn, $formation, $choixNom, $isActive, $isFound));
         }
         return $result;
     } elseif ($hasFormationFilter && $hasParcoursFilter) {
@@ -107,7 +109,7 @@ function filtrageMultiple()
         $result = [];
         foreach ($choixFormations as $formation) {
             foreach ($choixParcours as $parcours) {
-                $result = array_merge($result, selectCandidateByFormationAndParcours($conn, $formation, $parcours, $isActive));
+                $result = array_merge($result, selectCandidateByFormationAndParcours($conn, $formation, $parcours, $isActive, $isFound));
             }
         }
         return $result;
@@ -115,29 +117,29 @@ function filtrageMultiple()
         // Filtrage par nom et parcours
         $result = [];
         foreach ($choixParcours as $parcours) {
-            $result = array_merge($result, selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive));
+            $result = array_merge($result, selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive, $isFound));
         }
         return $result;
     } elseif ($hasFormationFilter) {
         // Filtrage par formation uniquement
         $result = [];
         foreach ($choixFormations as $formation) {
-            $result = array_merge($result, selectCandidatesByFormation($conn, $formation, $isActive));
+            $result = array_merge($result, selectCandidatesByFormation($conn, $formation, $isActive, $isFound));
         }
         return $result;
     } elseif ($hasNomFilter) {
         // Filtrage par nom uniquement
-        return selectCandidatesByName($conn, $choixNom, $isActive);
+        return selectCandidatesByName($conn, $choixNom, $isActive, $isFound);
     } elseif ($hasParcoursFilter) {
         // Filtrage par parcours uniquement
         $result = [];
         foreach ($choixParcours as $parcours) {
-            $result = array_merge($result, selectCandidatesByParcours($conn, $parcours, $isActive));
+            $result = array_merge($result, selectCandidatesByParcours($conn, $parcours, $isActive, $isFound));
         }
         return $result;
     } else {
         // Aucun critère de filtrage sélectionné, afficher tous les candidats
-        return selectCandidatesActives($conn, $isActive);
+        return selectCandidatesActives($conn, $isActive, $isFound);
     }
 }
 

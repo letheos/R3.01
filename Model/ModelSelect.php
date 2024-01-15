@@ -1,21 +1,5 @@
 <?php
 
-/*
-function getStudentTest($isActif, $isPermis, $year, $formation, $parcours, $conn, $ine)
-{
-    if ($isPermis) {
-        $sql = "SELECT () FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
-    }
-    //problème vient quand je mes des conditions
-    $sql = "SELECT * FROM candidate join candidateaddress USING(idCandidate) WHERE yearOfFormation =(?) AND isInActiveSearch =(?)  AND permisB =(?)";
-    $req = $conn->prepare($sql);
-    $params = array($year, $isActif, $isPermis);
-    $req->execute($params);
-    return $req->fetchall();
-
-}
-
-*/
 /**
  * @param $conn PDO
  * @return String[]
@@ -29,7 +13,7 @@ function getAllParcours($conn)
     return $req->fetchall();
 }
 
-//faire avec condition
+
 
 /**
  * @param $conn PDO
@@ -63,7 +47,7 @@ function allFormation($conn)
  * @param $conn PDO
  * @param $formation String
  * @return Array[String]
- * return
+ * return the values in the database where the name of the formation is like a string pass in parameter
  */
 function getFormationWithCoditions($conn, $formation)
 {
@@ -87,9 +71,6 @@ function getUserWithId($idUser,$conn)
     $req->execute($idUser);
     return $req->fetchall();
 }
-
-//TODO faire fonction qui enlève les formations à un dashboard
-//TODO faire fonction qui ajoute les formations à un dashboard
 
 /**
  * @param $conn PDO
@@ -118,10 +99,6 @@ function getAllRole($conn){
     $req->execute();
     return $req->fetchall();
 }
-
-
-
-
 
 /**
  * @param $login String id of the user
@@ -250,7 +227,7 @@ function selectCandidatesActives($conn, $isNotActive, $isFound) {
  * @param $isActive
  * @param $isFound
  * @return mixed
- * Requête de sélection des candidats par formation
+ * Request for selection of candidates by training
  */
 function selectCandidatesByFormation($conn, $choixFormation, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate 
@@ -267,7 +244,12 @@ function selectCandidatesByFormation($conn, $choixFormation, $isActive, $isFound
  * @param $isActive
  * @param $isFound
  * @return mixed
- * Requête de sélection des candidats en fonction du nom et de la formation
+ * du nom et de la formation
+ * ​
+ * 72 / 5 000
+ * Résultats de traduction
+ * Résultat de traduction
+ * Request for selection of candidates based on candidate's name and formation's name
  */
 function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
@@ -302,7 +284,7 @@ function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours
  * @param $isActive
  * @param $isFound
  * @return mixed
- * Requête de sélection des candidats en fonction du nom
+ * Query to select candidates based on name
  */
 function selectCandidatesByName($conn, $choixNom, $isActive, $isFound){
     $sql = "SELECT * FROM infoCandidate
@@ -373,7 +355,7 @@ function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom,
  * @param array $selectedFormations
  * @param array $selectedParcours
  * @return array
- * Cette fonction sélectionne les parcours en fonction des formations et des parcours sélectionnés.
+ * This function selects the parcours based on the training and courses selected.
  */
 function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $selectedParcours)
 {
@@ -392,6 +374,11 @@ function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $sele
     return $parcours;
 }
 
+/**
+ * @param $conn PDO
+ * @return mixed
+ * this function return all the values form the table Parcours
+ */
 function allParcours($conn)
 {
     $sql = "SELECT Parcours.*
@@ -403,6 +390,12 @@ function allParcours($conn)
     return $results;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return mixed
+ * this function return a candidate by his address pass in parameter with his id
+ */
 function selectIdAddrByCandidate($conn, $id)
 {
     $sql = "
@@ -414,7 +407,12 @@ function selectIdAddrByCandidate($conn, $id)
     $stmt->execute(array($id));
     return $stmt->fetchAll();
 }
-
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return mixed
+ * this function return candidates by their search zone pass in parameter with his id
+ */
 function selectIdZoneByCandidate($conn, $id)
 {
     $sql = "
@@ -427,6 +425,12 @@ function selectIdZoneByCandidate($conn, $id)
     return $stmt->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return mixed
+ * return the value form a candidate search with his id
+ */
 function selectCandidatById($conn, $id)
 {
     $sql = "
@@ -461,6 +465,12 @@ GROUP BY ic.idCandidate;
     return $req->fetch();
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return mixed
+ * return the candidate pass in parameter if it's in active search
+ */
 function isInActiveSearch($conn, $id)
 {
     $sql = "Select isInActiveSearch from candidate where idCandidate=?";
@@ -470,10 +480,11 @@ function isInActiveSearch($conn, $id)
 }
 
 /**
- * Fonction qui vérifie l'existance d'un email dans la base de donnée
- * @param $conn : Connexion à la bdd
- * @param $email : Email du candidat
- * @return bool Renvoie un boulean contenant le résultat
+ * Function that checks the existence of an email in the database
+ * @param $conn : Connection to the database
+ * @param $email : candidate's email
+ * @return bool
+ * This function check if an email is already in the database
  */
 
 function isEmailAlreadyExist($conn, $email): bool
@@ -485,6 +496,13 @@ function isEmailAlreadyExist($conn, $email): bool
     return !empty($result);
 }
 
+/**
+ * @param $conn PDO
+ * @param $email String
+ * @param $id int
+ * @return bool
+ * This function check if an email already exist in the database with an id of verification
+ */
 function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool
 {
     $sql = "SELECT * from Candidate WHERE candidateMail = ?";
@@ -494,6 +512,12 @@ function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool
     return !empty($result) && $result['idCandidate'] != $id;
 }
 
+/**
+ * @param $conn PDO
+ * @param $phone string
+ * @return bool
+ * this function check if a phone number already exist in the database
+ */
 function isPhoneNumberAlreadyExist($conn, $phone): bool
 {
     $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
@@ -503,6 +527,13 @@ function isPhoneNumberAlreadyExist($conn, $phone): bool
     return !empty($result);
 }
 
+/**
+ * @param $conn PDO
+ * @param $phone string
+ * @param $id int
+ * @return bool
+ * This function check if a phone number already exist in the database with an id of verification
+ */
 function isPhoneNumberAlreadyExistWithIdVerification($conn, $phone, $id): bool
 {
     $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
@@ -512,7 +543,11 @@ function isPhoneNumberAlreadyExistWithIdVerification($conn, $phone, $id): bool
     return !empty($result) && $result['idCandidate'] != $id;
 }
 
-
+/**
+ * @param $conn PDO
+ * @return mixed
+ * return all the value in the table formation of the database
+ */
 function selectAllFormation($conn)
 {
     $sql = "SELECT * FROM Formation";
@@ -522,10 +557,10 @@ function selectAllFormation($conn)
 }
 
 /**
- * Fonction qui test la présence du candidat dans la bdd via son INE
- * @param $conn : Connection à la bdd
- * @param $INE : INE du candidat
- * @return bool : Renvoie du résultat de l'existance dans la bdd
+ * Function which tests the presence of the candidate in the database with his INE
+ * @param $conn : database's connection
+ * @param $INE : candidate's ine
+ * @return bool : return the existence of the result in the database
  */
 function isCandidateExistWithIne($conn, $INE): bool
 {
@@ -537,6 +572,13 @@ function isCandidateExistWithIne($conn, $INE): bool
 
 }
 
+/**
+ * @param $conn PDO
+ * @param $INE String
+ * @param $id int
+ * @return bool
+ * Function which tests the presence of the candidate in the database with his INE and with an id of verification
+ */
 function isCandidateExistWithIneWithIdVerification($conn, $INE, $id): bool
 {
     $sql = "SELECT * from Candidate WHERE INE = ?";
@@ -548,11 +590,11 @@ function isCandidateExistWithIneWithIdVerification($conn, $INE, $id): bool
 }
 
 /**
- * Fonction qui test la présence du candidat dans la bdd via son nom ou son prénom
- * @param $conn : Connexion à la bdd
- * @param $name : Nom du candidat
- * @param $firstName : Prenom du candidat
- * @return bool : Renvoie le résultat de l'existance dans la bdd
+ * Function which tests the presence of the candidate in the database with his last name or first name
+ * @param $conn : database's connection
+ * @param $name : Candidate's name
+ * @param $firstName : Candidate's first name
+ * @return bool : return the existence of the result in the database
  */
 function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
 {
@@ -564,10 +606,15 @@ function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
 
 }
 
-
+/**
+ * @param $conn PDO database's connection
+ * @param $mail string
+ * @param $login string
+ * @return bool|Exception|PDOException
+ * check if the mail pass in parameter is the mail of the user pass in parameter
+ */
 function verfication($conn, $mail, $login)
 {
-    //on vérifie que la personne existe bien dans l'adresse
     try {
         $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
 
@@ -583,11 +630,18 @@ function verfication($conn, $mail, $login)
     }
 }
 
+/**
+ * @param $conn PDO
+ * @param $mail string
+ * @param $login string
+ * @return bool|Exception|PDOException
+ * return the value that verification return with his parameter
+ */
 function exist($conn, $mail, $login)
 {
 
     $existence = verfication($conn, $mail, $login);
-    //$existence = verfication($conn,$_POST['email'],$_POST['login']);
+
     return $existence;
 
 }

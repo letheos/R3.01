@@ -50,7 +50,7 @@ if(isset($_POST['idDashboard'])) {
  */
 function ControllerGetDashBoardPerUser(string $login): array
 {
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getDashBoardPerUser($login, $conn);
 }
 
@@ -73,5 +73,12 @@ function ControllerDeleteDashBoard($idDashboard, $login)
 {
     $conn = require "../Model/Database.php";
     deleteUserDashBoard($login, $idDashboard, $conn);
+}
+
+
+
+function getDashboardById($id){
+    global $conn;
+    return selectDashboardById($conn, $id);
 }
 

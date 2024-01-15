@@ -1,19 +1,23 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require "../Controller/ControllerAffichageEtudiant.php";
 
 if (isset($_POST['parcours'])) {
-    // Récupère la valeur de $_POST['parcours'] dans la variable $selectedParcours
     $selectedParcours = $_POST['parcours'];
 } else {
-    // Si 'parcours' n'est pas défini, initialise $selectedParcours à une valeur par défaut ou laissez-le vide.
     $selectedParcours = '';
 }
 
-$formationHere = ["Informatique","Génie industriel et maintenance","Génie électrique et informatique industrielle"];
-$parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informatique B", "Parcours X - GIM" , "Parcours A - GEII"];
+$idDashboard = $_GET['id'];
+$dashboardInfo = getDashBoardById($idDashboard);
+$dashboardFormations = getFormationOfADashboard($idDashboard);
+$dashboardCourses = getParcoursOfADashboard($idDashboard);
 ?>
 <script>
-    const data = <?php echo json_encode($parcoursHere); ?>;
+    const data = <?php echo json_encode($dashboardCourses); ?>;
     const selectedParcours = <?php echo json_encode($selectedParcours); ?>
 </script>
 
@@ -34,7 +38,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
 
 <header class="banner">
     <h1>
-        NOM DU DASHBOARD
+        <?php echo isset($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashboard'] : "UNNAMED" ?>
     </h1>
 </header>
 
@@ -52,7 +56,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
                     <div class="overSelect"></div>
                 </div>
                 <div class="checkboxes-container" id="checkboxesFormation">
-                    <?php foreach ($formationHere as $formation) { ?>
+                    <?php foreach ($dashboardInfo as $formation) { ?>
                         <label for="<?php echo $formation; ?>">
                             <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation; ?>
                         </label>
@@ -97,6 +101,7 @@ $parcoursHere = ["Parcours Informatique A","Parcours A - GEII","Parcours Informa
 </form>
 
 <form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php">
+    <input type="hidden" value="<?php $dashboardInfo; ?>">
     <section class="afficheCandidats">
         <div class="affichage" id="candidateList">
             <?php

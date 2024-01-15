@@ -10,6 +10,7 @@ if(isset($_GET['idCandidate'])){
 
 $idDashboard = $_GET['idDashboard'];
 $result = getStudentId($id);
+$dashboardInfo = getDashboardById($id);
 $alternanceText = ($result['foundApp'] == 0) ? "N'as pas d'alternance" : "A une alternance";
 $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background-color: green;';
 
@@ -41,7 +42,7 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
             <h2> Informations </h2>
             <p class="candidates">
                 Email : <?php echo $result["candidateMail"]; ?>
-                <br> Numéro de téléphone : <?php echo $result['phoneNumber']; ?>
+                <br style="<?php echo isset($dashboardInfo['isPhone']) && $dashboardInfo['isPhone'] == 0 ? 'display: none;' : ''; ?>"> Numéro de téléphone : <?php echo $result['phoneNumber']; ?>
                 <br> Formation : <?php echo $result['nameFormation']; ?>
                 <br> Parcours : <?php echo $result['nameParcours']; ?>
                 <br> Année de formation : <?php echo $result['yearOfFormation']; ?>
@@ -51,11 +52,11 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
 
         <div class="informationBox">
             <p>
-                <br> <?php echo (isset($result['INE']) ? 'INE : ' . $result['INE'] : 'INE non disponible'); ?>
+                <br style="<?php echo isset($dashboardInfo['isIne']) && $dashboardInfo['isIne'] == 0 ? 'display: none;' : ''; ?>"> <?php echo (isset($result['INE']) ? 'INE : ' . $result['INE'] : 'INE non disponible'); ?>
                 <br> Type d'entreprise recherchée : <?php echo $result['typeCompanySearch']; ?>
-                <br> Adresse : <?php echo $result['addresses']; ?>
+                <br style="<?php echo isset($dashboardInfo['isAddress']) && $dashboardInfo['isAddress'] == 0 ? 'display: none;' : ''; ?>"> Adresse : <?php echo $result['addresses']; ?>
                 <br> Zone : <?php echo $result['zones']; ?>
-                <br> <?php echo ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B"); ?>
+                <br style="<?php echo isset($dashboardInfo['isPermis']) && $dashboardInfo['isPermis'] == 0 ? 'display: none;' : ''; ?>"> <?php echo ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B"); ?>
                 <br> <?php echo ($result['isInActiveSearch'] ? "Est en recherche active" : "N'est pas en recherche active"); ?>
                 <br> <?php echo (isset($result['cv']) ? "<a href='../Controller/ControllerGeneratePreview.php?id=$id' target='_blank'> Voir le CV </a>" : "CV non disponible"); ?>
             </p>

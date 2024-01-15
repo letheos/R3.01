@@ -13,7 +13,7 @@ if (isset($_POST['parcours'])) {
 }
 
 $idDashboard = $_GET['id'];
-$dashboardInfo = getDashBoardById($idDashboard);
+$dashboardInfo = getDashboardById($idDashboard);
 $dashboardFormations = getFormationOfADashboard($idDashboard);
 $courses = [];
 foreach(getParcoursOfADashboard($idDashboard) as $parcours){
@@ -106,7 +106,6 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
 </form>
 
 <form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php?idDashboard=<?php echo $idDashboard ?>">
-    <input type="hidden" value="<?php $dashboardInfo; ?>">
     <section class="afficheCandidats">
         <div class="affichage" id="candidateList">
             <?php

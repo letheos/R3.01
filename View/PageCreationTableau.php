@@ -62,7 +62,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2>Choix des parcours</h2>
                 <div class="accordion" id="choicesDep">
                     <?php
-                    $formations = getAllFormation($conn);
+                    $formations = selectAllFormation($conn);
                     if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
                         $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
                     }

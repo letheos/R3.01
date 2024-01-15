@@ -11,26 +11,27 @@ ini_set('display_errors', 1);
 $conn = require '../Model/Database.php';
 require '../Model/ModelInsertUpdateDelete.php';
 
-$id = $_POST['idValue'];
+$id = $_POST['idCandidate'];
+$idDashboard = $_POST['idDashboard'];
 
 
 if(isset($_POST['activate'])){
     setEtatTrue($conn, $id);
-    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?id=$id");
+    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?idCandidate=$id&idDashboard=$idDashboard");
 }
 
 if (isset($_POST['desactivate'])){
     setEtatFalse($conn, $id);
-    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?id=$id");
+    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?idCandidate=$id&idDashboard=$idDashboard");
 }
 
 if(isset($_POST['alternance'])){
     setAppTrue($conn, $id);
-    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?id=$id");
+    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?idCandidate=$id&idDashboard=$idDashboard");
 }
 
 if (isset($_POST['noalternance'])){
     setAppFalse($conn, $id);
-    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?id=$id");
+    header("Location: ../View/PageAffichageCandidatDashboardPrecis.php?idCandidate=$id&idDashboard=$idDashboard");
 }
 

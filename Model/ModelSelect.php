@@ -221,6 +221,15 @@ function selectCandidatesActives($conn, $isNotActive, $isFound) {
     return $req->fetchAll();
 }
 
+function selectCandidatesActivesByParcours($conn, $parcours, $isNotActive, $isFound) {
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ?";
+
+    $req = $conn->prepare($sql);
+    $req->execute(array($isNotActive, $isFound, $parcours));
+    return $req->fetchAll();
+}
+
 /**
  * @param $conn
  * @param $choixFormation

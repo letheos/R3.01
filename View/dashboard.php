@@ -19,11 +19,8 @@ $courses = [];
 foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     $courses[] = $parcours["nameParcours"];
 }
-
-
-
-
 ?>
+
 <script>
     const data = <?php echo json_encode($courses); ?>;
     const selectedParcours = <?php echo json_encode($selectedParcours); ?>
@@ -50,7 +47,7 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     </h1>
 </header>
 
-<form id="filter-form" method="POST" action="../View/dashboard.php">
+<form id="filter-form" method="POST" action="../View/dashboard.php?id=<?php echo $idDashboard ?>">
 
     <section class="filtreCandidats">
 
@@ -66,7 +63,7 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                 <div class="checkboxes-container" id="checkboxesFormation">
                     <?php foreach ($dashboardFormations as $formation) {?>
                         <label for="<?php echo $formation['nameFormation']; ?>">
-                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation['nameFormation']; ?>" <?php echo (isset($_POST['formation']) && in_array($formation, $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation['nameFormation']; ?>
+                            <input type="checkbox" name="formation[]" onchange="onChangeUpdateDisplayMultiple('../Controller/ControllerDashboardAjax.php', data, selectedParcours)" value="<?php echo $formation['nameFormation']; ?>" <?php echo (isset($_POST['formation']) && in_array($formation['nameFormation'], $_POST['formation'])) ? 'checked' : ''; ?>> <?php echo $formation['nameFormation']; ?>
                         </label>
                     <?php } ?>
                 </div>
@@ -108,18 +105,18 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     </section>
 </form>
 
-<form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php">
+<form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php?idDashboard=<?php echo $idDashboard ?>">
     <input type="hidden" value="<?php $dashboardInfo; ?>">
     <section class="afficheCandidats">
         <div class="affichage" id="candidateList">
             <?php
-            $candidates = filtrageMultiple();
+            $candidates = filtrageMultiple($courses);
             foreach ($candidates as $candidate) {
                 ?>
                 <div class="candidates" id="candidats">
                     <p>
                         <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br>
-                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">Détail</a>
 
                         <?php
                         if ($candidate['isInActiveSearch']) {

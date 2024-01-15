@@ -1,16 +1,18 @@
 <?php
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
+if(isset($_GET['idCandidate'])){
+    $id = $_GET['idCandidate'];
 
 } else {
     exit("ERREUR : LOGIN MANQUANT");
 }
 
+$idDashboard = $_GET['idDashboard'];
 $result = getStudentId($id);
 $alternanceText = ($result['foundApp'] == 0) ? "N'as pas d'alternance" : "A une alternance";
 $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background-color: green;';
+
 ?>
 
 <!doctype html>
@@ -27,7 +29,7 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
 <body>
 
 <header class="banner">
-    <a class="btn btn-light" href="./dashboard.php" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
+    <a class="btn btn-light" href="./dashboard.php?id=<?php echo $idDashboard ?>" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
     <h1>
         Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?>
     </h1>
@@ -82,7 +84,8 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                     <?php
                 }
                 ?>
-                <input type="hidden" id="idValue" name="idValue" value="<?php echo $id ?>">
+                <input type="hidden" id="idCandidate" name="idCandidate" value="<?php echo $id ?>">
+                <input type="hidden" id="idDashboard" name="idDashboard" value="<?php echo $idDashboard ?>">
             </div>
         </form>
 

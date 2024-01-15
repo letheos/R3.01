@@ -86,7 +86,7 @@ function filtrage()
     }
 }
 
-function filtrageMultiple()
+function filtrageMultiple($selectedParcours)
 {
     global $conn;
 
@@ -155,8 +155,12 @@ function filtrageMultiple()
         }
         return $result;
     } else {
-        // Aucun critère de filtrage sélectionné, afficher tous les candidats
-        return selectCandidatesActives($conn, $isActive, $isFound);
+        // Aucun critère de filtrage sélectionné, afficher tous les candidats des parcours sélectionnés
+        $result = [];
+        foreach ($selectedParcours as $parcours) {
+            $result = array_merge($result, selectCandidatesByParcours($conn, $parcours, $isActive, $isFound));
+        }
+        return $result;
     }
 }
 

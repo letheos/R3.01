@@ -252,8 +252,9 @@ function addParcourDashboard($idDashbaord,$parcour,$year,$conn){
  * Add a formation for a new dashboard
  */
 function addFormationNewDashboard($parcour,$conn,$idDashBoard){
+    require 'ModelSelect.php';
 
-    $sql = "INSERT INTO dashboardParcours(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
     $req-> execute(array($idDashBoard,$parcour));
 }
@@ -296,7 +297,12 @@ function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, boo
 
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return true
+ * set the state of candidate to true
+ */
 function setEtatTrue($conn, $id)
 {
     $sql = "UPDATE Candidate SET isInActiveSearch = 1 WHERE idCandidate=?";
@@ -305,7 +311,12 @@ function setEtatTrue($conn, $id)
     return true;
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return false
+ * set the state of candidate to false
+ */
 function setEtatFalse($conn, $id)
 {
     $sql = "UPDATE Candidate SET isInActiveSearch = 0 WHERE idCandidate=?";
@@ -331,6 +342,12 @@ function setAppFalse($conn, $id)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @return void
+ * this function take in parameter a PDO connexion and an id of a candidate then remove it and all the values link to him
+ */
 function deleteCandidate($conn, $id)
 {
     $sqlReq1 = "DELETE FROM CandidateAddress WHERE idCandidate = ?"; //Suppression des adresses
@@ -367,7 +384,7 @@ function insertAddr($conn, $idCandidate, $cp, $addr, $city)
 }
 
 /**
- * Fonction d'insertion des zones de recherches
+ * Search zone insertion function
  * @param $conn : Connection à la bdd
  * @param $idCandidate : Le candidat
  * @param $searchCity : La ville de recherche
@@ -382,7 +399,7 @@ function insertSearchZone($conn, $idCandidate, $searchCity, $radius)
 }
 
 /**
- * Insère toute les informations du candidat dans la bdd
+ * Insert all the candidate's information in the database
  * @param $conn : Connection à la bdd
  * @param $INE : INE du candidat
  * @param $name : Nom du candidat
@@ -420,6 +437,16 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     }
 }
 
+/**
+ * @param $conn PDO
+ * @param $idAddr int
+ * @param $cp int
+ * @param $addr string
+ * @param $city string
+ * @return void
+ * This function take in parameter a PDO connection to a database, an id of an address, a postal code and an address
+ * then update the value of the postal code, city and address to the address already gave by his id.
+ */
 function updateAddr($conn, $idAddr, $cp, $addr, $city)
 {
     $sql = "UPDATE CandidateAddress SET cp = ?, addressLabel = ?, city = ? WHERE idAddr = ?";
@@ -427,6 +454,15 @@ function updateAddr($conn, $idAddr, $cp, $addr, $city)
     $stmt->execute(array($cp, $addr, $city, $idAddr));
 }
 
+/**
+ * @param $conn
+ * @param $idZone
+ * @param $city
+ * @param $radius
+ * @return void
+ *  This function take in parameter a PDO connexion to a database, an id of an address, a postal code and an address
+ *  then update the value of the postal code, city and address to the address already gave by his id.
+ */
 function updateZone($conn, $idZone, $city, $radius)
 {
     $sql = "UPDATE CandidateZone SET cityName = ?, radius = ? WHERE idZone = ?";
@@ -434,6 +470,13 @@ function updateZone($conn, $idZone, $city, $radius)
     $stmt->execute(array($city, $radius, $idZone));
 }
 
+/**
+ * @param $conn
+ * @param $id int
+ * @param $name String
+ * @return true
+ * this function update the name of a candidate with his id give in parameter with a string pass in parameter
+ */
 function updateNameCandidate($conn, $id, $name)
 {
     $sql = "UPDATE Candidate SET name = ? WHERE idCandidate = ?";
@@ -442,6 +485,13 @@ function updateNameCandidate($conn, $id, $name)
     return true;
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @param $firstName
+ * @return true
+ * this function update the first name of a candidate using his id,gave in parameter with a string pass in parameter
+ */
 function updateFirstNameCandidate($conn, $id, $firstName)
 {
     $sql = "UPDATE Candidate SET firstName = ? WHERE idCandidate = ?";
@@ -450,6 +500,13 @@ function updateFirstNameCandidate($conn, $id, $firstName)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $candidateMail string
+ * @return true
+ * Change the mail of a candidate
+ */
 function updateMailCandidate($conn, $id, $candidateMail)
 {
     $sql = "UPDATE Candidate SET candidateMail = ? WHERE idCandidate = ?";
@@ -458,7 +515,13 @@ function updateMailCandidate($conn, $id, $candidateMail)
     return true;
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $phone string
+ * @return true
+ * Change the phone number of a candidate
+ */
 function updatePhoneNumberCandidate($conn, $id, $phone)
 {
     $sql = "UPDATE Candidate SET phoneNumber = ? WHERE idCandidate = ?";
@@ -467,6 +530,13 @@ function updatePhoneNumberCandidate($conn, $id, $phone)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $parcours string
+ * @return true
+ * Change the parcours of a candidate
+ */
 function updateParcoursCandidate($conn, $id, $parcours)
 {
     $sql = "UPDATE Candidate SET nameParcours = ? WHERE idCandidate = ?";
@@ -475,6 +545,14 @@ function updateParcoursCandidate($conn, $id, $parcours)
     return true;
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @param $yearOfFormation
+ * @return true
+ * Change the year of formation that a candidate have
+ * exemple: michel robert 1st year -> michel robert 2nd year
+ */
 function updateYearOfFormationCandidate($conn, $id, $yearOfFormation)
 {
     $sql = "UPDATE Candidate SET yearOfFormation = ? WHERE idCandidate = ?";
@@ -483,15 +561,28 @@ function updateYearOfFormationCandidate($conn, $id, $yearOfFormation)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $driverLicence bool
+ * @return true
+ * Set the boolean permisB has true or false as the value $driverLicence
+ */
 function updateDriverLicenceCandidate($conn, $id, $driverLicence)
 {
-    $sql = "UPDATE Candidate SET yearOfFormation = ? WHERE idCandidate = ?";
+    $sql = "UPDATE Candidate SET permisB = ? WHERE idCandidate = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute(array($driverLicence, $id));
     return true;
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $textArea string
+ * @return true
+ * Change the type of company that a candidate search with a string value
+ */
 function updateTextAreaCandidate($conn, $id, $textArea)
 {
     $sql = "UPDATE Candidate SET typeCompanySearch = ? WHERE idCandidate = ?";
@@ -500,6 +591,13 @@ function updateTextAreaCandidate($conn, $id, $textArea)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $remarks String
+ * @return true
+ * Update the remarks that a candidate have
+ */
 function updateRemarksCandidate($conn, $id, $remarks)
 {
     $sql = "UPDATE Candidate SET remarks = ? WHERE idCandidate = ?";
@@ -508,6 +606,13 @@ function updateRemarksCandidate($conn, $id, $remarks)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $ine String
+ * @return true
+ * Update the INE that a candidate have with a new value pass in parameter
+ */
 function updateIneCandidate($conn, $id, $ine)
 {
     $sql = "UPDATE Candidate SET INE = ? WHERE idCandidate = ?";
@@ -516,6 +621,13 @@ function updateIneCandidate($conn, $id, $ine)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $id int
+ * @param $cvPath String
+ * @return true
+ * Change the path that represent his cv in the database by a new path pass in parameter
+ */
 function updateCVCandidate($conn, $id, $cvPath)
 {
     $sql = "UPDATE Candidate SET cv = ? WHERE idCandidate = ?";
@@ -524,7 +636,12 @@ function updateCVCandidate($conn, $id, $cvPath)
     return true;
 }
 
-
+/**
+ * @param $conn PDO
+ * @param $idAddr int
+ * @return true
+ * Delete a candidateaddress in database with his id.
+ */
 function deleteAddr($conn, $idAddr)
 {
     $sql = "DELETE FROM candidateaddress WHERE idAddr = ?";
@@ -533,6 +650,12 @@ function deleteAddr($conn, $idAddr)
     return true;
 }
 
+/**
+ * @param $conn PDO
+ * @param $idZone int
+ * @return true
+ * Delete a candidatezone in database with his id.
+ */
 function deleteZone($conn, $idZone)
 {
     $sql = "DELETE FROM candidatezone WHERE idZone = ?";
@@ -541,7 +664,19 @@ function deleteZone($conn, $idZone)
     return true;
 }
 
-function addbdd($conn, $pswrd, $lastname, $firstname, $email, $login, $role, $formation)
+/**
+ * @param $conn PDO
+ * @param $pswrd string
+ * @param $lastname string
+ * @param $firstname string
+ * @param $email string
+ * @param $login string
+ * @param $role int
+ * @param $formation string
+ * @return mixed
+ * Add a user to the database with his parameter pass in parameter
+ */
+function addInterUser($conn, $pswrd, $lastname, $firstname, $email, $login, $role, $formation)
 {
 
 

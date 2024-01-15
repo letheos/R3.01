@@ -9,7 +9,6 @@ require "../Model/ModelInsertUpdateDelete.php";
 //remetre sur la page qui va bien
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
-
     if(isset($_POST['validate'])){
 
         ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard']);

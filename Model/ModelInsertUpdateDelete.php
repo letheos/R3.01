@@ -252,9 +252,8 @@ function addParcourDashboard($idDashbaord,$parcour,$year,$conn){
  * Add a formation for a new dashboard
  */
 function addFormationNewDashboard($parcour,$conn,$idDashBoard){
-    require 'ModelSelect.php';
 
-    $sql = "INSERT INTO formationsutilisateurs(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
+    $sql = "INSERT INTO dashboardparcours(idDashBoard,nameParcours,yearOfFormation) VALUES(?,?,'1er')";
     $req = $conn->prepare($sql);
     $req-> execute(array($idDashBoard,$parcour));
 }
@@ -326,6 +325,12 @@ function setEtatFalse($conn, $id)
 
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @return true
+ * Set the state about the apprenticeship to True
+ */
 function setAppTrue($conn, $id)
 {
     $sql = "UPDATE Candidate SET foundApp = 1 WHERE idCandidate=?";
@@ -334,6 +339,12 @@ function setAppTrue($conn, $id)
     return true;
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @return true
+ * Set the state about the apprenticeship to False
+ */
 function setAppFalse($conn, $id)
 {
     $sql = "UPDATE Candidate SET foundApp = 0 WHERE idCandidate=?";
@@ -368,13 +379,14 @@ function deleteCandidate($conn, $id)
 }
 
 /**
- * Fonction insérant les addresses du candidat
- * @param $conn : Connexion à la bdd
- * @param $idCandidate : Le candidat
- * @param $cp : Le code postal
- * @param $addr : Le libellé de l'adresse
- * @param $city : La ville
+
+ * @param $conn : Connection to the database
+ * @param $idCandidate : The id of the candidate
+ * @param $cp : Postal code
+ * @param $addr : The address
+ * @param $city : The city
  * @return void
+ * Function that insert the addresses of a candidate
  */
 function insertAddr($conn, $idCandidate, $cp, $addr, $city)
 {
@@ -384,12 +396,12 @@ function insertAddr($conn, $idCandidate, $cp, $addr, $city)
 }
 
 /**
- * Search zone insertion function
- * @param $conn : Connection à la bdd
- * @param $idCandidate : Le candidat
- * @param $searchCity : La ville de recherche
- * @param $radius : Le rayon de recherche
+ * @param $conn : Connection to the database
+ * @param $idCandidate : Id of the candidate
+ * @param $searchCity : City of search
+ * @param $radius : Radius of search
  * @return void
+ * Search zone insertion function
  */
 function insertSearchZone($conn, $idCandidate, $searchCity, $radius)
 {
@@ -401,16 +413,16 @@ function insertSearchZone($conn, $idCandidate, $searchCity, $radius)
 /**
  * Insert all the candidate's information in the database
  * @param $conn : Connection à la bdd
- * @param $INE : INE du candidat
- * @param $name : Nom du candidat
- * @param $firstName : Prenom du candidat
- * @param $yearOfFormation : Année de formation
- * @param $nameFormation : La Formation du candidat
- * @param $nameParcours : Le nom du Parcours
- * @param $permisB : Le permis
- * @param $typeCompanySearch : Le type d'entreprise recherché
- * @param $adresses : Les adresses du candidat
- * @param $searchZone : Les zones de recherches du candidats
+ * @param $INE : Ine of the candidate
+ * @param $name : Name of the candidate
+ * @param $firstName : Firstname of the candidate
+ * @param $yearOfFormation : Year of formation
+ * @param $nameFormation : Formation of the candidate
+ * @param $nameParcours : Name of the courses
+ * @param $permisB : Driver license
+ * @param $typeCompanySearch : Type of company
+ * @param $adresses : Addresses of the candidate
+ * @param $searchZone : Search zone of the candidate
  * @return void
  */
 function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $email, $phoneNumber, $nameParcours, $permisB, $typeCompanySearch, $remark, $adresses, $searchZone, $cvPath)

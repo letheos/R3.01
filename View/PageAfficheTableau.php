@@ -11,7 +11,7 @@ require "../Controller/ControllerModifTableau.php";
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 } else {
-    $_SESSION['login'] = "login1";
+    $_SESSION['login'] = "user1";
     $User = $_SESSION['login'];
 }
 if (isset($_SESSION['role'])) {
@@ -32,6 +32,7 @@ $_SESSION['login'] = "admin";
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StylePageAfficheTableau.css">
     <title>Page affiche les tableaux de bord</title>
 </head>
@@ -68,37 +69,51 @@ $_SESSION['login'] = "admin";
             <input onclick="changeDisplay(<?= $idDashboard ?>)" type="button" class="btnChangeDisplay" value="-"
                    id=<?= "btnChangeDisplay" . $idDashboard ?>>
 
-                    <li> <?= $nameOfDashboard ?>   </li>
 
-                    <div id= <?= $idDashboard ?> style="display:block">
-                        <?php
-                        echo $isPermis ? "<li>ont le permis</li>" : "<li>n'ont pas le permis</li>";
-                        echo $isIne ? "<li> INE affiché</li>" : "<li > INE non affiché</li>";
-                        echo $isAddress ? "<li>adresse affiché</li>" : "<li > adresse non affiché</li>";
-                        echo $isPhone ? "<li>numéro de téléphone affiché</li>" : "<li > numéro de téléphone non affiché</li>"; ?>
-                    </div>
+            <h3 class="m-0">Titre : <?= $nameOfDashboard ?></h3>
+
+
+            <div id= <?= $idDashboard ?> style="display:block">
+                <?php
+                echo $isPermis ? '<li>Information sur le permis : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                  <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                  </svg></li>' : '<li>Information sur le permis :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                    </svg></li>';
+                echo $isIne ? '<li>Information sur le L\'INE : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                  <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                  </svg></li>' : '<li>Information sur le L\'INE :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                    </svg></li>';
+                echo $isAddress ? '<li>Information sur l\'adresse : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                  <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                  </svg></li>' : '<li>Information sur l\'adresse :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                    </svg></li>';
+                echo $isPhone ? '<li>Information sur le numéro de téléphone : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                  <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                  </svg></li>' : '<li>Information sur le numéro de téléphone :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                  </svg></li>'; ?>
+            </div>
                     <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
 
-
+            <div class="d-flex justify-content-between">
                     <!-- action="../Controller/ControllerAfficheTableau.php" -->
                     <form method="post" action="../Controller/ControllerAfficheTableau.php">
-                        <!-- mettre en action la fonction supprimer -->
-
-                        <button id="<?= "delete".$idDashboard ?>" name="btnDelete" class="btnDelete" >supprimer</button>
-                        <input type="hidden" value="<?=$idDashboard?>" name="idDashboard">
-                        <!-- mettre input hidden + validation -->
-                        <!-- mettre en action la fonction modifier -->
+                        <button id="<?= "delete".$idDashboard ?>" class="btn btn-danger" >Supprimer</button>
+                        <input type="hidden" value="<?= $idDashboard  ?>" name="idDashboard">
 
                     </form>
 
-                    <form action="">
-                        <a class="btn btn-primary" href="./dashboard.php?id=<?php echo $idDashboard; ?>">Détail</a>
-                    </form>
+
+                    <a class="btn btn-primary" href="./dashboard.php?id=<?php echo $idDashboard; ?>">Accéder</a>
+
 
                     <form action="PageModifDashBoard.php" method="post">
-                        <button type="submit" value="modifier"  id="<?= $idDashboard ?>" class="btnModif" "> modifier
+                        <button type="submit" value="modifier"  id="<?= $idDashboard ?>" class="btn btn-secondary" "> Modifier
                         <input type="hidden" name="ine"         id="ine"         value="<?=$isIne?>">
                         <input type="hidden" name="address"     id="address"     value="<?= $isAddress ?>">
                         <input type="hidden" name="phone"       id="phone"       value="<?= $isPhone?>">
@@ -108,7 +123,8 @@ $_SESSION['login'] = "admin";
 
                         </button>
                     </form>
-                </div>
+            </div>
+        </div>
 
                 <br>
             <?php

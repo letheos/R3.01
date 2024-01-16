@@ -100,3 +100,6 @@ body {
     background-color: #f0f0f0; /* Changez la couleur de fond */
 }
 
+.hidden {
+    display: none;
+}

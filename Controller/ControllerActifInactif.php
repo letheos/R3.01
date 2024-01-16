@@ -7,15 +7,24 @@
 $conn = require '../Model/Database.php';
 require '../Model/ModelInsertUpdateDelete.php';
 
+$id = $_POST['idValue'];
 
 if(isset($_POST['activate'])){
-    $id = $_POST['idValue'];
     setEtatTrue($conn, $id);
     header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
 }
 
 if (isset($_POST['desactivate'])){
-    $id = $_POST['idValue'];
     setEtatFalse($conn, $id);
+    header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
+}
+
+if(isset($_POST['alternance'])){
+    setAppTrue($conn, $id);
+    header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
+}
+
+if (isset($_POST['noalternance'])){
+    setAppFalse($conn, $id);
     header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
 }

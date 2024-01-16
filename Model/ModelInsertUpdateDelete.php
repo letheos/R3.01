@@ -225,3 +225,31 @@ function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formatio
 
     return $res;
 }
+
+/**
+ * @param $conn
+ * @param $id
+ * @return true
+ * Set the state about the apprenticeship to True
+ */
+function setAppTrue($conn, $id)
+{
+    $sql = "UPDATE Candidate SET foundApp = 1 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
+}
+
+/**
+ * @param $conn
+ * @param $id
+ * @return true
+ * Set the state about the apprenticeship to False
+ */
+function setAppFalse($conn, $id)
+{
+    $sql = "UPDATE Candidate SET foundApp = 0 WHERE idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($id));
+    return true;
+}

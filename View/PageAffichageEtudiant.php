@@ -58,6 +58,12 @@ include "../Controller/ControllerAffichageEtudiant.php";
             <label for="isNotActive" class="form-check-label"> Non-actif </label>
         </div>
 
+        <div class="checkbox">
+            <input class="form-check" type="checkbox" name="isFound" id="isFound" <?php echo (isset($_POST['isFound'])) ? 'checked' : ''; ?>>
+            <label for="isFound" class="form-check-label"> Affiche ceux qui ont une alternance </label>
+        </div>
+
+
         <div class="buttonSubmit">
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Rechercher</button>
         </div>
@@ -65,28 +71,47 @@ include "../Controller/ControllerAffichageEtudiant.php";
 </form>
 
 <form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php">
-<section class="afficheCandidats">
-    <div class="affichage" id="candidateList">
-        <?php
-        $candidates = filtrage();
-        foreach ($candidates as $candidate)
-        {   ?>
-            <p class="candidates" id="candidats"> <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
-            <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id="<?php echo $candidate['idCandidate']; ?>" onclick="showAlert(this)">Supprimer</button>
+    <section class="afficheCandidats">
+        <div class="affichage" id="candidateList">
             <?php
-            if ($candidate['isInActiveSearch']) {
-            ?>
-                <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
-            <?php
-            } else {
-            ?>
-                <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
-            <?php
-            }
-        } ?>
-        <input type="hidden" id="candidateId" name="candidateId" value="">
-    </div>
-</section>
+            $candidates = filtrage();
+            foreach ($candidates as $candidate) {
+                ?>
+                <div class="candidates" id="candidats">
+                    <p>
+                    <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br> <a class="btn btn-primary" href="./PageAffichageEtudiantPrecis.php?id=<?php echo $candidate["idCandidate"]; ?>">Détail</a>
+                        <button id="delete" class="btn btn-outline-danger" name="delete" type="submit" data-id="<?php echo $candidate['idCandidate']; ?>" onclick="showAlert(this)">Supprimer</button>
+
+                        <?php
+                        if ($candidate['isInActiveSearch']) {
+                            ?>
+                            <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
+                            <?php
+                        } else {
+                            ?>
+                            <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
+                            <?php
+                        }
+                        ?>
+
+                        <?php if ($candidate['foundApp'] == 0) { ?>
+                            <input type="checkbox" name="checkboxNoAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
+                            Enlever la recherche d'alternance
+                        <?php } else { ?>
+                            <input type="checkbox" name="checkboxWithAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
+                            Rendre en recherche d'alternance
+                        <?php } ?>
+
+                        <br>
+
+                        <span style="color: <?php echo ($candidate['foundApp'] == 0) ? '#bb2323' : 'green'; ?>">
+                        <?php echo ($candidate['foundApp'] == 0) ? 'N\'a pas d\'alternance' : 'A une Alternance'; ?>
+                        </span>
+                    </p>
+                </div>
+            <?php } ?>
+        </div>
+    </section>
 
 <footer class="bottomBanner">
     <div class="buttonActivationCandidates">

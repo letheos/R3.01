@@ -1,7 +1,7 @@
 <?php
 require "../Controller/ControllerCreationTableau.php";
 session_start();
-$conn = require "../Model/Database.php";
+
 
 
 if(isset($_SESSION['role'])){
@@ -10,9 +10,6 @@ if(isset($_SESSION['role'])){
     $Role = $_SESSION['role'] = 'admin';
 }
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 ?>
 
 <!--
@@ -63,12 +60,12 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2>Choix des parcours</h2>
                 <div class="accordion" id="choicesDep">
                     <?php
-                    $formations = selectAllFormation($conn);
+                    $formations = controllerGetAllFormations();
                     if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
                         $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
                     }
                     foreach ($formations as $index => $formation) {
-                        $parcours = selectParcours($conn, $formation['nameFormation']);
+                        $parcours = controllerGetParcours($formation['nameFormation']);
                         $checkboxId = $formation['nameFormation'];
                         $collapseId = 'collapse' . $index;
                         ?>

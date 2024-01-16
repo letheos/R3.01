@@ -10,10 +10,6 @@ require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $_SESSION['login'] = "admin";
 
 
@@ -88,14 +84,24 @@ function controllerGetAllParcours(){
 }
 
 /**
+ * @param $formation
+ * @return mixed
+ * Return the value of selectParcours
+ */
+function controllerGetParcours($formation){
+    global $conn;
+    return selectParcours($conn, $formation);
+}
+
+/**
  * @param $conn PDO
  * @return String[]
  * take a PDO connection and return the values of getAllFormation
  */
-function controllerGetAllFormations( ): array
+function controllerGetAllFormations(): array
 {
     global $conn;
-    return getAllFormation($conn);
+    return selectAllFormation($conn);
 }
 
 /**

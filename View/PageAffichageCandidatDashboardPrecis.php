@@ -33,10 +33,11 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
 <body>
 
 <header class="banner">
-    <a class="btn btn-light" href="./dashboard.php?id=<?php echo $idDashboard ?>" style="position: absolute; top: 0; left: 0; display: none;"> Retour au tableau de bord </a>
+    <a class="btn btn-light" href="./dashboard.php?id=<?php echo $idDashboard ?>" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
     <h1>
         Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?>
     </h1>
+
 </header>
 
 <section class="Affiche">
@@ -106,6 +107,7 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                     <?php
                 }
                 ?>
+                <a class="btn btn-outline-primary" href="./PageModifierCandidat.php?id=<?php echo $id ?>"> Modifier le candidat</a>
                 <input type="hidden" id="idCandidate" name="idCandidate" value="<?php echo $id ?>">
                 <input type="hidden" id="idDashboard" name="idDashboard" value="<?php echo $idDashboard ?>">
             </div>

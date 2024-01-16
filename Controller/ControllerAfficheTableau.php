@@ -1,25 +1,23 @@
 <?php
-//TODO efface quand meme si tu dis non
-if (!isset($_SESSION['login'])) {
-    $_SESSION['login'] = "magS";
-}
-$User = $_SESSION['login'];
 
+
+
+if (isset($_SESSION['login'])) {
+    $User = $_SESSION['login'];
+} else {
+    $_SESSION['login'] = "admin";
+    $User = $_SESSION['login'];
+}
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
-
-
 $conn = require "../Model/Database.php";
 
 
 if (isset($_POST['idDashboard'])) {
     $idDashboardForDelette = $_POST['idDashboard'];
-    echo $_POST['idDashboard'];
-
 
     ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
     crumbCollector($conn);
-    ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
     header('location:../View/PageAfficheTableau.php');
 }
 

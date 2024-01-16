@@ -11,7 +11,7 @@ require "../Controller/ControllerModifTableau.php";
 if (isset($_SESSION['login'])) {
     $User = $_SESSION['login'];
 } else {
-    $_SESSION['login'] = "user1";
+    $_SESSION['login'] = "login1";
     $User = $_SESSION['login'];
 }
 if (isset($_SESSION['role'])) {
@@ -32,7 +32,6 @@ $_SESSION['login'] = "admin";
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StylePageAfficheTableau.css">
     <title>Page affiche les tableaux de bord</title>
 </head>
@@ -87,8 +86,8 @@ $_SESSION['login'] = "admin";
                     <form method="post" action="../Controller/ControllerAfficheTableau.php">
                         <!-- mettre en action la fonction supprimer -->
 
-                        <button id="<?= "delete".$idDashboard ?>" class="btnDelete" >supprimer</button>
-                        <input type="hidden" value="<?= $nameOfDashboard  ?>" name="idDashboard">
+                        <button id="<?= "delete".$idDashboard ?>" name="btnDelete" class="btnDelete" >supprimer</button>
+                        <input type="hidden" value="<?=$idDashboard?>" name="idDashboard">
                         <!-- mettre input hidden + validation -->
                         <!-- mettre en action la fonction modifier -->
 

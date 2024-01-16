@@ -1,6 +1,7 @@
 <?php
 require "../Controller/ControllerCommunicationPrecise.php";
 $conn = require "../Model/database.php";
+include "../Controller/traduction.php";
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +27,7 @@ $conn = require "../Model/database.php";
     </form>
 </header>
 
-<?php showComm($conn,$_SESSION["candidate"]); ?>
+<?php showComm($_SESSION["candidate"]); ?>
 
 <section>
     <div id="add">

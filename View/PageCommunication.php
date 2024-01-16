@@ -1,6 +1,7 @@
 <?php
 require "../Controller/ControllerCommunication.php";
 include "../Controller/ControllerAffichage.php";
+include "../Controller/traduction.php";
 $conn = require "../Model/database.php";
 if (!isset($_SESSION["nomr"])) {
     $_SESSION["nomr"] = "%";
@@ -18,6 +19,7 @@ if (!isset($_SESSION["yearr"])) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -57,12 +59,12 @@ if (!isset($_SESSION["yearr"])) {
 
                     <button class="btn btn-outline-primary" type="submit" name="filtrer">Filtrer</button>
                 </div>
-            </section>
+            </section>candidate
         </form>
 </header>
 
 <section class="Candidats">
-<?php showCandidate($conn,$_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);?>
+<?php showCandidate($_SESSION["nomr"],$_SESSION["formationr"], $_SESSION["parcoursr"], $_SESSION["yearr"]);?>
 </section>
 
 

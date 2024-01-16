@@ -34,7 +34,8 @@ if(isset($_POST['filtrer'])){
 }
 
 
-function showCandidate($conn,$name,$formation,$parcours,$year){
+function showCandidate($name,$formation,$parcours,$year){
+    global $conn;
     $results = selectCandidatesByFormationWithParcoursWithYear($conn,$name,$formation,$parcours,$year);
 
     foreach ($results as $row) {

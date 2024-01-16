@@ -15,7 +15,8 @@ $directory = '../upload/';
 
 
 
-function showComm($conn, $idcandidate){
+function showComm($idcandidate){
+    global $conn;
     $results = selectcomm($conn, $idcandidate);
     $candidat = selectCandidatewithId($conn,$idcandidate);
     echo "<h1> Liste des échanges avec " . $candidat[0][0] ."  ". $candidat[0][1] . "</h1>";

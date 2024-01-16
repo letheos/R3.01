@@ -4,7 +4,8 @@
 
 //TODO faire le controller pour pouvoir crée un tableau de bord dans la bdd quand théo aura fini
 //TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
@@ -26,8 +27,10 @@ if(isset($_POST["title"])) {
 
         $isPermis = isset($_POST["isPermis"]) ? 1 : 0;
 
+        $isHeadcount = isset($_POST['isHeadcount']) ? 1 : 0;
+
         //crée un dashbaord et lui ajoute ces parcours
-        $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $_POST['selectedParcours'],$conn);
+        $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $_POST['selectedParcours'],$conn);
 
 
         $roles = [];
@@ -126,7 +129,7 @@ function ControllerGetFormationForADashBoard($idDashBoard): array
     return GetFormationForADashBoard($conn,$idDashBoard);
 
 }
-function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$login,$parcours){
+function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$login,$isHeadcount,$parcours){
     //check si le dashbaord existe déjà si oui juste appelée la fonction qui ajoute un dashboard a un utilisateur
     //sinon crée un nouveau puis l'affectée
     global $conn;
@@ -135,7 +138,7 @@ function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone
 
     }
     else{
-        $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
+        $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone, $isHeadcount, $conn);
         foreach ($parcours as $parcour){
             addFormationNewDashboard($parcour,$conn);
         }
@@ -172,8 +175,8 @@ function ControllerInsertDashboardForUsers($roles,$conn){
 
 }
 
-function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$parcours,$conn){
-    $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$conn);
+function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount, $parcours,$conn){
+    $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount,$conn);
     foreach ($parcours as $parcour){
         addFormationNewDashboard($parcour,$conn,$idDashboard);
     }

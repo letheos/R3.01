@@ -30,7 +30,12 @@ body {
 
 .bottomBanner .buttonActivationCandidates {
     position: relative;
-    left: 1270px; /* Espace à droite par rapport au bord droit du footer */
+    left: 1270; /* Aligné à gauche dans le conteneur parent */
+}
+
+.bottomBanner .buttonActivationHeadcount {
+    position: relative;
+    right: 0; /* Aligné à gauche dans le conteneur parent */
 }
 
 

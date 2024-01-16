@@ -43,7 +43,7 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
 
 <header class="banner">
     <h1>
-        <?php echo isset($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashBoard'] : "UNNAMED" ?>
+        <?php echo !empty($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashBoard'] : "SANS NOM" ?>
     </h1>
 </header>
 
@@ -149,6 +149,11 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     </section>
 
     <footer class="bottomBanner">
+        <?php if (isset($dashboardInfo['isHeadcount'])) : ?>
+            <div class="buttonActivationHeadcount">
+                <button class="btn btn-primary" type="button" name="headcount"> Afficher les effectifs</button>
+            </div>
+        <?php endif; ?>
         <div class="buttonActivationCandidates">
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
         </div>

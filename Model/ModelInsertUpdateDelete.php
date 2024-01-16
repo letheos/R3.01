@@ -18,15 +18,16 @@
  * @param $isIne boolean
  * @param $isAddress boolean
  * @param $isPhone boolean
+ * @param $isHeadcount boolean
  * @param $conn PDO //the connection at the database
  * @return null
  * this funtion insert à new dashboard in the database then a second function add it to the users
  */
-function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $conn)
+function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $conn)
 {
-    $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone) VALUES(?,?,?,?,?);";
+    $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone, isHeadcount) VALUES(?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
-    $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone);
+    $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount);
     $req->execute($params);
     return $conn->lastInsertId();
 }

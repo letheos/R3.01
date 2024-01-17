@@ -234,7 +234,7 @@ function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formatio
  */
 function setAppTrue($conn, $id)
 {
-    $sql = "UPDATE Candidate SET foundApp = 1 WHERE idCandidate=?";
+    $sql = "UPDATE Candidate SET isInActiveSearch = 0, foundApp = 1 WHERE idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return true;
@@ -248,7 +248,7 @@ function setAppTrue($conn, $id)
  */
 function setAppFalse($conn, $id)
 {
-    $sql = "UPDATE Candidate SET foundApp = 0 WHERE idCandidate=?";
+    $sql = "UPDATE Candidate SET isInActiveSearch = 1, foundApp = 0 WHERE idCandidate=?";
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return true;

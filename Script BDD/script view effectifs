@@ -1,0 +1,9 @@
+CREATE VIEW `effectif_formation` AS
+SELECT nameFormationParcours, COUNT(idCandidate) AS effectifFormation
+FROM parcours
+JOIN candidate ON parcours.nameParcours = candidate.nameParcours
+GROUP BY nameFormationParcours;
+
+
+
+CREATE VIEW effectifsparcours as SELECT nameParcours,COUNT(name) as nombreetudiants from candidate GROUP BY nameParcours

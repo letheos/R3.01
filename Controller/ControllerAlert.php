@@ -7,12 +7,12 @@ require "../Model/ModelInsertUpdateDelete.php";
 $_SESSION["login"]="alice.smith";
 
 /**
- * @param PDO $conn
  * @param string $login
  * @return void
  * This function launch a notification, indicating there are reminders
  */
-function RemindAlert(PDO $conn, string $login){
+function RemindAlert(string $login){
+    global $conn;
     if (hasPastAlert($conn,$login)){
         echo "<script>";
         echo "alertToShow();";
@@ -21,14 +21,14 @@ function RemindAlert(PDO $conn, string $login){
 }
 
 /**
- * @param PDO $conn
  * @param string $login
  * @param boolean $future
  * @return array|Exception|false|PDOException
  * This function put all the alerts for a given user depending on future (if true all the alerts/false only past ones)
  */
-function ListAlert(PDO $conn, string $login, bool $future)
+function ListAlert(string $login, bool $future)
 {
+    global $conn;
     if ($future) {
         $results = selectAlert($conn, $login, true);
     } else {

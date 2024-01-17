@@ -60,7 +60,7 @@ if(isset($_SESSION["Future"])){
 
 
             <?php
-            $results=ListAlert($conn,$_SESSION["login"],$f);
+            $results=ListAlert($_SESSION["login"],$f);
             foreach ($results as $row) { ?>
             <div class="alert"> Date :<?=$row[2]?>
                 <br> <p id="lanote"> Note:<?=$row["note"] ?> </p>

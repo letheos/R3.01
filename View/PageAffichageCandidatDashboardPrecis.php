@@ -10,9 +10,10 @@ if(isset($_GET['idCandidate'])){
 
 $idDashboard = $_GET['idDashboard'];
 $result = getStudentId($id);
-$dashboardInfo = getDashboardById($id);
+$dashboardInfo = getDashboardById($idDashboard);
 $alternanceText = ($result['foundApp'] == 0) ? "N'as pas d'alternance" : "A une alternance";
 $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background-color: green;';
+
 
 
 
@@ -33,7 +34,7 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
 <body>
 
 <header class="banner">
-    <a class="btn btn-light" href="./dashboard.php?id=<?php echo $idDashboard ?>" style="position: absolute; top: 0; left: 0;"> Retour au tableau de bord </a>
+    <a class="btn btn-light" href="./dashboard.php?id=<?php echo $idDashboard ?>" style="position: absolute; top: 0; left: 0; display: none"> Retour au tableau de bord </a>
     <h1>
         Candidat : <?php echo $result["firstName"] . " " . $result["name"]; ?>
     </h1>
@@ -69,11 +70,13 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                 <br>
                 Type d'entreprise recherchée : <?php echo $result['typeCompanySearch']; ?>
                 <?php if ($dashboardInfo['isAddress'] != 0): ?>
+                    <br>
                     Adresse : <?php echo $result['addresses']; ?>
                 <?php endif; ?>
                 <br>
                 Zone : <?php echo $result['zones']; ?>
                 <?php if ($dashboardInfo['isPermis'] != 0): ?>
+                    <br>
                     <?php echo ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B"); ?>
                 <?php endif; ?>
                 <br>

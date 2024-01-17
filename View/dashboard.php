@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 require "../Controller/ControllerAffichageEtudiant.php";
 
 
+
 if (isset($_POST['parcours'])) {
     $selectedParcours = $_POST['parcours'];
 } else {
@@ -19,6 +20,7 @@ $courses = [];
 foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     $courses[] = $parcours["nameParcours"];
 }
+
 ?>
 
 <script>
@@ -148,11 +150,88 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
         </div>
     </section>
 
-    <footer class="bottomBanner">
-        <?php if (isset($dashboardInfo['isHeadcount'])) : ?>
-            <div class="buttonActivationHeadcount">
-                <button class="btn btn-primary" type="button" name="headcount"> Afficher les effectifs</button>
+    <!--
+    Code du modal repris de la documentation boostrap : Réadapté par Nathan Strady
+    https://getbootstrap.com/docs/5.0/components/modal/
+    -->
+    <section>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Les effectifs du tableau : <?= !empty($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashBoard'] : "SANS NOM" ?> </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <hr>
+                        <h5> Informations sur tous les candidats</h5>
+                        <hr>
+                        <p>
+                            Nombre de candidats : <?= getNbEtu()['nbEtu']; ?>
+                        </p>
+                        <p>
+                            <span style="color: green"> Actifs : <?= getNbEtuActives()['nbActives']; ?> </span> /
+                            <span style="color: red"> Non-actifs : <?= getNbEtuNotActives()['nbActives']; ?> </span>
+                        </p>
+                        <p>
+                            <span style="color: green"> Alternants : <?= getNbEtuFoundApp()['nbFoundApp']; ?> </span> /
+                            <span style="color: red"> Non-Alternants : <?= getNbEtuNotFoundApp()['nbFoundApp']; ?> </span>
+                        </p>
+                        <hr>
+                        <?php foreach ($dashboardFormations as $formation) {
+                            $nbStudentFormation = getNbEtuPerFormation($formation['nameFormation']);
+                            $nbStudentParcours = getNbEtuPerParcours($formation['nameFormation']);
+                            ?>
+                            <div class="rounded-box">
+                                <hr>
+                                <h5> <?= $formation['nameFormation'] ?> </h5>
+                                <hr>
+                                <p>
+                                    Nombre de candidat.e.s : <?= (isset($nbStudentFormation['effectifFormation'])) ? $nbStudentFormation['effectifFormation'] : "0"; ?>
+                                    <p>
+                                        <span style="color: green"> Alternants : <?= isset($nbStudentFormation['alternants']) ? $nbStudentFormation['alternants'] : 0; ?> </span> /
+                                        <span style="color: red"> Non-Alternants : <?= isset($nbStudentFormation['non_alternants']) ? $nbStudentFormation['non_alternants'] : 0; ?> </span>
+                                    </p>
+                                    <p>
+                                        <span style="color: green">  Actifs  : <?= isset($nbStudentFormation['actifs']) ? $nbStudentFormation['actifs'] : 0; ?> </span> /
+                                        <span style="color: red"> Non-actifs  : <?= isset($nbStudentFormation['inactifs']) ? $nbStudentFormation['inactifs'] : 0; ?> </span>
+                                    </p>
+                                </p>
+                                <ul>
+                                    <?php foreach ($nbStudentParcours as $nbStudent) {
+                                        if (in_array($nbStudent['nameParcours'], $courses)) { ?>
+                                            <li><?= $nbStudent['nameParcours'] ?> Nombre de candidat.e.s: <?= (isset($nbStudent['nombreetudiants'])) ? $nbStudent['nombreetudiants'] : "0"; ?>
+                                                <p>
+                                                    <span style="color: green"> Alternants : <?= isset($nbStudent['alternants']) ? $nbStudent['alternants'] : 0; ?> </span> /
+                                                    <span style="color: red"> Non-Alternants : <?= isset($nbStudent['non_alternants']) ? $nbStudent['non_alternants'] : 0; ?> </span>
+                                                </p>
+                                                <p>
+                                                    <span style="color: green"> Actifs  : <?= isset($nbStudent['actifs']) ? $nbStudent['actifs'] : 0; ?> </span> /
+                                                    <span style="color: red"> Non-actifs  : <?= isset($nbStudent['inactifs']) ? $nbStudent['inactifs'] : 0; ?> </span>
+                                                </p>
+
+                                            </li>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                            <hr>
+                        <?php } ?>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <footer class="bottomBanner">
+        <?php if ($dashboardInfo['isHeadcount'] == 1)  : ?>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Afficher les effectifs
+            </button>
         <?php endif; ?>
         <div class="buttonActivationCandidates">
             <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
@@ -160,7 +239,7 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     </footer>
 </form>
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/js/DashboardAjax.js"></script>
 </body>

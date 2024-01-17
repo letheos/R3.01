@@ -711,3 +711,53 @@ function selectFormationOfDashboard($conn, $id){
     $req->execute(array($id));
     return $req->fetchAll();
 }
+
+function selectNbStudentPerFormation($conn, $formation){
+    $sql = "SELECT effectifFormation, alternants, non_alternants, actifs, inactifs 
+            FROM effectif_formation 
+            WHERE nameFormationParcours = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($formation));
+    return $req->fetch();
+}
+
+function selectNbStudentPerParcours($conn, $formation){
+    $sql = "SELECT ep.nameParcours, ep.nombreetudiants, ep.alternants, ep.non_alternants, ep.actifs, ep.inactifs
+            FROM effectifsparcours ep
+            JOIN parcours p USING (nameParcours)
+            JOIN formation f ON p.nameFormationParcours = f.nameFormation
+            WHERE f.nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($formation));
+    return $req->fetchAll();
+}
+
+function countNbStudentFoundApp($conn, $isFound){
+    $sql="SELECT COALESCE(count(*),0) as nbFoundApp 
+          FROM infocandidate
+          WHERE foundApp = ?";
+    $req = $conn->prepare($sql);
+    $req->execute([$isFound]);
+    return $req->fetch();
+
+}
+
+function countNbStudentActives($conn, $isActive){
+    $sql="SELECT COALESCE(COUNT(*), 0) AS nbActives
+          FROM infocandidate
+          WHERE isInActiveSearch = ?";
+    $req = $conn->prepare($sql);
+    $req->execute([$isActive]);
+    return $req->fetch();
+
+}
+
+function countAllStudents($conn){
+    $sql="SELECT COALESCE(COUNT(*), 0) AS nbEtu
+          FROM effectif_formation;";
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetch();
+}
+
+

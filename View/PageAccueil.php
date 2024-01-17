@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once '../Model/ModelConnexion.php';
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
+
 ?>
 
 <!doctype html>
@@ -31,14 +31,29 @@ include '../Controller/ControllerAccueil.php';
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Tableau de bord <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="PageAfficheTableau.php">Tableau de bord <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="PageProfil.php">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Liste des candidats</a>
+                            <a class="nav-link" href="#"> Liste des candidats </a>
                         </li>
+                        <?php if (ControllerGetRole($_SESSION['login']) == "Admin"): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (ControllerGetRole($_SESSION['login']) == "Admin" || ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </nav>

@@ -46,6 +46,22 @@ $conn = require '../Model/Database.php';
                     <li class="nav-item">
                         <a class="nav-link" href="#">Liste des candidats</a>
                     </li>
+                    <?php if (ControllerGetRole($_SESSION['login']) == "Admin"): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>

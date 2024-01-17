@@ -10,12 +10,7 @@ date_default_timezone_set('Europe/Paris');
  * @return bool
  * This function verify if the login already exists in the database
  */
-function isLoginExist($conn, $login){
-    $req = $conn->prepare("SELECT login FROM Utilisateur WHERE login = ?");
-    $req->execute(array($login));
-    $result = $req->fetch();
-    return $result != null;
-}
+
 
 /**
  * @param $conn : Connection to the database

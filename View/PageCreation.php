@@ -27,7 +27,7 @@
 <header class="banner">
     <form action="PageAccueil.php">
         <h1 class="TexteProfil">
-            Création de profil étudiant
+            Création d'un utilisateur
         </h1>
         <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
         </button>

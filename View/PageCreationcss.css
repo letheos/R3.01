@@ -1,156 +1,104 @@
-.info-bubble {
-    display: none;
-    position: absolute;
-    background-color: #0f94b4;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    z-index: 1;
-}
-
-#password {
-    position: relative;
-}
-
-#password:hover .info-bubble {
-    display: block;
-}
-
-.rounded-box {
-    border: 2px solid deepskyblue;
-    border-radius: 10px;
-    padding: 20px;
-    background: whitesmoke;
-    text : white;
-}
-
-body{
-
-    center : all;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh
-}
-div.alert-danger{
-
-}
-
-.banner h1 {
-    font-size: 30px;
-    color: #eeeeee;
+/* Reset some default browser styles /
+*/
+body, h1, h2, p, form, input, label, select, button {
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 0;
+    font-family: 'Arial', sans-serif;
 }
 
-.banner{
-    background: #0f94b4;
-    width: 100%;
-    margin: 0;
-    padding: 10px;
+
+.banner {
+    background-color: #0f94b4;
+    color: #fff;
     text-align: center;
-}
-
-.bottomBanner{
-    background: #0f94b4;
-    width: 100%;
-    margin: 0;
     padding: 20px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-
-
 }
 
-
-/* Style pour la zone de la liste des formations */
-.formation-list-zone {
-    margin-top: 20px;
-    border: 1px solid #ddd; /* Bordure autour de la zone */
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-
-}
-
-/* Style pour le titre "Ordre des formations" */
-.formation-list-zone header {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-/* Style pour la liste ordonnée (ol) de formations */
-#formation-list {
-    list-style: none; /* Pour supprimer les puces de liste */
-    padding: 0;
-    border: 1px dashed #ccc; /* Bordure pointillée pour la zone de glisser-déposer */
+.btn-light {
     background-color: #fff;
-    min-height: 100px; /* Hauteur minimale pour la zone de glisser-déposer */
-    max-height: 300px; /* Hauteur maximale pour limiter la taille de la zone */
-    overflow-y: auto; /* Ajoute une barre de défilement vertical si la liste dépasse la hauteur maximale */
-    margin-top: 5px; /* Marge en haut de la liste */
+    color: #3498db;
 }
 
-/* Style pour les éléments de la liste ordonnée (li) */
-#formation-list li {
-    background-color: #f9f9f9; /* Couleur de fond des éléments de la liste */
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd; /* Bordure autour des éléments */
-    cursor: move; /* Curseur de type "move" pour indiquer que les éléments sont déplaçables */
-}
-
-/* Style pour l'élément en cours de glissement */
-#formation-list li:active {
-    opacity: 0.6; /* Réduire l'opacité lorsqu'un élément est en cours de glissement */
-}
-
-
-
-.choices-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px; /* Espace entre les colonnes et les lignes */
-}
-
-/* Styles pour la case à cocher "Sélectionner tout" */
-.select-all-conteiner {
-    display: flex;
-    justify-content: center; /* Centrer horizontalement */
-    align-items: center; /* Centrer verticalement */
+.rounded-box {
+    background-color: #ecf0f1;
     padding: 20px;
-}
-
-
-/* Styles pour les cases à cocher */
-.choices input[type="checkbox"] {
-    margin-right: 10px; /* Espace entre la case à cocher et le label */
-}
-
-/* Styles pour les labels */
-.choices label {
-    margin: 0; /* Supprimer toute marge par défaut du label */
-}
-
-.label-select-all{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.rounded-box2 {
-    border: 2px solid deepskyblue;
+    margin: 20px;
     border-radius: 10px;
-    padding: 20px;
-    background: whitesmoke;
-    text : white;
-    max-width: 500px; /* Vous pouvez définir la largeur maximale souhaitée en pixels ou d'autres unités CSS */
-    width: 100%; /* Assure que la div occupe 100% de la largeur de son conteneur */
-    background-color: #e0e0e0; /* Exemple de couleur de fond */
+}
+
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+
+.info-bubble {
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.btn-outline-primary {
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 10px 20px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.alert {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.bottomBanner {
+    background-color: #0f94b4;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+
+    bottom: 0;
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    .rounded-box {
+        margin: 10px;
+    }
 }

@@ -4,8 +4,7 @@
 
 //TODO faire le controller pour pouvoir crée un tableau de bord dans la bdd quand théo aura fini
 //TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 session_start();
 
 require "../Model/ModelSelect.php";
@@ -59,7 +58,6 @@ if(isset($_POST["title"])) {
     }
 
 }
-var_dump($userObject->getLogin());
 
 /**
  * @return int

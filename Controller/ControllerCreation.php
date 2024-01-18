@@ -5,30 +5,13 @@ $objmail = require '../Controller/ControllerMailConfig.php';
 include '../Model/ModelSelect.php';
 include '../Controller/ClassUtilisateur.php';
 
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
-}
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
-}
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
+if(!isset($_SESSION['user'])){
     echo '<script>
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
         </script>';
 }
 
-if ($_SESSION['role'] != "Chef de service") {
-    //$_SESSION['provenance'] = 'Accueil';
-    echo '<script>
-        alert("Votre role ne vous le permet pas");
-        window.location.href = "../View/PageAccueil.php";
-        </script>';
-}
 
 
 
@@ -159,9 +142,11 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         $etu->setLastName($lastName);
         */
 
-        $_SESSION['user']->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole);
 
-        unset($etu);
+        $userObject = unserialize($_SESSION['user']);
+
+        $userObject->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole,$formations);
+
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 
         try{
@@ -200,12 +185,6 @@ if (isset($_POST['login'])) {
     $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['formations'],$_POST['selectRole'],$objmail);
     $_SESSION['message'] = $message;
     $_SESSION['confirmation'] = $_POST['confirmation'];
-    $_SESSION['lastName'] = $_POST['lastName'];
-    $_SESSION['firstName']= $_POST['firstName'];
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['login'] = $_POST['login'];
-    $_SESSION['selectFormation'] = $_POST['selectFormation'];
-    $_SESSION['selectRole'] = $_POST['selectRole'];
     header('Location: ../View/PageCreation.php');
 }
 

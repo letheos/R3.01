@@ -1,12 +1,9 @@
 <?php
-
-
-
-
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";
 
+session_start();
 
 if (isset($_POST['idDashboard'])) {
     $idDashboardForDelette = $_POST['idDashboard'];

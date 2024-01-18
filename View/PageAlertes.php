@@ -15,6 +15,7 @@ if(isset($_SESSION["Future"])){
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="StylePageAlerte.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <title>Alertes</title>
     </head>
     <body>
@@ -30,6 +31,24 @@ if(isset($_SESSION["Future"])){
     </header>
 
         <section class="gestion">
+            <div id="add">
+                <form method="POST" action="../Controller/ControllerAlert.php">
+                    <!-- Add your existing form for adding alerts here -->
+                    <p>Ajouter une nouvelle alerte:</p>
+                    <label>
+                        <input type="date" name="Date" min=<?php echo Date('Y-m-d') ?> value=<?php echo Date('Y-m-d') ?>>
+                    </label>
+                    <label>
+                        <textarea name="Note" maxlength="300" required></textarea>
+                    </label>
+                    <br>
+                    Alerte générale (Tous les utilisateurs seront notifiés):
+                    <label>
+                        <input type='checkbox' name='Global' value='on'>
+                    </label> <br>
+                    <input type='submit' name='Add' value='Ajouter'>
+                </form>
+            </div>
             <div id="show">
                 <form method='POST' action="../Controller/ControllerAlert.php">
                     Montrer alertes prévues
@@ -39,56 +58,39 @@ if(isset($_SESSION["Future"])){
                     <input type='submit' name='Apply' value='Appliquer'>
                 </form>
             </div>
-            <div id="add">
-                <form method="POST" action="../Controller/ControllerAlert.php">
-                    <p>Ajouter une nouvelle alerte:</p>
-                    <label>
-                        <input type="date" name="Date" min= <?php echo Date('Y-m-d')  ?> value=<?php echo Date('Y-m-d') ?> >
-                    </label>
-                    <label>
-                        <textarea name="Note" maxlength="300" required ></textarea>
-                    </label>
-                    <br>
-                    Alerte génerale (Tous les utilisateurs seront notifiés):
-                    <label>
-                        <input type='checkbox' name='Global' value='on'>
-                    </label> <br>
-                    <input type='submit' name='Add' value='Ajouter'>
-                </form>
-            </div>
         </section>
-        <section class="affichage">
 
-
+    <section class="affichage">
+        <div class="alert-box">
             <?php
-            $results=ListAlert($_SESSION["login"],$f);
-            foreach ($results as $row) { ?>
-            <div class="alert"> Date :<?=$row[2]?>
-                <br> <p id="lanote"> Note:<?=$row["note"] ?> </p>
-                <form method="POST" action="../Controller/ControllerAlert.php">
-                    <input type="submit" name="Delete" value="Supprimer" >
-                    <input type="hidden" name="id" value="<?=$row[0]?>" >
+            $results = ListAlert($_SESSION["login"], $f);
+            foreach ($results as $row) {
+                ?>
+                <div class="alert"> Date: <?= $row[2] ?>
+                    <br> <p id="lanote"> Note: <?= $row["note"] ?> </p>
+                    <form method="POST" action="../Controller/ControllerAlert.php">
+                        <input type="submit" name="Delete" value="Supprimer">
+                        <input type="hidden" name="id" value="<?= $row[0] ?>">
                     </form>
                 </div>
             <?php } ?>
-
-        </section>
-    <section class="bas">
-
-        <footer>
-            <div class="nomFooter">
-                <p>
-                    Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-
-                </p>
-            </div>
-            <div class="origineFooter">
-                <p>
-                    2023/2024 UPHF
-                </p>
-            </div>
-        </footer>
-
+        </div>
     </section>
-    </body>
+
+
+    <footer>
+        <div class="bottomBanner">
+            <p>
+                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+
+            </p>
+            <p>
+                2023/2024 UPHF
+            </p>
+        </div>
+
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
 </html>

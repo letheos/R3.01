@@ -13,10 +13,10 @@ body{
 
 }
 
-.affichage{
+.affichage {
     flex: 2;
-    height: 50%;
-
+    height: calc(50% - 10px); /* Ajustez la hauteur en fonction de votre besoin */
+    margin-bottom: 10px; /* Ajoutez une marge inférieure */
 }
 
 .gestion {
@@ -73,7 +73,9 @@ textarea[name=note]
 }
 footer {
     background: #0f94b4;
-    margin-top: auto;
     padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 0; /* Set a lower z-index */
 }
-

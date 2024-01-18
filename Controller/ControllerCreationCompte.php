@@ -29,6 +29,7 @@ TODO : Faire l'utilisation des fonctions dans le model pour insérer les donnée
 
 
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ine = !empty($_POST['INE']) ? $_POST['INE'] : null;
     $typeCompanySearch = !empty($_POST['typeCompanySearch']) ? $_POST['typeCompanySearch'] : null;

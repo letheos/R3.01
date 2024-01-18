@@ -108,18 +108,6 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                     <label for="ine">ine affiché (par défaut non)</label>
 
                 </div>
-                <script>
-                    function updateValue(checkbox) {
-                        var inputElement = document.getElementById('ine');
-
-                        // Si la case à cocher est cochée, utilisez la valeur '1', sinon utilisez une autre valeur
-                        var newValue = checkbox.checked ? '1' : 'valeur_alternative';
-
-                        inputElement.value = newValue;
-
-                        console.log("Nouvelle valeur de la case à cocher : " + newValue);
-                    }
-                </script>
 
                 <div id="checkBoxAddress">
                     <input type="checkbox" id="address" name="isAddress" value="1"  >
@@ -142,29 +130,6 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
             </div>
         </div>
             <form method="post" action="../Controller/ControllerCreationTableau.php">
-                <div class="column">
-                    <div class="rounded-box"  <?= ($user->getRole() != 'Admin') ? 'style="display: none;"' : '' ?> >
-                        <h2>Role à inclure dans la création du tableau de bord</h2>
-
-
-                        <input type="checkbox" id="secretaire" name="secretaire" value="secretaire"  >
-                        <label for="secretaire"> inclure secretaire</label>
-                        <br>
-
-                        <input type="checkbox" id="Admin" name="Admin" value="secretaire">
-                        <label for="Admin"> inclure Admin</label>
-                        <br>
-
-                        <input type="checkbox" id="role2" name="role2" value="role2">
-                        <label for="role2"> inclure role2</label>
-                        <br>
-
-                        <input type="checkbox" id="role3" name="role3" value="role3">
-                        <label for="role3"> inclure role3</label>
-                        <br>
-
-                    </div>
-                </div>
 
 
     <div class=column>

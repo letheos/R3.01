@@ -68,6 +68,7 @@ $user = $_SESSION['user'];
                             <?php
                         }
                         unset($_SESSION["erreur"]);
+                        session_destroy();
                     }
                     ?>
 

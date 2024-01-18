@@ -6,11 +6,14 @@
 //TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
 
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 include "../Controller/ClassUtilisateur.php";
 $conn = require "../Model/Database.php";
+
+$userObject = unserialize($_SESSION['user']);
 
 
 if(isset($_POST["title"])) {
@@ -29,9 +32,10 @@ if(isset($_POST["title"])) {
 
         //crée un dashbaord et lui ajoute ces parcours
         $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $_POST['selectedParcours'],$conn);
+        //rajoute le dashbaord uniquement à l'utilisateur connecté
+        ControllerAddDashBoardForUser($conn,$idDashBoard,$userObject->getLogin());
 
-
-        $roles = [];
+        /*$roles = [];
         //vérifie que un des role est selectionner au moins
         if(isset($_POST['secretaire']) or isset($_POST['Admin']) or isset($_POST['role2']) or isset($_POST['role3']) ){
             if (isset($_POST['secretaire'])) {
@@ -48,18 +52,14 @@ if(isset($_POST["title"])) {
             foreach ($users as $user){
                 //leur ajoute le dashbaord
                 ControllerAddDashBoardForUser($conn,$idDashBoard,$user);
-            }
+            }*/
 
 
-        } else{
-            //rajoute le dashbaord uniquement à l'utilisateur connecté
-            ControllerAddDashBoardForUser($conn,$idDashBoard,$_SESSION['login']);
-        }
          header('location:../View/PageAfficheTableau.php');
     }
 
 }
-
+var_dump($userObject->getLogin());
 
 /**
  * @return int

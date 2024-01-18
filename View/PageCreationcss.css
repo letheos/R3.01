@@ -141,3 +141,16 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.rounded-box2 {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text : white;
+    max-width: 500px; /* Vous pouvez définir la largeur maximale souhaitée en pixels ou d'autres unités CSS */
+    width: 100%; /* Assure que la div occupe 100% de la largeur de son conteneur */
+    background-color: #e0e0e0; /* Exemple de couleur de fond */
+    padding: 10px;
+    text-align: center;
+}

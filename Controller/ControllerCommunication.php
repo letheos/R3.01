@@ -1,6 +1,6 @@
 <?php
 require "../Model/ModelInsertUpdateDelete.php";
-$conn = require "../Model/database.php";
+$conn = require "../Model/Database.php";
 
 session_start();
 

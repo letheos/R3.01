@@ -188,6 +188,24 @@ function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formatio
 
     return $res;
 }
+
+function addInterUser($conn, $pswrd, $lastname, $firstname, $email, $login, $role, $formation)
+{
+
+
+    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
+    $res = $conn->prepare($requete);
+    $newpswrd = password_hash($pswrd, PASSWORD_DEFAULT);
+
+    try {
+        $res->execute(array($login, $newpswrd, $firstname, $lastname, $role, $formation, $email, null, null));
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    return $res;
+}
 /**
  * @param $conn : Connection to the database
  * @param $login : User login
@@ -481,5 +499,32 @@ function setAppFalse($conn, $id)
     $req = $conn->prepare($sql);
     $req->execute(array($id));
     return true;
+}
+
+
+function addrolesbdd($conn,$login,$formations)
+{
+    $requete = "Insert into formationsutilisateurs values (?,?)";
+    $res = $conn->prepare($requete);
+    try{
+        for ($x = 0; $x < count($formations); $x++) {
+            $res->execute(array($login, $formations[$x]));
+        }}
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+function adduserbdd($conn,$pswrd,$lastname,$firstname,$email,$login,$role){
+
+    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,null,null)";
+    $res = $conn->prepare($requete);
+    $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
+
+    try{
+        $res->execute(array($login,$newpswrd,$lastname,$firstname,$role,$email));
+    }catch (PDOException $e){
+        $e->getMessage();
+    }
 }
 

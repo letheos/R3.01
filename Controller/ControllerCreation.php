@@ -3,6 +3,7 @@ session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
 include '../Model/ModelSelect.php';
+include '../Controller/ClassUtilisateur.php';
 
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
@@ -23,29 +24,22 @@ function sendmailinscription($mail,$emailuser){
         print_r($exception->getMessage());
     }
 }
-function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$role,$objmail)
+
+function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$formations,$role,$objmail)
 {
     //on modifie la valeur de formaiton selon la valeur selectionnée dans la formation
-    if( $_POST['selectFormation'] == "mph"){
-        $formation = 'mph';
-    }
-    elseif ($_POST['selectFormation'] == "BUT informatique"){
-        $formation = 'Computer Science';
-    }
-    if (!($_POST)['selectFormation']){
-        $formation = null;
+    if (empty($formation)){
+        $nameFormation = null;
+    }else{
+        $nameFormation = $formation;
     }
 
 
     //on modifie la valeur de role selon le role sélectionné dans le select
-    if ($_POST['role'] == "Chef de département"){
-        $role = 1;
-    }
-    elseif ($_POST['role'] == 'Secrétaire'){
-        $role = 2;
-    }
-    elseif ($_POST['role'] == 'Chargé de développement'){
-        $role = 3;
+    if (empty($role)){
+        $idRole = null;
+    }else{
+        $idRole = $role;
     }
 
 
@@ -60,13 +54,10 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
     if ($pswd != $confirmation) {
         $Errormsg="les deux mots de passe doivent être identiques";
 
-
         // on vérifie que le nom de famille contient un caractère spécial
     } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
     )) {
         $Errormsg = "Le nom contient un caractère spécial";
-
-
 
         // on vérifie si le nom contient un chiffre
     } elseif (preg_match("/[0-9]/", $lastName
@@ -74,20 +65,16 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         $Errormsg =
             "Le nom contient un chiffre";
 
-
         //on vérifie si le prénom contient un caractère spécial
     } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $firstName
     )) {
         $Errormsg =
             "Le prénom contient un caractère spécial";
 
-
-
         // on vérifie si le prénom contient un chiffre
     } elseif (preg_match("/[0-9]/", $firstName
     )) {
         $Errormsg = "Le prénom contient un chiffre";
-
 
         //on vérifie que le mot de passe ne contienne pas un caractère interdit
     } elseif (preg_match('/[;\'"]/', $pswd
@@ -95,14 +82,10 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         $Errormsg =
             "Le mot de passe contient un caractère interdit";
 
-
-
         //on regarde si le mot de passe contient bien un caractère spécial
     } elseif (!preg_match('/[^A-Za-z0-9"\'\,\;]/', $pswd
     )) {
         $Errormsg = "Le mot de passe doit au moins comprendre un caractère spécial";
-
-
 
         // on vérifie que le mot de passe contient bien un chiffre
     } elseif (!preg_match("/[0-9]/", $pswd
@@ -110,14 +93,11 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         $Errormsg =
             "Le mot de passe doit au moins comprendre un chiffre";
 
-
-
         // on vérifie que tout les critères sont remplis
     } elseif ($pswd
         == null || $confirmation == null || $lastName == null || $mail == null || $mail == null || $login == null || $formation == null) {
         $Errormsg =
             "Tous les champs de texte doivent être remplis";
-
 
     }
 
@@ -129,18 +109,31 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 
     //on vérifie dans la base de donnée si l'utilisateur concerné n'existe pas déja
     elseif(exist($conn,$mail,$login) == true){
-        $Errormsg = "l'utilisateur existe déja";
+        $Errormsg = "L'utilisateur existe déjà";
         //continuer bdd et ajouter personne a la bdd quand il n'existe pas
 
     }
-
     else {
         //nous avons passé toutes les conditions , on renvoie donc un message de succès
-        $sucessMessage = "Enregistré avec succès";
+        $sucessMessage = 'Enregistré avec succès !';
         /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
-        echo "je vais essayer d'ajouter";
 
-        addbdd($conn,$pswd,$lastName,$firstName,$mail,$login,$role,$formation);
+        //Creation du candidat
+
+        $etu = new Utilisateur($login,$pswd,$firstName,$lastName,$idRole,$mail,$conn,$formations);
+
+        /*
+        $etu->setConn($conn);
+        $etu->setIdRole($idRole);
+        $etu->setNameFormation($nameFormation);
+        $etu->getLogin($login);
+        $etu->setPassword($pswd);
+        $etu->setEmail($mail);
+        $etu->setFirstName($firstName);
+        $etu->setLastName($lastName);
+        */
+
+        $etu->createUser();
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 
         try{
@@ -167,8 +160,16 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 <?php
 
 if (isset($_POST['login'])) {
+    /** TODO:
+    -Remplacer les infos de sessions afin d'y stocker uniquement un objet Utilisateur
+    -Finir la classe Candidat
+    -Modifier l'enregistrement d'un candidat via la classe Candidat
+    -Commenter les fonctions
+    -Règler les quelques bugs existants
+     **/
+
     //on vérifie que les critères rentrés par l'utilisateur sont valides et si c'est le cas on l'enregistre dans la base
-    $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['selectRole'],$objmail);
+    $message = registerCreation($conn,$_POST['pswd'], $_POST['confirmation'], $_POST['lastName'], $_POST['firstName'], $_POST['email'], $_POST['login'], $_POST['selectFormation'],$_POST['formations'],$_POST['selectRole'],$objmail);
     $_SESSION['message'] = $message;
     $_SESSION['confirmation'] = $_POST['confirmation'];
     $_SESSION['lastName'] = $_POST['lastName'];
@@ -188,13 +189,14 @@ function affichageRadioButton($conn){
         $formationName = $rows['nameFormation'];
 
         echo '<label class="choices">';
-        echo '<input type="checkbox" id="' . $formationName . '" name="'. $formationName .'" value="' . $formationName . '">';
+        echo '<input type="checkbox"" name="formations[]" value="' . $formationName . '">';
         echo $formationName;
         echo '</label>';
     };
 }
 
-function displayformations($conn) {
+function displayformations($conn)
+{
     $formations = selectAllFormation($conn);
 
     foreach ($formations as $row) {
@@ -203,7 +205,6 @@ function displayformations($conn) {
         echo $name;
     }
 }
-
 
 ?>
 

@@ -1,8 +1,13 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require "../Controller/ControllerCommunication.php";
-include "../Controller/ControllerAffichage.php";
-include "../Controller/traduction.php";
+require "../Controller/ControllerParcoursAffichage.php";
+//include "../Controller/traduction.php";
 $conn = require "../Model/Database.php";
+
 
 if (!isset($_SESSION["nomr"])) {
     $_SESSION["nomr"] = "%";
@@ -17,6 +22,7 @@ if (!isset($_SESSION["yearr"])) {
     $_SESSION["yearr"] = "%";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,13 +47,18 @@ if (!isset($_SESSION["yearr"])) {
 
                 <div class="selection">
                     <label for="formation" class="form-select-label"> Département </label>
-                    <?php
-                    listAffichageSelect($conn);
-                    ?>
                     <label for="parcours" class="form-select-label"> Parcours </label>
-                    <select class="form-select" name="parcours" id="parcours" >
-                        <option value="" selected disabled> Choisir un parcours </option>
-                        <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
+                    <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
+                        <option value="" selected="selected" disabled> Choisir la formation </option>
+                        <?php $formations = getAllFormation();
+                        $selected = '';
+                        $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
+                        foreach ($formations as $formation)
+                        {
+                            $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : '';?>
+                        <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option><?php
+                        } ?>
+                        <option value="Aucune Option" > Aucune Option </option>
                     </select>
                     <label for="year" class="form-select-label"> Année de formation</label>
                     <select class="form-select" name="year" id="year">

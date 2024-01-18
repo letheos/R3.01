@@ -1,11 +1,16 @@
 <?php
-session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerAlert.php";
 $f=false;
 if(isset($_SESSION["Future"])){
     $f=$_SESSION["Future"];
 }
+
+$user = unserialize($_SESSION['user']);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -63,7 +68,7 @@ if(isset($_SESSION["Future"])){
     <section class="affichage">
         <div class="alert-box">
             <?php
-            $results = ListAlert($_SESSION["login"], $f);
+            $results = ListAlert($user->getLogin(), $f);
             foreach ($results as $row) {
                 ?>
                 <div class="alert"> Date: <?= $row[2] ?>

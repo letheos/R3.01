@@ -3,13 +3,16 @@ session_start();
 $conn = require "../Model/Database.php";
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
+include "../Controller/ClassUtilisateur.php";
 
-if (empty($_SESSION)) {
+if (empty($_SESSION['user'])) {
     echo '<script>
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
         </script>';
 }
+
+$user = unserialize($_SESSION['user']);
 
 /**
  * @param string $login
@@ -62,14 +65,14 @@ if(isset($_POST['Add'])){
     }
     else{
 
-        addAlert($conn, $_SESSION["login"], $_POST['Date'], $_POST['Note']);
+        addAlert($conn, $user->getLogin(), $_POST['Date'], $_POST['Note']);
     }
     header('Location: ../View/PageAlertes.php');
     die();
 }
 
 if(isset($_POST['Delete'])){
-    deleteAlert($conn,$_POST['id'],$_SESSION['login']);
+    deleteAlert($conn,$_POST['id'],$user->getLogin());
     header('Location: ../View/PageAlertes.php');
     die();
 }

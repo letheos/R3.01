@@ -47,6 +47,9 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
     <h1>
         <?php echo !empty($dashboardInfo['nameOfDashBoard']) ? $dashboardInfo['nameOfDashBoard'] : "SANS NOM" ?>
     </h1>
+    <form action="PageAfficheTableau.php">
+        <button  >Retourner voir les autres tableaux de bords</button>
+    </form>
 </header>
 
 <form id="filter-form" method="POST" action="../View/dashboard.php?id=<?php echo $idDashboard ?>">

@@ -4,11 +4,6 @@ session_start();
 
 
 
-if(isset($_SESSION['role'])){
-    $Role = $_SESSION['role'];
-}else{
-    $Role = $_SESSION['role'] = 'admin';
-}
 
 ?>
 
@@ -37,12 +32,11 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 <body>
 
 <header class="banner">
-    <form>
+    <form action="PageAccueil.php">
         <h1 class="TexteProfil">
-            Création de tableau de bord
+            Affichage des tableaux de bord
         </h1>
-        <button class="btn btn-light" type="submit" name="retourAccueil"
-                onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
         </button>
     </form>
     <form action="PageAfficheTableau.php">

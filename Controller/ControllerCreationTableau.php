@@ -58,14 +58,9 @@ if(isset($_POST["title"])) {
             ControllerAddDashBoardForUser($conn,$idDashBoard,$_SESSION['login']);
         }
          header('location:../View/PageAfficheTableau.php');
-    } else {
-        var_dump($_POST);
     }
 
-} else {
-    var_dump($_POST);
 }
-
 
 
 /**

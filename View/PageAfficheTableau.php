@@ -7,20 +7,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require "../Controller/ControllerModifTableau.php";
 
-/*
-if (isset($_SESSION['login'])) {
-    $User = $_SESSION['login'];
-} else {
-    $_SESSION['login'] = "user1";
-    $User = $_SESSION['login'];
-}
-if (isset($_SESSION['role'])) {
-    $Role = $_SESSION['role'];
-} else {
-    $_SESSION['role'] = 'User';
-    $Role = $_SESSION['login'];
-}
-*/
 
 
 ?>
@@ -38,12 +24,11 @@ if (isset($_SESSION['role'])) {
 <body>
 
 <header class="banner">
-    <form>
+    <form action="PageAccueil.php">
         <h1 class="TexteProfil">
             Affichage des tableaux de bord
         </h1>
-        <button class="btn btn-light" type="submit" name="retourAccueil"
-                onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
         </button>
     </form>
 

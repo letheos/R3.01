@@ -1,12 +1,9 @@
 <?php
 require "../Controller/ControllerModifTableau.php";
-//empécher de modifier les dashboard par défault si l'utilisateur est pas admin
+
 session_start();
 $conn = require "../Model/Database.php";
-if (isset($_POST['ine']) and isset($_POST['address']) and isset($_POST['phone']) and isset($_POST['permis'])) {
-    //fonction qui change les valuers et je l'appelle la avec les valeurs en paramètres
-    //condition php avec un $_POST qui appelle une fonction js
-}
+
 
 
 error_reporting(E_ALL);

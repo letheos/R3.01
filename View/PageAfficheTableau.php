@@ -21,7 +21,6 @@ if (isset($_SESSION['role'])) {
     $Role = $_SESSION['login'];
 }
 */
-$_SESSION['login'] = "admin";
 
 
 ?>

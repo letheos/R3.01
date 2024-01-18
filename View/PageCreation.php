@@ -9,16 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="PageCreationcss.css">
-    <script ref=".."></script>
+
     <title>Page création utilisateur</title>
 
-    <script src="../Controller/jsCreation.js"></script>
+    <script src = "../Controller/jsCreation.js"></script>
     <?php session_start();
     include '../Controller/ControllerCreation.php';
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     $conn = require '../Model/Database.php';
     ?>
+
 </head>
 
 <body>
@@ -56,7 +57,7 @@
 
 
             <!-- partie prénom de l'inscription-->
-            <div name="divPrenom">
+            <div name="divPrenom" id="divPrenom">
                 <label for="firstName">Prenom</label>
                 <input type="text" name="firstName"
                        value="<?php echo isset($_SESSION['firstName']) ? $_SESSION['firstName'] : ''; ?>"><br>
@@ -163,6 +164,7 @@
             if ($message === "Enregistré avec succès") {
             // si le message correspond à "Enregistré avec succès" alors on crée  une alert success qui génère une boite de couleur verte
             ?>
+
             <div class="alert alert-success" name="messageSuccesInscription">
                 <?php
                 } else {
@@ -195,7 +197,7 @@
 
         </p>
         <p>
-            <a href="https://www.uphf.fr/"  > site uphf </a> </p>
+            <a href="https://www.uphf.fr/"> site uphf </a></p>
     </div>
     <div class="origineFooter">
         <p>

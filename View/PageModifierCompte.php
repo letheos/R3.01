@@ -1,7 +1,14 @@
 <?php
 //session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once '../Controller/ControllerModifierCompte.php';
 $conn = require '../Model/Database.php';
+
+$user = unserialize($_SESSION['user']);
+
+
 ?>
 
 <!doctype html>
@@ -28,7 +35,7 @@ $conn = require '../Model/Database.php';
 <section class="display">
 
     <div class="rounded-box">
-        <?php showProfileInfos($conn,$_SESSION['login']) ?>
+        <?php showProfileInfos($conn,$user->getLogin()) ?>
     </div>
 
 </section>

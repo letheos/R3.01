@@ -54,7 +54,11 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2>Choix des parcours</h2>
                 <div class="accordion" id="choicesDep">
                     <?php
-                    $formations = controllerGetAllFormations();
+                    if($_SESSION['user']->getRole() == "Chef de service"){
+                        $formations = getAllFormation();
+                    }else{
+                        $formations = $_SESSION['user']->getLesFormations();
+                    }
                     if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
                         $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
                     }

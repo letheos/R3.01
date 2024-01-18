@@ -36,7 +36,12 @@ require "../Controller/ControllerAffichageEtudiant.php";
                 <label for="formation" class="form-select-label"> Département </label>
                 <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                     <option value="" selected="selected" disabled> Choisir la formation </option>
-                    <?php $formations = getAllFormation();
+                    <?php
+                    if($_SESSION['user']->getRole() == "Chef de service"){
+                        $formations = getAllFormation();
+                    }else{
+                        $formations = $_SESSION['user']->getLesFormations();
+                    }
                     $selected = '';
                     $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
                     foreach ($formations as $formation)

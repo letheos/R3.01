@@ -64,11 +64,11 @@ function getFormationWithCoditions($conn, $formation)
  * this function take in parameter the id of a user and a connection to the database
  * return the user
  */
-function getUserWithId($idUser,$conn)
+function getUserWithId($idUser, $conn)
 {
     $sql = "SELECT * FROM Utilisateur WHERE login = ?";
     $req = $conn->prepare($sql);
-    $req->execute($idUser);
+    $req->execute(array($idUser));
     return $req->fetchall();
 }
 
@@ -1103,4 +1103,12 @@ function getFormationByLoginUtilisateur($conn,$login){
     $req = $conn->prepare($sql);
     $req->execute(array($login));
     return $req->fetchAll();
+}
+
+function getFormationOfUser($conn, $login)
+{
+    $sql = "SELECT formationname FROM formationsutilisateurs WHERE loginutilisateur = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($login));
+    return $req->fetchall();
 }

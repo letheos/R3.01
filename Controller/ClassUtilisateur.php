@@ -1,15 +1,13 @@
 <?php
-include '../Model/ModelInsertUpdateDelete.php';
 
-class Utilisateur{
+
+class Utilisateur implements Serializable {
     private $login;
     private $password;
     private $firstName;
     private $lastName;
-    private $idRole;
-    private $nameFormation;
+    private $role;
     private $email;
-    private $conn;
     private $lesFormations;
 
     /**
@@ -17,23 +15,21 @@ class Utilisateur{
      * @param $password
      * @param $firstName
      * @param $lastName
-     * @param $idRole
-     * @param $nameFormation
+     * @param $role
      * @param $email
-     * @param $conn
      * @param $lesFormations
      */
-    public function __construct($login, $password, $firstName, $lastName, $idRole, $email, $conn,$lesFormations)
+    public function __construct($login, $password, $firstName, $lastName, $role, $email,$lesFormations)
     {
         $this->login = $login;
         $this->password = $password;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->idRole = $idRole;
+        $this->role = $role;
         $this->email = $email;
-        $this->conn = $conn;
         $this->lesFormations = $lesFormations;
     }
+
 
 
     /**
@@ -103,34 +99,20 @@ class Utilisateur{
     /**
      * @return mixed
      */
-    public function getIdRole()
+    public function getRole()
     {
-        return $this->idRole;
+        return $this->role;
     }
 
     /**
      * @param mixed $idRole
      */
-    public function setIdRole($idRole)
+    public function setRole($role)
     {
-        $this->idRole = $idRole;
+        $this->role = $role;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNameFormation()
-    {
-        return $this->nameFormation;
-    }
 
-    /**
-     * @param mixed $nameFormation
-     */
-    public function setNameFormation($nameFormation)
-    {
-        $this->nameFormation = $nameFormation;
-    }
 
     /**
      * @return mixed
@@ -148,31 +130,44 @@ class Utilisateur{
         $this->email = $email;
     }
 
+
     /**
      * @return mixed
      */
-    public function getConn()
+    public function getLesFormations()
     {
-        return $this->conn;
+        return $this->lesFormations;
     }
 
     /**
-     * @param mixed $conn
+     * @param mixed $lesFormations
      */
-    public function setConn($conn)
+    public function setLesFormations($lesFormations): void
     {
-        $this->conn = $conn;
+        $this->lesFormations = $lesFormations;
     }
 
-    public function createUser(){
+
+
+    public function createUser($password,$lastName,$firstName,$email,$login,$idRole,$lesFormations){
         try {
-            adduserbdd($this->conn,$this->password,$this->lastName,$this->firstName,$this->email,$this->login,$this->idRole);
-            addrolesbdd($this->conn,$this->login,$this->lesFormations);
+            require '../Model/ModelInsertUpdateDelete.php';
+            $conn = require '../Model/Database.php';
+            adduserbdd($conn,$password,$lastName,$firstName,$email,$login,$idRole);
+            addrolesbdd($conn,$login,$lesFormations);
         }catch (Exception $e ){
             header('Location: ControllerMailConfig.php');
         }
     }
 
 
+    public function serialize()
+    {
+        return serialize([$this->login, $this->password, $this->firstName, $this->lastName, $this->role, $this->email,$this->lesFormations]);
+    }
 
+    public function unserialize($data)
+    {
+        list($this->login,$this->password, $this->firstName, $this->lastName, $this->role, $this->email,$this->lesFormations) = unserialize($data);
+    }
 }

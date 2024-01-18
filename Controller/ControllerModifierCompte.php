@@ -1,8 +1,14 @@
 <?php
 session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
 $conn = require '../Model/Database.php';
+include '../Controller/ClassUtilisateur.php';
+$user = unserialize($_SESSION['user']);
 
 /**
  * @param $conn : Connection to the database
@@ -10,17 +16,7 @@ $conn = require '../Model/Database.php';
  * Αυτή η λειτουργία θα εμφανίσει όλες τις πληροφορίες του χρήστη
  */
 
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
-}
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
-}
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
+if(!isset($_SESSION['user'])){
     echo '<script>
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
@@ -45,7 +41,8 @@ if(isset($_POST['submit'])){
     if(!empty($_POST['lastName']) || !empty($_POST['firstName']) || !empty($_POST['login']) || !empty($_POST['mail'])) {
         if (!empty($_POST['lastName'])) {
             if(!preg_match('/[^A-Za-z0-9"\'\,\;]/',$_POST['lastName']) && !preg_match("/[0-9]/", $_POST['lastName'])) {
-                modifLastName($conn, $_SESSION['login'], $_POST['lastName']);
+                modifLastName($conn, $user->getLogin(), $_POST['lastName']);
+                $user->setLastName($_POST['lastName']);
             }else{
                 $validite = false;
                 echo '<script>
@@ -55,7 +52,8 @@ if(isset($_POST['submit'])){
         }
         if (!empty($_POST['firstName'])) {
             if(!preg_match('/[^A-Za-z0-9"\'\,\;]/',$_POST['firstName']) && !preg_match("/[0-9]/", $_POST['firstName'])) {
-                modifFirstName($conn, $_SESSION['login'], $_POST['firstName']);
+                modifFirstName($conn, $user->getLogin(), $_POST['firstName']);
+                $user->setFirstName($_POST['firstName']);
             }else{
                 $validite = false;
                 echo '<script>
@@ -65,11 +63,13 @@ if(isset($_POST['submit'])){
         }
         if(!empty($_POST['mail'])){
             if(filter_var($_POST['mail'],FILTER_VALIDATE_EMAIL)) {
-                modifEmail($conn, $_SESSION['login'], $_POST['mail']);
+                modifEmail($conn, $user->getLogin(), $_POST['mail']);
+                $user->setEmail($_POST['mail']);
             }
         }
         if (!empty($_POST['login'])) {
-            modifLogin($conn, $_SESSION['login'], $_POST['login']);
+            modifLogin($conn, $user->getLogin(), $_POST['login']);
+            $user->setLogin($_POST['login']);
             echo '<script>
             alert("Veuillez vous reconnecter");
             window.location.href = "../Controller/logout.php";

@@ -147,7 +147,6 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 
         //Creation du candidat
 
-        $etu = new Utilisateur($login,$pswd,$firstName,$lastName,$idRole,$mail,$conn,$formations);
 
         /*
         $etu->setConn($conn);
@@ -160,7 +159,9 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         $etu->setLastName($lastName);
         */
 
-        $etu->createUser();
+        $_SESSION['user']->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole);
+
+        unset($etu);
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 
         try{

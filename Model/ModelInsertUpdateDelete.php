@@ -835,8 +835,12 @@ function modifFirstName($conn,$login,$firstName){
 }
 
 function modifLogin($conn,$oldLogin,$newLogin){
-    $req = $conn->prepare("UPDATE Utilisateur SET login = ? WHERE login = ?");
-    $req->execute(array($newLogin,$oldLogin));
+    $req = $conn->prepare("UPDATE formationsutilisateurs 
+                            JOIN Utilisateur on login = loginutilisateur
+                            SET loginutilisateur = ?,login = ?
+                            WHERE loginutilisateur = ?");
+    $req->execute(array($newLogin,$newLogin,$oldLogin));
+
 }
 function modifEmail($conn,$login,$mail)
 {

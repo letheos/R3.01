@@ -2,7 +2,8 @@
 session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
-
+include '../Controller/ClassUtilisateur.php';
+$user = unserialize($_SESSION['user']);
 ?>
 
 <!doctype html>
@@ -17,7 +18,7 @@ include '../Controller/ControllerAccueil.php';
 <script src="../Controller/ControllerAccueilJS.js"></script>
     <header class="banner">
         <h1>
-            Bienvenue dans votre accueil M/Mme <?php getFirstName($conn,$_SESSION['login']) ?>
+            Bienvenue dans votre accueil M/Mme <?php echo $user->getFirstName() ?>
         </h1>
     </header>
     <section class="barreNavigation">
@@ -42,17 +43,17 @@ include '../Controller/ControllerAccueil.php';
                         <li class="nav-item">
                             <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                         </li>
-                        <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service"): ?>
+                        <?php if ($user->getRole() == "Chef de service"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                             </li>
                         <?php endif; ?>
-                        <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service" || ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                        <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                             </li>
                         <?php endif; ?>
-                        <?php if (ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                        <?php if ($user->getRole() == "Secretaire"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
                             </li>

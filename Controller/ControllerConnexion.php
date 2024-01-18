@@ -1,8 +1,9 @@
 <?php
-
+include 'ClassUtilisateur.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+session_start();
 
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
@@ -13,22 +14,6 @@ $ip = $_SERVER['REMOTE_ADDR'];
 $nbTentative = nbTentative($conn,$ip);
 $nbTentativeDDOS = securityDDOS($conn, $ip);
 
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
-}
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
-}
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}
 
 //Cas où les forms sont vides
 if ($_POST['login'] == null || $_POST['password'] == null ) {
@@ -82,19 +67,27 @@ if (!searchUserHash($conn, $_POST['login'], $_POST['password'])){
     header('Location: ../View/PageConnexion.php');
     exit();
 }
-
+/*
 if (isset($_SESSION['provenance']) && $_SESSION['provenance'] == 'Accueil') {
     echo '<script>
         alert("Veuillez vous connecter");
         </script>';
-}
+}*/
 
 //Connection à la session
 session_start();
 addTentativeIp($conn,$ip,1);
 deleteTentativeIp($conn,$ip);
-$_SESSION["login"] = $_POST['login'];
-$_SESSION["password"] = $_POST['password'];
+
+$user = getUserWithId($_POST['login'],$conn);
+
+$userFormation = getFormationOfUser($conn,$_POST['login']);
+$role = getRole($conn,$_POST['login']);
+
+$userObject = new Utilisateur($_POST['login'],$_POST['password'],$user[0]['firstName'],$user[0]['userName'],$user[0]['idRole'],$user[0]['email'],$userFormation);
+$_SESSION['user'] = serialize($userObject);
+
+var_dump(isset($_SESSION['user']));
 header("location: ../View/PageAccueil.php");
 
 

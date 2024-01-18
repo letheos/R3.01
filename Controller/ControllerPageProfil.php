@@ -8,6 +8,7 @@ include '../Model/ModelSelect.php';
  * This function will show all the infos recovered by the sql query
  */
 
+/*
 //On passe la valeur a null si elle n'existe pas
 if(!isset($_SESSION["login"])){
     $_SESSION['login'] = null;
@@ -23,7 +24,7 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
         </script>';
-}
+}*/
 
 function showProfile($conn,$login){
     $result = showUserProfile($conn,$login);

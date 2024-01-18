@@ -2,6 +2,8 @@
 session_start();
 include '../Controller/ControllerPageProfil.php';
 $conn = require '../Model/Database.php';
+include '../Controller/ClassUtilisateur.php';
+$user = unserialize($_SESSION['user']);
 ?>
 
 <!doctype html>
@@ -49,7 +51,7 @@ $conn = require '../Model/Database.php';
                     <li class="nav-item">
                         <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                     </li>
-                    <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service"): ?>
+                    <?php if ($user->getRole() == "Chef de service"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                         </li>
@@ -57,7 +59,7 @@ $conn = require '../Model/Database.php';
                             <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                         </li>
                     <?php endif; ?>
-                    <?php if (ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                    <?php if ($user->getRole() == "Secretaire"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                         </li>
@@ -76,7 +78,7 @@ $conn = require '../Model/Database.php';
         <br>
         <br>
         <div class="rounded-box">
-            <?php showProfile($conn,$_SESSION['login']); ?>
+            <?php showProfile($conn,$user->getLogin()); ?>
             <button class="btn btn-outline-primary" type="submit" name="modifierMotdePasse">Modifier mot de passe</button>
             <br>
         </div>

@@ -151,11 +151,11 @@ class Utilisateur implements Serializable {
 
     public function createUser($password,$lastName,$firstName,$email,$login,$idRole,$lesFormations){
         try {
-            require '../Model/ModelInsertUpdateDelete.php';
+            require_once '../Model/ModelInsertUpdateDelete.php';
             $conn = require '../Model/Database.php';
             adduserbdd($conn,$password,$lastName,$firstName,$email,$login,$idRole);
             addrolesbdd($conn,$login,$lesFormations);
-        }catch (Exception $e ){
+        }catch (PDOException $e ){
             header('Location: ControllerMailConfig.php');
         }
     }

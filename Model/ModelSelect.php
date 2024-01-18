@@ -1113,3 +1113,12 @@ function getFormationOfUser($conn, $login)
     $req->execute(array($login));
     return $req->fetchall();
 }
+
+function getIdRoleByName($conn,$nameRole){
+    $sql = "SELECT idRole FROM role WHERE nameRole = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($nameRole));
+    return $req->fetchColumn();
+}
+
+

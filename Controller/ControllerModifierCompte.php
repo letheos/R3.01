@@ -68,8 +68,12 @@ if(isset($_POST['submit'])){
             }
         }
         if (!empty($_POST['login'])) {
+            $user->createUser($user->getPassword(),$user->getLastName(),$user->getFirstName(),$user->getEmail(),$_POST['login'],$user->getRole(),$user->getLesFormations());
             modifLogin($conn, $user->getLogin(), $_POST['login']);
+            modifLoginDashboard($conn,$user->getLogin(),$_POST['login']);
+            deleteUserByLogin($conn,$user->getLogin());
             $user->setLogin($_POST['login']);
+
             echo '<script>
             alert("Veuillez vous reconnecter");
             window.location.href = "../Controller/logout.php";
@@ -94,6 +98,8 @@ if(isset($_POST['submit'])){
         </script>';
     }
 }
+
+
 
 
 

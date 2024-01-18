@@ -662,6 +662,30 @@ function updateIneCandidate($conn, $id, $ine)
 
 /**
  * @param $conn PDO
+ * @param $login String
+ * @param $formations Array
+ * @return void
+ * This function insert all the formations with th correct login
+ */
+function addrolesbdd($conn,$login,$formations)
+{
+    $requete = "Insert into formationsutilisateurs values (?,?)";
+    $res = $conn->prepare($requete);
+    try{
+        for ($x = 0; $x < count($formations); $x++) {
+            $res->execute(array($login, $formations[$x]));
+        }}
+    catch (Exception $e) {
+        echo '<script>
+            alert("Veuillez vous reconnecter");
+            window.location.href = "../Controller/logout.php";
+            </script>';
+    }
+}
+
+
+/**
+ * @param $conn PDO
  * @param $id int
  * @param $cvPath String
  * @return true
@@ -703,40 +727,7 @@ function deleteZone($conn, $idZone)
     return true;
 }
 
-function addbdd($conn,$pswrd,$lastname,$firstname,$email, $login,$role,$formation){
-    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
-    $res = $conn->prepare($requete);
-    $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
 
-    try {
-        $res->execute(array($login,$newpswrd,$firstname,$lastname,$role,$formation,$email,null,null));
-
-    }
-    catch (PDOException $e){
-        echo $e->getMessage();
-    }
-
-    return $res;
-}
-
-
-function addInterUser($conn, $pswrd, $lastname, $firstname, $email, $login, $role, $formation)
-{
-
-
-    $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,?,?,?)";
-    $res = $conn->prepare($requete);
-    $newpswrd = password_hash($pswrd, PASSWORD_DEFAULT);
-
-    try {
-        $res->execute(array($login, $newpswrd, $firstname, $lastname, $role, $formation, $email, null, null));
-
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-
-    return $res;
-}
 /**
  * @param $conn : Connection to the database
  * @param $login : User login
@@ -835,13 +826,20 @@ function modifFirstName($conn,$login,$firstName){
 }
 
 function modifLogin($conn,$oldLogin,$newLogin){
-    $req = $conn->prepare("UPDATE formationsutilisateurs 
-                            JOIN Utilisateur on login = loginutilisateur
-                            SET loginutilisateur = ?,login = ?
-                            WHERE loginutilisateur = ?");
-    $req->execute(array($newLogin,$newLogin,$oldLogin));
-
+    $req = $conn->prepare("UPDATE formationsutilisateurs SET loginutilisateur = ? WHERE loginutilisateur = ?");
+    $req->execute(array($newLogin,$oldLogin));
 }
+
+function modifLoginDashboard($conn,$oldLogin,$newLogin){
+    $req = $conn->prepare("UPDATE userdashboard SET login = ? WHERE login = ?");
+    $req->execute(array($newLogin,$oldLogin));
+}
+
+function deleteUserByLogin($conn,$login){
+    $req = $conn->prepare("DELETE FROM utilisateur WHERE login = ?");
+    $req->execute(array($login));
+}
+
 function modifEmail($conn,$login,$mail)
 {
     $req = $conn->prepare("UPDATE Utilisateur SET email = ? WHERE login = ?");
@@ -980,29 +978,19 @@ function updateComm($conn,$commid,$newmsg)
 }
 
 
-function addrolesbdd($conn,$login,$formations)
-{
-    $requete = "Insert into formationsutilisateurs values (?,?)";
-    $res = $conn->prepare($requete);
-    try{
-        for ($x = 0; $x < count($formations); $x++) {
-            $res->execute(array($login, $formations[$x]));
-        }}
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-}
+
 
 function adduserbdd($conn,$pswrd,$lastname,$firstname,$email,$login,$role){
 
     $requete = "Insert into utilisateur VALUES (?,?,?,?,?,?,null,null)";
-    $res = $conn->prepare($requete);
     $newpswrd = password_hash($pswrd,PASSWORD_DEFAULT);
+    $res = $conn->prepare($requete);
 
     try{
         $res->execute(array($login,$newpswrd,$lastname,$firstname,$role,$email));
-    }catch (PDOException $e){
-        $e->getMessage();
+    }catch (PDOException $e) {
+        header('Location: ../Model/Database.php');
+        echo "Erreur de requête SQL : " . $e->getMessage();
     }
 }
 

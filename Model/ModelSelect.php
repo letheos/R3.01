@@ -515,3 +515,36 @@ function isInActiveSearch($conn,$id){
     $req->execute(array($id));
     return $req->fetch();
 }
+
+function selectComm($conn,$idcandidate){
+    $sql = "Select note,dateCommunication,idmessage,img from communication where idCandidate=?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idcandidate));
+    return $req->fetchall();
+}
+
+function selectCandidatewithName($conn,$firstname,$lastname){
+    $sql = "Select name,firstname,idcandidate from Candidate where firstname ILIKE ? or Candidate.name ILIKE ?;";
+    $req = $conn->prepare($sql);
+    $req->execute(array($firstname,$lastname));
+    return $req->fetchall();
+}
+
+function selectCandidatewithId($conn,$idcandidate){
+    $sql = "Select name,firstname from Candidate where idcandidate = ?;";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idcandidate));
+    return $req->fetchall();
+}
+
+
+
+function selectCandidatesByFormationWithParcoursWithYear($conn,$name,$formation, $parcours, $yearOfFormation){
+    $sql = "SELECT name,firstname,idCandidate FROM infoCandidate
+            WHERE (name ilike ? or firstname ilike ?)  AND nameParcours like ? AND yearOfFormation like ? and nameformation like ?;";
+    $req = $conn->prepare($sql);
+    $req->execute(array($name,$name, $parcours, $yearOfFormation,$formation));
+    return $req->fetchAll();
+}
+
+

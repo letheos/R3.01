@@ -291,3 +291,66 @@ function deleteCandidate($conn, $id){
     $sqlReq3->execute(array($id));
 }
 
+/**
+ * @param $conn
+ * @param $id
+ * @param $note
+ * @param $img
+ * @return Exception|PDOException|void
+ * this function adds a communication
+ */
+function addCommunication($conn,$id,$note,$img){
+    try {
+        if(is_null($img)) {
+
+            $sql = "INSERT INTO Communication (idcandidate,dateCommunication,note) VALUES (?,current_timestamp,?)";
+            $req = $conn->prepare($sql);
+            $req->execute(array($id, $note));
+        }
+        else{
+            $sql = "INSERT INTO Communication (idcandidate,dateCommunication,img) VALUES (?,current_timestamp,?)";
+            $req = $conn->prepare($sql);
+            $req->execute(array($id, $img));
+        }
+    }
+    catch (PDOException $e) {
+        return $e;
+    }
+}
+
+/**
+ * @param $conn
+ * @param $commid
+ * @return Exception|PDOException|void
+ * this function delete every sign of a communication
+ */
+function deleteCommunication($conn,$commid){
+    try {
+        $sql = "DELETE FROM Communication WHERE idmessage = ?";
+        $req = $conn->prepare($sql);
+        $req->execute(array($commid));
+    }
+    catch (PDOException $e) {
+        return $e;
+    }
+}
+
+/**
+ * @param $conn
+ * @param $commid
+ * @param $newmsg
+ * @return Exception|PDOException|void
+ This function update a communication (only a text, not a picture)
+ */
+function updateComm($conn,$commid,$newmsg)
+{
+    try{
+        $sql = "UPDATE Communication SET note = ? , dateCommunication = current_timestamp where idmessage = ?";
+        $req = $conn->prepare($sql);
+        $req->execute(array($newmsg,$commid));
+    }
+    catch (PDOException $e) {
+        return $e;
+    }
+}
+

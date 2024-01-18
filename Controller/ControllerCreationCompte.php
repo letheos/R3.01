@@ -27,12 +27,6 @@ TODO : Faire la gestion et l'affichage des erreurs du form DONE
 TODO : Faire l'utilisation des fonctions dans le model pour insérer les données en cas de réussite DONE
 */
 
-if (empty($_SESSION['user'])) {
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -104,9 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-
-
-    session_start();
     $_SESSION['message'] = $msg;
     $_SESSION['success'] = $success;
     header("Location: ../View/PageCreationCompte.php");

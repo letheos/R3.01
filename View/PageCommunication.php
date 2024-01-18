@@ -1,9 +1,16 @@
 <?php
-
-
 require "../Controller/ControllerCommunication.php";
 require "../Controller/ControllerAffichageEtudiant.php";
 
+
+if (empty($_SESSION['user'])) {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
+
+$user = unserialize($_SESSION['user']);
 
 
 ?>
@@ -37,10 +44,10 @@ require "../Controller/ControllerAffichageEtudiant.php";
                 <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                     <option value="" selected="selected" disabled> Choisir la formation </option>
                     <?php
-                    if($_SESSION['user']->getRole() == "Chef de service"){
+                    if($user->getRole() == "Chef de service"){
                         $formations = getAllFormation();
                     }else{
-                        $formations = $_SESSION['user']->getLesFormations();
+                        $formations = $user->getLesFormations();
                     }
                     $selected = '';
                     $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';

@@ -2,9 +2,12 @@
 require "../Controller/ControllerCommunicationPrecise.php";
 $conn = require "../Model/database.php";
 include "../Controller/traduction.php";
+include "../Controller/ClassUtilisateur.php";
 
 $_SESSION['idCandidate'] = $_GET["id"];
 
+
+$user = unserialize($_SESSION['user']);
 
 ?>
 
@@ -16,6 +19,7 @@ $_SESSION['idCandidate'] = $_GET["id"];
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="StylePageCommunicationPrecise.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>Echange</title>
 </head>
 <body>
@@ -24,10 +28,7 @@ $_SESSION['idCandidate'] = $_GET["id"];
         <h1 class="TexteProfil">
             Communication
         </h1>
-        <button class="btn btn-light" type="submit" name="retourAccueil"
-                onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
-
-        </button>
+        <a class="btn btn-light" href="./PageCommunication.php" style="position: absolute; top: 0; left: 0;"> Retour à l'affichage candidat </a>
     </form>
 </header>
 
@@ -73,6 +74,6 @@ $_SESSION['idCandidate'] = $_GET["id"];
     </footer>
 
 </section>
+<script src="../Controller/js/ControllerCommunicationJS.js"></script>
 </body>
 </html>
-<script src="../Controller/js/ControllerCommunicationJS.js"></script>

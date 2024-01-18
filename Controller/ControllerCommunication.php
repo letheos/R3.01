@@ -4,7 +4,7 @@ $conn = require "../Model/Database.php";
 
 session_start();
 
-if (empty($_SESSION)) {
+if (empty($_SESSION['user'])) {
     echo '<script>
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";

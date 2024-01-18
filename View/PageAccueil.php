@@ -52,7 +52,7 @@ $user = unserialize($_SESSION['user']);
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                             </li>
                         <?php endif; ?>
-                        <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
+                        <?php if ($user->getRole() == "Admin" || $user->getRole() == "Secretaire"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                             </li>

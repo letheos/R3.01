@@ -8,17 +8,18 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
-
-$msg = "erreur script";
-$success = 0;
-$directory = '../upload/';
-
-if (empty($_SESSION)) {
+if (empty($_SESSION['user'])) {
     echo '<script>
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
         </script>';
 }
+
+
+$msg = "erreur script";
+$success = 0;
+$directory = '../upload/';
+
 
 
 function showComm($idcandidate){

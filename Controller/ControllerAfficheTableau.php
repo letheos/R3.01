@@ -21,26 +21,6 @@ if (isset($_POST['idDashboard'])) {
 }
 
 
-/*
-echo '<script>alert(" avant")</script>';
-if(isset($_POST['idDashboard'])) {
-    echo '<script>alert("après")</script>';
-
-    if($_POST['validation'] == '1'){
-        ControllerDeleteDashBoard($_POST['idDashboard'],  $_SESSION['login']);
-        //crumbCollector($conn);
-        echo '<script>alert(" validation")</script>';
-    } else{
-        echo '<script>alert("pas validation")</script>';
-    }
-
-    //$idDashboardForDelette = $_POST['idDashboard'];
-    //echo $_POST['idDashboard'];
-
-
-    header('location:../View/PageAfficheTableau.php');
-}
-
 /**
  * @param $login String
  * @return String[]
@@ -79,6 +59,10 @@ function getDashboardById($id){
     return selectDashboardById($conn, $id);
 }
 
+/**
+ * @return void
+ * this function call a other function that has for gool to remove all the dashbaord that are own by nobody
+ */
 function ControllerDeletteAllDashbaord(){
     global $conn;
     deleteAllOldDashBoard($conn);

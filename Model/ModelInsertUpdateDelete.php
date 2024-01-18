@@ -136,14 +136,16 @@ function crumbCollector($conn)
 function deleteAllOldDashBoard($conn)
 {
     $idOldDashBoard = crumbCollector($conn);
+    //get all the id's dashbaord that nobody own
     if (empty($idOldDashBoard)) {
         return null;
     }
-
     foreach ($idOldDashBoard as $id) {
-        if(hasFormation($id['idDashBoard'], $conn)){
+        //if it has at least one formation connect to it, remove it
+        if(hasParcours($id['idDashBoard'], $conn)){
             suprAllParcourDashboard($id['idDashBoard'], $conn);
         }
+        //delete it
         deleteDashBoard($id['idDashBoard'], $conn);
     }
 }
@@ -152,8 +154,9 @@ function deleteAllOldDashBoard($conn)
  * @param $idDashbaord
  * @param $conn
  * @return bool
+ * This function return true if the dashbaord pass in parameter has at least one parcours connect at it
  */
-function hasFormation($idDashbaord,$conn){
+function hasParcours($idDashbaord,$conn){
     $sql = "SELECT COUNT(nameParcours) FROM dashboardparcours WHERE idDashBoard = ? GROUP BY idDashBoard";
     $req = $conn->prepare($sql);
     $req->execute(array($idDashbaord));

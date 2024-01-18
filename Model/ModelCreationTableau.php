@@ -194,18 +194,7 @@ function getParcoursWithConditions($conn, $parcours)
     return $req->fetchall();
 }
 
-/**
- * @param $conn PDO
- * @return String[]
- * take a PDO connexion and return all the formation in the databse
- */
-function getAllFormation($conn)
-{
-    $sql = "SELECT * FROM formation";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    return $req->fetchall();
-}
+
 
 /**
  * @param $conn PDO
@@ -327,17 +316,3 @@ function selectdashboardid($conn,$title,$ispermis,$isine,$isadress,$isPhone){
     }
 }
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<?php $conn = require "Database.php";
-selectdashboardid($conn,'dashboard1',1,1,1,1); ?>
-</body>
-</html>

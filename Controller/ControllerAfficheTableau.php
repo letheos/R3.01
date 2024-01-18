@@ -15,9 +15,8 @@ $conn = require "../Model/Database.php";
 
 if (isset($_POST['idDashboard'])) {
     $idDashboardForDelette = $_POST['idDashboard'];
-
     ControllerDeleteDashBoard($idDashboardForDelette, $_SESSION['login']);
-    crumbCollector($conn);
+    ControllerDeletteAllDashbaord();
     header('location:../View/PageAfficheTableau.php');
 }
 
@@ -80,3 +79,7 @@ function getDashboardById($id){
     return selectDashboardById($conn, $id);
 }
 
+function ControllerDeletteAllDashbaord(){
+    global $conn;
+    deleteAllOldDashBoard($conn);
+}

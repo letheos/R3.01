@@ -68,9 +68,9 @@ function insertDashboardForRole($idRole,$idDashboard,$conn){
 function deleteDashBoard($idDashBoard, $conn)
 {
     try {
-        $sql = "DELETE FROM dashBoard WHERE idTableauDeBord = ?;";
+        $sql = "DELETE FROM dashBoard WHERE idDashBoard = ?;";
         $req = $conn->prepare($sql);
-        $req->execute($idDashBoard);
+        $req->execute(array($idDashBoard));
     } catch (PDOException $e) {
         return $e->getMessage();
     }
@@ -136,20 +136,15 @@ function crumbCollector($conn)
 function deleteAllOldDashBoard($conn)
 {
     $idOldDashBoard = crumbCollector($conn);
-    print_r($idOldDashBoard);
     if (empty($idOldDashBoard)) {
         return null;
     }
-    printf($idOldDashBoard);
+
     foreach ($idOldDashBoard as $id) {
-        //enleve les formation
-        echo '<script>alert("dans for each")</script>';
         if(hasFormation($id['idDashBoard'], $conn)){
-            deleteFormationDashboard($id['idDashBoard'], $conn);
+            suprAllParcourDashboard($id['idDashBoard'], $conn);
         }
-        echo '<script>alert("delete formdash")</script>';
         deleteDashBoard($id['idDashBoard'], $conn);
-        echo '<script>alert("delete")</script>';
     }
 }
 

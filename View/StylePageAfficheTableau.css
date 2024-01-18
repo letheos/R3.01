@@ -7,7 +7,7 @@ cursor: text;
     color: #eeeeee;
 }
 
-.banner{
+.banner {
     background: #0f94b4;
     width: 100%;
     margin: 0;
@@ -16,24 +16,32 @@ cursor: text;
 }
 
 .rounded-box {
+    box-sizing: border-box; /* Include padding and border in the box sizing calculation */
     border: 2px solid deepskyblue;
     border-radius: 10px;
     padding: 20px;
     background: whitesmoke;
-    text: white;
-    max-width: 33%;
-
+    color: black; /* Fix the property name from text to color */
+    width: 30%; /* Adjust the width as needed */
+    flex: 1; /* Distribute available space evenly among items */
+    margin: 0 10px 20px; /* Adjust margin for spacing between items */
+    max-width: calc(20% - 20px);
+    min-width: calc(20% - 20px); /* Ensure a minimum width for single items */
+    min-inline-size: 400px;
 
 }
-
+/*
 .modif {
     position: fixed;
     right: 100;
 
 }
 
+ */
+
 .theDashBoards {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 50px;
     margin-top: 50px;

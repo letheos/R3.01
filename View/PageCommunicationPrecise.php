@@ -2,6 +2,10 @@
 require "../Controller/ControllerCommunicationPrecise.php";
 $conn = require "../Model/database.php";
 include "../Controller/traduction.php";
+
+$_SESSION['idCandidate'] = $_GET["id"];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +31,7 @@ include "../Controller/traduction.php";
     </form>
 </header>
 
-<?php showComm($_SESSION["candidate"]); ?>
+<?php showComm($_SESSION['idCandidate']); ?>
 
 <section>
     <div id="add">

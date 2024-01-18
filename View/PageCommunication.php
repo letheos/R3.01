@@ -5,19 +5,6 @@ require "../Controller/ControllerCommunication.php";
 require "../Controller/ControllerAffichageEtudiant.php";
 
 
-if (!isset($_SESSION["nomr"])) {
-    $_SESSION["nomr"] = "%";
-}
-if (!isset($_SESSION["formationr"])) {
-    $_SESSION["formationr"] = "%";
-}
-if (!isset($_SESSION["parcoursr"])) {
-    $_SESSION["parcoursr"] = "%";
-}
-if (!isset($_SESSION["yearr"])) {
-    $_SESSION["yearr"] = "%";
-}
-
 
 ?>
 

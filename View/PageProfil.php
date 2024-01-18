@@ -40,10 +40,10 @@ $user = unserialize($_SESSION['user']);
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Tableau de bord <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="PageAfficheTableau.php">Tableau de bord </a>
                     </li>
                     <li class="nav-item">
-                        <a id="maPage" class="nav-link active font-weight-bold" href="PageProfil.php">Profil</a>
+                        <a class="nav-link" href="PageProfil.php">Profil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="PageAlertes.php"> Notifications </a>
@@ -51,18 +51,20 @@ $user = unserialize($_SESSION['user']);
                     <li class="nav-item">
                         <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>
+                    </li>
                     <?php if ($user->getRole() == "Chef de service"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                         </li>
+                    <?php endif; ?>
+                    <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                         </li>
                     <?php endif; ?>
-                    <?php if ($user->getRole() == "Secretaire"): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
-                        </li>
+                    <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
                         </li>

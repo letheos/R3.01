@@ -3,7 +3,14 @@ require "../Controller/ControllerCreationTableau.php";
 session_start();
 
 
+if (empty($_SESSION['user'])) {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
 
+$user = unserialize($_SESSION['user']);
 
 ?>
 
@@ -54,10 +61,10 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2>Choix des parcours</h2>
                 <div class="accordion" id="choicesDep">
                     <?php
-                    if($_SESSION['user']->getRole() == "Chef de service"){
-                        $formations = getAllFormation();
+                    if($user->getRole() == "Admin"){
+                        $formations = controllerGetAllFormations();
                     }else{
-                        $formations = $_SESSION['user']->getLesFormations();
+                        $formations = $user->getLesFormations();
                     }
                     if(isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])){
                         $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
@@ -136,8 +143,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
         </div>
             <form method="post" action="../Controller/ControllerCreationTableau.php">
                 <div class="column">
-                    <div class="rounded-box"  <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
-                        <!-- si l'utilisateur est pas admin il ne peut pas crée de tableau pour tout le monde -->
+                    <div class="rounded-box"  <?= ($user->getRole() != 'Admin') ? 'style="display: none;"' : '' ?> >
                         <h2>Role à inclure dans la création du tableau de bord</h2>
 
 
@@ -171,7 +177,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
 <div class="column">
     <div class="rounded-box">
-        <label for="title" >entrée le nom du tableau de bord</label>
+        <label for="title" >Entrer le nom du tableau de bord</label>
         <input id="title" name="title" type="text">
     </div>
 </div>

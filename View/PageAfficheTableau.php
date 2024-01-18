@@ -1,11 +1,21 @@
 <?php
 //TODO mettre dans la sessions les parametres du tableau de bord si tu clique sur modifier ou les envoyer en post
 session_start();
-
+include '../Controller/ClassUtilisateur.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 require "../Controller/ControllerModifTableau.php";
+
+if (empty($_SESSION['user'])) {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
+
+$user = unserialize($_SESSION['user']);
 
 
 
@@ -40,7 +50,7 @@ require "../Controller/ControllerModifTableau.php";
 <section class="theDashBoards">
     <div class="row">
     <?php
-    $dashboards = ControllerGetDashBoardPerUser($_SESSION['login']);
+    $dashboards = ControllerGetDashBoardPerUser($user->getLogin());
     foreach ($dashboards as $dashboard) {
             $idDashboard = $dashboard['idDashBoard'];
             $nameOfDashboard = $dashboard['nameOfDashBoard'];

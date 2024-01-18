@@ -2,27 +2,11 @@
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
-}
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
-}
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}
+
 
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
     if(isset($_POST['validate'])){
-
         ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard'],isset($_POST['graphe']));
         ControllerUpdateParcoursDashBoard($_POST['selectedParcours'],$_POST['idDashboard'],$_POST['choix']);
         header('location:../View/PageAfficheTableau.php');

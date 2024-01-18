@@ -1,6 +1,20 @@
 <?php
 include "../Controller/ControllerAffichageEtudiant.php";
 
+
+//Cette condition sert à verifier que la personne accedant a la page d'accueil
+if (empty($_SESSION['user'])) {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
+
+
+$user = unserialize($_SESSION['user']);
+
+
+
 ?>
 
 <!doctype html>
@@ -32,10 +46,10 @@ include "../Controller/ControllerAffichageEtudiant.php";
             <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                 <option value="" selected="selected" disabled> Choisir la formation </option>
                 <?php
-                if($_SESSION['user']->getRole() == "Chef de service"){
+                if($user->getRole() == "Chef de service"){
                     $formations = getAllFormation();
                 }else{
-                    $formations = $_SESSION['user']->getLesFormations();
+                    $formations = $user->getLesFormations();
                 }
 
                 $selected = '';

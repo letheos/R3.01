@@ -72,6 +72,7 @@ function getUserWithId($idUser, $conn)
     return $req->fetchall();
 }
 
+
 /**
  * @param $conn PDO
  * @param $role array

@@ -4,6 +4,7 @@ $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
 include '../Controller/ClassUtilisateur.php';
 $user = unserialize($_SESSION['user']);
+
 ?>
 
 <!doctype html>
@@ -43,6 +44,9 @@ $user = unserialize($_SESSION['user']);
                         <li class="nav-item">
                             <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>
+                        </li>
                         <?php if ($user->getRole() == "Chef de service"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
@@ -53,7 +57,7 @@ $user = unserialize($_SESSION['user']);
                                 <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                             </li>
                         <?php endif; ?>
-                        <?php if ($user->getRole() == "Secretaire"): ?>
+                        <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
                             </li>

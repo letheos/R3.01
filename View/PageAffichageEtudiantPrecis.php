@@ -1,10 +1,11 @@
 <?php
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerAffichageEtudiantPrecis.php";
-
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+
+
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
@@ -95,14 +96,12 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                 </div>
             </form>
             <?php
-            session_start();
             if(isset($_SESSION["message"])){ ?>
                 <div class="alert alert-success">
                 <?php echo $_SESSION["message"]; ?>
                 </div>
                 <?php
             }
-                session_destroy();
             ?>
         </div>
     </section>

@@ -3,6 +3,14 @@
  * Controller du fichier de modification Candidat
  * @author Nathan Strady
  */
+session_start();
+
+if (empty($_SESSION['user'])) {
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
 
 //Appel des fichiers importants
 $conn = require "../Model/Database.php";
@@ -18,25 +26,9 @@ $success = 1;
 $directory = '../upload/';
 
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
-}
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
-}
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}
+
+
 
 
 //Récupère l'id dans l'url
@@ -177,7 +169,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($success == 1){
         $msg = "Modification(s) réalisée(s) avec succès ! ";
-        session_start();
         $_SESSION['message'] = $msg;
         header("Location: ../View/PageAffichageEtudiantPrecis.php?id=$id");
     } else {

@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 require_once '../Controller/ControllerModifierCompte.php';
 $conn = require '../Model/Database.php';
 
+
 $user = unserialize($_SESSION['user']);
 
 

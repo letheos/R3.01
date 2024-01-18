@@ -15,6 +15,7 @@ $directory = '../upload/';
 
 
 
+
 function showComm($idcandidate){
     global $conn;
     $results = selectcomm($conn, $idcandidate);
@@ -73,7 +74,7 @@ if (isset($_FILES['imgbutton'])) {
 }
 if(isset($_POST["Voir"])){
     $_SESSION["candidate"]=$_POST["idcandidate"];
-    header('Location: ../View/PageCommunicationPrecise.php');
+    header('Location: ../View/PageCommunicationPrecise.php?id='.$_SESSION['idCandidate']);
     die();
 
 }
@@ -82,29 +83,29 @@ if(isset($_POST["Voir"])){
 
 if(isset($_POST['Add'])) {
     if (($_POST['Note']!="") && $success==1) {
-        addCommunication($conn, $_SESSION['candidate'], $_POST['Note'], $uploadFile);
+        addCommunication($conn, $_SESSION['idCandidate'], $_POST['Note'], $uploadFile);
         echo $_POST['imgbutton'];
     }
     else if ($_POST['Note']!="") {
-        addCommunication($conn, $_SESSION['candidate'], $_POST['Note'],null);
+        addCommunication($conn, $_SESSION['idCandidate'], $_POST['Note'],null);
 
     } else if ($success==1){
-        addCommunication($conn, $_SESSION['candidate'], null, $uploadFile);
+        addCommunication($conn, $_SESSION['idCandidate'], null, $uploadFile);
 
     }
-    header('Location: ../View/PageCommunicationPrecise.php');
+    header('Location: ../View/PageCommunicationPrecise.php?id='.$_SESSION['idCandidate']);
     die();
 }
 
 
 if(isset($_POST["la"])){
     updateComm($conn,$_POST["idmessage"],$_POST["la"]);
-    header('Location: ../View/PageCommunicationPrecise.php');
+    header('Location: ../View/PageCommunicationPrecise.php?id='.$_SESSION['idCandidate']);
     die();
 }
 
 if(isset($_POST["Delete"])){
     deleteCommunication($conn,$_POST["idmessage"]);
-    header('Location: ../View/PageCommunicationPrecise.php');
+    header('Location: ../View/PageCommunicationPrecise.php?id='.$_SESSION['idCandidate']);
     die();
 }

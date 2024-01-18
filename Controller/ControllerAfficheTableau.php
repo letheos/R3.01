@@ -2,12 +2,7 @@
 
 
 
-if (isset($_SESSION['login'])) {
-    $User = $_SESSION['login'];
-} else {
-    $_SESSION['login'] = "admin";
-    $User = $_SESSION['login'];
-}
+
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";

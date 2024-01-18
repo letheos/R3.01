@@ -102,6 +102,7 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                 </div>
                 <?php
             }
+            unset($_SESSION["message"]);
             ?>
         </div>
     </section>

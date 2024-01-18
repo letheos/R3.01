@@ -99,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    session_start();
     $_SESSION['message'] = $msg;
     $_SESSION['success'] = $success;
     header("Location: ../View/PageCreationCompte.php");

@@ -71,8 +71,8 @@ $user = unserialize($_SESSION['user']);
                         </div>
                         <?php
                     }
-                    unset($_SESSION["erreur"]);
-                    session_destroy();
+                    unset($_SESSION["message"]);
+
                 }
                 ?>
 

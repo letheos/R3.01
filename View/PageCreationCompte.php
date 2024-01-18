@@ -45,16 +45,18 @@ $user = $_SESSION['user'];
 </head>
 
 <body>
-
+<header class="banner">
+    <h1>
+        Création d'un Candidat
+    </h1>
+</header>
     <section>
             <div class="rounded-box">
                 <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php" enctype="multipart/form-data">
                 <header>
-                    <h1>
-                        Création d'un Candidat
-                    </h1>
                     <span class="text-danger">Champs obligatoire(*)</span>
                 </header>
+
                     <?php
                     if(isset($_SESSION["message"])){
                         if ($_SESSION['success'] == 0) {?>
@@ -67,8 +69,7 @@ $user = $_SESSION['user'];
                             </div>
                             <?php
                         }
-                        unset($_SESSION["erreur"]);
-                        session_destroy();
+                        unset($_SESSION["message"]);
                     }
                     ?>
 
@@ -133,6 +134,7 @@ $user = $_SESSION['user'];
                     </header>
 
                     <div class="adressForm">
+                        <p> Adresse 1 </p>
                         <div class="adressFormTemplate">
                             <div class="form-group">
                                 <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
@@ -203,21 +205,6 @@ $user = $_SESSION['user'];
                 </div>
 
 
-                     <!-- Commentaire temporaire, demande avis client
-                    <div class=select-all-container">
-                         <label class="label-select-all">
-                             <input class="select-all" type="checkbox" id="select-all" name="select-all"> Sélectionner tout
-                         </label>
-                    </div>
-
-                    <div class="rounded-box formation-list-zone" style="display: none;">
-                        <header>Ordre des formations</header>
-                        <ol id="formation-list" draggable="true" style="display: none;">
-                        </ol>
-                    </div>
-                    -->
-
-
                 <div class="rounded-box">
                     <header class="rounded-box-title">
                         Entreprises
@@ -253,12 +240,16 @@ $user = $_SESSION['user'];
 
     </section>
 
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <!-- <script src="../Controller/js/ControllerAjaxCreationCandidat.js"></script> -->
     <!-- <script src="../Controller/js/ControllerDrag&DropList.js"></script> -->
     <script src="../Controller/js/ControllerBoutonAjout.js"></script>
     <script src="../Controller/js/Ajax.js"></script>
     <script src="../Controller/js/processFormNumber.js"></script>
+
 </body>
 </html>
 

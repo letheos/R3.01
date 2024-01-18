@@ -1,3 +1,16 @@
+
+<?php
+session_start();
+include '../Controller/ControllerCreation.php';
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$conn = require '../Model/Database.php';
+
+$user = unserialize($_SESSION['user']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,12 +26,6 @@
     <title>Page création utilisateur</title>
 
     <script src = "../Controller/jsCreation.js"></script>
-    <?php session_start();
-    include '../Controller/ControllerCreation.php';
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-    $conn = require '../Model/Database.php';
-    ?>
 
 </head>
 
@@ -177,6 +184,7 @@
                     if ($_SESSION['message'] != null) {
                         echo $_SESSION['message'];
                     }
+                    unset($_SESSION["message"]);
                     ?>
                 </div>
                 <?php

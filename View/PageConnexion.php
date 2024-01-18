@@ -35,7 +35,7 @@ session_start();
     
             <?php
                 unset($_SESSION["erreur"]);
-                session_destroy();
+
             }
             ?>
             </form>

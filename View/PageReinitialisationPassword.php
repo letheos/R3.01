@@ -55,7 +55,6 @@ if ($expire <= time()) {
 
                 <?php
                 unset($_SESSION["erreur"]);
-                session_destroy();
             }
             ?>
         </form>

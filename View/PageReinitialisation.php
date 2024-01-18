@@ -33,7 +33,6 @@
 
                 <?php
                 unset($_SESSION["erreur"]);
-                session_destroy();
             }
             if (isset($_SESSION["success"])) {?>
                 <div class="alert alert-success">
@@ -41,7 +40,6 @@
                 </div>
                 <?php
                 unset($_SESSION["success"]);
-                session_destroy();
             }
             ?>
         </form>

@@ -47,7 +47,7 @@ $user = unserialize($_SESSION['user']);
                         <li class="nav-item">
                             <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>
                         </li>
-                        <?php if ($user->getRole() == "Chef de service"): ?>
+                        <?php if ($user->getRole() == "Admin"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                             </li>

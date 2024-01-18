@@ -35,7 +35,8 @@
         "ext-ctype": "*",
         "ext-filter": "*",
         "ext-hash": "*",
-      "ext-pdo": "*"
+      "ext-json": "*",
+      "ext-imagick": "*"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",

@@ -82,6 +82,7 @@ body {
     bottom: 0;
     width: 100%;
 }
+
 .nomFooter{
     background: #0f94b4;
     display: flex;
@@ -107,6 +108,7 @@ body {
 .banner button:not(:last-child){
     margin-right: 35.7%; /* Ajustez la valeur selon l'espace souhaité */
 }
+
 
 
 

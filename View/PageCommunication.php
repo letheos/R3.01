@@ -2,7 +2,8 @@
 require "../Controller/ControllerCommunication.php";
 include "../Controller/ControllerAffichage.php";
 include "../Controller/traduction.php";
-$conn = require "../Model/database.php";
+$conn = require "../Model/Database.php";
+
 if (!isset($_SESSION["nomr"])) {
     $_SESSION["nomr"] = "%";
 }

@@ -37,7 +37,10 @@ include '../Controller/ControllerAccueil.php';
                             <a class="nav-link" href="PageProfil.php">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"> Liste des candidats </a>
+                            <a class="nav-link" href="PageAlertes.php"> Notifications </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                         </li>
                         <?php if (ControllerGetRole($_SESSION['login']) == "Admin"): ?>
                             <li class="nav-item">

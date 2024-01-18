@@ -1,4 +1,5 @@
 <?php
+session_start();
 $conn = require "../Model/Database.php";
 require "../Controller/ControllerAlert.php";
 $f=false;
@@ -18,12 +19,12 @@ if(isset($_SESSION["Future"])){
     </head>
     <body>
     <header class="banner">
-        <form>
+        <form action = PageAccueil.php>
             <h1 class="TexteProfil">
                 Alertes
             </h1>
             <button class="btn btn-light" type="submit" name="retourAccueil"
-                    onclick="window.location.href='PageAccueil.php'">Retour à l'accueil
+                    >Retour à l'accueil
             </button>
         </form>
     </header>

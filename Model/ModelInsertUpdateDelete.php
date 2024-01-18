@@ -288,12 +288,13 @@ function addFormationNewDashboard($parcour,$conn,$idDashBoard){
  * @param $isPhone bool
  * @param $idDashBoard int
  * @param $conn PDO
+ * @param $isHeadcount bool
  * @return void
  * change the value of a dashboard's information with his id give in parameter
  */
-function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, bool $isAddress, bool $isPhone, int $idDashBoard, PDO $conn){
+function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, bool $isAddress, bool $isPhone, int $idDashBoard, PDO $conn, bool $isHeadcount){
     $sql = "UPDATE dashboard
-            SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?
+            SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?, isHeadcount = ?
             WHERE idDashBoard = ?";
     if($isPermis){
         $isPermis = 1;
@@ -311,9 +312,13 @@ function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, boo
         $isPhone = 1;
     } else{
         $isPhone = 0;
+    } if($isHeadcount){
+        $isHeadcount = 1;
+    } else{
+        $isHeadcount = 0;
     }
     $req = $conn->prepare($sql);
-    return $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard));
+    return $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount,$idDashBoard));
 
 
 }

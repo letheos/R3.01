@@ -4,14 +4,11 @@ require "../Model/ModelInsertUpdateDelete.php";
 
 
 
-//récup les données
-//faire la modif
-//remetre sur la page qui va bien
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
     if(isset($_POST['validate'])){
 
-        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard']);
+        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard'],isset($_POST['graphe']));
         ControllerUpdateParcoursDashBoard($_POST['selectedParcours'],$_POST['idDashboard'],$_POST['choix']);
         header('location:../View/PageAfficheTableau.php');
     }
@@ -79,12 +76,13 @@ function ControllerGetDashBoardPerUser(string $login): array
  * @param $isAddress bool
  * @param $isPhone bool
  * @param $idDashBoard int
+ * @param $isHeadcount bool
  * @return void
  * send to the function UpdateParametreDashBoard the value usefull to modify his parameters
  */
-function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard){
+function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$isHeadcount){
     $conn = require "../Model/Database.php";
-    upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn);
+    upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn,$isHeadcount);
 
 }
 

@@ -558,12 +558,30 @@ function selectCandidatesActives($conn, $isNotActive, $isFound) {
     return $req->fetchAll();
 }
 
+function selectCandidatesActivesComm($conn) {
+    $sql = "SELECT * FROM infoCandidate";
+
+    $req = $conn->prepare($sql);
+    $req->execute();
+    return $req->fetchAll();
+}
+
+
 function selectCandidatesActivesByParcours($conn, $parcours, $isNotActive, $isFound) {
     $sql = "SELECT * FROM infoCandidate 
          WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ?";
 
     $req = $conn->prepare($sql);
     $req->execute(array($isNotActive, $isFound, $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesActivesByParcoursComm($conn, $parcours) {
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE nameParcours = ?";
+
+    $req = $conn->prepare($sql);
+    $req->execute(array($parcours));
     return $req->fetchAll();
 }
 
@@ -580,6 +598,14 @@ function selectCandidatesByFormation($conn, $choixFormation, $isActive, $isFound
          WHERE nameFormation = ? AND isInActiveSearch = ? AND foundApp = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($choixFormation, $isActive, $isFound));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByFormationComm($conn, $choixFormation){
+    $sql = "SELECT * FROM infoCandidate 
+         WHERE nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixFormation));
     return $req->fetchAll();
 }
 
@@ -606,6 +632,15 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
     return $req->fetchAll();
 }
 
+function selectCandidatesByNameAndFormationComm($conn, $choixFormation, $choixNom){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE name LIKE ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixNomPattern, $choixFormation));
+    return $req->fetchAll();
+}
+
 /**
  * @param $conn PDO
  * @param $choixFormation String
@@ -621,6 +656,14 @@ function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours
                 WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ? AND nameFormation = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($isActive, $isFound, $parcours, $choixFormation));
+    return $req->fetchAll();
+}
+
+function selectCandidateByFormationAndParcoursComm($conn, $choixFormation, $parcours){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE nameParcours = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($parcours, $choixFormation));
     return $req->fetchAll();
 }
 
@@ -641,6 +684,15 @@ function selectCandidatesByName($conn, $choixNom, $isActive, $isFound){
     return $req->fetchAll();
 }
 
+function selectCandidatesByNameComm($conn, $choixNom){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE name LIKE ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixNomPattern));
+    return $req->fetchAll();
+}
+
 /**
  * @param $conn PDO
  * @param $parcours String
@@ -654,6 +706,14 @@ function selectCandidatesByParcours($conn, $parcours, $isActive, $isFound){
             WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($isActive, $isFound, $parcours));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByParcoursComm($conn, $parcours){
+    $sql = "SELECT * FROM infoCandidate
+            WHERE nameParcours = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($parcours));
     return $req->fetchAll();
 }
 
@@ -676,6 +736,15 @@ function selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActiv
     return $req->fetchAll();
 }
 
+function selectCandidatesByNameAndParcoursComm($conn, $parcours, $choixNom){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE name LIKE ? AND nameParcours = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixNomPattern, $parcours));
+    return $req->fetchAll();
+}
+
 /**
  * @param $conn PDO
  * @param $parcours String
@@ -693,6 +762,15 @@ function selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom,
     $choixNomPattern = '%'.$choixNom.'%';
     $req = $conn->prepare($sql);
     $req->execute(array($isActive, $isFound, $choixNomPattern, $parcours, $choixFormation));
+    return $req->fetchAll();
+}
+
+function selectCandidatesByNameFormationAndParcoursComm($conn, $parcours, $choixNom, $choixFormation){
+    $sql = "SELECT * FROM infoCandidate
+                WHERE name LIKE ? AND nameParcours = ? AND nameFormation = ?";
+    $choixNomPattern = '%'.$choixNom.'%';
+    $req = $conn->prepare($sql);
+    $req->execute(array($choixNomPattern, $parcours, $choixFormation));
     return $req->fetchAll();
 }
 

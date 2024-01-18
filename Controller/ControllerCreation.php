@@ -22,6 +22,16 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
         </script>';
 }
 
+if ($_SESSION['role'] != "Chef de service") {
+    //$_SESSION['provenance'] = 'Accueil';
+    echo '<script>
+        alert("Votre role ne vous le permet pas");
+        window.location.href = "../View/PageAccueil.php";
+        </script>';
+}
+
+
+
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
     $mail->setFrom('bncorp.auto@gmail.com');

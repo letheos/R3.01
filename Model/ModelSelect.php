@@ -1095,3 +1095,12 @@ function countAllStudents($conn){
     $req->execute();
     return $req->fetch();
 }
+
+function getFormationByLoginUtilisateur($conn,$login){
+    $sql = "
+            SELECT * FROM formationsutilisateurs WHERE loginutilisateur = ?
+            ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($login));
+    return $req->fetchAll();
+}

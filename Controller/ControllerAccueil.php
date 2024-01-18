@@ -27,6 +27,9 @@ function ControllerGetRole($login){
     return getRole($conn,$login);
 }
 
-$_SESSION['role'] = ControllerGetRole($_SESSION['login'])
+
+
+$_SESSION['role'] = ControllerGetRole($_SESSION['login']);
+
 ?>
 

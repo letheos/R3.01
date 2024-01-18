@@ -49,7 +49,7 @@ $conn = require '../Model/Database.php';
                     <li class="nav-item">
                         <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                     </li>
-                    <?php if (ControllerGetRole($_SESSION['login']) == "Admin"): ?>
+                    <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service"): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                         </li>

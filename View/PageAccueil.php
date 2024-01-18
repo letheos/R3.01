@@ -42,12 +42,12 @@ include '../Controller/ControllerAccueil.php';
                         <li class="nav-item">
                             <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
                         </li>
-                        <?php if (ControllerGetRole($_SESSION['login']) == "Admin"): ?>
+                        <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                             </li>
                         <?php endif; ?>
-                        <?php if (ControllerGetRole($_SESSION['login']) == "Admin" || ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
+                        <?php if (ControllerGetRole($_SESSION['login']) == "Chef de service" || ControllerGetRole($_SESSION['login']) == "Secretaire"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                             </li>

@@ -6,6 +6,24 @@
  * @param $city : la ville du form récypèrer
  * @return array : renvoie un tableau de tuple dans lequel chaque tuple contient (Code postal, Adresse, Ville) pour avoir l'adresse complète
  */
+
+//On passe la valeur a null si elle n'existe pas
+if(!isset($_SESSION["login"])){
+    $_SESSION['login'] = null;
+}
+//On passe la valeur a null si elle n'existe pas
+if(!isset($_SESSION["password"])){
+    $_SESSION['password'] = null;
+}
+//Cette condition sert à verifier que la personne accedant a la page d'accueil
+if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
+    //$_SESSION['provenance'] = 'Accueil';
+    echo '<script>
+        alert("Veuillez vous connecter");
+        window.location.href = "../View/PageConnexion.php";
+        </script>';
+}
+
 function regroupAdresses($cp, $addr, $city){
     $adresses = array();
 

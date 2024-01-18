@@ -3,7 +3,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-//require '../Model/ModelSelect.php';
 //On passe la valeur a null si elle n'existe pas
 if(!isset($_SESSION["login"])){
     $_SESSION['login'] = null;

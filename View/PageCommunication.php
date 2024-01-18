@@ -1,13 +1,11 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 require "../Controller/ControllerCommunication.php";
-require "../Controller/ControllerParcoursAffichage.php";
-//include "../Controller/traduction.php";
-$conn = require "../Model/Database.php";
+require "../Controller/ControllerAffichageEtudiant.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (!isset($_SESSION["nomr"])) {
     $_SESSION["nomr"] = "%";
@@ -21,6 +19,8 @@ if (!isset($_SESSION["parcoursr"])) {
 if (!isset($_SESSION["yearr"])) {
     $_SESSION["yearr"] = "%";
 }
+
+
 ?>
 
 <!DOCTYPE html>

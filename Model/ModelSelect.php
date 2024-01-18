@@ -462,8 +462,6 @@ function getRole($conn,$login){
     $result = $reqObtenirNomRole->fetchColumn();
 
     return $result;
-
-    return $result[0][0]!=0;
 }
 
 
@@ -501,7 +499,6 @@ function GetFormationForADashBoard($conn, $idDashBoard){
 }
 
 /**
-
  * @param PDO $conn   The db connection
  * @param string $login The login of a user
  * @param boolean $future   A boolean, on which depends if all user's alert are shown or only the outdated ones
@@ -722,21 +719,6 @@ function selectParcoursByFormationsAndParcours($conn, $selectedFormations, $sele
     return $parcours;
 }
 
-/**
- * @param $conn PDO
- * @return mixed
- * this function return all the values form the table Parcours
- */
-function allParcours($conn)
-{
-    $sql = "SELECT Parcours.*
-            FROM Parcours
-            ";
-    $req = $conn->prepare($sql);
-    $req->execute();
-    $results = $req->fetchAll();
-    return $results;
-}
 
 /**
  * @param $conn PDO
@@ -851,21 +833,12 @@ function selectCandidatewithId($conn,$idcandidate){
 }
 
 
-/**
- * Function that checks the existence of an email in the database
- * @param $conn : Connection to the database
- * @param $email : candidate's email
- * @return bool
- * This function check if an email is already in the database
- */
-
-function isEmailAlreadyExist($conn, $email): bool
-{
-    $sql = "SELECT * from Candidate WHERE candidateMail = ?";
+function selectCandidatesByFormationWithParcoursWithYear($conn, $name, $formation, $parcours, $yearOfFormation) {
+    $sql = "SELECT name, firstname, idCandidate FROM infoCandidate
+            WHERE (name LIKE ? OR firstname LIKE ?) AND nameParcours LIKE ? AND yearOfFormation LIKE ? AND nameformation LIKE ?;";
     $req = $conn->prepare($sql);
-    $req->execute(array($email));
-    $result = $req->fetch();
-    return !empty($result);
+    $req->execute(array('%'.$name.'%', '%'.$name.'%', '%'.$parcours.'%', '%'.$yearOfFormation.'%', '%'.$formation.'%'));
+    return $req->fetchAll();
 }
 
 /**
@@ -875,8 +848,8 @@ function isEmailAlreadyExist($conn, $email): bool
  * @return bool
  * This function check if an email already exist in the database with an id of verification
  */
-function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool
-{
+
+function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool {
     $sql = "SELECT * from Candidate WHERE candidateMail = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($email));
@@ -884,20 +857,6 @@ function isEmailAlreadyExistWithIdVerification($conn, $email, $id): bool
     return !empty($result) && $result['idCandidate'] != $id;
 }
 
-/**
- * @param $conn PDO
- * @param $phone string
- * @return bool
- * this function check if a phone number already exist in the database
- */
-function isPhoneNumberAlreadyExist($conn, $phone): bool
-{
-    $sql = "SELECT * from Candidate WHERE phoneNumber = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($phone));
-    $result = $req->fetch();
-    return !empty($result);
-}
 
 /**
  * @param $conn PDO
@@ -928,21 +887,6 @@ function selectAllFormation($conn)
     return $req->fetchAll();
 }
 
-/**
- * Function which tests the presence of the candidate in the database with his INE
- * @param $conn : database's connection
- * @param $INE : candidate's ine
- * @return bool : return the existence of the result in the database
- */
-function isCandidateExistWithIne($conn, $INE): bool
-{
-    $sql = "SELECT * from Candidate WHERE INE = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($INE));
-    $result = $req->fetch();
-    return !empty($result);
-
-}
 
 /**
  * @param $conn PDO
@@ -962,62 +906,11 @@ function isCandidateExistWithIneWithIdVerification($conn, $INE, $id): bool
 }
 
 
-/**
- * Function which tests the presence of the candidate in the database with his last name or first name
- * @param $conn : database's connection
- * @param $name : Candidate's name
- * @param $firstName : Candidate's first name
- * @return bool : return the existence of the result in the database
- */
-function isCandidateExistWithNameAndFirstname($conn, $name, $firstName): bool
-{
-    $sql = "SELECT * from Candidate WHERE name = ? AND firstName = ?";
-    $req = $conn->prepare($sql);
-    $req->execute(array($name, $firstName));
-    $result = $req->fetch();
-    return !empty($result);
 
-}
 
-/**
- * @param $conn PDO database's connection
- * @param $mail string
- * @param $login string
- * @return bool|Exception|PDOException
- * check if the mail pass in parameter is the mail of the user pass in parameter
- */
-function verfication($conn, $mail, $login)
-{
-    try {
-        $request0 = "Select email,login from utilisateur where email = ? OR login = ?";
 
-        $res = $conn->prepare($request0);
-        $res->execute(array($mail, $login));
-        if ($res->rowCount() == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    } catch (PDOException $e) {
-        return $e;
-    }
-}
 
-/**
- * @param $conn PDO
- * @param $mail string
- * @param $login string
- * @return bool|Exception|PDOException
- * return the value that verification return with his parameter
- */
-function exist($conn, $mail, $login)
-{
 
-    $existence = verfication($conn, $mail, $login);
-
-    return $existence;
-
-}
 
 /**
  * @param $id int id of the dashboard

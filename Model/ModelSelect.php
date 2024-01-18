@@ -306,11 +306,12 @@ function getInfosLogin($conn,$login){
 function getRole($conn,$login){
     $reqObtenirIdRole = $conn->prepare("SELECT idRole FROM Utilisateur WHERE login=?");
     $reqObtenirIdRole->execute(array($login));
-    $idRole = $reqObtenirIdRole->fetch();
+    $idRole = $reqObtenirIdRole->fetchColumn();
 
     $reqObtenirNomRole = $conn->prepare("SELECT nameRole FROM Role WHERE idRole=?");
     $reqObtenirNomRole->execute(array((int)$idRole));
-    $result = $reqObtenirNomRole->fetch();
+    $result = $reqObtenirNomRole->fetchColumn();
+
     return $result;
 
     return $result[0][0]!=0;

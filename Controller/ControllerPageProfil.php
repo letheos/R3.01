@@ -1,6 +1,6 @@
 <?php
 $conn = require '../Model/Database.php';
-include '../Model/ModelConnexion.php';
+include '../Model/ModelSelect.php';
 
 /**
  * @param $conn : Connection to the database
@@ -25,10 +25,8 @@ if(isset($_POST['retourAccueil'])){
 if(isset($_POST['modifierMotdePasse'])){
     header('Location: ../View/PageModifierMotDePasse.php');
 }
-/*
-//Redirection a la page de connexion si le bouton disconnect est presse
-if(isset($_POST['disconnect'])){
-    session_destroy();
-    header('Location: ../View/PageConnexion.php');
+
+function ControllerGetRole($login){
+    global $conn;
+    return getRole($conn,$login);
 }
-*/

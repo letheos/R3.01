@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
 $conn = require '../Model/Database.php';

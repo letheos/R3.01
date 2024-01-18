@@ -1,0 +1,110 @@
+/*
+cursor: text;
+ */
+
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+.banner {
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.rounded-box {
+    box-sizing: border-box; /* Include padding and border in the box sizing calculation */
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    color: black; /* Fix the property name from text to color */
+    width: 30%; /* Adjust the width as needed */
+    flex: 1; /* Distribute available space evenly among items */
+    margin: 0 10px 20px; /* Adjust margin for spacing between items */
+    max-width: calc(20% - 20px);
+    min-width: calc(20% - 20px); /* Ensure a minimum width for single items */
+    min-inline-size: 400px;
+
+}
+/*
+.modif {
+    position: fixed;
+    right: 100;
+
+}
+
+ */
+
+.theDashBoards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.t {
+    position: flex;
+}
+
+#createDashboard {
+    text-align: right;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* Vous pouvez ajuster cette valeur pour arrondir davantage les coins */
+    cursor: grab;
+}
+
+.btn-light {
+    text-align: left;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* Vous pouvez ajuster cette valeur pour arrondir davantage les coins */
+    cursor: grab;
+    margin-bottom: 10px;
+}
+
+.btnChangeDisplay {
+    cursor: row-resize;
+    background-color: grey;
+    color: #gre;
+}
+
+.btnChangeDisplay:hover {
+    background-color: #2d2d35;
+}
+
+.btnDelete:hover {
+    background-color: #bb2323;
+}
+
+.banner {
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner {
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+
+}
+
+#show {
+    max-width: 50%;
+}

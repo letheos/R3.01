@@ -1,4 +1,9 @@
+
+
 <?php
-$conn = new PDO("mysql:host=localhost;dbname=localDatabase3", "root", "root");
-return $conn
-?>
+try{
+    $conn = new PDO("mysql:host=localhost;dbname=localdatabase3", "root", "root");
+    return $conn;
+} catch (PDOException $e){
+    return $e->getMessage();
+}

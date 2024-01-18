@@ -1,3 +1,4 @@
+
 <?php
 $conn = require "../Model/Database.php";
 require '../Model/ModelSelect.php';
@@ -28,6 +29,44 @@ function getAllFormation(){
     global $conn;
     return allFormation($conn);
 }
+
+
+function getNbEtuPerFormation($formation){
+    global $conn;
+    return selectNbStudentPerFormation($conn, $formation);
+}
+
+function getNbEtuPerParcours($formation){
+    global $conn;
+    return selectNbStudentPerParcours($conn, $formation);
+}
+
+function getNbEtuActives(){
+    global $conn;
+    return countNbStudentActives($conn, 1);
+}
+
+function getNbEtuFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 1);
+}
+
+function getNbEtuNotActives(){
+    global $conn;
+    return countNbStudentActives($conn, 0);
+}
+
+function getNbEtuNotFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 0);
+}
+
+function getNbEtu(){
+    global $conn;
+    return countAllStudents($conn);
+}
+
+
 
 /**
  * Fonction qui gère le filtrage pour afficher des candidats en fonction de critères précis
@@ -163,3 +202,5 @@ function filtrageMultiple($selectedParcours)
         return $result;
     }
 }
+
+

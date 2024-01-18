@@ -1,6 +1,13 @@
+
 <?php
 $conn = require "../Model/Database.php";
 require '../Model/ModelSelect.php';
+
+
+function getDashboardById($id){
+    global $conn;
+    return selectDashboardById($conn, $id);
+}
 
 function getStudentId($id){
     global $conn;

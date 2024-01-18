@@ -26,4 +26,7 @@ if (isset($_GET['id'])) {
     } else {
         echo "Données invalides pour l'ID spécifié.";
     }
+
 }
+
+

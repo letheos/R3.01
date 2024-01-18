@@ -1,0 +1,74 @@
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+
+
+
+.settingsData{
+    display: flex;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    height: 100px;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+
+
+}
+.rounded-box {
+    border: 2px solid deepskyblue;
+    border-radius: 10px;
+    padding: 20px;
+    background: whitesmoke;
+    text: white;
+    box-sizing: border-box;
+}
+
+.column {
+    width: 25%;
+    padding: 10px;
+
+}
+
+.container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Ajouter cette règle pour limiter la largeur des enfants de .rounded-box */
+.rounded-box > * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.closed {
+    display: none !important;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+}

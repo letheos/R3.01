@@ -124,7 +124,7 @@ function crumbCollector($conn)
     $sql = "SELECT dashboard.idDashBoard FROM dashboard LEFT JOIN userdashboard ON dashboard.idDashBoard = userdashboard.idDashBoard WHERE userdashboard.idDashBoard IS NULL;";
     $req = $conn->prepare($sql);
     $req->execute();
-    return null;
+    return $req->fetchAll();
 }
 
 
@@ -136,13 +136,36 @@ function crumbCollector($conn)
 function deleteAllOldDashBoard($conn)
 {
     $idOldDashBoard = crumbCollector($conn);
+    print_r($idOldDashBoard);
     if (empty($idOldDashBoard)) {
         return null;
     }
+    printf($idOldDashBoard);
     foreach ($idOldDashBoard as $id) {
         //enleve les formation
-        deleteFormationDashboard($id, $conn);
-        deleteDashBoard($id, $conn);
+        echo '<script>alert("dans for each")</script>';
+        if(hasFormation($id['idDashBoard'], $conn)){
+            deleteFormationDashboard($id['idDashBoard'], $conn);
+        }
+        echo '<script>alert("delete formdash")</script>';
+        deleteDashBoard($id['idDashBoard'], $conn);
+        echo '<script>alert("delete")</script>';
+    }
+}
+
+/**
+ * @param $idDashbaord
+ * @param $conn
+ * @return bool
+ */
+function hasFormation($idDashbaord,$conn){
+    $sql = "SELECT COUNT(nameParcours) FROM dashboardparcours WHERE idDashBoard = ? GROUP BY idDashBoard";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idDashbaord));
+    if($req->fetchAll() > 0){
+        return true;}
+    else{
+        return false;
     }
 }
 

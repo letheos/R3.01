@@ -1,9 +1,24 @@
 CREATE VIEW `effectif_formation` AS
-SELECT nameFormationParcours, COUNT(idCandidate) AS effectifFormation
-FROM parcours
-JOIN candidate ON parcours.nameParcours = candidate.nameParcours
-GROUP BY nameFormationParcours;
+SELECT
+    nameFormationParcours,
+    COUNT(idCandidate) AS effectifFormation,
+    SUM(foundApp = 1) AS alternants,Sum(foundApp=0) as non_alternants,
+    SUM(isInActiveSearch = 1) AS actifs,Sum(isInActiveSearch=0) as inactifs
+FROM
+    parcours
+JOIN
+    candidate ON parcours.nameParcours = candidate.nameParcours
+GROUP BY
+    nameFormationParcours;
 
 
-
-CREATE VIEW effectifsparcours as SELECT nameParcours,COUNT(name) as nombreetudiants from candidate GROUP BY nameParcours
+CREATE VIEW `effectifsparcours` AS
+SELECT
+    nameParcours,
+    COUNT(name) AS nombreetudiants,
+    SUM(foundApp = 1) AS alternants,Sum(foundApp=0) as non_alternants,
+    SUM(isInActiveSearch = 1) AS actifs,Sum(isInActiveSearch=0) as inactifs
+FROM
+    candidate
+GROUP BY
+    nameParcours;

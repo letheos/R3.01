@@ -1,0 +1,153 @@
+.banner h1 {
+    font-size: 30px;
+    color: #eeeeee;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.bottomBanner{
+    background: #0f94b4;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+
+}
+
+.bottomBanner .buttonActivationCandidates {
+    position: relative;
+    left: 1270px; /* Espace à droite par rapport au bord droit du footer */
+}
+
+
+
+.affichage {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.candidates {
+    flex-basis: calc(33% - 20px);
+    border: 1px solid #ccc;
+    background: #eee;
+    border-radius: 5px;
+}
+
+
+section.filtreCandidats{
+    width: auto;
+    margin: 10px;
+    background: #0f94b4;
+    border: 1px;
+    border-radius: 5px;
+}
+
+/* styles.css */
+.filtreCandidats {
+    display: flex; /* Utilisez un conteneur flex pour aligner les éléments horizontalement */
+    align-items: center; /* Centrez verticalement les éléments dans le conteneur */
+
+}
+
+.filtreCandidats form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.checkbox label {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection {
+    width : 60%;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.selection label {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.filtreCandidats div.formName{
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+}
+
+.filtreCandidats div.buttonSubmit{
+    margin-left: 350px;
+}
+
+.filtreCandidats label {
+    color: #eeeeee;
+}
+
+#send-form  {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Style pour les étiquettes */
+.form-select-label {
+    display: block;
+}
+
+/* Style pour les zones de texte */
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+/* Style pour le conteneur de destinataire */
+.destinataire {
+    margin : 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style pour le conteneur de corps (message) */
+.corps {
+    margin: 10px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0; /* Ajoutez cette ligne */
+}
+
+.corps textarea{
+    height: 22em;
+}
+
+
+
+
+
+
+

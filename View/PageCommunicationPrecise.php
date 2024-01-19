@@ -55,12 +55,12 @@ $user = unserialize($_SESSION['user']);
                 <label for="imgbutton">Ajouter une pièce jointe</label>
                 <input type="file" class="form-control-file" name="imgbutton" id="imgbutton" accept=".pdf, .png, .jpg, .jpeg">
             </div>
-            <button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
+            <button type="submit" name="Add" class="btn btn-primary btn-sm">Ajouter</button>
         </form>
     </div>
 </section>
 
-<section>
+<section class="container mt-4">
     <?php
     $results = getComm($_SESSION['idCandidate']);
     $candidat = getCandidate($_SESSION['idCandidate']);
@@ -71,34 +71,34 @@ $user = unserialize($_SESSION['user']);
     <?php
     foreach ($results as $row) {
         ?>
-        <form action="../Controller/ControllerCommunicationPrecise.php" method="Post" id="<?= $row[2] ?>">
-            <div class="candidates" id="candidates<?= $row[2] ?>">
-                <?php
-                if ($row[0] == "") {
-                    ?>
-                    <img src="../upload/<?= $row[3] ?>" width="20%" height="20%" />
-                    <?php
-                } else {
-                    echo $row[0];
-                }
-                ?>
-            </div>
-            <br> <?= date('Y-m-d H:i', strtotime($row[1])) ?>
-            <input type="hidden" name="idmessage" value="<?= $row[2] ?>">
-            <div class="buttonSubmit" id="bouton_candidates<?= $row[2] ?>">
-                <button class="btn btn-primary" type="button" name="Modify" id="Modify" onclick="transformToTextarea('candidates<?= $row[2] ?>')">Modifier</button>
-                <button class="btn btn-primary" type="button" name="Validate" id="Validate" value="Valider" id="valider" style="display:none" onclick="executerFormulaire(<?= $row[2] ?>)"> Valider </button>
-                <input type="submit" name="Delete" value="Supprimer">
+        <form action="../Controller/ControllerCommunicationPrecise.php" method="POST" id="<?= $row[2] ?>">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="candidates" id="candidates<?= $row[2] ?>">
+                        <?php
+                        if ($row[0] == "") {
+                            ?>
+                            <img src="../upload/<?= $row[3] ?>" class="img-fluid" alt="Image" style="max-height: 100px; object-fit: cover;">
+                            <?php
+                        } else {
+                            echo $row[0];
+                        }
+                        ?>
+                    </div>
+                    <small class="text-muted"><?= date('Y-m-d H:i', strtotime($row[1])) ?></small>
+                    <input type="hidden" name="idmessage" value="<?= $row[2] ?>">
+                    <div class="mt-3">
+                        <button class="btn btn-primary btn-sm" type="button" name="Modify" id="Modify" onclick="transformToTextarea('candidates<?= $row[2] ?>')">Modifier</button>
+                        <button class="btn btn-primary btn-sm" type="button" name="Validate" id="Validate" value="Valider" style="display:none" onclick="executerFormulaire(<?= $row[2] ?>)"> Valider </button>
+                        <input type="submit" class="btn btn-danger btn-sm" name="Delete" value="Supprimer">
+                    </div>
+                </div>
             </div>
         </form>
         <?php
     }
     ?>
 </section>
-
-
-
-
 
 <footer class="bg-custom text-white">
     <div class="container">
@@ -120,6 +120,6 @@ $user = unserialize($_SESSION['user']);
         </div>
     </div>
 </footer>
-<script src="../Controller/js/ControllerCommunicationJS.js"></script>
 </body>
 </html>
+<script src="../Controller/js/ControllerCommunicationJS.js"></script>

@@ -1,21 +1,19 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $conn = require "../Model/database.php";
 require '../Model/ModelSelect.php';
 require "../Model/ModelInsertUpdateDelete.php";
 
 session_start();
 
-if (empty($_SESSION['user'])) {
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}
-
-
 $msg = "erreur script";
 $success = 0;
 $directory = '../upload/';
+
+
+
 
 function getComm($idCandidate) {
     global $conn;
@@ -26,7 +24,6 @@ function getCandidate($idCandidate){
     global $conn;
     return selectCandidatewithId($conn,$idCandidate);
 }
-
 
 if (isset($_FILES['imgbutton'])) {
     $com = $_FILES['imgbutton'];

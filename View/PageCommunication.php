@@ -35,6 +35,7 @@ $user = unserialize($_SESSION['user']);
             bottom: 0;
             width: 100%;
         }
+
     </style>
 </head>
 <body>
@@ -48,14 +49,14 @@ $user = unserialize($_SESSION['user']);
 </header>
     <form id="filter-form" method="POST" action="../View/PageCommunication.php">
 
-        <section class="bg-custom rounded p-3 mt-4">
+        <section class="bg-custom rounded p-2 mt-4 text-white">
 
-            <div class="container mt-4">
+            <div class="container mt-2">
 
                 <div class="row">
 
                     <div class="col-md-4">
-                        <label for="formation" class="form-label">Département</label>
+                        <label for="formation" class="form-label text-white label-white">Département</label>
                         <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                             <option value="" selected="selected" disabled>Choisir la formation</option>
                             <?php
@@ -75,7 +76,7 @@ $user = unserialize($_SESSION['user']);
                     </div>
 
                     <div class="col-md-4">
-                        <label for="parcours" class="form-label">Parcours</label>
+                        <label for="parcours" class="form-label text-white label-white">Parcours</label>
                         <select class="form-select" name="parcours" id="parcours">
                             <option value="">Choisir un parcours</option>
                             <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
@@ -83,13 +84,13 @@ $user = unserialize($_SESSION['user']);
                     </div>
 
                     <div class="col-md-4">
-                        <label for="nameCandidates" class="form-label">Filtrage par nom</label>
+                        <label for="nameCandidates" class="form-label text-white label-white">Filtrage par nom</label>
                         <input type="text" class="form-control" name="nameCandidates" id="nameCandidates" value="<?php echo isset($_POST['name']) ?>" placeholder="Filtrage par nom">
                     </div>
 
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-2">
                     <div class="col-md-12 d-flex justify-content-end">
                         <button class="btn btn-primary" type="submit" name="submit" id="submit">Rechercher</button>
                     </div>
@@ -111,7 +112,7 @@ $user = unserialize($_SESSION['user']);
             <th>Prénom</th>
             <th>Formation</th>
             <th>Parcours</th>
-            <th>Voir les communications</th>
+            <th>Voir les échanges</th>
         </tr>
         </thead>
         <tbody>
@@ -125,7 +126,7 @@ $user = unserialize($_SESSION['user']);
                 <td><?php echo $candidate['nameFormation']; ?></td>
                 <td><?php echo $candidate['nameParcours']; ?></td>
                 <td>
-                    <a class="btn btn-primary" href="./PageCommunicationPrecise.php?id=<?php echo $candidate["idCandidate"]; ?>">Voir Communication</a>
+                    <a class="btn btn-primary" href="./PageCommunicationPrecise.php?id=<?php echo $candidate["idCandidate"]; ?>">Voir les échanges</a>
                 </td>
             </tr>
         <?php } ?>

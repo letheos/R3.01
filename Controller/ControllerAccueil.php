@@ -1,7 +1,5 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 /*
 //On passe la valeur a null si elle n'existe pas
@@ -33,6 +31,11 @@ require '../Model/ModelSelect.php';
 function ControllerGetRole($login){
     global $conn;
     return getRole($conn,$login);
+}
+
+function getActualAlert($login){
+    global $conn;
+    return selectAlert($conn, $login, 0);
 }
 
 

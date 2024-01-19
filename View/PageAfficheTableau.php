@@ -31,10 +31,30 @@ $user = unserialize($_SESSION['user']);
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StylePageAfficheTableau.css">
     <title>Page affiche les tableaux de bord</title>
+    <style>
+        .bg-custom {
+            background-color: #0f94b4;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .card.collapsed {
+            height: 100px;
+            width: 450px;
+            overflow: hidden;
+            transition: height 0.3s ease, width 0.3s ease; /* Ajoutez une transition en douceur */
+        }
+
+    </style>
+
 </head>
 <body>
 
-<header class="banner">
+<header class="jumbotron text-center bg-custom text-white">
     <form action="PageAccueil.php">
         <h1 class="TexteProfil">
             Affichage des tableaux de bord
@@ -44,7 +64,7 @@ $user = unserialize($_SESSION['user']);
     </form>
 
     <form action="../View/PageCreationTableau.php">
-        <button id="createDashboard">Ajouter un tableau de bord +</button>
+        <button class="btn btn-light" id="createDashboard">Ajouter un tableau de bord +</button>
     </form>
 </header>
 
@@ -63,162 +83,108 @@ $user = unserialize($_SESSION['user']);
             $isHeadcount = $dashboard['isHeadcount'];
             $formations = ControllerGetParcoursDashboard($idDashboard);
             ?>
-            <div class="rounded-box">
-                <input onclick="changeDisplay(<?= $idDashboard ?>)" type="button" class="btnChangeDisplay" value="-"
-                       id=<?= "btnChangeDisplay" . $idDashboard ?>>
 
-
-                <h3 class="m-0">Titre : <?= (!empty($nameOfDashboard)) ? $nameOfDashboard : "SANS NOM" ?></h3>
-
-                <table  border="1">
-                    <style>
-                        th, td {
-                            border: 1px solid #dddddd;
-                            text-align: left;
-                            padding: 8px;
-                        }
-                    </style>
-                    <th>Nom Formation</th>
-                    <th>Nbr Étudiants Total</th>
-                    <th>Nbr Étudiants Actifs</th>
-                    <th>Nbr Étudiants Alternance</th>
-
-                    <?php
-                    if (empty($formations)){ ?>
-                    <tr>
-                        <td><p style="color:red">pas de formations liée</p></td>
-                        <td><p style="color:red"> X </p></td>
-                        <td><p style="color:red"> X </p></td>
-                        <td><p style="color:red"> X </p></td>
-                    </tr>
-                </table>
-                <?php }
-                else {
-                    foreach ($formations as $formation) {
-                        $info = getNbEtuPerParcours($formation[0]);
-
-                        if (empty($info)){ ?>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 d-flex flex-column">
+                    <div class="card-header d-flex justify-content-between">
+                        <h3 class="m-0">Titre: <?= (!empty($nameOfDashboard)) ? $nameOfDashboard : "SANS NOM" ?></h3>
+                        <button onclick="changeDisplay(<?= $idDashboard ?>)" class="btn btn-outline-dark btn-sm"
+                                id="<?= "btnChangeDisplay" . $idDashboard ?>">-</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered" id="<?= $idDashboard ?>">
+                            <thead>
                             <tr>
-                                <td><?= $formation[0] ?></td>
-                                <td> <?=  '<p style="color:red"> 0</p>'; ?> </td>
-                                <td> <?= '<p style="color:red"> 0</p>'; ?></td>
-                                <td> <?= '<p style="color:red"> 0</p>'; ?></td>
+                                <th>Nom Formation</th>
+                                <th>Nbr Étudiants Total</th>
+                                <th>Nbr Étudiants Actifs</th>
+                                <th>Nbr Étudiants Alternance</th>
                             </tr>
-                        <?php }else{ ?>
+                            </thead>
+                            <tbody>
+                            <?php
+                            if (empty($formations)) { ?>
+                                <tr>
+                                    <td colspan="4"><p class="text-danger">Pas de formations liées</p></td>
+                                </tr>
+                            <?php } else {
+                                foreach ($formations as $formation) {
+                                    $info = getNbEtuPerParcours($formation[0]);
+                                    ?>
+                                    <tr>
+                                        <td><?= $formation[0] ?></td>
+                                        <td><?= (!empty($info) && $info[0]['nombreetudiants'] > 0) ? $info[0]['nombreetudiants'] : '<p class="text-danger">0</p>' ?></td>
+                                        <td><?= (!empty($info) && $info[0][3] > 0) ? $info[0][3] : '<p class="text-danger">0</p>' ?></td>
+                                        <td><?= (!empty($info) && $info[0][2] > 0) ? $info[0][2] : '<p class="text-danger">0</p>' ?></td>
+                                    </tr>
+                                <?php }
+                            } ?>
+                            </tbody>
+                        </table>
 
-                            <tr>
-                                <td><?= $formation[0] ?></td>
-                                <td> <?= ($info[0]['nombreetudiants'] > 0) ? $info[0]['nombreetudiants'] :  '<p style="color:red"> 0</p>'; ?> </td>
-                                <td> <?= ($info[0][3] > 0) ? $info[0][3] :  '<p style="color:red"> 0</p>'; ?></td>
-                                <td> <?= ($info[0][2] > 0) ? $info[0][2] :  '<p style="color:red"> 0</p>'; ?></td>
-                            </tr>
+                        <ul>
+                            <li>Information sur le permis: <?= $isPermis ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur le L'INE: <?= $isIne ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur l'adresse: <?= $isAddress ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur le numéro de téléphone: <?= $isPhone ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les effectifs: <?= $isHeadcount ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                        </ul>
+                    </div>
 
-                        <?php }
-
-
-
-                    }
-                    ?>
-
-
-                <?php } ?>
-                </table>
-
-
-                <?php
-                #$valeur =
-                ?>
-
-
-
-
-
-                <div id= <?= $idDashboard ?> style="display:block">
-                    <?php
-                    echo $isPermis ? '<li>Information sur le permis : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                                      </svg></li>' : '<li>Information sur le permis :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                                        </svg></li>';
-                    echo $isIne ? '<li>Information sur le L\'INE : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                                      </svg></li>' : '<li>Information sur le L\'INE :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                                        </svg></li>';
-                    echo $isAddress ? '<li>Information sur l\'adresse : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                                      </svg></li>' : '<li>Information sur l\'adresse :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                                        </svg></li>';
-                    echo $isPhone ? '<li>Information sur le numéro de téléphone : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                                      </svg></li>' : '<li>Information sur le numéro de téléphone :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                                      </svg></li>';
-                    echo $isHeadcount ? '<li>Information sur les effectifs : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                        </svg></li>' : '<li>Information sur les effectifs :  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                        </svg></li>'; ?>
-
-                </div>
-                <script src="../Controller/JsDisplayDashBoard.js"></script>
-
-
-                <div class="d-flex justify-content-between">
-                    <!-- action="../Controller/ControllerAfficheTableau.php" -->
-                    <form method="post" action="../Controller/ControllerAfficheTableau.php">
-                        <button id="<?= "delete" . $idDashboard ?>" class="btn btn-danger">Supprimer</button>
-                        <input type="hidden" value="<?= $idDashboard ?>" name="idDashboard">
-
-                    </form>
-
-
-                    <a class="btn btn-primary" href="./dashboard.php?id=<?php echo $idDashboard; ?>">Accéder</a>
-
-
-                    <form action="PageModifDashBoard.php" method="post">
-                        <button type="submit" value="modifier" id="<?= $idDashboard ?>" class="btn btn-secondary"
-                        "> Modifier
-                        <input type="hidden" name="ine" id="ine" value="<?= $isIne ?>">
-                        <input type="hidden" name="address" id="address" value="<?= $isAddress ?>">
-                        <input type="hidden" name="phone" id="phone" value="<?= $isPhone ?>">
-                        <input type="hidden" name="permis" id="permis" value="<?= $isPermis ?>">
-                        <input type="hidden" name="title" id="title" value="<?= $nameOfDashboard ?>">
-                        <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $idDashboard ?>">
-
-                        </button>
-                    </form>
+                    <div class="card-footer d-flex justify-content-between">
+                        <form method="post" action="../Controller/ControllerAfficheTableau.php">
+                            <button id="<?= "delete" . $idDashboard ?>" class="btn btn-danger">Supprimer</button>
+                            <input type="hidden" value="<?= $idDashboard ?>" name="idDashboard">
+                        </form>
+                        <a class="btn btn-primary" href="./dashboard.php?id=<?= $idDashboard ?>">Accéder</a>
+                        <form action="PageModifDashBoard.php" method="post">
+                            <button type="submit" value="modifier" id="<?= $idDashboard ?>" class="btn btn-secondary">
+                                Modifier
+                                <input type="hidden" name="ine" id="ine" value="<?= $isIne ?>">
+                                <input type="hidden" name="address" id="address" value="<?= $isAddress ?>">
+                                <input type="hidden" name="phone" id="phone" value="<?= $isPhone ?>">
+                                <input type="hidden" name="permis" id="permis" value="<?= $isPermis ?>">
+                                <input type="hidden" name="title" id="title" value="<?= $nameOfDashboard ?>">
+                                <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $idDashboard ?>">
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <br>
             <?php
         }
         ?>
     </div>
 </section>
 
-<footer class="bottomBanner">
-    <div class="nomFooter">
-        <p>
-            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
 
-        </p>
-        <p>
-            <a href="https://www.uphf.fr/"> site uphf </a></p>
-    </div>
-    <div class="origineFooter">
-        <p>
-            2023/2024 UPHF
-        </p>
+
+<footer class="bg-custom text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <p>
+                        Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <p>
+                        2023/2024 UPHF
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
+<script src="../Controller/JsDisplayDashBoard.js"></script>
 </body>
 </html>
 

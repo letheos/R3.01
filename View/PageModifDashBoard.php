@@ -1,9 +1,16 @@
 <?php
 require "../Controller/ControllerModifTableau.php";
+include "../Controller/ClassUtilisateur.php";
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 $conn = require "../Model/Database.php";
 
+$user = unserialize($_SESSION['user']);
+
+$dashboard = ControllerGetDashboard($_POST['idDashboard']);
 
 ?>
 
@@ -24,204 +31,187 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="StylePageCreationTableau.css">
     <title>modificationTableauDeBord</title>
     <script src="../Controller/JsCreationTableau.js"></script>
+    <style>
+        .bg-custom {
+            background-color: #0f94b4;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .container {
+            border: 1px solid #0f94b4;
+        }
+
+        .rounded-box {
+
+            border: 1px solid #0f94b4;
+        }
+
+
+    </style>
 </head>
 <body>
 
-<header class="banner">
+<header class="jumbotron text-center bg-custom text-white">
     <form action="PageAccueil.php">
         <h1 class="TexteProfil">
-            Modification de tableau de bord numéro <?= $_POST['idDashboard'] ?>
+            Modification du tableau :  <?= $dashboard['nameOfDashBoard'] ?>
         </h1>
         <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
         </button>
     </form>
 
+    <div class="mb-2"></div>
+
     <form action="PageAfficheTableau.php">
-        <button>Retourner voir les autres tableaux de bords</button>
+        <button class="btn btn-light mb-2">Retourner voir les autres tableaux de bords</button>
     </form>
 
 
 </header>
 <form method="post" action="../Controller/ControllerModifTableau.php">
-    <button
-            type="submit" id="validate" name="validate" onclick="window.location.href='PageAfficheTableau.php'">Valider
-        les paramètres
-    </button>
+    <div class="container overflow-auto mt-4 mb-4 p-3 rounded-box d-flex flex-column">
+        <!-- Première section: Entrer le nom du tableau de bord -->
+        <div class="rounded-box p-3 mb-4">
+            <h2>Le nom du tableau</h2>
+            <label for="title">Nom du tableau de bord :</label>
+            <input id="title" name="title" type="text" class="form-control" value="<?= $dashboard['nameOfDashBoard'] ?>">
+        </div>
 
-    <input type="hidden" name="idDashboard" value="<?= $_POST['idDashboard'] ?>">
-
-
-    <div class=container>
-        <div class="column">
-            <div class="rounded-box">
-                <h5>parcours déjà sélectionné à resélectionner pour les conserver</h5>
-                <?php
-                $parcours = ControllerGetFormationForADashBoard($_POST['idDashboard']);
-                if (!empty($parcours)){
-                    foreach ($parcours as $parcour) {
-                        ?>
-                        <p><?= $parcour[1] ?></p>
-
-                        <h5>
-                            année des étudiants en paramètres:
-                        </h5>
-                        <p><?= $parcours[0][2] ?></p>
-                        <?php
-                    }
-                }else{ ?>
-
-                <p> pas de formation sauvegardée </p>
-                <?php
-                    }
-                ?>
-
+        <!-- Deuxième section: Paramètres effectif -->
+        <div class="rounded-box p-3 mb-4">
+            <h2>Paramètres statistique</h2>
+            <div class="form-check">
+                <input type="checkbox" id="isHeadcount" name="isHeadcount" value="1" class="form-check-input"
+                    <?php if ((isset($dashboard['isHeadcount'])) and $dashboard['isHeadcount']) echo 'checked ' ?>>
+                <label class="form-check-label" for="isHeadcount">Afficher les effectifs des formations</label>
             </div>
         </div>
 
-        <div class=column>
 
-            <div class="rounded-box">
-                <h2>Choix des parcours</h2>
-                <div class="accordion" id="choicesDep">
-                    <?php
-                    $formations = selectAllFormation($conn);
-                    if (isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])) {
-                        $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
-                    }
-                    foreach ($formations as $index => $formation) {
-                        $parcours = selectParcours($conn, $formation['nameFormation']);
-                        $checkboxId = $formation['nameFormation'];
-                        $collapseId = 'collapse' . $index;
-                        ?>
-                        <div class="accordion-item">
-                            <strong class="accordion-header" id="<?= 'heading' . $index ?>">
-                                <input class="form-check-input" type="checkbox" name="selectedFormation[]"
-                                       id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')"
-                                       data-formation="<?= $formation['nameFormation'] ?>">
-                                <?= $formation['nameFormation'] ?>
-                            </strong>
-                            <div id="<?= $collapseId ?>" class="accordion-collapse collapse"
-                                 aria-labelledby="<?= 'heading' . $index ?>">
-                                <div class="accordion-body">
-                                    <?php
-                                    foreach ($parcours as $indexParcours => $parcour) {
-                                        ?>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                   id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]"
-                                                   value="<?= $parcour['nameParcours'] ?>" <?php if ($parcour['nameParcours'] == 'Parcours A - GEII') {
-                                                echo 'checked';
-                                            } ?> >
-                                            <label class="form-check-label"
-                                                   for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
-                                        </div>
-                                    <?php } ?>
-                                </div>
+        <div class="rounded-box p-3 mb-4">
+            <h2>Affichage détaillé des candidats</h2>
+            <div id="checkBoxIne" class="form-check mb-2">
+                <input type="checkbox" id="ine" name="isIne" value="1" class="form-check-input"
+                    <?php if ((isset($_POST['ine'])) and $_POST['ine']) echo 'checked ' ?>>
+                <label class="form-check-label" for="ine">Afficher l'INE (par défaut non)</label>
+            </div>
+            <div id="checkBoxAddress" class="form-check mb-2">
+                <input type="checkbox" id="address" name="isAddress" value="1" class="form-check-input"
+                    <?php if ((isset($_POST['address']) && $_POST['address'])) echo 'checked' ?>>
+                <label class="form-check-label" for="address">Afficher les addresses (par défaut non)</label>
+            </div>
+            <div class="checkBoxPhone form-check mb-2">
+                <input type="checkbox" id="phone" name="isPhone" value="1" class="form-check-input"
+                    <?php if ((isset($_POST['phone'])) and $_POST['phone']) echo 'checked' ?> >
+                <label class="form-check-label" for="phone">Afficher les numéros de téléphone (par défaut non)</label>
+            </div>
+            <div class="checkboxpermis form-check mb-2">
+                <input type="checkbox" id="permis" name="isPermis" value="1" class="form-check-input"
+                    <?php if ((isset($_POST['permis'])) and $_POST['permis']) echo 'checked' ?>>
+                <label class="form-check-label" for="permis">Afficher le permis (par défaut non)</label>
+            </div>
+        </div>
+
+        <div class="rounded-box p-3 mb-4">
+            <h2>Choix des parcours</h2>
+            <div class="accordion" id="choicesDep">
+                <?php
+                $parcoursDashboard = ControllerGetParcoursDashboard($dashboard['idDashBoard']);
+                if ($user->getRole() == "Chef de service") {
+                    $formations = controllerGetAllFormations();
+                } else {
+                    $formations = $user->getLesFormations();
+                }
+                if (isset($_SESSION['formations']) and isset($_SESSION['idDashBoard'])) {
+                    $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
+                }
+                foreach ($formations as $index => $formation) {
+                    $parcours = controllerGetParcours($formation['nameFormation']);
+                    $checkboxId = $formation['nameFormation'];
+                    $collapseId = 'collapse' . $index;
+                    ?>
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="<?= 'heading' . $index ?>">
+                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
+                            <label class="form-check-label" for="<?= $checkboxId ?>"><?= $formation['nameFormation'] ?></label>
+                        </div>
+                        <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
+                            <div class="accordion-body">
+                                <?php
+                                foreach ($parcours as $indexParcours => $parcour) {
+                                    ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?= 'parcours' . $indexParcours ?>" name="selectedParcours[]" value="<?= $parcour['nameParcours'] ?>">
+                                        <label class="form-check-label" for="<?= 'parcours' . $indexParcours ?>"><?= $parcour['nameParcours'] ?></label>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
-                    <?php } ?>
-                </div>
-                <br>
-                <label for="choix">choix de l'année des étudiants</label>
-                <select id="choix" name="choix">
-                    <option value="1er"> 1er année</option>
-                    <option value="2e"> 2e année</option>
-                    <option value="3e"> 3e année</option>
-                </select>
-            </div>
-
-        </div>
-        <!--bonnes fermetures de balises -->
-
-        <div class=column>
-            <div class=rounded-box>
-                <h2 class="titreAffichage"> valeur pour l'affichage</h2>
-
-                <div id="checkBoxIne">
-                    <input type="checkbox" id="ine" name="ine"
-                        <?php if ((isset($_POST['ine'])) and $_POST['ine']) echo 'checked ' ?>>
-                    <label for="ine">ine affiché (par défaut non)</label>
-                </div>
-
-
-                <div id="checkBoxAddress">
-                    <input type="checkbox" id="address" name="address" )"
-                    <?php if ((isset($_POST['address']) && $_POST['address'])) echo 'checked' ?>>
-                    <label for="address"> Adresse affichée (par défaut non)</label>
-                </div>
-
-                <div class="checkBoxPhone">
-                    <input type="checkbox" id="phone" name="phone"
-                        <?php if ((isset($_POST['phone'])) and $_POST['phone']) echo 'checked' ?> >
-                    <label for="phone"> numéro de téléphone (par défaut non) </label>
-                </div>
-
-                <div class="checkboxpermis">
-                    <input type="checkbox" id="permis" name="permis"
-                        <?php if ((isset($_POST['permis'])) and $_POST['permis']) echo 'checked' ?>>
-                    <label for="permis">permis affiché (par défaut non)</label>
-                </div>
-
-
+                    </div>
+                <?php } ?>
             </div>
         </div>
 
-        <!--
-        <div class="rounded-box" <?= ($_SESSION['role'] != 'Admin') ? 'style="display: none;"' : '' ?> >
-            <h2>Role à inclure dans la création du tableau de bord</h2>
+        <div class="rounded-box p-3 mb-4">
+            <h5 class="mb-3">Parcours déjà sélectionnés</h5>
             <?php
-            $roles = controllerGetAllRole($conn);
-            $id = 0;
-            foreach ($roles as $role) {
-                $id += 1;
-
+            $parcours = ControllerGetParcoursDashboard($_POST['idDashboard']);
+            if (!empty($parcours)) {
+                foreach ($parcours as $parcour) {
+                    ?>
+                    <p class="mb-2"><?= $parcour['nameParcours'] ?></p>
+                    <?php
+                }
+            } else {
                 ?>
-                <input type="checkbox" id="<?= 'role' . $id ?>" name="<?= $role[1] ?>"
-                       value="1" <?php if ((isset($_SESSION['role'])) and $_SESSION['role'] === $role[1]) echo 'checked' ?> >
-                <label for="<?= 'role' . $id ?>"> inclure <?php echo $role[1] ?></label>
-                <br>
+                <p class="text-muted">Pas de formation sauvegardée</p>
                 <?php
-            } ?>
-
-        </div>
-        -->
-
-        <div class=column>
-            <div class="rounded-box">
-                <h2 class="titreAffichage">Paramètres diagrammes</h2>
-
-                <input type="checkbox" id="graphe" name="graphe" value="1">
-                <label for="graphe">afficher graphe effectifs
-                </label>
-            </div>
+            }
+            ?>
         </div>
 
-        <div class="column">
-            <div class="rounded-box">
-                <label for="title">entrée le nom du tableau de bord</label>
-                <input id="title" name="title" type="text" value="<?= $_POST['title'] ?>">
+        <div class="rounded-box p-3">
+            <div class="text-center">
+                <h2>Validation</h2>
+                <button type="submit" id="envoyer" name="validate" class="btn btn-primary">Valider Paramètres</button>
             </div>
         </div>
     </div>
+
+
+
+    <input type="hidden" name="idDashboard" value="<?= $dashboard['idDashBoard'] ?>">
 </form>
 
 
-<footer class="bottomBanner">
-    <div class="nomFooter">
-        <p>
-            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-        </p>
+<footer class="bg-custom text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <p>
+                        Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <p>
+                        2023/2024 UPHF
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="origineFooter">
-        <p>
-            2023/2024 UPHF
-        </p>
-    </div>
-
 </footer>
+
 
 <script src="../Controller/JsCreationTableau.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

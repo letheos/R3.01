@@ -39,7 +39,7 @@ $user = unserialize($_SESSION['user']);
     <h1 class="mb-0">
         Communication
     </h1>
-    <a class="btn btn-light" type="submit" name="./PageCommunication.php">Retour à l'accueil</a>
+    <a class="btn btn-light" type="submit" href="./PageCommunication.php">Retour arrière</a>
 </header>
 
 

@@ -29,20 +29,20 @@ function showAlert(button,id) {
  * @param id String
  * hide or show the values that à dashbaord
  */
-function changeDisplay(id){
+function changeDisplay(id) {
     var divCacher = document.getElementById(id);
+    var hide = document.getElementById('btnChangeDisplay' + id);
+    var card = divCacher.closest('.card');
+    var cardBody = divCacher.closest('.card-body');
 
-    var hide = document.getElementById('btnChangeDisplay'+id);
-
-
-    if(divCacher.style.display === "none"){
+    if (divCacher.style.display === "none") {
         divCacher.style.display = "block";
         hide.value = '-';
-
-    } else{
+        card.classList.remove('collapsed');
+    } else {
         divCacher.style.display = "none";
         hide.value = '+';
-
+        card.classList.add('collapsed');
     }
 }
 

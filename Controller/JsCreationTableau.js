@@ -83,6 +83,7 @@ function headder(){
 
 function toggleAccordion(checkboxId) {
     const checkbox = document.getElementById(checkboxId);
+
     const accordionItem = checkbox.closest(".accordion-item");
     const collapseTargetId = accordionItem.querySelector(".accordion-collapse").getAttribute("id");
     const collapseTarget = new bootstrap.Collapse(document.getElementById(collapseTargetId));

@@ -3,8 +3,9 @@ session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
 include '../Controller/ClassUtilisateur.php';
-include '../Controller/ControllerAlert.php';
 $user = unserialize($_SESSION['user']);
+
+
 
 ?>
 
@@ -25,6 +26,8 @@ $user = unserialize($_SESSION['user']);
             bottom: 0;
             width: 100%;
         }
+
+
     </style>
 </head>
 <body>
@@ -34,9 +37,7 @@ $user = unserialize($_SESSION['user']);
             Bienvenue dans votre accueil M/Mme <?php echo $user->getFirstName() ?>
         </h1>
     </header>
-<?php if (hasPastAlert($conn,$user->getLogin())) {
-echo '<script>createPopup()</script>';
-}?>
+
     <section>
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -83,6 +84,23 @@ echo '<script>createPopup()</script>';
 
         </div>
     </section>
+
+<section class="vh-100 justify-content-center">
+    <?php $alerts = getActualAlert($user->getLogin()); ?>
+    <div class="container border p-4 <?php echo count($alerts) < 5 ? 'min-height-alerts' : ''; ?>">
+        <h1 class="text-center">Rappel du jour</h1>
+
+        <?php foreach ($alerts as $alert) { ?>
+            <div class="alert alert-primary mt-3">
+                <p class="mb-0">Date: <?= $alert["remindAt"] ?></p>
+                <p class="mb-0">Note: <?= $alert["note"] ?></p>
+                <div class="mt-3">
+                    <a class="btn btn-primary" href="./PageAlertes.php">Aller voir</a>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</section>
 
 
     <footer class="bg-custom text-white">

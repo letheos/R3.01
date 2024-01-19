@@ -6,9 +6,10 @@ $conn = require "../Model/Database.php";
 
 
 
+
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
     if(isset($_POST['validate'])){
-        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['permis']),isset($_POST['ine']),isset($_POST['address']),isset($_POST['phone']),$_POST['idDashboard'],isset($_POST['graphe']));
+        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['isPermis']),isset($_POST['isIne']),isset($_POST['isAddress']),isset($_POST['isPhone']),$_POST['idDashboard'],isset($_POST['isHeadcount']));
         ControllerUpdateParcoursDashBoard($_POST['selectedParcours'],$_POST['idDashboard'],$_POST['choix']);
         header('location:../View/PageAfficheTableau.php');
     }
@@ -24,8 +25,19 @@ if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
  * @return mixed
  * take a PDO connection and return the values of getAllParcours
  */
-function controllerGetAllParcours($conn){
+function controllerGetAllParcours(){
+    global $conn;
     return getAllParcours($conn);
+}
+
+/**
+ * @param $formation
+ * @return mixed
+ * Return the value of selectParcours
+ */
+function controllerGetParcours($formation){
+    global $conn;
+    return selectParcours($conn, $formation);
 }
 
 /**
@@ -33,9 +45,10 @@ function controllerGetAllParcours($conn){
  * @return String[]
  * take a PDO connection and return the values of getAllFormation
  */
-function controllerGetAllFormations(PDO $conn): array
+function controllerGetAllFormations(): array
 {
-    return getAllFormation($conn);
+    global $conn;
+    return selectAllFormation($conn);
 }
 
 /**
@@ -43,7 +56,8 @@ function controllerGetAllFormations(PDO $conn): array
  * @return String[]
  * tkae a PDO connection and return the values of getAllRole
  */
-function controllerGetAllRole($conn){
+function controllerGetAllRole(){
+    global $conn;
     return getAllRole($conn);
 }
 
@@ -54,8 +68,13 @@ function controllerGetAllRole($conn){
  */
 function ControllerGetFormationForADashBoard($idDashBoard): array
 {
-    $conn = require "../Model/Database.php";
+    global $conn;
     return GetFormationForADashBoard($conn,$idDashBoard);
+}
+
+function ControllerGetDashboard($idDashboard){
+    global $conn;
+    return selectDashboardById($conn, $idDashboard);
 }
 
 /**
@@ -65,7 +84,7 @@ function ControllerGetFormationForADashBoard($idDashBoard): array
  */
 function ControllerGetDashBoardPerUser(string $login): array
 {
-    $conn = require "../Model/Database.php";
+    global $conn;
     return getDashBoardPerUser($login, $conn);
 }
 
@@ -81,7 +100,7 @@ function ControllerGetDashBoardPerUser(string $login): array
  * send to the function UpdateParametreDashBoard the value usefull to modify his parameters
  */
 function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$isHeadcount){
-    $conn = require "../Model/Database.php";
+    global $conn;
     upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn,$isHeadcount);
 
 }
@@ -93,13 +112,13 @@ function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$i
  * send to the function UpdateParcoursDashBoard the formations selected and the id of the dashbaord
  */
 function ControllerUpdateParcoursDashBoard($parcoursSelected,$idDashboard,$year){
-    $conn = require "../Model/Database.php";
+    global $conn;
     UpdateParcoursDashBoard($parcoursSelected,$idDashboard,$year,$conn);
 }
 
 
 function ControllerGetParcoursDashboard($idDashboard){
-    $conn = require "../Model/Database.php";
+    global $conn;
     return selectParcoursOfDashboard($conn,$idDashboard);
 
 }

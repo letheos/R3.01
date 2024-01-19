@@ -1,7 +1,10 @@
 <?php
 session_start();
 $conn = require "../Model/Database.php";
+require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
+include "../Controller/ClassUtilisateur.php";
+
 
 if (empty($_SESSION['user'])) {
     echo '<script>

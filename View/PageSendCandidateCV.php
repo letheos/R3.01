@@ -22,10 +22,16 @@ session_start();
 <body>
 
 <header class="banner">
-    <h1>
-        Envoyez un mail à une entreprise
-    </h1>
+    <form action="PageAccueil.php">
+        <h1 class="TexteProfil">
+            Envoi de CV
+        </h1>
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
+        </button>
+    </form>
 </header>
+
+
 
 
 

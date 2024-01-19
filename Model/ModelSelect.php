@@ -1121,4 +1121,34 @@ function getIdRoleByName($conn,$nameRole){
     return $req->fetchColumn();
 }
 
+function selectCandidatesByParcoursWithYear($conn, $parcours, $yearOfFormation, $isActive)
+{
+    $sql = "SELECT idCandidate, candidatemail, cv FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ? AND yearOfFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours, $yearOfFormation));
+    return $req->fetchAll();
+}
+
+
+function selectCandidatesNameByParcoursWithYear($conn, $parcours, $yearOfFormation, $isActive)
+{
+    $sql = "SELECT idCandidate, name, firstName, typeCompanySearch, cv FROM infoCandidate
+            WHERE isInActiveSearch = ? AND nameParcours = ? AND yearOfFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute(array($isActive, $parcours, $yearOfFormation));
+    return $req->fetchAll();
+}
+
+function selectCvById($conn, $idCandidate)
+{
+    $sql = "
+           SELECT cv FROM infoCandidate
+           WHERE idCandidate = ? 
+           ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($idCandidate));
+    return $req->fetchAll();
+}
+
 

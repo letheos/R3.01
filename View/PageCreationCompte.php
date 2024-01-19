@@ -46,9 +46,13 @@ $user = $_SESSION['user'];
 
 <body>
 <header class="banner">
-    <h1>
-        Création d'un Candidat
-    </h1>
+    <form action="PageAccueil.php">
+        <h1 class="TexteProfil">
+            Création d'un candidat
+        </h1>
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
+        </button>
+    </form>
 </header>
     <section>
             <div class="rounded-box">

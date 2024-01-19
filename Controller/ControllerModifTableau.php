@@ -2,6 +2,7 @@
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 
+$conn = require "../Model/Database.php";
 
 
 
@@ -97,9 +98,48 @@ function ControllerUpdateParcoursDashBoard($parcoursSelected,$idDashboard,$year)
 }
 
 
+function ControllerGetParcoursDashboard($idDashboard){
+    $conn = require "../Model/Database.php";
+    return selectParcoursOfDashboard($conn,$idDashboard);
+
+}
+
+function getNbEtuPerParcours($parcour){
+    global $conn;
+    return selectParcoursNumber($conn, $parcour);
+}
 
 
 
+function getNbEtuFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 1);
+}
+
+function getNbEtuNotActives(){
+    global $conn;
+    return countNbStudentActives($conn, 0);
+}
+
+function getNbEtuNotFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 0);
+}
+
+function getNbEtu(){
+    global $conn;
+    return countAllStudents($conn);
+}
+
+
+function getNbEtuWithFormation($formation){
+    global $conn;
+    $count = 0;
+    foreach($formation as $formations){
+        $count += selectNbStudentPerFormation($conn, $formations)['effectifFormation'];
+    }
+    return $count;
+}
 
 
 

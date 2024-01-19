@@ -8,6 +8,7 @@ ini_set('display_errors', 1);
 
 require "../Controller/ControllerModifTableau.php";
 
+
 if (empty($_SESSION['user'])) {
     echo '<script>
         alert("Veuillez vous connecter");
@@ -18,7 +19,6 @@ if (empty($_SESSION['user'])) {
 $user = unserialize($_SESSION['user']);
 
 
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -27,7 +27,8 @@ $user = unserialize($_SESSION['user']);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StylePageAfficheTableau.css">
     <title>Page affiche les tableaux de bord</title>
 </head>
@@ -47,11 +48,12 @@ $user = unserialize($_SESSION['user']);
     </form>
 </header>
 
+
 <section class="theDashBoards">
     <div class="row">
-    <?php
-    $dashboards = ControllerGetDashBoardPerUser($user->getLogin());
-    foreach ($dashboards as $dashboard) {
+        <?php
+        $dashboards = ControllerGetDashBoardPerUser($user->getLogin());
+        foreach ($dashboards as $dashboard) {
             $idDashboard = $dashboard['idDashBoard'];
             $nameOfDashboard = $dashboard['nameOfDashBoard'];
             $isPermis = $dashboard['isPermis'];
@@ -59,13 +61,76 @@ $user = unserialize($_SESSION['user']);
             $isAddress = $dashboard['isAddress'];
             $isPhone = $dashboard['isPhone'];
             $isHeadcount = $dashboard['isHeadcount'];
-    ?>
+            $formations = ControllerGetParcoursDashboard($idDashboard);
+            ?>
             <div class="rounded-box">
                 <input onclick="changeDisplay(<?= $idDashboard ?>)" type="button" class="btnChangeDisplay" value="-"
                        id=<?= "btnChangeDisplay" . $idDashboard ?>>
 
 
                 <h3 class="m-0">Titre : <?= (!empty($nameOfDashboard)) ? $nameOfDashboard : "SANS NOM" ?></h3>
+
+                <table  border="1">
+                    <style>
+                        th, td {
+                            border: 1px solid #dddddd;
+                            text-align: left;
+                            padding: 8px;
+                        }
+                    </style>
+                    <th>Nom Formation</th>
+                    <th>Nbr Étudiants Total</th>
+                    <th>Nbr Étudiants Actifs</th>
+                    <th>Nbr Étudiants Alternance</th>
+
+                    <?php
+                    if (empty($formations)){ ?>
+                    <tr>
+                        <td><p style="color:red">pas de formations liée</p></td>
+                        <td><p style="color:red"> X </p></td>
+                        <td><p style="color:red"> X </p></td>
+                        <td><p style="color:red"> X </p></td>
+                    </tr>
+                </table>
+                <?php }
+                else {
+                    foreach ($formations as $formation) {
+                        $info = getNbEtuPerParcours($formation[0]);
+
+                        if (empty($info)){ ?>
+                            <tr>
+                                <td><?= $formation[0] ?></td>
+                                <td> <?=  '<p style="color:red"> 0</p>'; ?> </td>
+                                <td> <?= '<p style="color:red"> 0</p>'; ?></td>
+                                <td> <?= '<p style="color:red"> 0</p>'; ?></td>
+                            </tr>
+                        <?php }else{ ?>
+
+                            <tr>
+                                <td><?= $formation[0] ?></td>
+                                <td> <?= ($info[0]['nombreetudiants'] > 0) ? $info[0]['nombreetudiants'] :  '<p style="color:red"> 0</p>'; ?> </td>
+                                <td> <?= ($info[0][3] > 0) ? $info[0][3] :  '<p style="color:red"> 0</p>'; ?></td>
+                                <td> <?= ($info[0][2] > 0) ? $info[0][2] :  '<p style="color:red"> 0</p>'; ?></td>
+                            </tr>
+
+                        <?php }
+
+
+
+                    }
+                    ?>
+
+
+                <?php } ?>
+                </table>
+
+
+                <?php
+                #$valeur =
+                ?>
+
+
+
 
 
                 <div id= <?= $idDashboard ?> style="display:block">
@@ -97,15 +162,14 @@ $user = unserialize($_SESSION['user']);
                         </svg></li>'; ?>
 
                 </div>
-                    <script src="../Controller/JsDisplayDashBoard.js"></script>
+                <script src="../Controller/JsDisplayDashBoard.js"></script>
 
 
-
-            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
                     <!-- action="../Controller/ControllerAfficheTableau.php" -->
                     <form method="post" action="../Controller/ControllerAfficheTableau.php">
-                        <button id="<?= "delete".$idDashboard ?>" class="btn btn-danger" >Supprimer</button>
-                        <input type="hidden" value="<?= $idDashboard  ?>" name="idDashboard">
+                        <button id="<?= "delete" . $idDashboard ?>" class="btn btn-danger">Supprimer</button>
+                        <input type="hidden" value="<?= $idDashboard ?>" name="idDashboard">
 
                     </form>
 
@@ -114,23 +178,24 @@ $user = unserialize($_SESSION['user']);
 
 
                     <form action="PageModifDashBoard.php" method="post">
-                        <button type="submit" value="modifier"  id="<?= $idDashboard ?>" class="btn btn-secondary" "> Modifier
-                        <input type="hidden" name="ine"         id="ine"         value="<?=$isIne?>">
-                        <input type="hidden" name="address"     id="address"     value="<?= $isAddress ?>">
-                        <input type="hidden" name="phone"       id="phone"       value="<?= $isPhone?>">
-                        <input type="hidden" name="permis"      id="permis"      value="<?=  $isPermis ?>">
-                        <input type="hidden" name="title"       id="title"       value="<?= $nameOfDashboard?>">
+                        <button type="submit" value="modifier" id="<?= $idDashboard ?>" class="btn btn-secondary"
+                        "> Modifier
+                        <input type="hidden" name="ine" id="ine" value="<?= $isIne ?>">
+                        <input type="hidden" name="address" id="address" value="<?= $isAddress ?>">
+                        <input type="hidden" name="phone" id="phone" value="<?= $isPhone ?>">
+                        <input type="hidden" name="permis" id="permis" value="<?= $isPermis ?>">
+                        <input type="hidden" name="title" id="title" value="<?= $nameOfDashboard ?>">
                         <input type="hidden" name="idDashboard" id="idDashboard" value="<?= $idDashboard ?>">
 
                         </button>
                     </form>
+                </div>
             </div>
-        </div>
 
-                <br>
+            <br>
             <?php
-    }
-    ?>
+        }
+        ?>
     </div>
 </section>
 
@@ -141,7 +206,7 @@ $user = unserialize($_SESSION['user']);
 
         </p>
         <p>
-            <a href="https://www.uphf.fr/"  > site uphf </a> </p>
+            <a href="https://www.uphf.fr/"> site uphf </a></p>
     </div>
     <div class="origineFooter">
         <p>
@@ -151,7 +216,9 @@ $user = unserialize($_SESSION['user']);
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 </body>
 </html>
 

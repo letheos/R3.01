@@ -1069,6 +1069,19 @@ function selectNbStudentPerParcours($conn, $formation){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $parcours string
+ * @return mixed
+ * return the number of studiant, alternant, no alternant, actif and no actif for a parcour pass in parameter
+ */
+function selectParcoursNumber($conn, $parcours){
+    $sql = "SELECT * FROM effectifsparcours WHERE nameParcours = ?; ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($parcours));
+    return $req->fetchAll();
+}
+
 function countNbStudentFoundApp($conn, $isFound){
     $sql="SELECT COALESCE(count(*),0) as nbFoundApp 
           FROM infocandidate

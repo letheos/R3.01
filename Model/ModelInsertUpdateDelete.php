@@ -461,9 +461,13 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
 
 
     foreach ($adresses as $adressData) {
+
         $cp = $adressData['CP'];
         $addr = $adressData['Address'];
         $city = $adressData['City'];
+        if($cp == null or $cp == "" or $addr == null or $addr == "" or $city == null or $city = ""){
+            die;
+        }
         insertAddr($conn, $idCandidate, $cp, $addr, $city);
 
     }
@@ -471,6 +475,9 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
     foreach ($searchZone as $zone) {
         $search = $zone["cityName"];
         $radius = $zone["radius"];
+        if($search == null or $search == "" or $radius == null or $radius == "" ){
+            die;
+        }
         insertSearchZone($conn, $idCandidate, $search, $radius);
 
     }

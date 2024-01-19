@@ -3,6 +3,7 @@ session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
 include '../Controller/ClassUtilisateur.php';
+include '../Controller/ControllerAlert.php';
 $user = unserialize($_SESSION['user']);
 
 ?>
@@ -22,6 +23,9 @@ $user = unserialize($_SESSION['user']);
             Bienvenue dans votre accueil M/Mme <?php echo $user->getFirstName() ?>
         </h1>
     </header>
+<?php if (hasPastAlert($conn,$user->getLogin())) {
+echo '<script>createPopup()</script>';
+}?>
     <section class="barreNavigation">
         <div class="laBarre">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">

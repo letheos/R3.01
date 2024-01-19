@@ -267,7 +267,7 @@ function verfication($conn,$mail,$login)
 
 
 function hasPastAlert(PDO $conn, string $login){
-    $req = $conn->prepare("SELECT COUNT(idalert) FROM alert JOIN ALERTUTILISATEUR WHERE login = ? AND remindAT<CURRENT_DATE and seen= false");
+    $req = $conn->prepare("SELECT COUNT(idalert) FROM alert JOIN ALERTUTILISATEUR WHERE login = ? AND remindAT<=CURRENT_DATE and seen= false");
     try {
         $req->execute(array($login));
         $result = $req->fetchAll();

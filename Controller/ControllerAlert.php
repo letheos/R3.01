@@ -81,12 +81,58 @@ if(isset($_POST['Delete'])){
 ?>
 
 <script>
-    function alertToShow() {
-        let confirmation =confirm("Vous avez des alertes a voir,souhaitez vous les consulter ?");
-        if (confirmation) {
-            window.location.href = "../View/PageAlertes.php";
-        }
+    function createPopup() {
+        // Création des éléments HTML
+        var overlay = document.createElement("div");
+        overlay.id = "overlay";
+
+        var popup = document.createElement("div");
+        popup.id = "popup";
+
+        var closeBtn = document.createElement("span");
+        closeBtn.id = "closeBtn";
+        closeBtn.innerHTML = "×";
+        closeBtn.onclick = closePopup;
+
+        var h2 = document.createElement("h2");
+        h2.innerHTML = "Alerte !";
+
+        var p = document.createElement("p");
+        p.innerHTML = "Vous avez une alerte à vérifier.";
+
+        var closePopupBtn = document.createElement("button");
+        closePopupBtn.innerHTML = "Fermer";
+        closePopupBtn.onclick = closePopup;
+
+        var redirectBtn = document.createElement("button");
+        redirectBtn.innerHTML = "Aller vers une autre page";
+        redirectBtn.onclick = redirectToPage;
+
+        // Construction de la structure
+        popup.appendChild(closeBtn);
+        popup.appendChild(h2);
+        popup.appendChild(p);
+        popup.appendChild(closePopupBtn);
+        popup.appendChild(redirectBtn);
+
+        overlay.appendChild(popup);
+
+        // Ajout au DOM
+        document.body.appendChild(overlay);
+
+        // Affichage du pop-up
+        overlay.style.display = "flex";
     }
+
+    function closePopup() {
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function redirectToPage() {
+        window.location.href = "../View/PageAlertes.php";
+    }
+
+
 </script>
 
 

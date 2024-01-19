@@ -890,10 +890,10 @@ function isInActiveSearch($conn, $id)
     return $req->fetch();
 }
 
-function selectComm($conn,$idcandidate){
+function selectComm($conn,$idCandidate){
     $sql = "Select note,dateCommunication,idmessage,img from communication where idCandidate=?";
     $req = $conn->prepare($sql);
-    $req->execute(array($idcandidate));
+    $req->execute(array($idCandidate));
     return $req->fetchall();
 }
 
@@ -908,7 +908,7 @@ function selectCandidatewithId($conn,$idcandidate){
     $sql = "Select name,firstname from Candidate where idcandidate = ?;";
     $req = $conn->prepare($sql);
     $req->execute(array($idcandidate));
-    return $req->fetchall();
+    return $req->fetch();
 }
 
 

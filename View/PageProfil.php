@@ -29,8 +29,8 @@ $user = unserialize($_SESSION['user']);
     <button id="modification" class="btn btn-light" type="submit" name="modification" onclick="modificate()">Modifier le compte</button>
 </header>
 
-<section class="BarreNav"
-    <div class="laBarre">
+<section>
+    <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Barre de navigation</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,49 +40,53 @@ $user = unserialize($_SESSION['user']);
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="PageAfficheTableau.php">Tableau de bord </a>
+                        <a class="nav-link" href="PageAfficheTableau.php">Tableau de bord</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="PageProfil.php">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="PageAlertes.php"> Notifications </a>
+                        <a class="nav-link" href="PageAlertes.php">Notifications</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="PageCommunication.php"> Accéder aux échanges </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>
+                        <a class="nav-link" href="PageAffichageEtudiant.php">Afficher les étudiants</a>
                     </li>
                     <?php if ($user->getRole() == "Chef de service"): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
+                            <a class="nav-link" href="PageCreation.php">Créer un utilisateur</a>
                         </li>
                     <?php endif; ?>
                     <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire" || $user->getRole() == "Charge de developpement"): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="PageSendCandidateCV.php"> Envoyer un CV </a>
+                            <a class="nav-link" href="PageCreationCompte.php">Enregistrer un candidat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageSendCandidateCV.php">Envoyer un CV</a>
                         </li>
                     <?php endif; ?>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="PageProfil.php">Profil</a>
+                        </li>
+                    </ul>
                 </ul>
             </div>
         </nav>
+
     </div>
 </section>
 
 <form method="POST" id="form" action="PageProfil.php">
-    <section class="Affiche">
-        <br>
-        <br>
-        <div class="rounded-box">
-            <?php showProfile($conn,$user->getLogin()); ?>
-            <button class="btn btn-outline-primary" type="submit" name="modifierMotdePasse">Modifier mot de passe</button>
-            <br>
+    <section>
+
+        <div class="rounded-box p-3">
+            <?= $result = getUserProfile($user->getLogin()) ?>
+            <div class="infosProfil">
+                <h2> Utilisateur : <?= $result["userName"] . " " . $result["firstName"]; ?> </h2>
+                <p>  Login : <?=  $result['login'] ?>
+                    <br> Email : <?= $result['email']; ?>
+                </p>
+                <button class="btn btn-primary mt-3" type="submit" name="modifierMotdePasse">Modifier mot de passe</button>
         </div>
     </section>
 </form>

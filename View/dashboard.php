@@ -112,45 +112,61 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
 
 <form id="delete-form" method="post" action="../Controller/ControllerGestionDashboard.php?idDashboard=<?php echo $idDashboard ?>">
     <section class="afficheCandidats">
-        <div class="affichage" id="candidateList">
+        <table class="table" id="candidateTable">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Parcours</th>
+                <th>Détail</th>
+                <th>Rendre Inactif/Actif</th>
+                <th>Recherche d'Alternance</th>
+                <th>Statut Alternance</th>
+                <th>Statut Actif</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php
             $candidates = filtrageMultiple($courses);
             foreach ($candidates as $candidate) {
                 ?>
-                <div class="candidates" id="candidats">
-                    <p>
-                        <?php echo $candidate['firstName'] . " " . $candidate['name'] . " " . $candidate['nameParcours']; ?> <br>
+                <tr class="candidates" id="candidats">
+                    <td><?php echo $candidate['name']; ?></td>
+                    <td><?php echo $candidate['firstName']; ?></td>
+                    <td><?php echo $candidate['nameParcours']; ?></td>
+                    <td>
                         <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">Détail</a>
-
-                        <?php
-                        if ($candidate['isInActiveSearch']) {
-                            ?>
+                    </td>
+                    <td>
+                        <?php if ($candidate['isInActiveSearch']) { ?>
                             <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
-                            <?php
-                        } else {
-                            ?>
+                        <?php } else { ?>
                             <input type="checkbox" name="checkboxNonActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Actif
-                            <?php
-                        }
-                        ?>
-
+                        <?php } ?>
+                    </td>
+                    <td>
                         <?php if ($candidate['foundApp'] == 0) { ?>
                             <input type="checkbox" name="checkboxNoAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
-                            Enlever la recherche d'alternance
+                            Obtient le contrat
                         <?php } else { ?>
                             <input type="checkbox" name="checkboxWithAlternance[]" value="<?php echo $candidate['idCandidate']; ?>">
-                            Rendre en recherche d'alternance
+                            N'a pas le contrat
                         <?php } ?>
-
-                        <br>
-
+                    </td>
+                    <td>
                         <span style="color: <?php echo ($candidate['foundApp'] == 0) ? '#bb2323' : 'green'; ?>">
-                        <?php echo ($candidate['foundApp'] == 0) ? 'N\'a pas d\'alternance' : 'A une Alternance'; ?>
+                            <?php echo ($candidate['foundApp'] == 0) ? 'Sans contrat' : 'A un contrat'; ?>
                         </span>
-                    </p>
-                </div>
+                    </td>
+                    <td>
+                        <span style="color: <?php echo ($candidate['isInActiveSearch'] == 0) ? '#bb2323' : 'green'; ?>">
+                            <?php echo ($candidate['isInActiveSearch'] == 1) ? 'Actif' : 'Inactif'; ?>
+                        </span>
+                    </td>
+                </tr>
             <?php } ?>
-        </div>
+            </tbody>
+        </table>
     </section>
 
     <!--
@@ -166,61 +182,83 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <hr>
                         <h5> Informations sur tous les candidats</h5>
-                        <hr>
-                        <p>
-                            Nombre de candidats : <?= getNbEtu()['nbEtu']; ?>
-                        </p>
-                        <p>
-                            <span style="color: green"> Actifs : <?= getNbEtuActives()['nbActives']; ?> </span> /
-                            <span style="color: red"> Non-actifs : <?= getNbEtuNotActives()['nbActives']; ?> </span>
-                        </p>
-                        <p>
-                            <span style="color: green"> Alternants : <?= getNbEtuFoundApp()['nbFoundApp']; ?> </span> /
-                            <span style="color: red"> Non-Alternants : <?= getNbEtuNotFoundApp()['nbFoundApp']; ?> </span>
-                        </p>
-                        <hr>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Nombre de candidats</th>
+                                <th>Actifs</th>
+                                <th>Non-actifs</th>
+                                <th>Alternants</th>
+                                <th>Non-Alternants</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><?= getNbEtu()['nbEtu']; ?></td>
+                                <td style="color: green;"><?= getNbEtuActives()['nbActives']; ?></td>
+                                <td style="color: red;"><?= getNbEtuNotActives()['nbActives']; ?></td>
+                                <td style="color: green;"><?= getNbEtuFoundApp()['nbFoundApp']; ?></td>
+                                <td style="color: red;"><?= getNbEtuNotFoundApp()['nbFoundApp']; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
                         <?php foreach ($dashboardFormations as $formation) {
                             $nbStudentFormation = getNbEtuPerFormation($formation['nameFormation']);
                             $nbStudentParcours = getNbEtuPerParcours($formation['nameFormation']);
                             ?>
                             <div class="rounded-box">
                                 <hr>
-                                <h5> <?= $formation['nameFormation'] ?> </h5>
-                                <hr>
-                                <p>
-                                    Nombre de candidat.e.s : <?= (isset($nbStudentFormation['effectifFormation'])) ? $nbStudentFormation['effectifFormation'] : "0"; ?>
-                                    <p>
-                                        <span style="color: green"> Alternants : <?= isset($nbStudentFormation['alternants']) ? $nbStudentFormation['alternants'] : 0; ?> </span> /
-                                        <span style="color: red"> Non-Alternants : <?= isset($nbStudentFormation['non_alternants']) ? $nbStudentFormation['non_alternants'] : 0; ?> </span>
-                                    </p>
-                                    <p>
-                                        <span style="color: green">  Actifs  : <?= isset($nbStudentFormation['actifs']) ? $nbStudentFormation['actifs'] : 0; ?> </span> /
-                                        <span style="color: red"> Non-actifs  : <?= isset($nbStudentFormation['inactifs']) ? $nbStudentFormation['inactifs'] : 0; ?> </span>
-                                    </p>
-                                </p>
-                                <ul>
+                                <h5><?= $formation['nameFormation'] ?></h5>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre de candidat.e.s</th>
+                                        <th>Actifs</th>
+                                        <th>Non-actifs</th>
+                                        <th>Alternants</th>
+                                        <th>Non-Alternants</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><?= (isset($nbStudentFormation['effectifFormation'])) ? $nbStudentFormation['effectifFormation'] : "0"; ?></td>
+                                        <td style="color: green;"><?= isset($nbStudentFormation['actifs']) ? $nbStudentFormation['actifs'] : 0; ?></td>
+                                        <td style="color: red;"><?= isset($nbStudentFormation['inactifs']) ? $nbStudentFormation['inactifs'] : 0; ?></td>
+                                        <td style="color: green;"><?= isset($nbStudentFormation['alternants']) ? $nbStudentFormation['alternants'] : 0; ?></td>
+                                        <td style="color: red;"><?= isset($nbStudentFormation['non_alternants']) ? $nbStudentFormation['non_alternants'] : 0; ?></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Parcours</th>
+                                        <th>Nombre de candidat.e.s</th>
+                                        <th>Actifs</th>
+                                        <th>Non-actifs</th>
+                                        <th>Alternants</th>
+                                        <th>Non-Alternants</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     <?php foreach ($nbStudentParcours as $nbStudent) {
                                         if (in_array($nbStudent['nameParcours'], $courses)) { ?>
-                                            <li><?= $nbStudent['nameParcours'] ?> Nombre de candidat.e.s: <?= (isset($nbStudent['nombreetudiants'])) ? $nbStudent['nombreetudiants'] : "0"; ?>
-                                                <p>
-                                                    <span style="color: green"> Alternants : <?= isset($nbStudent['alternants']) ? $nbStudent['alternants'] : 0; ?> </span> /
-                                                    <span style="color: red"> Non-Alternants : <?= isset($nbStudent['non_alternants']) ? $nbStudent['non_alternants'] : 0; ?> </span>
-                                                </p>
-                                                <p>
-                                                    <span style="color: green"> Actifs  : <?= isset($nbStudent['actifs']) ? $nbStudent['actifs'] : 0; ?> </span> /
-                                                    <span style="color: red"> Non-actifs  : <?= isset($nbStudent['inactifs']) ? $nbStudent['inactifs'] : 0; ?> </span>
-                                                </p>
-
-                                            </li>
+                                            <tr>
+                                                <td><?= $nbStudent['nameParcours'] ?></td>
+                                                <td><?= (isset($nbStudent['nombreetudiants'])) ? $nbStudent['nombreetudiants'] : "0"; ?></td>
+                                                <td style="color: green;"><?= isset($nbStudent['actifs']) ? $nbStudent['actifs'] : 0; ?></td>
+                                                <td style="color: red;"><?= isset($nbStudent['inactifs']) ? $nbStudent['inactifs'] : 0; ?></td>
+                                                <td style="color: green;"><?= isset($nbStudent['alternants']) ? $nbStudent['alternants'] : 0; ?></td>
+                                                <td style="color: red;"><?= isset($nbStudent['non_alternants']) ? $nbStudent['non_alternants'] : 0; ?></td>
+                                            </tr>
                                         <?php } ?>
                                     <?php } ?>
-                                </ul>
+                                    </tbody>
+                                </table>
                             </div>
-                            <hr>
                         <?php } ?>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -229,6 +267,7 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
             </div>
         </div>
     </section>
+
 
     <footer class="bottomBanner">
         <?php if ($dashboardInfo['isHeadcount'] == 1)  : ?>

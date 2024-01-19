@@ -15,15 +15,12 @@ if (empty($_SESSION['user'])) {
         </script>';
 }
 
-function showProfile($conn,$login){
-    $result = showUserProfile($conn,$login);
-    echo '<div class="infosProfil">
-                  <h2> Utilisateur : ' . $result["userName"] . " " . $result["firstName"] . ' </h2>                       
-                  <p>  Login : ' . $result['login'] . "
-                  <br> " . 'Email : ' . $result['email'] .'</p> ' . "   
-               </div>";
-}
 
+
+function getUserProfile($login){
+    global $conn;
+    return showUserProfile($conn,$login);
+}
 //Redirection a la page d'accueil si le bouton retourAccueil est presse
 if(isset($_POST['retourAccueil'])){
     header('Location: ../View/PageAccueil.php');

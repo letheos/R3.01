@@ -25,7 +25,7 @@ $user = unserialize($_SESSION['user']);
         Votre profil
     </h1>
     <button class="btn btn-light" type="submit" name="retourAccueil" onclick="goBackHomePage()">Retour à l'accueil</button>
-    <button id="disconnect" class="btn btn-light" type="submit" name="disconnect" onclick="disconnect()">Deconnexion</button>
+    <button id="disconnect" class="btn btn-light" type="submit" name="disconnect" onclick="disconnect()">Déconnexion</button>
     <button id="modification" class="btn btn-light" type="submit" name="modification" onclick="modificate()">Modifier le compte</button>
 </header>
 
@@ -49,7 +49,7 @@ $user = unserialize($_SESSION['user']);
                         <a class="nav-link" href="PageAlertes.php"> Notifications </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="PageCommunication.php"> Accèder aux échanges </a>
+                        <a class="nav-link" href="PageCommunication.php"> Accéder aux échanges </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>

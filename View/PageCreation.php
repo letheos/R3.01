@@ -95,8 +95,9 @@ $user = unserialize($_SESSION['user']);
                 <select id="idRole" name="selectRole" size="1"
                         value="<?php echo isset($_SESSION['selectRole']) ? $_SESSION['selectRole'] : '' ?>">
                     <option id="idSecretaire" value=2>Secrétaire</option>
-                    <option id="idChefDepartement" value=1>Chef de département</option>
+                    <option id="idChefDepartement" value=4>Chef de département</option>
                     <option id="idChargeDev" value=3>Chargé de développement</option>
+                    <option id="admin" value = 1>chef de service</option>
                 </select>
             </div>
 

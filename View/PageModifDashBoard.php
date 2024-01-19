@@ -57,7 +57,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
     <div class=container>
         <div class="column">
             <div class="rounded-box">
-                <h5>parcours déjà sélectionner à resélectionner pour les conserver</h5>
+                <h5>parcours déjà sélectionné à resélectionner pour les conserver</h5>
                 <?php
                 $parcours = ControllerGetFormationForADashBoard($_POST['idDashboard']);
                 if (!empty($parcours)){
@@ -73,7 +73,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                     }
                 }else{ ?>
 
-                <p> pas de formation sauvegardé </p>
+                <p> pas de formation sauvegardée </p>
                 <?php
                     }
                 ?>

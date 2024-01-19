@@ -134,7 +134,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
     <div class=column>
         <div class="rounded-box">
-            <h2 class="titreAffichage">Paramètres diagrammes</h2>
+            <h2 class="titreAffichage">Paramètres effectif</h2>
             <input type="checkbox" id="isHeadcount" name="isHeadcount" value="1">
             <label for="isHeadcount">Afficher effectif</label>
         </div>

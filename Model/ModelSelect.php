@@ -267,7 +267,7 @@ function verfication($conn,$mail,$login)
 
 
 function hasPastAlert(PDO $conn, string $login){
-    $req = $conn->prepare("SELECT COUNT(idalert) FROM alert JOIN ALERTUTILISATEUR WHERE login = ? AND remindAT<CURRENT_DATE and seen= false");
+    $req = $conn->prepare("SELECT COUNT(idalert) FROM alert JOIN ALERTUTILISATEUR WHERE login = ? AND remindAT<=CURRENT_DATE and seen= false");
     try {
         $req->execute(array($login));
         $result = $req->fetchAll();
@@ -1066,6 +1066,19 @@ function selectNbStudentPerParcours($conn, $formation){
             WHERE f.nameFormation = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($formation));
+    return $req->fetchAll();
+}
+
+/**
+ * @param $conn PDO
+ * @param $parcours string
+ * @return mixed
+ * return the number of studiant, alternant, no alternant, actif and no actif for a parcour pass in parameter
+ */
+function selectParcoursNumber($conn, $parcours){
+    $sql = "SELECT * FROM effectifsparcours WHERE nameParcours = ?; ";
+    $req = $conn->prepare($sql);
+    $req->execute(array($parcours));
     return $req->fetchAll();
 }
 

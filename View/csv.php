@@ -1,4 +1,5 @@
 <?php
+/*
 //On passe la valeur a null si elle n'existe pas
 if(!isset($_SESSION["login"])){
     $_SESSION['login'] = null;
@@ -15,9 +16,13 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
         window.location.href = "../View/PageConnexion.php";
         </script>';
 }
+*/
 ?>
 
 <!DOCTYPE html>
+<?php
+#wip
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

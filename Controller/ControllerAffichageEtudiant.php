@@ -70,7 +70,14 @@ function getNbEtu(){
 }
 
 
-
+function getNbEtuWithFormation($formation){
+    global $conn;
+    $count = 0;
+    foreach($formation as $formations){
+        $count += selectNbStudentPerFormation($conn, $formations)['effectifFormation'];
+    }
+    return $count;
+}
 /**
  * Fonction qui gère le filtrage pour afficher des candidats en fonction de critères précis
  * @param $conn : Connection à la base de donnée

@@ -64,9 +64,9 @@ $user = unserialize($_SESSION['user']);
                             <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                         </li>
                     <?php endif; ?>
-                    <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire"): ?>
+                    <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire" || $user->getRole() == "Charge de developpement"): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="PageSendCandidateCV.php"> Envoi de CV </a>
+                            <a class="nav-link" href="PageSendCandidateCV.php"> Envoyer un CV </a>
                         </li>
                     <?php endif; ?>
                 </ul>

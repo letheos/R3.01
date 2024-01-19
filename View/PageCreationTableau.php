@@ -61,7 +61,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <h2>Choix des parcours</h2>
                 <div class="accordion" id="choicesDep">
                     <?php
-                    if($user->getRole() == "Admin"){
+                    if($user->getRole() == "Chef de service"){
                         $formations = controllerGetAllFormations();
                     }else{
                         $formations = $user->getLesFormations();

@@ -1,9 +1,9 @@
 <?php
+
 $conn = require "../Model/Database.php";
-include "../Controller/ControllerAffichageSendMail.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-session_start();
+require_once  "../Controller/ControllerAffichageEtudiant.php";session_start();
+
+$user = unserialize($_SESSION['user']);
 
 ?>
 
@@ -44,9 +44,24 @@ session_start();
 
         <div class="selection">
             <label for="formation" class="form-select-label"> Département </label>
-            <?php
-            listAffichageSelect($conn); //
-            ?>
+            <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
+                <option value="" selected="selected" disabled> Choisir la formation </option>
+                <?php
+                if($user->getRole() == "Chef de service"){
+                    $formations = getAllFormation();
+                }else{
+                    $formations = $user->getLesFormations();
+                }
+
+                $selected = '';
+                $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
+                foreach ($formations as $formation)
+                {
+                    $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : '';?>
+                <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option><?php
+                } ?>
+                <option value="Aucune Option" > Aucune Option </option>
+            </select>
 
             <label for="parcours" class="form-select-label"> Parcours </label>
             <select class="form-select" name="parcours" id="parcours" >
@@ -85,7 +100,7 @@ session_start();
             <?php
         }
         unset($_SESSION["erreur"]);
-        session_destroy();
+        unset( $_SESSION["message"]);
     }
     ?>
 

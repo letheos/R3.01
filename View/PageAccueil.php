@@ -47,12 +47,12 @@ $user = unserialize($_SESSION['user']);
                         <li class="nav-item">
                             <a class="nav-link" href="PageAffichageEtudiant.php"> Afficher les étudiants</a>
                         </li>
-                        <?php if ($user->getRole() == "Admin"): ?>
+                        <?php if ($user->getRole() == "Chef de service"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreation.php"> Créer un utilisateur</a>
                             </li>
                         <?php endif; ?>
-                        <?php if ($user->getRole() == "Admin" || $user->getRole() == "Secretaire" || $user->getRole() == "Charge de developpement"): ?>
+                        <?php if ($user->getRole() == "Chef de service" || $user->getRole() == "Secretaire" || $user->getRole() == "Charge de developpement"): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="PageCreationCompte.php"> Enregistrer un candidat</a>
                             </li>

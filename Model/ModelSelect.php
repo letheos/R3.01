@@ -1152,3 +1152,7 @@ function selectCvById($conn, $idCandidate)
 }
 
 
+
+
+
+

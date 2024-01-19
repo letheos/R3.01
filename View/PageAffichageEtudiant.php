@@ -35,6 +35,10 @@ $user = unserialize($_SESSION['user']);
     <h1>
         Les profils candidats
     </h1>
+    <form action="PageAccueil.php">
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
+        </button>
+    </form>
 </header>
 
 <form id="filter-form" method="POST" action="../View/PageAffichageEtudiant.php">

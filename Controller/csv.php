@@ -38,10 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $entete = fgetcsv($fichier, 0, ';');
 
             $indexINE = array_search('INE', $entete);
-            print_r($indexINE);
-            echo $indexINE;
-            echo '<br>';
-            echo '<br>';
             $indexNom = array_search('Nom d\'usage', $entete);
             $indexPrenom = array_search('Prénom', $entete);
             $indexMail = array_search('Adresse e-mail', $entete);
@@ -54,26 +50,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $indexNameStreet = array_search('Adresse personnelle : nom de rue', $entete);
             $indexNumberStreet = array_search('Adresse personnelle : numéro de rue', $entete);
             $indexProject = array_search("Projet d'entreprise", $entete);
-            echo '<script>alert("avant if")</script>';
            // if ($indexINE !== false && $indexNom !== false && $indexPrenom !== false) {
                 echo '<script>alert("après if")</script>';
                 while (($ligne = fgetcsv($fichier, 0, ';')) !== false) {
 
                     $ine = $ligne[$indexINE];
-                    $ineParts = explode(',', $ine);
-
-                    //echo $ineParts;
-                    print_r($ineParts);
-
-
-                    if(true){
-                        $ine = $ineParts[0];
-                        $nom = $ineParts[1];
-                        $prenom = $ineParts[2];
-                        $mail = $ineParts[3];
-                        $alternance = $ineParts[4];
-                        $parcours = $ineParts[5];
-                        $year = $ineParts[6];
+                    $nom = $ligne[$indexNom];
+                    $prenom = $ligne[$indexPrenom];
+                    $mail = $ligne[$indexMail];
+                    $alternance = $ligne[$indexAlt];
+                    $parcours = $ligne[$indexParcours];
+                    $year = $ligne[$indexYear];
+                    $phone = $ligne[$indexPhone];
+                    $city = $ligne[$indexCity];
+                    $postal = $ligne[$indexPostal];
+                    $namestreet = $ligne[$indexNameStreet];
+                    $numstreet = $ligne[$indexNumberStreet];
+                    $project = $ligne[$indexProject];
+                        /*
                         $nameFormation = $ineParts[7];
                         $yearFormationStart = $ineParts[8];
                         $etablissement = $ineParts[9];
@@ -142,12 +136,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $telFixeAdresseRepresentantLegal = $ineParts[74];
                         $telPortableAdresseRepresentantLegal = $ineParts[75];
                         $faxAdresseRepresentantLegal = $ineParts[76];
-
+*/
 // Constructing the full address for the 'Adresse personnelle'
-                        $addressStreet = $numRueAdressePersonnelle . ' ' . $nomRueAdressePersonnelle;
-
+                        $addressStreet = $numstreet . ' ' . $namestreet;
+                    echo "INE: $ine, Nom: $nom, Prenom: $prenom, Mail: $mail, Alternance: $alternance, Parcours: $parcours, Année: $year, Téléphone: $phone, Ville: $city, Code Postal: $postal, Nom de Rue: $namestreet, Numéro de Rue: $numstreet, Projet d'Entreprise: $project";
+                    if($ine != ""){
 // Now you can use these variables in your insertCandidate function
-                     insertCandidate($conn,$ine,$nom,$prenom,$year,$mail,$telPortableAdresseResidentielle,$parcours,0,'azz',$projetEntreprise,$addressStreet,null,null);
+                     insertCandidate($conn,$ine,$nom,$prenom,$year,$mail,$phone,$parcours,0,'azz',$project,$addressStreet,null,null);
                     }
 
                 }

@@ -44,7 +44,7 @@ function dlArchive($infos)
     $nom = "cvsplzcamarche";
     $archivePath = createImageArchive($conn,$val,$nom);
     header('Content-Type: application/zip');
-    header('Content-Disposition: attachment; filename="' . "test" . '"');
+    header('Content-Disposition: attachment; filename="' . "test" . 'rar');
     header('Content-Length: ' . filesize($archivePath));
     readfile($archivePath);
 

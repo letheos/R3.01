@@ -1,23 +1,71 @@
 <?php
-session_start();
+function getDashboardById($id){
+    global $conn;
+    return selectDashboardById($conn, $id);
+}
 
-/*
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["login"])){
-    $_SESSION['login'] = null;
+function getParcoursOfADashboard($id){
+    global $conn;
+    return selectParcoursOfDashboard($conn, $id);
 }
-//On passe la valeur a null si elle n'existe pas
-if(!isset($_SESSION["password"])){
-    $_SESSION['password'] = null;
+
+
+function getFormationOfADashboard($id){
+    global $conn;
+    return selectFormationOfDashboard($conn, $id);
 }
-//Cette condition sert à verifier que la personne accedant a la page d'accueil
-if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
-    //$_SESSION['provenance'] = 'Accueil';
-    echo '<script>
-        alert("Veuillez vous connecter");
-        window.location.href = "../View/PageConnexion.php";
-        </script>';
-}*/
+
+function getAllFormation(){
+    global $conn;
+    return allFormation($conn);
+}
+
+
+function getNbEtuPerFormation($formation){
+    global $conn;
+    return selectNbStudentPerFormation($conn, $formation);
+}
+
+function getNbEtuPerParcours($formation){
+    global $conn;
+    return selectNbStudentPerParcours($conn, $formation);
+}
+
+function getNbEtuActives(){
+    global $conn;
+    return countNbStudentActives($conn, 1);
+}
+
+function getNbEtuFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 1);
+}
+
+function getNbEtuNotActives(){
+    global $conn;
+    return countNbStudentActives($conn, 0);
+}
+
+function getNbEtuNotFoundApp(){
+    global $conn;
+    return countNbStudentFoundApp($conn, 0);
+}
+
+function getNbEtu(){
+    global $conn;
+    return countAllStudents($conn);
+}
+
+
+function getNbEtuWithFormation($formation){
+    global $conn;
+    $count = 0;
+    foreach($formation as $formations){
+        $count += selectNbStudentPerFormation($conn, $formations)['effectifFormation'];
+    }
+    return $count;
+}
+
 
 if(!isset($_SESSION['user'])){
     echo '<script>

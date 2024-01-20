@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
@@ -6,6 +9,11 @@ include '../Controller/ClassUtilisateur.php';
 $user = unserialize($_SESSION['user']);
 
 
+if ($user->getRole() == "Chef de service") {
+    $formations = getAllFormation();
+} else {
+    $formations = $user->getLesFormations();
+}
 
 ?>
 
@@ -13,7 +21,6 @@ $user = unserialize($_SESSION['user']);
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="Accueil.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>Accueil</title>
     <style>
@@ -21,12 +28,22 @@ $user = unserialize($_SESSION['user']);
             background-color: #0f94b4;
         }
 
+
         footer {
             position: fixed;
             bottom: 0;
             width: 100%;
         }
 
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex-grow: 1;
+        }
 
     </style>
 </head>
@@ -85,25 +102,62 @@ $user = unserialize($_SESSION['user']);
         </div>
     </section>
 
-<section class="vh-100 justify-content-center">
+<main class="vh-100 d-flex justify-content-center">
     <?php $alerts = getActualAlert($user->getLogin()); ?>
-    <div class="container border p-4 <?php echo count($alerts) < 5 ? 'min-height-alerts' : ''; ?>">
-        <h1 class="text-center">Rappel du jour</h1>
-
-        <?php foreach ($alerts as $alert) { ?>
-            <div class="alert alert-primary mt-3">
-                <p class="mb-0">Date: <?= $alert["remindAt"] ?></p>
-                <p class="mb-0">Note: <?= $alert["note"] ?></p>
-                <div class="mt-3">
-                    <a class="btn btn-primary" href="./PageAlertes.php">Aller voir</a>
-                </div>
+    <div class="container <?php echo count($alerts) < 5 ? 'min-height-alerts' : ''; ?>">
+        <div class="row">
+            <div class="col-md-4" style="border: 1px solid #000; padding: 5px;">
+                <h1 class="text-center">Rappel du jour</h1>
+                <?php foreach ($alerts as $alert) { ?>
+                    <div class="alert alert-primary mb-3">
+                        <p class="mb-0">Date: <?= $alert["remindAt"] ?></p>
+                        <p class="mb-0">Note: <?= $alert["note"] ?></p>
+                        <div class="mt-3">
+                            <a class="btn btn-primary" href="./PageAlertes.php">Aller voir</a>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
-        <?php } ?>
+
+            <div class="col-md-8 container" style="border: 1px solid #000; padding: 5px;">
+                <h2 class="text-center">Informations des Effectifs en générale</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Formations</th>
+                        <th scope="col">Nombre Candidats</th>
+                        <th scope="col">Actifs</th>
+                        <th scope="col">Inactifs</th>
+                        <th scope="col">Avec Contrat</th>
+                        <th scope="col">Sans Contrat</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach($formations as $formation){
+                        $nbStudentFormation = getNbEtuPerFormation($formation['nameFormation']);?>
+                        <tr>
+                            <td><?= $formation['nameFormation'] ?></td>
+                            <td><?= (isset($nbStudentFormation['effectifFormation'])) ? $nbStudentFormation['effectifFormation'] : "0"; ?></td>
+                            <td style="color: green;"><?= isset($nbStudentFormation['actifs']) ? $nbStudentFormation['actifs'] : 0; ?></td>
+                            <td style="color: red;"><?= isset($nbStudentFormation['inactifs']) ? $nbStudentFormation['inactifs'] : 0; ?></td>
+                            <td style="color: green;"><?= isset($nbStudentFormation['alternants']) ? $nbStudentFormation['alternants'] : 0; ?></td>
+                            <td style="color: red;"><?= isset($nbStudentFormation['non_alternants']) ? $nbStudentFormation['non_alternants'] : 0; ?></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</section>
+</main>
 
 
-    <footer class="bg-custom text-white">
+
+
+    <footer class="bg-custom text-white mt-auto">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">

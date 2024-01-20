@@ -128,6 +128,11 @@ function getNbEtuPerParcours($parcour){
     return selectParcoursNumber($conn, $parcour);
 }
 
+function controllerGetFormationDashboard($idDashboard){
+    global $conn;
+    return GetFormationDashboard($conn, $idDashboard);
+}
+
 
 
 function getNbEtuFoundApp(){
@@ -158,6 +163,11 @@ function getNbEtuWithFormation($formation){
         $count += selectNbStudentPerFormation($conn, $formations)['effectifFormation'];
     }
     return $count;
+}
+
+function getNbEtuPerFormation($formation){
+    global $conn;
+    return selectNbStudentPerFormation($conn, $formation);
 }
 
 

@@ -87,7 +87,6 @@ $role = getRole($conn,$_POST['login']);
 $userObject = new Utilisateur($_POST['login'],$_POST['password'],$user[0]['firstName'],$user[0]['userName'],$role,$user[0]['email'],$userFormation);
 $_SESSION['user'] = serialize($userObject);
 
-var_dump(isset($_SESSION['user']));
 header("location: ../View/PageAccueil.php");
 
 

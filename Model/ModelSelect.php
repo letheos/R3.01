@@ -499,6 +499,17 @@ function GetFormationForADashBoard($conn, $idDashBoard){
     return $req->fetchAll();
 }
 
+
+
+function GetFormationDashboard($conn, $idDashBoard){
+    $sql = "SELECT distinct(nameFormationParcours) 
+            FROM dashboardparcours 
+            JOIN parcours using (nameParcours)
+            WHERE idDashBoard = ?;";
+    $req = $conn->prepare($sql);
+    $req ->execute(array($idDashBoard));
+    return $req->fetchAll();
+}
 /**
  * @param PDO $conn   The db connection
  * @param string $login The login of a user

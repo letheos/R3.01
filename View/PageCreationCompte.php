@@ -3,10 +3,14 @@
  * Fichier permettant l'affichage de la création d'un candidat
  * @author Nathan Strady
  */
-
 session_start();
-$conn = require '../Model/Database.php';
-require '../Controller/ControllerAffichagePage.php';
+include "../Controller/ClassUtilisateur.php";
+require "../Controller/ControllerCreationCompte.php";
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 
 
 if (empty($_SESSION['user'])) {
@@ -16,7 +20,14 @@ if (empty($_SESSION['user'])) {
         </script>';
 }
 
-$user = $_SESSION['user'];
+$user = unserialize($_SESSION['user']);
+
+
+if ($user->getRole() == "Chef de service") {
+    $formations = getAllFormation();
+} else {
+    $formations = $user->getLesFormations();
+}
 
 
 ?>
@@ -25,24 +36,16 @@ $user = $_SESSION['user'];
 
 <html lang="en">
 <head>
-    <title>Creation Candidat</title>
+    <title>Creation Candidat</title> <!-- Supprimez cette ligne si vous avez déjà une balise <title> plus haut -->
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <title>Document</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="StyleCreationCompte.css">
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-
-
 </head>
+
 
 <body>
 <header class="banner">
@@ -54,39 +57,40 @@ $user = $_SESSION['user'];
         </button>
     </form>
 </header>
-    <section>
-            <div class="rounded-box">
-                <form  id="inscription" method="post" action="../Controller/ControllerCreationCompte.php" enctype="multipart/form-data">
-                <header>
-                    <span class="text-danger">Champs obligatoire(*)</span>
-                </header>
+<section class="container mt-5">
+    <div class="rounded-box">
+        <form id="inscription" method="post" action="../Controller/ControllerCreationCompte.php" enctype="multipart/form-data">
+            <header class="mb-3">
+                <span class="text-danger">Champs obligatoire(*)</span>
+            </header>
 
-                    <?php
-                    if(isset($_SESSION["message"])){
-                        if ($_SESSION['success'] == 0) {?>
-                            <div class="alert alert-danger">
-                                <?php echo $_SESSION["message"]; ?>
-                            </div>
-                        <?php } else { ?>
-                            <div class="alert alert-success">
-                                <?php echo $_SESSION["message"]; ?>
-                            </div>
-                            <?php
-                        }
-                        unset($_SESSION["message"]);
-                    }
-                    ?>
-
-
-                <div class="rounded-box">
-                    <header class="rounded-box-title">
-                        Informations Candidat
-                    </header>
-                    <div class="ineForm">
-                        <label> INE </label>
-                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE : 123456789AB" pattern = "\d{9}[A-Z]{2}" >
-
+            <?php
+            if (isset($_SESSION["message"])) {
+                if ($_SESSION['success'] == 0) { ?>
+                    <div class="alert alert-danger">
+                        <?php echo $_SESSION["message"]; ?>
                     </div>
+                <?php } else { ?>
+                    <div class="alert alert-success">
+                        <?php echo $_SESSION["message"]; ?>
+                    </div>
+                    <?php
+                }
+                unset($_SESSION["message"]);
+            }
+            ?>
+
+
+            <div class="rounded-box mb-4">
+                <header class="rounded-box-title">
+                    Informations Candidat
+                </header>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label> INE </label>
+                        <input type="text" id="INE" name="INE" class="form-control" placeholder="INE: 123456789AB" pattern="\d{9}[A-Z]{2}">
+                    </div>
+
 
                     <div class="lastNameForm">
                         <label for="lastName">Nom <span class="text-danger">*</span></label>
@@ -186,15 +190,22 @@ $user = $_SESSION['user'];
                     </header>
 
                     <div class="choices-container">
+                        <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
+                            <option value="" selected="selected" disabled>Choisir la formation</option>
                             <?php
-                            displayDropdown($conn);
-                            ?>
-
+                            $selected = '';
+                            $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
+                            foreach ($formations as $formation) {
+                                $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : ''; ?>
+                            <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option><?php
+                            } ?>
+                            <option value="Aucune Option">Aucune Option</option>
+                        </select>
                     </div>
 
                     <div class="parcoursForm">
                         <select name="parcours" id="parcours" class="form-select" required>
-                            <option value="AucuneOption" selected disabled> Choisir le département </option>
+                            <option value="AucuneOption" selected disabled> Choisir le parcours</option>
                         </select>
                     </div>
 
@@ -210,17 +221,24 @@ $user = $_SESSION['user'];
 
 
                 <div class="rounded-box">
-                    <header class="rounded-box-title">
-                        Entreprises
-                    </header>
-                    <div class="typeCompanySearchForm">
-                        <label for="typeCompanySearch">Type d'Entreprise Recherchées</label>
-                        <textarea id="typeCompanySearch" name="typeCompanySearch" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="typeCompanySearchForm">
+                                <label for="typeCompanySearch">Type d'Entreprise Recherchées</label>
+                                <textarea id="typeCompanySearch" name="typeCompanySearch" rows="4" class="form-control" placeholder="Saisissez du texte ici"></textarea>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="downloadButton">
-                        <label for="cv">Inserer le cv ici</label>
-                        <input type="file" name="cvFile" id="cv" accept=".pdf, .png, .jpg, .jpeg">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="downloadButton">
+                                <label for="cv">Insérer le CV ici</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="cv" name="cvFile" accept=".pdf, .png, .jpg, .jpeg">
+                                    <label class="custom-file-label" for="cv">Choisir un fichier</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -229,20 +247,18 @@ $user = $_SESSION['user'];
                         Remarques
                     </header>
                     <div class="remarks">
-                        <textarea id="text-area" name="remarksText" rows="4" cols="50" placeholder="Saisissez du texte ici"></textarea>
+                        <textarea id="text-area" name="remarksText" rows="4" class="form-control" placeholder="Saisissez du texte ici"></textarea>
                     </div>
                 </div>
 
 
 
-                <div class="submitButton">
-                    <button class="btn btn-outline-primary" type="submit" id="inscription" name="inscription" >Inscription</button>
+                <div class="submitButton mt-4">
+                    <button class="btn btn-primary" type="submit" id="inscription" name="inscription">Inscription</button>
                 </div>
-
-                </form>
-            </div>
-
-    </section>
+        </form>
+    </div>
+</section>
 
 
 

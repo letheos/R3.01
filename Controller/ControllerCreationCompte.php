@@ -8,26 +8,18 @@ require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 require "GestionDonnees.php";
 
+
 $conn = require "../Model/Database.php";
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
-
 
 $msg = "erreur script";
 $success = 1;
 $directory = '../upload/';
 
-/*
-TODO LIST :
-TODO : Faire la récupération DONE
-TODO : Faire la gestion et l'affichage des erreurs du form DONE
-TODO : Faire l'utilisation des fonctions dans le model pour insérer les données en cas de réussite DONE
-*/
 
-
+function getAllFormation(){
+    global $conn;
+    return allFormation($conn);
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

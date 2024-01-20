@@ -29,7 +29,7 @@ $user = unserialize($_SESSION['user']);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="StylePageAfficheTableau.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <title>Page affiche les tableaux de bord</title>
     <style>
         .bg-custom {
@@ -41,14 +41,6 @@ $user = unserialize($_SESSION['user']);
             bottom: 0;
             width: 100%;
         }
-
-        .card.collapsed {
-            height: 100px;
-            width: 450px;
-            overflow: hidden;
-            transition: height 0.3s ease, width 0.3s ease; /* Ajoutez une transition en douceur */
-        }
-
     </style>
 
 </head>
@@ -64,7 +56,7 @@ $user = unserialize($_SESSION['user']);
     </form>
 
     <form action="../View/PageCreationTableau.php">
-        <button class="btn btn-light" id="createDashboard">Ajouter un tableau de bord +</button>
+        <button class="btn btn-light" id="createDashboard">Ajouter un tableau de bord</button>
     </form>
 </header>
 
@@ -81,7 +73,7 @@ $user = unserialize($_SESSION['user']);
             $isAddress = $dashboard['isAddress'];
             $isPhone = $dashboard['isPhone'];
             $isHeadcount = $dashboard['isHeadcount'];
-            $formations = ControllerGetParcoursDashboard($idDashboard);
+            $formations = controllerGetFormationDashboard($idDashboard);
             ?>
 
             <div class="col-md-6 mb-4">
@@ -93,32 +85,30 @@ $user = unserialize($_SESSION['user']);
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered" id="<?= $idDashboard ?>">
-                            <thead>
                             <tr>
-                                <th>Nom Formation</th>
-                                <th>Nbr Étudiants Total</th>
-                                <th>Nbr Étudiants Actifs</th>
-                                <th>Nbr Étudiants Alternance</th>
+                                <th scope="col">Formations</th>
+                                <th scope="col">Nombre Candidats</th>
+                                <th scope="col">Actifs</th>
+                                <th scope="col">Inactifs</th>
+                                <th scope="col">Avec Contrat</th>
+                                <th scope="col">Sans Contrat</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            if (empty($formations)) { ?>
+                            foreach($formations as $formation){
+                                $nbStudentFormation = getNbEtuPerFormation($formation['nameFormationParcours']); ?>
                                 <tr>
-                                    <td colspan="4"><p class="text-danger">Pas de formations liées</p></td>
+                                    <td><?= $formation['nameFormationParcours'] ?></td>
+                                    <td><?= (isset($nbStudentFormation['effectifFormation'])) ? $nbStudentFormation['effectifFormation'] : "0"; ?></td>
+                                    <td style="color: green;"><?= isset($nbStudentFormation['actifs']) ? $nbStudentFormation['actifs'] : 0; ?></td>
+                                    <td style="color: red;"><?= isset($nbStudentFormation['inactifs']) ? $nbStudentFormation['inactifs'] : 0; ?></td>
+                                    <td style="color: green;"><?= isset($nbStudentFormation['alternants']) ? $nbStudentFormation['alternants'] : 0; ?></td>
+                                    <td style="color: red;"><?= isset($nbStudentFormation['non_alternants']) ? $nbStudentFormation['non_alternants'] : 0; ?></td>
                                 </tr>
-                            <?php } else {
-                                foreach ($formations as $formation) {
-                                    $info = getNbEtuPerParcours($formation[0]);
-                                    ?>
-                                    <tr>
-                                        <td><?= $formation[0] ?></td>
-                                        <td><?= (!empty($info) && $info[0]['nombreetudiants'] > 0) ? $info[0]['nombreetudiants'] : '<p class="text-danger">0</p>' ?></td>
-                                        <td><?= (!empty($info) && $info[0][3] > 0) ? $info[0][3] : '<p class="text-danger">0</p>' ?></td>
-                                        <td><?= (!empty($info) && $info[0][2] > 0) ? $info[0][2] : '<p class="text-danger">0</p>' ?></td>
-                                    </tr>
-                                <?php }
-                            } ?>
+                                <?php
+                            }
+                            ?>
                             </tbody>
                         </table>
 
@@ -184,6 +174,7 @@ $user = unserialize($_SESSION['user']);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
+
 <script src="../Controller/JsDisplayDashBoard.js"></script>
 </body>
 </html>

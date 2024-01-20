@@ -42,7 +42,7 @@ function dlArchive($infos)
         $val[] = selectCandidatById($conn,$candidat);
     }
     $nom = "cvsplzcamarche";
-    $archivePath = createImageArchive($conn,$val,$nom);
+    $archivePath = createImageArchive($val,"pitie.zip");
     header('Content-Type: application/zip');
     header('Content-Disposition: attachment; filename="' . "marcheparpitie" . '.rar');
     header('Content-Length: ' . filesize($archivePath));
@@ -51,9 +51,9 @@ function dlArchive($infos)
     unlink($archivePath);
 }
 
-function createImageArchive($conn,$userandcv, $outputArchiveName) {
+function createImageArchive($userandcv, $outputArchiveName) {
 
-
+    global $conn;
     // Créer un objet ZipArchive
     $zip = new ZipArchive();
     if ($zip->open($outputArchiveName, ZipArchive::CREATE) !== TRUE) {
@@ -65,12 +65,7 @@ function createImageArchive($conn,$userandcv, $outputArchiveName) {
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName'];
             $imagePath = $val['cv'];
-
-            // Télécharger l'image depuis le chemin dans la base de données
-            $imageContent = file_get_contents($imagePath);
-
-            // Ajouter l'image à l'archive avec un nom de fichier unique (par exemple, basé sur l'ID)
-            $zip->addFromString("cv_$imageId.jpg", $imageContent);
+            $zip->addFile($imagePath,$imageId);
         }
     }
 

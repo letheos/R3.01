@@ -115,7 +115,7 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
 
             <div class="checkboxEmail form-check mb-2">
                 <input type="checkbox" id="email" name="email" value="1" class="form-check-input">
-                <label class="form-check-label" for="permis">Afficher l'email (par défaut non)</label>
+                <label class="form-check-label" for="email">Afficher l'email (par défaut non)</label>
             </div>
 
             <div class="checkboxFormParcours form-check mb-2">
@@ -136,6 +136,11 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
             <div class="checkboxzone form-check mb-2">
                 <input type="checkbox" id="zone" name="zone" value="1" class="form-check-input">
                 <label class="form-check-label" for="zone">Afficher la zone de recherche (par défaut non)</label>
+            </div>
+
+            <div class="checkboxActivesch form-check mb-2">
+                <input type="checkbox" id="Activesch" name="Activesch" value="1" class="form-check-input">
+                <label class="form-check-label" for="Activesch">Afficher l'état de l'activitée (par défaut non)</label>
             </div>
 
         </div>

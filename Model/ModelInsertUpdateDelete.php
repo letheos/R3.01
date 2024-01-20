@@ -13,21 +13,14 @@
 
 
 /**
- * @param $nameDashboard string
- * @param $isPermis boolean
- * @param $isIne boolean
- * @param $isAddress boolean
- * @param $isPhone boolean
- * @param $isHeadcount boolean
- * @param $conn PDO //the connection at the database
- * @return null
+
  * this funtion insert à new dashboard in the database then a second function add it to the users
  */
-function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $conn)
+function insertNewDashBoard($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isInActiveSearch,$conn)
 {
-    $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone, isHeadcount) VALUES(?,?,?,?,?,?);";
+    $sql = "INSERT INTO dashBoard (nameOfDashBoard, isPermis,isIne, isAddress, isPhone, isHeadcount,isEmail,isFormationParcours,isYearOfFormation,isEnterpriseSearch,isZone,isInActiveSearch) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
     $req = $conn->prepare($sql);
-    $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount);
+    $params = array($nameDashboard ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isInActiveSearch);
     $req->execute($params);
     return $conn->lastInsertId();
 }
@@ -440,7 +433,7 @@ function insertSearchZone($conn, $idCandidate, $searchCity, $radius)
 
 /**
  * Insert all the candidate's information in the database
- * @param $conn : Connection à la bdd
+ * @param $conn  : Connection à la bdd
  * @param $INE : Ine of the candidate
  * @param $name : Name of the candidate
  * @param $firstName : Firstname of the candidate

@@ -7,6 +7,9 @@
 
 session_start();
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 include "../Controller/ClassUtilisateur.php";
@@ -29,8 +32,22 @@ if(isset($_POST["title"])) {
 
         $isHeadcount = isset($_POST['isHeadcount']) ? 1 : 0;
 
+        $isEmail   = isset($_POST['email']) ? 1 : 0;
+
+        $isformParcours = isset($_POST['formParcours']) ? 1 : 0;
+
+        $isYear = isset($_POST['year']) ? 1 : 0;
+
+        $isSchEntreprise = isset($_POST['schEntreprise']) ? 1 : 0;
+
+        $isZone = isset($_POST['zone']) ? 1 : 0;
+
+        $isActiv = isset($_POST['schEntreprise']) ? 1 : 0;
+
+
         //crée un dashbaord et lui ajoute ces parcours
-        $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $_POST['selectedParcours'],$conn);
+        $idDashBoard = ControllerCreateDashboard($_POST['title'], $isPermis, $isIne, $isAddress, $isPhone, $isHeadcount, $_POST['selectedParcours'],$conn,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv);
+
         //rajoute le dashbaord uniquement à l'utilisateur connecté
         ControllerAddDashBoardForUser($conn,$idDashBoard,$userObject->getLogin());
 
@@ -99,7 +116,6 @@ function controllerGetAllFormations(): array
 }
 
 /**
- * @param $conn PDO
  * @return String[]
  * tkae a PDO connection and return the values of getAllRole
  */
@@ -120,27 +136,7 @@ function ControllerGetFormationForADashBoard($idDashBoard): array
     return GetFormationForADashBoard($conn,$idDashBoard);
 
 }
-function ControllerCreateNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$login,$isHeadcount,$parcours){
-    //check si le dashbaord existe déjà si oui juste appelée la fonction qui ajoute un dashboard a un utilisateur
-    //sinon crée un nouveau puis l'affectée
-    global $conn;
-    if(selectdashboardid($conn,$name,$isPermis,$isIne,$isAddress,$isPhone) != null){
-        $idDashboard = insertNewUserDashBoard($login,$idDashboard,$conn);
 
-    }
-    else{
-        $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone, $isHeadcount, $conn);
-        foreach ($parcours as $parcour){
-            addFormationNewDashboard($parcour,$conn);
-        }
-        addDashBoardForUser($conn,$idDashboard,$login);
-        return 0;
-
-    }
-    //insertNewDashBoardForUser($isPermis,);
-    //TODO empecher de prendre deux fois le meme nom de dashbaord dans la bdd
-    //insertNewParcoursforDashboard($)
-}
 
 /**
  * @param $roles Array
@@ -166,8 +162,19 @@ function ControllerInsertDashboardForUsers($roles,$conn){
 
 }
 
-function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount, $parcours,$conn){
-    $idDashboard = insertNewDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount,$conn);
+/**
+ * @param $name
+ * @param $isPermis
+ * @param $isIne
+ * @param $isAddress
+ * @param $isPhone
+ * @param $isHeadcount
+ * @param $parcours
+ * @param $conn
+ * @return int
+ */
+function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount, $parcours,$conn,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv){
+    $idDashboard = insertNewDashBoard($name ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv,$conn);
     foreach ($parcours as $parcour){
         addFormationNewDashboard($parcour,$conn,$idDashboard);
     }

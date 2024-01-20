@@ -5,11 +5,40 @@ require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";
 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 
 if(isset($_POST["title"]) and isset($_POST['idDashboard'])) {
     if(isset($_POST['validate'])){
-        ControllerUpdateParametreDashBoard($_POST['title'],isset($_POST['isPermis']),isset($_POST['isIne']),isset($_POST['isAddress']),isset($_POST['isPhone']),$_POST['idDashboard'],isset($_POST['isHeadcount']));
+        #$dashboardInfo = getDashboardById($_POST['idDashboard']);
+
+        $isIne = isset($_POST['isIne']) ? 1 : 0;
+
+        $isAddress = isset($_POST["isAddress"]) ? 1 : 0;
+
+        $isPhone = isset($_POST["isPhone"]) ? 1 : 0;
+
+        $isPermis = isset($_POST["isPermis"]) ? 1 : 0;
+
+        $isHeadcount = isset($_POST['isHeadcount']) ? 1 : 0;
+
+        $isEmail   = isset($_POST['email']) ? 1 : 0;
+
+        $isformParcours = isset($_POST['formParcours']) ? 1 : 0;
+
+        $isYear = isset($_POST['year']) ? 1 : 0;
+
+        $isSchEntreprise = isset($_POST['schEntreprise']) ? 1 : 0;
+
+        $isZone = isset($_POST['zone']) ? 1 : 0;
+
+        $isActiv = isset($_POST['schEntreprise']) ? 1 : 0;
+        echo $isActiv;
+
+
+        ControllerUpdateParametreDashBoard($_POST['title'],$isPermis,$isIne,$isAddress,$isPhone,$_POST['idDashboard'],$isHeadcount,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv);
         ControllerUpdateParcoursDashBoard($_POST['selectedParcours'],$_POST['idDashboard'],$_POST['choix']);
         header('location:../View/PageAfficheTableau.php');
     }
@@ -99,9 +128,10 @@ function ControllerGetDashBoardPerUser(string $login): array
  * @return void
  * send to the function UpdateParametreDashBoard the value usefull to modify his parameters
  */
-function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$isHeadcount){
+function ControllerUpdateParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$isHeadcount,$isEmail,$isFormationParcours,$isYearOfFormation,$isEnterpriseSearch,$isZone,$isInActiveSearch){
     global $conn;
-    upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn,$isHeadcount);
+    echo $isEmail;
+    upadteParametreDashBoard($name,$isPermis,$isIne,$isAddress,$isPhone,$idDashBoard,$conn,$isHeadcount,$isEmail,$isFormationParcours,$isYearOfFormation,$isEnterpriseSearch,$isZone,$isInActiveSearch);
 
 }
 

@@ -1,35 +1,19 @@
-/**
- * Fichier js qui gère l'ajout et la suppression de champs dans la page Creation Candidat
- * @author Nathan Strady
- */
-
-/**
- *
- * @type {number} : Variable d'initialisation des compteurs
- * @type {divAdressForm} Variable qui récupère la div cityForm
- * @type {divAdressForm} Variable qui récupère la div adressForm
- */
-
-//Variable générale nécessaire pour la récupération de certaine donnée et l'initialisation des compteurs
+// Variable générale nécessaire pour la récupération de certaines données et l'initialisation des compteurs
 const limitChamp = 4;
-let nbChampAdress = 2;
+let nbChampAdress = {
+    completeAddress: 2,
+    citySearch: 2
+};
 let nbChampAdressReal = 1;
 let nbChampCitySearch = 2;
 const divAdressForm = document.querySelector(".adressForm");
 const divCityForm = document.querySelector(".cityForm");
 
-/**
- * Fonction qui ajoute un champ en fonction de plusieurs paramètres
- * @param container La div où se trouve l'élement
- * @param name Le nom de l'élement
- * @param placeholder L'affichage dans le champ de l'élement
- * @param className Le type de classe de l'élement
- * @returns {HTMLInputElement} Renvoie le nouveau champs
- */
-function addField(container, name, placeholder, className) {
+// Fonction qui ajoute un champ en fonction de plusieurs paramètres
+function addField(container, type, name, placeholder, className) {
     if (container) {
         const newField = document.createElement("input");
-        newField.type = "text";
+        newField.type = type;
         newField.placeholder = placeholder;
         newField.name = name;
         newField.className = className;
@@ -40,69 +24,79 @@ function addField(container, name, placeholder, className) {
     throw new DOMException("Container doesn't exist");
 }
 
-/**
- * Ajout une adresse complète dans la div adressForm
- */
+// Ajout une adresse complète dans la div adressForm
 function addCompleteAddress() {
-    if (nbChampAdress < limitChamp) {
+    if (nbChampAdress.completeAddress < limitChamp) {
         try {
             const newDiv = document.createElement("div");
             newDiv.className = "adressFormTemplate";
 
-            const title = document.createElement("label");
+            const title = document.createElement("p");
             title.textContent = `Adresse ${nbChampAdressReal + 1}`;
             nbChampAdressReal++;
             newDiv.appendChild(title);
 
-            newDiv.innerHTML += `
-                <div class="form-group">
-                    <input class="form-control" type="text" name="cp[]" placeholder="Code Postal" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="address[]" placeholder="Adresse d'habitation" required size="50">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="cityCandidate[]" placeholder="Ville" required>
-                </div>
-            `;
+            const formRow = document.createElement("div");
+            formRow.className = "form-row";
+
+            addField(formRow, "text", "cp[]", "Code Postal", "form-control col-md-3");
+            addField(formRow, "text", "address[]", "Adresse d'habitation", "form-control col-md-6");
+            addField(formRow, "text", "cityCandidate[]", "Ville", "form-control col-md-3");
+
+            newDiv.appendChild(formRow);
 
             // Ajoutez la nouvelle adresse complète à la div adressForm
             divAdressForm.appendChild(newDiv);
 
-            nbChampAdress++;
+            nbChampAdress.completeAddress++;
         } catch (error) {
             console.error(error.message);
         }
     }
 }
 
-/**
- * Ajoute une div citySearch
- */
-function addResearchZone(){
-
-    var newDiv = document.createElement("citySearch" + nbChampCitySearch);
+// Ajoute une div citySearch
+function addResearchZone() {
+    var newDiv = document.createElement("div");
+    newDiv.classList.add("form-group", "cityForm");
 
     newDiv.innerHTML = `
-        <input type="text" class="form-control" name="citySearch[]" placeholder="Zone ${nbChampCitySearch}" required>
-        <label for="rayon">Rayon :</label>
-        <input type="number" id="rayon" name="rayon[]" min="0" step="1" required>
-        <span>Km</span>
-        `;
+        <div id="citySearch${nbChampCitySearch}" name="citySearch${nbChampCitySearch}">
+            <label for="citySearch" class="form-label">Zone ${nbChampCitySearch}</label>
+            <input type="text" class="form-control" id="citySearch" name="citySearch[]" placeholder="Zone ${nbChampCitySearch}" required>
+
+            <div class="input-group">
+                <input type="number" id="rayon" name="rayon[]" class="form-control" min="0" step="1" placeholder="Rayon en Km" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">Km</span>
+                </div>
+            </div>
+        </div>
+    `;
 
     nbChampCitySearch++;
 
-
-    // Ajoutez les nouveaux éléments clonés à la fin du formulaire
+    // Ajoutez la nouvelle zone de recherche à la div cityForm
     divCityForm.appendChild(newDiv);
 
+    nbChampAdress.citySearch++;
 }
 
-/**
- *
- * @param element Ceci est la balise pour lequel on supprime le dernier enfant
- * @returns {boolean} Renvoie si l'opération à réussie ou non.
- */
+function delAdressInput() {
+    if (delLastChild(divAdressForm)) {
+        nbChampAdress.completeAddress--; // Decrement completeAddress count
+        nbChampAdressReal--; // Decrement the real address count
+    }
+}
+
+// Supprime le dernier enfant de la div cityForm
+function delReserchZone() {
+    if (delLastChild(divCityForm)) {
+        nbChampCitySearch--; // Decrement citySearch count
+    }
+}
+
+// Fonction générique qui supprime le dernier enfant d'un élément
 function delLastChild(element) {
     let firstChild = element.firstElementChild;
     let lastChild = element.lastElementChild;
@@ -112,24 +106,3 @@ function delLastChild(element) {
     }
     return false;
 }
-
-/**
- * Supprime le dernier enfant de la div adressForm
- */
-function delAdressInput() {
-    if(delLastChild(divAdressForm)) {
-        nbChampAdress--;
-    }
-}
-
-/**
- * Supprime le dernier enfant de la div cityForm
- */
-function delReserchZone() {
-    if(delLastChild(divCityForm)){
-        nbChampCitySearch--;
-    }
-}
-
-
-

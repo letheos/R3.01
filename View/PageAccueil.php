@@ -22,6 +22,7 @@ if ($user->getRole() == "Chef de service") {
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <title>Accueil</title>
     <style>
         .bg-custom {
@@ -49,11 +50,14 @@ if ($user->getRole() == "Chef de service") {
 </head>
 <body>
 <script src="../Controller/ControllerAccueilJS.js"></script>
-    <header class="jumbotron text-center bg-custom text-white">
-        <h1 class="display-10">
-            Bienvenue dans votre accueil M/Mme <?php echo $user->getFirstName() ?>
-        </h1>
-    </header>
+<header class="jumbotron text-center bg-custom text-white d-flex justify-content-between">
+    <h1 class="display-10">
+        Bienvenue dans votre accueil M/Mme <?php echo $user->getFirstName() ?>
+    </h1>
+    <a class="nav-link" href="PageProfil.php">
+        <i class="bi bi-person" style="font-size: 3em;"></i>
+    </a>
+</header>
 
     <section>
         <div>
@@ -90,11 +94,6 @@ if ($user->getRole() == "Chef de service") {
                                 <a class="nav-link" href="PageSendCandidateCV.php">Envoyer un CV</a>
                             </li>
                         <?php endif; ?>
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="PageProfil.php">Profil</a>
-                            </li>
-                        </ul>
                     </ul>
                 </div>
             </nav>

@@ -16,17 +16,31 @@ $user = unserialize($_SESSION['user']);
     <link rel="stylesheet" href="Profil.css">
     <script src="../Controller/ControllerPageProfilJS.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <title>Profil</title>
+
 </head>
 <body>
 
-<header class="banner">
-    <h1 class="TexteProfil">
-        Votre profil
-    </h1>
-    <button class="btn btn-light" type="submit" name="retourAccueil" onclick="goBackHomePage()">Retour à l'accueil</button>
-    <button id="disconnect" class="btn btn-light" type="submit" name="disconnect" onclick="disconnect()">Déconnexion</button>
-    <button id="modification" class="btn btn-light" type="submit" name="modification" onclick="modificate()">Modifier le compte</button>
+<header class="banner d-flex justify-content-between align-items-center">
+    <div>
+        <a style="font-size: 3em; color: white;" type="submit" href="PageAccueil.php">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+    </div>
+    <div>
+        <h1>Votre Profil</h1>
+    </div>
+    <div class="d-flex">
+        <div class="d-inline-block">
+            <a id="modification" style="font-size: 3em; color: white;" type="submit" name="modification" onclick="modificate()">
+                <i class="bi bi-gear"></i>
+            </a>
+            <a id="disconnect" style="font-size: 3em; color: white;" type="submit" name="disconnect" onclick="disconnect()">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </div>
 </header>
 
 <section>

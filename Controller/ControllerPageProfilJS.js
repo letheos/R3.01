@@ -19,9 +19,7 @@ function goBackHomePage(){
  * This function redirect to the connection page
  */
 function disconnect(){
-    document.getElementById("disconnect").addEventListener("click",function (){
-        window.location.href="../Controller/logout.php";
-    })
+    window.location.href="../Controller/logout.php";
 }
 
 /**

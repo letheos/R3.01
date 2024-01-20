@@ -49,8 +49,6 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
                 $indexNameStreet = array_search('Adresse personnelle : nom de rue', $entete);
                 $indexNumberStreet = array_search('Adresse personnelle : numéro de rue', $entete);
                 $indexProject = array_search("Projet d'entreprise", $entete);
-                // if ($indexINE !== false && $indexNom !== false && $indexPrenom !== false) {
-                echo '<script>alert("après if")</script>';
                 while (($ligne = fgetcsv($fichier, 0, ',')) !== false) {
                     $ine = $ligne[0];
                     $nom = $ligne[1];
@@ -87,7 +85,6 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
 
                 }
             }
-            # }
             fclose($fichier);
         }
 

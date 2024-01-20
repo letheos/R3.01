@@ -62,14 +62,16 @@ function createImageArchive($conn,$userandcv, $outputArchiveName) {
 
     // Parcourir les résultats et ajouter chaque image à l'archive
     foreach ($userandcv as $val){
-        $imageId = $val['name'].$val['firstName'];
-        $imagePath = $val['cv'];
+        if($val['cv']!= null and $val['cv']!="") {
+            $imageId = $val['name'] . $val['firstName'];
+            $imagePath = $val['cv'];
 
-        // Télécharger l'image depuis le chemin dans la base de données
-        $imageContent = file_get_contents($imagePath);
+            // Télécharger l'image depuis le chemin dans la base de données
+            $imageContent = file_get_contents($imagePath);
 
-        // Ajouter l'image à l'archive avec un nom de fichier unique (par exemple, basé sur l'ID)
-        $zip->addFromString("cv_$imageId.jpg", $imageContent);
+            // Ajouter l'image à l'archive avec un nom de fichier unique (par exemple, basé sur l'ID)
+            $zip->addFromString("cv_$imageId.jpg", $imageContent);
+        }
     }
 
     $zip->close();

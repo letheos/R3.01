@@ -41,7 +41,7 @@ function dlArchive($infos)
     foreach ($infos as $candidat) {
         $val[] = selectCandidatById($conn,$candidat);
     }
-    $nom = "cv".str(date());
+    $nom = "cvsplzcamarche";
     $archivePath = createImageArchive($conn,$val,$nom);
     header('Content-Type: application/zip');
     header('Content-Disposition: attachment; filename="' . "test" . '"');

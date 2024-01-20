@@ -64,7 +64,7 @@ function createImageArchive($userandcv, $outputArchiveName) {
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName'];
             $imagePath = $val['cv'];
-            $zip->addFile($imagePath,$imageId);
+            $zip->addFile($imagePath,$imageId,ZipArchive::FL_ENC_GUESS);
         }
     }
 

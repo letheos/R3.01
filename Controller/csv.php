@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail = $ligne[3];
                     $alternance = $ligne[4];
                     $parcours = $ligne[5];
+                    $parcours=recreateParcours($parcours);
                     $year = $ligne[8];
                     $phone = $ligne[49];
                     $city = $ligne[40];
@@ -80,12 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "Projet d'Entreprise: $project<br>";
 
 
-// Constructing the full address for the 'Adresse personnelle'
                         $addressStreet = $numstreet . ' ' . $namestreet;
-                    //echo "INE: $ine, Nom: $nom, Prenom: $prenom, Mail: $mail, Alternance: $alternance, Parcours: $parcours, Année: $year, Téléphone: $phone, Ville: $city, Code Postal: $postal, Nom de Rue: $namestreet, Numéro de Rue: $numstreet, Projet d'Entreprise: $project";
+                    $adress = array(array(
+                        "CP" => $postal,
+                        "Address" => $addressStreet,
+                        "City" => $city));
+
+                    $zone = array(array(
+                        "cityName" => $city,
+                        "radius" => 10
+                    ));
                     if($ine != ""){
-// Now you can use these variables in your insertCandidate function
-                     insertCandidate($conn,$ine,$nom,$prenom,$year,$mail,$phone,$parcours,0,'azz',$project,$addressStreet,null,null);
+
+                     insertCandidate($conn,$ine,$nom,$prenom,$year,$mail,$phone,$parcours,0,'azz',$project,$adress,$zone,null);
                     }
 
                 }
@@ -94,4 +102,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fclose($fichier);
     }
 
+}
+
+function recreateParcours($parcours) {
+    $tab = array();
+
+    for ($i = 0; $i < strlen($parcours); $i++) {
+        $char = $parcours[$i];
+        $tab[$i] = ord($char);
+    }
+
+    $str = "";
+
+    for ($i = 0; $i < count($tab) - 2; $i++) {
+        if ($tab[$i] == 226 && $tab[$i + 1] == 128 && $tab[$i + 2] == 147) {
+            $str .= chr(45);
+            $i += 2;
+        } else {
+            $str .= chr($tab[$i]);
+        }
+    }
+    for (; $i < count($tab); $i++) {
+        $str .= chr($tab[$i]);
+    }
+
+    return $str;
 }

@@ -63,7 +63,7 @@ function createImageArchive($userandcv, $outputArchiveName) {
     foreach ($userandcv as $val){
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName'];
-            $imagePath = basename($val['cv']);
+            $imagePath = "../" . $val['cv'];
             $zip->addFile($imagePath,$imageId);
         }
     }

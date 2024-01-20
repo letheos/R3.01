@@ -73,6 +73,15 @@ $user = unserialize($_SESSION['user']);
             $isAddress = $dashboard['isAddress'];
             $isPhone = $dashboard['isPhone'];
             $isHeadcount = $dashboard['isHeadcount'];
+            $isEmail = $dashboard['isEmail'];
+            $isFormationParcours = $dashboard['isFormationParcours'];
+            $isYearOfFormation = $dashboard['isYearOfFormation'];
+            $isEnterpriseSearch = $dashboard['isEnterpriseSearch'];
+            $isZone = $dashboard['isZone'];
+            $isInActiveSearch = $dashboard['isInActiveSearch'];
+
+
+
             $formations = controllerGetFormationDashboard($idDashboard);
             ?>
 
@@ -118,6 +127,13 @@ $user = unserialize($_SESSION['user']);
                             <li>Information sur l'adresse: <?= $isAddress ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
                             <li>Information sur le numéro de téléphone: <?= $isPhone ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
                             <li>Information sur les effectifs: <?= $isHeadcount ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les emails: <?= $isEmail ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les formations et les parcours: <?= $isFormationParcours ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les années de formations: <?= $isYearOfFormation ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les entreprises recherchées: <?= $isEnterpriseSearch ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les zones de recherches: <?= $isZone ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+                            <li>Information sur les états de recherche: <?= $isInActiveSearch ? '<span class="text-success"><i class="bi bi-check"></i></span>' : '<span class="text-danger"><i class="bi bi-x"></i></span>' ?></li>
+
                         </ul>
                     </div>
 

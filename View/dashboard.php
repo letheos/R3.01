@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 require "../Controller/ControllerAffichageEtudiant.php";
 
@@ -15,6 +13,7 @@ if (isset($_POST['parcours'])) {
 
 $idDashboard = $_GET['id'];
 $dashboardInfo = getDashboardById($idDashboard);
+
 $dashboardFormations = getFormationOfADashboard($idDashboard);
 $courses = [];
 foreach(getParcoursOfADashboard($idDashboard) as $parcours){
@@ -135,7 +134,10 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                     <td><?php echo $candidate['firstName']; ?></td>
                     <td><?php echo $candidate['nameParcours']; ?></td>
                     <td>
-                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">Détail</a>
+                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">
+                            Détail
+
+                        </a>
                     </td>
                     <td>
                         <?php if ($candidate['isInActiveSearch']) { ?>

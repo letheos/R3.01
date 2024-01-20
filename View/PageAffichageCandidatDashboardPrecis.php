@@ -12,6 +12,7 @@ if(isset($_GET['idCandidate'])){
 $idDashboard = $_GET['idDashboard'];
 $result = getStudentId($id);
 $dashboardInfo = getDashboardById($idDashboard);
+
 $alternanceText = ($result['foundApp'] == 0) ? "N'as pas d'alternance" : "A une alternance";
 $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background-color: green;';
 
@@ -47,17 +48,28 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
         <div class="enteteBox" style="<?php echo $style; ?>">
             <h2> Informations </h2>
             <p class="candidates">
+                <?php if ($dashboardInfo['isEmail'] != 0): ?>
                 Email : <?php echo $result["candidateMail"]; ?>
+                <?php endif; ?>
                 <?php if ($dashboardInfo['isPhone'] != 0): ?>
                     <br>
                     Numéro de téléphone : <?php echo $result['phoneNumber']; ?>
                 <?php endif; ?>
+                <?php if ($dashboardInfo['isEmail'] != 0): ?>
+                    Email : <?php echo $result['candidateMail']; ?>
+                <?php endif; ?>
                 <br>
+                <?php if ($dashboardInfo['isFormationParcours'] != 0): ?>
                 Formation : <?php echo $result['nameFormation']; ?>
+                <?php endif; ?>
                 <br>
+                <?php if ($dashboardInfo['isFormationParcours'] != 0): ?>
                 Parcours : <?php echo $result['nameParcours']; ?>
+                <?php endif; ?>
                 <br>
+                <?php if ($dashboardInfo['isYearOfFormation'] != 0): ?>
                 Année de formation : <?php echo $result['yearOfFormation']; ?>
+                <?php endif; ?>
                 <br>
                 <span><?php echo $alternanceText; ?></span>
             </p>
@@ -69,13 +81,17 @@ $style = ($result['foundApp'] == 0) ? 'background-color: #ED2939;' : 'background
                     INE : <?php echo (isset($result['INE']) ? $result['INE'] : 'INE non disponible'); ?>
                 <?php endif; ?>
                 <br>
+                <?php if ($dashboardInfo['isEnterpriseSearch'] != 0): ?>
                 Type d'entreprise recherchée : <?php echo $result['typeCompanySearch']; ?>
+                <?php endif; ?>
                 <?php if ($dashboardInfo['isAddress'] != 0): ?>
                     <br>
                     Adresse : <?php echo $result['addresses']; ?>
                 <?php endif; ?>
                 <br>
+                <?php if ($dashboardInfo['isZone'] != 0): ?>
                 Zone : <?php echo $result['zones']; ?>
+                <?php endif; ?>
                 <?php if ($dashboardInfo['isPermis'] != 0): ?>
                     <br>
                     <?php echo ($result['permisB'] ? "A obtenu le permis B" : "N'a pas obtenu le permis B"); ?>

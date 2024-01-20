@@ -112,6 +112,32 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                 <input type="checkbox" id="permis" name="isPermis" value="1" class="form-check-input">
                 <label class="form-check-label" for="permis">Afficher le permis (par défaut non)</label>
             </div>
+
+            <div class="checkboxEmail form-check mb-2">
+                <input type="checkbox" id="email" name="email" value="1" class="form-check-input">
+                <label class="form-check-label" for="permis">Afficher l'email (par défaut non)</label>
+            </div>
+
+            <div class="checkboxFormParcours form-check mb-2">
+                <input type="checkbox" id="formParcours" name="formParcours" value="1" class="form-check-input">
+                <label class="form-check-label" for="formParcours">Afficher le parcours et la formation (par défaut non)</label>
+            </div>
+
+            <div class="checkboxYear form-check mb-2">
+                <input type="checkbox" id="year" name="year" value="1" class="form-check-input">
+                <label class="form-check-label" for="year">Afficher l'année de formation (par défaut non)</label>
+            </div>
+
+            <div class="checkboxschEntreprise form-check mb-2">
+                <input type="checkbox" id="schEntreprise" name="schEntreprise" value="1" class="form-check-input">
+                <label class="form-check-label" for="schEntreprise">Afficher le type d'entreprise rechercher (par défaut non)</label>
+            </div>
+
+            <div class="checkboxzone form-check mb-2">
+                <input type="checkbox" id="zone" name="zone" value="1" class="form-check-input">
+                <label class="form-check-label" for="zone">Afficher la zone de recherche (par défaut non)</label>
+            </div>
+
         </div>
 
         <div class="rounded-box p-3 mb-4">

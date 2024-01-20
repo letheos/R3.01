@@ -420,6 +420,7 @@ function insertAddr($conn, $idCandidate, $cp, $addr, $city)
     $sql = "INSERT INTO CandidateAddress (idCandidate, cp, addressLabel, city) VALUES (?,?,?,?)";
     $req = $conn->prepare($sql);
     $req->execute(array($idCandidate, $cp, $addr, $city));
+
 }
 
 /**
@@ -465,7 +466,8 @@ function insertCandidate($conn, $INE, $name, $firstName, $yearOfFormation, $emai
         $cp = $adressData['CP'];
         $addr = $adressData['Address'];
         $city = $adressData['City'];
-        if($cp == null or $cp == "" or $addr == null or $addr == "" or $city == null or $city = ""){
+
+        if($cp == null or $cp == "" or $addr == null or $addr == "" or $city == null or $city == ""){
             die;
         }
         insertAddr($conn, $idCandidate, $cp, $addr, $city);

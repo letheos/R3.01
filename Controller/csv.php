@@ -7,9 +7,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-/*
 
 //On passe la valeur a null si elle n'existe pas
+
 if(!isset($_SESSION["login"])){
     $_SESSION['login'] = null;
 }
@@ -24,32 +24,32 @@ if ($_SESSION['login'] == null || $_SESSION['password'] == null) {
         alert("Veuillez vous connecter");
         window.location.href = "../View/PageConnexion.php";
         </script>';
-}*/
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['fichierCSV']) && $_FILES['fichierCSV']['error'] === UPLOAD_ERR_OK) {
-        $cheminFichierTemporaire = $_FILES['fichierCSV']['tmp_name'];
 
-        $fichier = fopen($cheminFichierTemporaire, 'r');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_FILES['fichierCSV']) && $_FILES['fichierCSV']['error'] === UPLOAD_ERR_OK) {
+            $cheminFichierTemporaire = $_FILES['fichierCSV']['tmp_name'];
 
-        // Vérifier si le fichier est ouvert avec succès
-        if ($fichier !== false) {
-            $entete = fgetcsv($fichier, 0, ';');
+            $fichier = fopen($cheminFichierTemporaire, 'r');
 
-            $indexINE = array_search('INE', $entete);
-            $indexNom = array_search('Nom d\'usage', $entete);
-            $indexPrenom = array_search('Prénom', $entete);
-            $indexMail = array_search('Adresse e-mail', $entete);
-            $indexAlt = array_search('Alternance', $entete);  //depends de ce qu'il y a dans alternance
-            $indexParcours = array_search('Nom du parcours', $entete);
-            $indexYear = array_search('Année du parcours', $entete);
-            $indexPhone = array_search('Adresse personnelle : téléphone portable', $entete);
-            $indexCity = array_search('Adresse personnelle : ville', $entete);
-            $indexPostal = array_search('Adresse personnelle : code postal', $entete);
-            $indexNameStreet = array_search('Adresse personnelle : nom de rue', $entete);
-            $indexNumberStreet = array_search('Adresse personnelle : numéro de rue', $entete);
-            $indexProject = array_search("Projet d'entreprise", $entete);
-           // if ($indexINE !== false && $indexNom !== false && $indexPrenom !== false) {
+            // Vérifier si le fichier est ouvert avec succès
+            if ($fichier !== false) {
+                $entete = fgetcsv($fichier, 0, ';');
+
+                $indexINE = array_search('INE', $entete);
+                $indexNom = array_search('Nom d\'usage', $entete);
+                $indexPrenom = array_search('Prénom', $entete);
+                $indexMail = array_search('Adresse e-mail', $entete);
+                $indexAlt = array_search('Alternance', $entete);  //depends de ce qu'il y a dans alternance
+                $indexParcours = array_search('Nom du parcours', $entete);
+                $indexYear = array_search('Année du parcours', $entete);
+                $indexPhone = array_search('Adresse personnelle : téléphone portable', $entete);
+                $indexCity = array_search('Adresse personnelle : ville', $entete);
+                $indexPostal = array_search('Adresse personnelle : code postal', $entete);
+                $indexNameStreet = array_search('Adresse personnelle : nom de rue', $entete);
+                $indexNumberStreet = array_search('Adresse personnelle : numéro de rue', $entete);
+                $indexProject = array_search("Projet d'entreprise", $entete);
+                // if ($indexINE !== false && $indexNom !== false && $indexPrenom !== false) {
                 echo '<script>alert("après if")</script>';
                 while (($ligne = fgetcsv($fichier, 0, ',')) !== false) {
                     $ine = $ligne[0];
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mail = $ligne[3];
                     $alternance = $ligne[4];
                     $parcours = $ligne[5];
-                    $parcours=recreateParcours($parcours);
+                    $parcours = recreateParcours($parcours);
                     $year = $ligne[8];
                     $phone = $ligne[49];
                     $city = $ligne[40];
@@ -66,65 +66,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $namestreet = $ligne[44];
                     $numstreet = $ligne[43];
                     $project = $ligne[21];
-                    echo "INE: $ine<br>";
-                    echo "Nom: $nom<br>";
-                    echo "Prénom: $prenom<br>";
-                    echo "Adresse e-mail: $mail<br>";
-                    echo "Alternance: $alternance<br>";
-                    echo "Nom du parcours: $parcours<br>";
-                    echo "Année du parcours: $year<br>";
-                    echo "Téléphone: $phone<br>";
-                    echo "Ville: $city<br>";
-                    echo "Code Postal: $postal<br>";
-                    echo "Nom de Rue: $namestreet<br>";
-                    echo "Numéro de Rue: $numstreet<br>";
-                    echo "Projet d'Entreprise: $project<br>";
 
 
-                        $addressStreet = $numstreet . ' ' . $namestreet;
+                    $addressStreet = $numstreet . ' ' . $namestreet;
                     $adress = array(array(
                         "CP" => $postal,
                         "Address" => $addressStreet,
-                        "City" => $city));
+                        "City" => $city,
+                    )
+                    );
 
                     $zone = array(array(
                         "cityName" => $city,
-                        "radius" => 10
+                        "radius" => 10,
                     ));
-                    if($ine != ""){
+                    if ($ine != "") {
 
-                     insertCandidate($conn,$ine,$nom,$prenom,$year,$mail,$phone,$parcours,0,'azz',$project,$adress,$zone,null);
+                        insertCandidate($conn, $ine, $nom, $prenom, $year, $mail, $phone, $parcours, 0, 'azz', $project, $adress, $zone, null);
                     }
 
                 }
             }
-       # }
-        fclose($fichier);
-    }
-
-}
-
-function recreateParcours($parcours) {
-    $tab = array();
-
-    for ($i = 0; $i < strlen($parcours); $i++) {
-        $char = $parcours[$i];
-        $tab[$i] = ord($char);
-    }
-
-    $str = "";
-
-    for ($i = 0; $i < count($tab) - 2; $i++) {
-        if ($tab[$i] == 226 && $tab[$i + 1] == 128 && $tab[$i + 2] == 147) {
-            $str .= chr(45);
-            $i += 2;
-        } else {
-            $str .= chr($tab[$i]);
+            # }
+            fclose($fichier);
         }
-    }
-    for (; $i < count($tab); $i++) {
-        $str .= chr($tab[$i]);
+
     }
 
-    return $str;
+    function recreateParcours($parcours)
+    {
+        $tab = array();
+
+        for ($i = 0; $i < strlen($parcours); $i++) {
+            $char = $parcours[$i];
+            $tab[$i] = ord($char);
+        }
+
+        $str = "";
+
+        for ($i = 0; $i < count($tab) - 2; $i++) {
+            if ($tab[$i] == 226 && $tab[$i + 1] == 128 && $tab[$i + 2] == 147) {
+                $str .= chr(45);
+                $i += 2;
+            } else {
+                $str .= chr($tab[$i]);
+            }
+        }
+
+        return $str;
+    }
 }

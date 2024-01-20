@@ -16,18 +16,30 @@ $user = unserialize($_SESSION['user']);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="SendCandidateCV.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        .bg-custom {
+            background-color: #0f94b4;
+        }
+
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
     <title>SendMail</title>
 </head>
 
 <body>
 
 <header class="banner">
-    <form action="PageAccueil.php">
+    <form action="PageAccueil.php" class="container">
         <h1 class="TexteProfil">
             Envoi de CV
         </h1>
-        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil
-        </button>
+        <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil</button>
     </form>
 </header>
 
@@ -40,52 +52,48 @@ $user = unserialize($_SESSION['user']);
 
 
 
+
     <section class="filtreCandidats">
 
-        <div class="selection">
-            <label for="formation" class="form-select-label"> Département </label>
+        <div class="selection mb-3">
+            <label for="formation" class="form-label">Département</label>
             <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
-                <option value="" selected="selected" disabled> Choisir la formation </option>
+                <option value="" selected disabled>Choisir la formation</option>
                 <?php
-                if($user->getRole() == "Chef de service"){
+                if ($user->getRole() == "Chef de service") {
                     $formations = getAllFormation();
-                }else{
+                } else {
                     $formations = $user->getLesFormations();
                 }
 
                 $selected = '';
                 $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
-                foreach ($formations as $formation)
-                {
-                    $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : '';?>
-                <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option><?php
-                } ?>
-                <option value="Aucune Option" > Aucune Option </option>
+                foreach ($formations as $formation) {
+                    $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : ''; ?>
+                    <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>><?php echo $formation['nameFormation']; ?></option>
+                <?php } ?>
+                <option value="Aucune Option">Aucune Option</option>
             </select>
 
-            <label for="parcours" class="form-select-label"> Parcours </label>
-            <select class="form-select" name="parcours" id="parcours" >
-                <option value="" selected disabled> Choisir un parcours </option>
+            <label for="parcours" class="form-label">Parcours</label>
+            <select class="form-select" name="parcours" id="parcours">
+                <option value="" selected disabled>Choisir un parcours</option>
                 <option value="<?php echo $_POST['parcours']; ?>" <?php echo (isset($_POST['parcours'])) ? 'selected' : ''; ?>><?php echo $_POST['parcours']; ?></option>
             </select>
 
-            <label for="year" class="form-select-label"> Année de formation</label>
+            <label for="year" class="form-label">Année de formation</label>
             <select class="form-select" name="year" id="year">
-                <option value="1ère Année"> 1ère Année</option>
-                <option value="2ème Année"> 2ème Année</option>
-                <option value="3ème Année"> 3ème Année</option>
+                <option value="1ère Année">1ère Année</option>
+                <option value="2ème Année">2ème Année</option>
+                <option value="3ème Année">3ème Année</option>
             </select>
         </div>
 
-
         <div class="buttonSubmit">
-            <button class="btn btn-primary" type="button" name="submit" id="add" onclick="addText()"> Envoyer les CV(s) de </button>
+            <button class="btn btn-primary" type="button" name="submit" id="add" onclick="addText()">Envoyer les CV(s)</button>
         </div>
+
     </section>
-
-
-
-
 
     <?php
     if(isset($_SESSION["message"])){
@@ -105,34 +113,53 @@ $user = unserialize($_SESSION['user']);
     ?>
 
 
-    <section class="sendMail">
+    <section class="sendMail container">
         <div class="from" id="from">
-            <ol id="fromCV" style="list-style-type: none;">
-            </ol>
+            <ol id="fromCV" style="list-style-type: none;"></ol>
         </div>
 
-        <div class="destinataire">
-            <div class="input-container">
-                <label for="to" class="form-select-label"> Destinataire </label>
-                <textarea class="to" name="to" placeholder="Destinataire"></textarea>
+        <div class="destinataire row">
+            <div class="col-12">
+                <label for="to" class="form-label">Destinataire</label>
+                <textarea class="form-control" name="to" placeholder="Destinataire"></textarea>
             </div>
         </div>
 
-        <div class="corps">
-            <div class="input-container">
-                <label for="message" class="form-select-label"> Message du Mail </label>
-                <textarea class="message" name="message" placeholder="Ecrivez le mail"></textarea>
+        <div class="corps row mt-3">
+            <div class="col-12">
+                <label for="message" class="form-label">Message du Mail</label>
+                <textarea class="form-control" name="message" placeholder="Ecrivez le mail"></textarea>
             </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit" name="submit" id="submit">Envoyer</button>
         </div>
     </section>
 
 
 
-    <footer class="bottomBanner">
-        <button class="btn btn-primary" type="submit" name="submit" id="submit"> Envoyer</button>
+
+    <footer class="bg-custom text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <p>
+                            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex justify-content-between align-items-center text-end">
+                    <div>
+                        <p>
+                            2023/2024 UPHF
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
-
-
 
 
 </form>

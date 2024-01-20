@@ -58,15 +58,15 @@ function addText() {
 function createModal(parcours, year, candidateData) {
     var modal = document.createElement("div");
     modal.className = "modal";
-    modal.id = "modal"+parcours+year;
+    modal.id = "modal" + parcours + year;
 
     var modalContent = document.createElement("div");
     modalContent.className = "modal-content";
 
     var modalHeader = document.createElement("div");
     modalHeader.className = "modal-header";
-    modalHeader.style.backgroundColor = "#0f94b4"
-    var headerText = document.createTextNode(parcours+" "+year);
+    modalHeader.style.backgroundColor = "#0f94b4";
+    var headerText = document.createTextNode(parcours + " " + year);
     modalHeader.appendChild(headerText);
 
     var modalBody = document.createElement("div");
@@ -74,27 +74,64 @@ function createModal(parcours, year, candidateData) {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function(){
+    xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 var responseData = this.response;
 
                 if (responseData.length > 0) {
+                    var table = document.createElement("table");
+                    table.className = "table table-striped";
+
+                    // Créer l'en-tête du tableau
+                    var headerRow = table.insertRow();
+                    var checkboxHeader = document.createElement("th");
+                    checkboxHeader.textContent = "Choisir";
+                    headerRow.appendChild(checkboxHeader);
+
+                    var nameHeader = document.createElement("th");
+                    nameHeader.textContent = "Nom";
+                    headerRow.appendChild(nameHeader);
+
+                    var firstNameHeader = document.createElement("th");
+                    firstNameHeader.textContent = "Prénom";
+                    headerRow.appendChild(firstNameHeader);
+
+                    var typeHeader = document.createElement("th");
+                    typeHeader.textContent = "Type d'entreprise";
+                    headerRow.appendChild(typeHeader);
+
                     responseData.forEach(candidate => {
+                        var row = table.insertRow();
+
+                        // Checkbox
+                        var checkboxCell = row.insertCell();
                         var candidateCheckbox = document.createElement("input");
                         candidateCheckbox.type = "checkbox";
                         candidateCheckbox.name = "candidateCheckbox[]";
-                        candidateCheckbox.value = candidate.idCandidate; // Vous devriez ajuster cela en fonction de l'ID ou de l'identifiant de votre candidat
+                        candidateCheckbox.value = candidate.idCandidate;
+                        checkboxCell.appendChild(candidateCheckbox);
 
-                        var candidateLabel = document.createElement("label");
-                        candidateLabel.textContent = candidate.name + " " + candidate.firstName + " Type d'entreprise : " + candidate.typeCompanySearch;
+                        // Nom du candidat
+                        var nameCell = row.insertCell();
+                        var candidateName = document.createTextNode(candidate.name);
+                        nameCell.appendChild(candidateName);
 
-                        var candidateDiv = document.createElement("div");
-                        candidateDiv.appendChild(candidateCheckbox);
-                        candidateDiv.appendChild(candidateLabel);
+                        var firstNameCell = row.insertCell();
+                        var candidatefirstName = document.createTextNode(candidate.firstName);
+                        firstNameCell.appendChild(candidatefirstName);
 
-                        modalBody.appendChild(candidateDiv);
+
+                        var typeCell = row.insertCell();
+                        if (candidate.typeCompanySearch) {
+                            var typeText = document.createTextNode(candidate.typeCompanySearch);
+                            typeCell.appendChild(typeText);
+                        } else {
+                            typeCell.textContent = "N/A"; // Ou tout autre texte par défaut
+                        }
                     });
+
+                    modalBody.appendChild(table);
                 } else {
                     var noCandidateInfo = document.createElement("p");
                     noCandidateInfo.textContent = "No candidate information available.";

@@ -141,6 +141,7 @@ $user = unserialize($_SESSION['user']);
                     <td><?php echo $candidate['name']; ?></td>
                     <td><?php echo $candidate['firstName']; ?></td>
                     <td><?php echo $candidate['nameParcours']; ?></td>
+
                     <td>
                         <?php if ($candidate['isInActiveSearch']) { ?>
                             <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
@@ -177,6 +178,17 @@ $user = unserialize($_SESSION['user']);
         </table>
     </section>
 
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <footer class="bg-custom text-white">
         <div class="container">
             <div class="row">
@@ -197,8 +209,8 @@ $user = unserialize($_SESSION['user']);
             </div>
         </div>
     </footer>
-
 </form>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/jsAffichage.js"></script>
 <script src="../Controller/js/Ajax.js"></script>

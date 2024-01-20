@@ -271,6 +271,15 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
         </div>
     </section>
 
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="bottomBanner">
         <?php if ($dashboardInfo['isHeadcount'] == 1)  : ?>
@@ -278,9 +287,6 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                 Afficher les effectifs
             </button>
         <?php endif; ?>
-        <div class="buttonActivationCandidates">
-            <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
-        </div>
     </footer>
 </form>
 

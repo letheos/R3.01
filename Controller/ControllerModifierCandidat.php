@@ -5,6 +5,7 @@
  */
 session_start();
 
+
 if (empty($_SESSION['user'])) {
     echo '<script>
         alert("Veuillez vous connecter");
@@ -26,7 +27,10 @@ $success = 1;
 $directory = '../upload/';
 
 
-
+function getCandidatById($id){
+    global $conn;
+    return selectCandidatById($conn, $id);
+}
 
 
 

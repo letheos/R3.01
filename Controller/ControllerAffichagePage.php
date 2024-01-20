@@ -8,7 +8,10 @@
 require "../Model/ModelSelect.php";
 $conn = require '../Model/database.php';
 
-
+function getCandidatById($id){
+    global $conn;
+    return selectCandidatById($conn, $id);
+}
 
 function listAffichageSelectUpdate($conn, $candidat){
     $selectedFormation = (isset($candidat['nameFormation'])) ? $candidat['nameFormation'] : '';

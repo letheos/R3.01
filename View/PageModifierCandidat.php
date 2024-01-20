@@ -7,6 +7,7 @@
 session_start();
 
 include '../Controller/ClassUtilisateur.php';
+require "../Controller/ControllerAffichagePage.php";
 $user = unserialize($_SESSION['user']);
 
 
@@ -17,9 +18,7 @@ $user = unserialize($_SESSION['user']);
     <!DOCTYPE html>
 
     <?php
-
-    $conn = require '../Model/Database.php';
-    $candidat = require '../Controller/ControllerAffichagePage.php';
+    $candidat = getCandidatById($_GET['id']);
     $adresses = explode('; ', $candidat['addresses']);
     $zones = explode(', ', $candidat['zones']);
 

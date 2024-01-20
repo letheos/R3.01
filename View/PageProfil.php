@@ -13,23 +13,34 @@ $user = unserialize($_SESSION['user']);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="Profil.css">
     <script src="../Controller/ControllerPageProfilJS.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <title>Profil</title>
+    <style>
+        .bg-custom {
+            background-color: #0f94b4;
+        }
+
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 
 </head>
 <body>
 
-<header class="banner d-flex justify-content-between align-items-center">
+<header class="banner d-flex bg-custom justify-content-between align-items-center">
     <div>
         <a style="font-size: 3em; color: white;" type="submit" href="PageAccueil.php">
             <i class="bi bi-arrow-left"></i>
         </a>
     </div>
     <div>
-        <h1>Votre Profil</h1>
+        <h1 class="text-white">Votre Profil</h1>
     </div>
     <div class="d-flex">
         <div class="d-inline-block">
@@ -86,42 +97,52 @@ $user = unserialize($_SESSION['user']);
                 </ul>
             </div>
         </nav>
-
     </div>
 </section>
 
 <form method="POST" id="form" action="PageProfil.php">
     <section>
-
-        <div class="rounded-box p-3">
-            <?= $result = getUserProfile($user->getLogin()) ?>
-            <div class="infosProfil">
-                <h2> Utilisateur : <?= $result["userName"] . " " . $result["firstName"]; ?> </h2>
-                <p>  Login : <?=  $result['login'] ?>
-                    <br> Email : <?= $result['email']; ?>
-                </p>
-                <button class="btn btn-primary mt-3" type="submit" name="modifierMotdePasse">Modifier mot de passe</button>
+        <div class="container">
+            <div class="card bg-custom">
+                <?php $result = getUserProfile($user->getLogin()); ?>
+                <div class="card-header text-white">
+                    <h2 class="card-title">Information du profil</h2>
+                </div>
+                <div class="card-body bg-white">
+                    <p class="card-text">
+                        <strong>Utilisateur :</strong> <?= $result["userName"] . " " . $result["firstName"]; ?> <br>
+                        <strong>Login :</strong> <?= $result['login'] ?><br>
+                        <strong>Email :</strong> <?= $result['email']; ?> <br>
+                        <strong>Rôle :</strong> <?= $user->getRole(); ?>
+                    </p>
+                    <button class="btn btn-primary" type="submit" name="modifierMotdePasse">Modifier mot de passe</button>
+                </div>
+            </div>
         </div>
     </section>
 </form>
 
-<section class="bas">
 
-    <footer>
-        <div class="nomFooter">
-            <p>
-                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-
-            </p>
-        </div>
-        <div class="origineFooter">
-            <p>
-                2023/2024 UPHF
-            </p>
+    <footer class="bg-custom text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <p>
+                            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <p>
+                            2023/2024 UPHF
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-
-</section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

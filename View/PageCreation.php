@@ -44,6 +44,10 @@ $user = unserialize($_SESSION['user']);
         <button>Voir les utilisateurs déjà existants</button>
     </form>
 
+    <form action="csv.php">
+        <button>Inserer plusieurs étudiants grace à un CSV</button>
+    </form>
+
 
 </header>
 
@@ -191,6 +195,7 @@ $user = unserialize($_SESSION['user']);
                 <?php
                 }
                 ?>
+            </div>
         </form>
     </section>
     <!-- script de liaison a bootstrap-->
@@ -212,6 +217,8 @@ $user = unserialize($_SESSION['user']);
         <p>
             2023/2024 UPHF
         </p>
+        <img src="logoUphf.png" alt="logo uphf">
+
     </div>
 </footer>
 </body>

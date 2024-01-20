@@ -39,7 +39,7 @@ function dlArchive($infos)
     global $conn;
     $val = array();
     foreach ($infos as $candidat) {
-        $val[] = selectCandidatById($candidat);
+        $val[] = selectCandidatById($conn,$candidat);
     }
     $nom = "cv".str(date());
     $archivePath = createImageArchive($conn,$val,$nom);

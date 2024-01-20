@@ -282,12 +282,13 @@ function addFormationNewDashboard($parcour,$conn,$idDashBoard){
  * @param $idDashBoard int
  * @param $conn PDO
  * @param $isHeadcount bool
- * @return void
+ * @return bool
  * change the value of a dashboard's information with his id give in parameter
  */
-function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, bool $isAddress, bool $isPhone, int $idDashBoard, PDO $conn, bool $isHeadcount){
+function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, bool $isAddress, bool $isPhone, int $idDashBoard, PDO $conn, bool $isHeadcount,bool $isEmail, bool $isFormationParcours, bool $isYearOfFormation,bool $isEnterpriseSearch, bool $isZone,bool $isInActiveSearch){
     $sql = "UPDATE dashboard
-            SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?, isHeadcount = ?
+            SET nameOfDashBoard = ?, isPermis = ?, isIne = ?, isAddress = ?, isPhone = ?, isHeadcount = ?, isEmail = ?, isFormationParcours = ?, 
+            isYearOfFormation = ?, isEnterpriseSearch = ?, isZone = ?, isInActiveSearch = ?
             WHERE idDashBoard = ?";
     if($isPermis){
         $isPermis = 1;
@@ -309,9 +310,34 @@ function upadteParametreDashBoard(string $name, bool $isPermis, bool $isIne, boo
         $isHeadcount = 1;
     } else{
         $isHeadcount = 0;
+    }if($isEmail){
+        $isEmail = 1;
+    } else{
+        $isEmail = 0;
+    }if($isFormationParcours){
+        $isFormationParcours = 1;
+    } else{
+        $isFormationParcours = 0;
+    }if($isYearOfFormation){
+        $isYearOfFormation = 1;
+    } else{
+        $isYearOfFormation = 0;
+    }if($isEnterpriseSearch){
+        $isEnterpriseSearch = 1;
+    } else{
+        $isEnterpriseSearch = 0;
+    }if($isZone){
+        $isZone = 1;
+    } else{
+        $isZone = 0;
+    }if($isInActiveSearch){
+        $isInActiveSearch = 1;
+    } else{
+        $isInActiveSearch = 0;
     }
     $req = $conn->prepare($sql);
-    return $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount,$idDashBoard));
+
+    return $req->execute(array($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount,$isEmail,$isFormationParcours,$isYearOfFormation,$isEnterpriseSearch,$isZone,$isInActiveSearch,$idDashBoard));
 
 
 }

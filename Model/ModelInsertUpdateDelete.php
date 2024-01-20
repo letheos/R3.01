@@ -975,7 +975,7 @@ function deleteCommunication($conn,$commid){
 function updateComm($conn,$commid,$newmsg)
 {
     try{
-        $sql = "UPDATE Communication SET note = ? , dateCommunication = current_timestamp where idmessage = ?";
+        $sql = "UPDATE Communication SET note = ? , lastmodified = current_timestamp where idmessage = ?";
         $req = $conn->prepare($sql);
         $req->execute(array($newmsg,$commid));
     }

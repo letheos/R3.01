@@ -1,18 +1,23 @@
 function modifOn(Id){
+    console.log(Id)
     var boutonContainer = document.getElementById("bouton_" + Id);
     var modifier = boutonContainer.querySelector("#Modify");
     var valider = boutonContainer.querySelector("#Validate");
-    if (modifier) modifier.style.display = "none";
+    if (modifier) {
+        modifier.style.setProperty('display', 'none', 'important');
+    }
 
-    if (valider) valider.style.display = "block";
+    if (valider) {
+        valider.style.setProperty('display', 'block', 'important');
+    }
 }
 
 function modifOff(Id){
     var ladiv = document.getElementById("bouton_"+Id);
     var modifier = ladiv.querySelector("#Modify");
     var valider = ladiv.querySelector("#Validate");
-    modifier.style.display = "block";
-    valider.style.display = "none";
+    modifier.style.display = "block!important";
+    valider.style.display = "none!important";
 }
 
 function checkIfModifierHidden() {

@@ -70,6 +70,12 @@ $user = unserialize($_SESSION['user']);
 
     <?php
     foreach ($results as $row) {
+        if ($row[4]!=null){
+            $str="Modifié le :".date('Y-m-d H:i', strtotime($row[4]));
+        }
+        else {
+            $str = "";
+        }
         ?>
         <form action="../Controller/ControllerCommunicationPrecise.php" method="POST" id="<?= $row[2] ?>">
             <div class="card mb-3">
@@ -85,9 +91,11 @@ $user = unserialize($_SESSION['user']);
                         }
                         ?>
                     </div>
-                    <small class="text-muted"><?= date('Y-m-d H:i', strtotime($row[1])) ?></small>
+                    <small class="text-muted"><?= date('Y-m-d H:i', strtotime($row[1]))?></small>
+                    <br>
+                    <small class="text-muted"> <?php echo $str ?> </small>
                     <input type="hidden" name="idmessage" value="<?= $row[2] ?>">
-                    <div class="mt-3">
+                    <div class="mt-3" id="bouton_candidates<?= $row[2] ?>">
                         <button class="btn btn-primary btn-sm" type="button" name="Modify" id="Modify" onclick="transformToTextarea('candidates<?= $row[2] ?>')">Modifier</button>
                         <button class="btn btn-primary btn-sm" type="button" name="Validate" id="Validate" value="Valider" style="display:none" onclick="executerFormulaire(<?= $row[2] ?>)"> Valider </button>
                         <input type="submit" class="btn btn-danger btn-sm" name="Delete" value="Supprimer">

@@ -41,10 +41,9 @@ function dlArchive($infos)
     foreach ($infos as $candidat) {
         $val[] = selectCandidatById($conn,$candidat);
     }
-    $nom = "cvsplzcamarche";
-    $archivePath = createImageArchive($val,"pitie.zip");
+    $archivePath = createImageArchive($val,"please.zip");
     header('Content-Type: application/zip');
-    header('Content-Disposition: attachment; filename="' . "marcheparpitie" . '.rar');
+    header('Content-Disposition: attachment; filename="' . "please" . '.zip');
     header('Content-Length: ' . filesize($archivePath));
     readfile($archivePath);
 
@@ -64,7 +63,7 @@ function createImageArchive($userandcv, $outputArchiveName) {
     foreach ($userandcv as $val){
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName'];
-            $imagePath = $val['cv'];
+            $imagePath = basename($val['cv']);
             $zip->addFile($imagePath,$imageId);
         }
     }

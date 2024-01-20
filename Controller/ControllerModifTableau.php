@@ -171,7 +171,10 @@ function getNbEtuPerFormation($formation){
 }
 
 
-
+function getDashboardById($id){
+    global $conn;
+    return selectDashboardById($conn, $id);
+}
 
 
 

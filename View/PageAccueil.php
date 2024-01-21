@@ -46,6 +46,12 @@ if ($user->getRole() == "Chef de service") {
             flex-grow: 1;
         }
 
+        .img-footer {
+            max-width: 100%;
+            height: auto;
+            max-height: 60px;
+        }
+
     </style>
 </head>
 <body>
@@ -119,7 +125,7 @@ if ($user->getRole() == "Chef de service") {
             </div>
 
             <div class="col-md-8 container" style="border: 1px solid #000; padding: 5px;">
-                <h2 class="text-center">Informations des Effectifs en générale</h2>
+                <h2 class="text-center">Informations Générales</h2>
                 <table class="table">
                     <thead>
                     <tr>
@@ -156,26 +162,25 @@ if ($user->getRole() == "Chef de service") {
 
 
 
-    <footer class="bg-custom text-white mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <p>
-                            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div>
-                        <p>
-                            2023/2024 UPHF
-                        </p>
-                    </div>
+<footer class="bg-custom text-white mt-auto">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <p>
+                        Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                    </p>
                 </div>
             </div>
+            <div class="col-md-6 origineFooter text-end">
+                <p>
+                    2023/2024 UPHF
+                </p>
+                <img src="../image/logoUphf.png" alt="logo uphf" class="img-fluid img-footer">
+            </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>

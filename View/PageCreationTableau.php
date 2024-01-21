@@ -1,6 +1,5 @@
 <?php
 require "../Controller/ControllerCreationTableau.php";
-session_start();
 
 
 if (empty($_SESSION['user'])) {
@@ -158,14 +157,14 @@ TODO réussir à récupérer une valeur de la bdd et de la mettre en selectionne
                     $formationsDuDashBoard = ControllerGetFormationForADashBoard($_SESSION['idDashBoard']);
                 }
                 foreach ($formations as $index => $formation) {
-                    $parcours = controllerGetParcours($formation['nameFormation']);
-                    $checkboxId = $formation['nameFormation'];
+                    $parcours = controllerGetParcours($formation[0]);
+                    $checkboxId = $formation[0];
                     $collapseId = 'collapse' . $index;
                     ?>
                     <div class="accordion-item">
                         <div class="accordion-header" id="<?= 'heading' . $index ?>">
-                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation['nameFormation'] ?>">
-                            <label class="form-check-label" for="<?= $checkboxId ?>"><?= $formation['nameFormation'] ?></label>
+                            <input class="form-check-input" type="checkbox" name="selectedFormation[]" id="<?= $checkboxId ?>" onchange="toggleAccordion('<?= $checkboxId ?>')" data-formation="<?= $formation[0] ?>">
+                            <label class="form-check-label" for="<?= $checkboxId ?>"><?= $formation[0] ?></label>
                         </div>
                         <div id="<?= $collapseId ?>" class="accordion-collapse collapse" aria-labelledby="<?= 'heading' . $index ?>">
                             <div class="accordion-body">

@@ -135,6 +135,61 @@ function filtrage()
     }
 }
 
+function filtrageUser($formationsUser)
+{
+    global $conn;
+    if (isset($_POST["submit"])) {
+        $choixFormation = $_POST["formation"];
+        $choixNom = $_POST["nameCandidates"];
+        $parcours = $_POST['parcours'];
+    }
+
+
+
+    //Traitement de la checkbox
+    if (isset($_POST["isActive"])) {
+        $isActive = 0;
+    } else {
+        $isActive = 1;
+    }
+
+    $isFound = isset($_POST["isFound"]) ? 1 : 0;
+
+    $hasFormationFilter = !empty($choixFormation) && $choixFormation !== "Aucune Option";
+    $hasNomFilter = !empty($choixNom);
+    $hasParcoursFilter = !empty($parcours);
+
+    // Exécuter les requêtes en fonction des critères de filtrage
+    if ($hasFormationFilter && $hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par formation, nom et parcours
+        return selectCandidatesByNameFormationAndParcours($conn, $parcours, $choixNom, $choixFormation, $isActive, $isFound);
+    } elseif ($hasFormationFilter && $hasNomFilter) {
+        // Filtrage par formation et nom
+        return selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $isActive, $isFound);
+    } elseif ($hasFormationFilter && $hasParcoursFilter) {
+        // Filtrage par formation et parcours
+        return selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours, $isActive, $isFound);
+    } elseif ($hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par nom et parcours
+        return selectCandidatesByNameAndParcours($conn, $parcours, $choixNom, $isActive, $isFound);
+    } elseif ($hasFormationFilter) {
+        // Filtrage par formation uniquement
+        return selectCandidatesByFormation($conn, $choixFormation, $isActive, $isFound);
+    } elseif ($hasNomFilter) {
+        // Filtrage par nom uniquement
+        return selectCandidatesByName($conn, $choixNom, $isActive, $isFound);
+    } elseif ($hasParcoursFilter) {
+        // Filtrage par parcours uniquement
+        return selectCandidatesByParcours($conn, $parcours, $isActive, $isFound);
+    } else {
+        $result = [];
+        foreach ($formationsUser as $formation) {
+            $result = array_merge($result, selectCandidatesByFormation($conn, $formation['nameFormation'], $isActive, $isFound));
+        }
+        return $result;
+    }
+}
+
 function filtrageMultiple($selectedParcours)
 {
     global $conn;

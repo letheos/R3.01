@@ -12,6 +12,13 @@ if (empty($_SESSION['user'])) {
 
 
 $user = unserialize($_SESSION['user']);
+if ($user->getRole() == "Chef de service") {
+    $formations = getAllFormation();
+    $candidates = filtrage();
+} else {
+    $formations = $user->getLesFormations();
+    $candidates = filtrageUser($formations);
+}
 
 
 
@@ -49,6 +56,10 @@ $user = unserialize($_SESSION['user']);
     <form action="PageAccueil.php" class="mt-3">
         <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil</button>
     </form>
+
+    <form action="csv.php" class="btn-action">
+        <button class="btn btn-light" type="submit">Inserer plusieurs étudiants grâce à un CSV</button>
+    </form>
 </header>
 
 <form id="filter-form" method="POST" action="../View/PageAffichageEtudiant.php">
@@ -63,12 +74,6 @@ $user = unserialize($_SESSION['user']);
                     <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                         <option value="" selected="selected" disabled>Choisir la formation</option>
                         <?php
-                        if ($user->getRole() == "Chef de service") {
-                            $formations = getAllFormation();
-                        } else {
-                            $formations = $user->getLesFormations();
-                        }
-
                         $selected = '';
                         $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
                         foreach ($formations as $formation) {
@@ -134,8 +139,8 @@ $user = unserialize($_SESSION['user']);
             </thead>
             <tbody>
             <?php
-            $candidates = filtrage();
             foreach ($candidates as $candidate) {
+
                 ?>
                 <tr class="candidates" id="candidats">
                     <td><?php echo $candidate['name']; ?></td>

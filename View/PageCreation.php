@@ -44,11 +44,6 @@ $user = unserialize($_SESSION['user']);
         <button>Voir les utilisateurs déjà existants</button>
     </form>
 
-    <form action="csv.php">
-        <button>Inserer plusieurs étudiants grace à un CSV</button>
-    </form>
-
-
 </header>
 
 
@@ -101,7 +96,7 @@ $user = unserialize($_SESSION['user']);
                     <option id="idSecretaire" value=2>Secrétaire</option>
                     <option id="idChefDepartement" value=4>Chef de département</option>
                     <option id="idChargeDev" value=3>Chargé de développement</option>
-                    <option id="admin" value = 1>chef de service</option>
+                    <option id="admin" value=1>Chef de service</option>
                 </select>
             </div>
 

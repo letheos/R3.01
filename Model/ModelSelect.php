@@ -1132,7 +1132,7 @@ function getFormationByLoginUtilisateur($conn,$login){
 
 function getFormationOfUser($conn, $login)
 {
-    $sql = "SELECT formationname FROM formationsutilisateurs WHERE loginutilisateur = ?";
+    $sql = "SELECT nameFormation FROM formationsutilisateurs WHERE loginutilisateur = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($login));
     return $req->fetchall();

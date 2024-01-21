@@ -697,7 +697,7 @@ function updateIneCandidate($conn, $id, $ine)
  */
 function addrolesbdd($conn,$login,$formations)
 {
-    $requete = "Insert into formationsutilisateurs values (?,?)";
+    $requete = "Insert into formationsutilisateurs (loginutilisateur, nameFormation) values (?,?)";
     $res = $conn->prepare($requete);
     try{
         for ($x = 0; $x < count($formations); $x++) {

@@ -81,6 +81,10 @@ if ($user->getRole() == "Chef de service") {
     <form action="PageAccueil.php" class="mt-3">
         <button class="btn btn-light" type="submit" name="retourAccueil">Retour à l'accueil</button>
     </form>
+
+    <form action="csv.php">
+        <button class="btn btn-light" type="submit">Inserer plusieurs étudiants grace à un CSV</button>
+    </form>
 </header>
 
 <section class="container mt-5">
@@ -246,9 +250,9 @@ if ($user->getRole() == "Chef de service") {
                                 $selected = '';
                                 $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
                                 foreach ($formations as $formation) {
-                                    $selected = ($selectedFormation == $formation['nameFormation']) ? 'selected' : '';
+                                    $selected = ($selectedFormation == $formation[0]) ? 'selected' : '';
                                     ?>
-                                    <option value="<?php echo $formation['nameFormation']; ?>" <?php echo $selected ?>> <?php echo $formation['nameFormation']; ?></option>
+                                    <option value="<?php echo $formation[0]; ?>" <?php echo $selected ?>> <?php echo $formation[0]; ?></option>
                                 <?php } ?>
                                 <option value="Aucune Option">Aucune Option</option>
                             </select>

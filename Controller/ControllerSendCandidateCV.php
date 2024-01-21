@@ -16,8 +16,11 @@ function sendEmail($conn, $from, $to, $msg, $infos) {
     $from->isHTML(true);
 
     // Add attachments
-
-    $from->AddAttachment(createImageArchive($infos,"cvs.zip"));
+    $val = array();
+    foreach ($infos as $candidat) {
+        $val[] = selectCandidatById($conn,$candidat);
+    }
+    $from->AddAttachment(createImageArchive($val,"cvs.zip"));
 
 
     $from->Subject = "Envoie de CV étudiant";

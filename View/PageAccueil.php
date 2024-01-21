@@ -113,7 +113,7 @@ if ($user->getRole() == "Chef de service") {
     <div class="container <?php echo count($alerts) < 5 ? 'min-height-alerts' : ''; ?>">
         <div class="row">
             <div class="col-md-4" style="border: 1px solid #000; padding: 5px;">
-                <h1 class="text-center">Rappel du jour</h1>
+                <h1 class="text-center">Rappel</h1>
                 <?php foreach ($alerts as $alert) { ?>
                     <div class="alert alert-primary mb-3">
                         <p class="mb-0">Date: <?= $alert["remindAt"] ?></p>

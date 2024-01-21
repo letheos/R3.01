@@ -59,13 +59,11 @@ function dlArchive($infos)
 function createImageArchive($userandcv, $outputArchiveName) {
 
     global $conn;
-    // Créer un objet ZipArchive
     $zip = new ZipArchive();
     if ($zip->open($outputArchiveName, ZipArchive::CREATE) !== TRUE) {
         die ("Impossible de créer l'archive");
     }
 
-    // Parcourir les résultats et ajouter chaque image à l'archive
     foreach ($userandcv as $val){
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName']."." . pathinfo($val['cv'], PATHINFO_EXTENSION);
@@ -84,16 +82,18 @@ $to = $_POST['to'];
 $success = 1;
 
 if(!empty($_POST['candidateCheckbox'])) {
-    /*if (!empty($to)){
-        $msg = "Mail envoyée avec succés";
-        sendEmail($conn, $mail, $to, $_POST['message'], $_POST['candidateCheckbox']);
-    } else {
-        $msg = "Il manque le destinataire";
-        $success = 0;
-    }
-    */
-    dlArchive($_POST['candidateCheckbox']);
-} else {
+    if($_POST["dl"]==0){
+        if (!empty($to)){
+            $msg = "Mail envoyée avec succés";
+            sendEmail($conn, $mail, $to, $_POST['message'], $_POST['candidateCheckbox']);
+        } else {
+            $msg = "Il manque le destinataire";
+            $success = 0;
+        }
+}
+else{
+    dlArchive($_POST["candidateCheckbox"]);
+}} else {
     $msg = "Vous n'avez pas selectionné de CV";
     $success = 0;
 }
@@ -103,7 +103,7 @@ session_start();
 
 $_SESSION['success'] = $success;
 $_SESSION['message'] = $msg;
-//header("Location: ../View/PageSendCandidateCV.php");
+header("Location: ../View/PageSendCandidateCV.php");
 
 
 

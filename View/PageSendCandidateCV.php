@@ -90,7 +90,11 @@ $user = unserialize($_SESSION['user']);
         </div>
 
         <div class="buttonSubmit">
-            <button class="btn btn-primary" type="button" name="submit" id="add" onclick="addText()">Envoyer les CV(s)</button>
+            <button class="btn btn-primary" type="button" name="submit" id="add" onclick="addText()">Envoyer le(s) CV(s)</button>
+        </div>
+
+        <div class="buttonSubmit">
+            <button class="btn btn-primary" type="button" name="DlButton" id="DlButton" onclick="dl()">Télécharger le(s) CV(s)</button>
         </div>
 
     </section>

@@ -43,6 +43,7 @@ function dlArchive($infos)
     }
     $archivePath = createImageArchive($val,"please.zip");
     if (file_exists($archivePath)) {
+        ob_end_clean();
         header('Content-Type: application/zip');
         header('Content-Disposition: attachment; filename="marcheparpitier.zip"');
         header('Content-Length: ' . filesize($archivePath));

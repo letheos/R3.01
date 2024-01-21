@@ -6,6 +6,7 @@ session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';
 include '../Controller/ClassUtilisateur.php';
+include "../Controller/traduction.php";
 $user = unserialize($_SESSION['user']);
 
 

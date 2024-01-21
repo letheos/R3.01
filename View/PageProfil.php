@@ -3,6 +3,7 @@ session_start();
 include '../Controller/ControllerPageProfil.php';
 $conn = require '../Model/Database.php';
 include '../Controller/ClassUtilisateur.php';
+include "../Controller/traduction.php";
 $user = unserialize($_SESSION['user']);
 ?>
 

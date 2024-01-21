@@ -36,20 +36,25 @@ function sendEmail($conn, $from, $to, $msg, $infos) {
 
 function dlArchive($infos)
 {
+    ob_clean();
+    ob_end_flush();
     global $conn;
     $val = array();
     foreach ($infos as $candidat) {
         $val[] = selectCandidatById($conn,$candidat);
     }
     $archivePath = createImageArchive($val,"please.zip");
-    ob_clean();
-    ob_end_flush();
-    header('Content-Type: application/zip;\n');
-    header('Content-Disposition: attachment; filename="' . "please" . '.zip');
-    header('Content-Length: ' . filesize($archivePath)."\n");
-    readfile($archivePath);
+    if (file_exists($archivePath)) {
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="t.zip"');
+        header('Content-Length: ' . filesize($archivePath));
 
-    unlink($archivePath);
+        readfile($archivePath);
+
+        unlink($archivePath);
+    } else {
+        die("Impossible de trouver l'archive.");
+    }
 }
 
 function createImageArchive($userandcv, $outputArchiveName) {
@@ -64,9 +69,9 @@ function createImageArchive($userandcv, $outputArchiveName) {
     // Parcourir les résultats et ajouter chaque image à l'archive
     foreach ($userandcv as $val){
         if($val['cv']!= null and $val['cv']!="") {
-            $imageId = $val['name'] . $val['firstName'];
+            $imageId = $val['name'] . $val['firstName'].".pdf";
             $imagePath = $val['cv'];
-            $zip->addFile($imagePath,$imageId,ZipArchive::FL_ENC_GUESS);
+            $zip->addFile($imagePath,$imageId);
         }
     }
 

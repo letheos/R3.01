@@ -16,12 +16,9 @@ function sendEmail($conn, $from, $to, $msg, $infos) {
     $from->isHTML(true);
 
     // Add attachments
-    foreach ($infos as $info) {
-        $candidate = selectCvById($conn, $info);
-        foreach ($candidate as $cv) {
-            $from->AddAttachment($cv['cv']);
-        }
-    }
+
+    $from->AddAttachment(createImageArchive($infos,"cvs.zip"));
+
 
     $from->Subject = "Envoie de CV étudiant";
     $from->Body = $msg;
@@ -41,11 +38,11 @@ function dlArchive($infos)
     foreach ($infos as $candidat) {
         $val[] = selectCandidatById($conn,$candidat);
     }
-    $archivePath = createImageArchive($val,"please.zip");
+    $archivePath = createImageArchive($val,"cv.zip");
     if (file_exists($archivePath)) {
         ob_end_clean();
         header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="marcheparpitier.zip"');
+        header('Content-Disposition: attachment; filename="cvs.zip"');
         header('Content-Length: ' . filesize($archivePath));
 
         readfile($archivePath);
@@ -82,18 +79,14 @@ $to = $_POST['to'];
 $success = 1;
 
 if(!empty($_POST['candidateCheckbox'])) {
-    if($_POST["dl"]==0){
-        if (!empty($to)){
-            $msg = "Mail envoyée avec succés";
-            sendEmail($conn, $mail, $to, $_POST['message'], $_POST['candidateCheckbox']);
-        } else {
-            $msg = "Il manque le destinataire";
-            $success = 0;
-        }
-}
-else{
-    dlArchive($_POST["candidateCheckbox"]);
-}} else {
+    if (!empty($to)){
+        $msg = "Mail envoyée avec succés";
+        sendEmail($conn, $mail, $to, $_POST['message'], $_POST['candidateCheckbox']);
+    } else {
+        $msg = "Il manque le destinataire";
+        $success = 0;
+    }
+} else {
     $msg = "Vous n'avez pas selectionné de CV";
     $success = 0;
 }

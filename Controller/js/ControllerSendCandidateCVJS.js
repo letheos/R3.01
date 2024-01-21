@@ -43,12 +43,6 @@ function addText() {
             detail.innerHTML = "Choisir les candidats";
             detail.onclick = () => displayModal(modal);
 
-            var hiddenDl = document.createElement("input");
-            hiddenDl.type = "hidden";
-            hiddenDl.name = "dl";
-            hiddenDl.value = "0";
-            form.appendChild(hiddenDl);
-
 
             // Ajout des enfants
             li.appendChild(text);
@@ -261,12 +255,4 @@ function isElementUnique(ulElement, formationValue, parcoursValue, yearValue) {
 
     // Aucun élément identique trouvé, l'élément est unique
     return true;
-}
-
-
-function dl(){
-    var form = document.getElementById("send-form");
-    var dlInput = document.querySelector('input[name="dl"]');
-    dlInput.value = "1";
-    form.submit();
 }

@@ -42,9 +42,11 @@ function dlArchive($infos)
         $val[] = selectCandidatById($conn,$candidat);
     }
     $archivePath = createImageArchive($val,"please.zip");
-    header('Content-Type: application/zip');
+    ob_clean();
+    ob_end_flush();
+    header('Content-Type: application/zip;\n');
     header('Content-Disposition: attachment; filename="' . "please" . '.zip');
-    header('Content-Length: ' . filesize($archivePath));
+    header('Content-Length: ' . filesize($archivePath)."\n");
     readfile($archivePath);
 
     unlink($archivePath);

@@ -91,7 +91,7 @@ $user = unserialize($_SESSION['user']);
                         }
                         ?>
                     </div>
-                    <small class="text-muted"><?= date('Y-m-d H:i', strtotime($row[1]))?></small>
+                    <small class="text-muted"><?php echo "Ajouté le ".date('Y-m-d H:i', strtotime($row[1]))?></small>
                     <br>
                     <small class="text-muted"> <?php echo $str ?> </small>
                     <input type="hidden" name="idmessage" value="<?= $row[2] ?>">

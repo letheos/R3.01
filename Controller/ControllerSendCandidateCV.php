@@ -69,7 +69,7 @@ function createImageArchive($userandcv, $outputArchiveName) {
     // Parcourir les résultats et ajouter chaque image à l'archive
     foreach ($userandcv as $val){
         if($val['cv']!= null and $val['cv']!="") {
-            $imageId = $val['name'] . $val['firstName'].".pdf";
+            $imageId = $val['name'] . $val['firstName']."." . pathinfo($val['cv'], PATHINFO_EXTENSION);
             $imagePath = $val['cv'];
             $zip->addFile($imagePath,$imageId);
         }

@@ -101,7 +101,7 @@ $user = unserialize($_SESSION['user']);
             </div>
 
             <br>
-            <label for="formation">Formation</label>
+            <label for="formation" id="labelFormation">Formation</label>
             <!--partie formation de l'inscription
     <div class = rounded-box id="formations">
         <div class="choices-container">
@@ -133,7 +133,7 @@ $user = unserialize($_SESSION['user']);
 
             <div id="divFormation">
 
-                <select id="idFormation" name="selectFormation" size="1" style="display: none"
+                <select id="idFormation" name="selectFormation[]" size="1" style="display: none"
                         value="<?php echo isset($_SESSION['selectFormation']) ? $_SESSION['selectFormation'] : '' ?>">
                     <?php
 

@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
@@ -13,7 +15,7 @@ if(!isset($_SESSION['user'])){
 }
 
 
-
+var_dump($_POST);
 
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails
@@ -37,14 +39,6 @@ function sendmailinscription($mail,$emailuser){
 
 function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$formations,$role,$objmail)
 {
-    //on modifie la valeur de formaiton selon la valeur selectionnée dans la formation
-    if (empty($formation)){
-        $nameFormation = null;
-    }else{
-        $nameFormation = $formation;
-    }
-
-
     //on modifie la valeur de role selon le role sélectionné dans le select
     if (empty($role)){
         $idRole = null;

@@ -6,14 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
     selectRole.addEventListener('change', function() {
         const activeRole = selectRole.value;
         if (activeRole === '1') {
-            selectFormation.style.display = 'block'// Activer le menu de formation
+            selectFormation.style.display = 'none'
             formations.style.display = 'none'
-        } else{
-            if(activeRole ==='2' || activeRole === '3'){
-                selectFormation.style.display = 'none'
-                formations.style.display = 'block'
-            }
-
+            labelFormation.style.display = 'none'
+        }
+        else if(activeRole === '4'){
+            selectFormation.style.display = 'block'
+            formations.style.display = 'none'
+            labelFormation.style.display = 'block'
+        }
+        else{if(activeRole ==='2' || activeRole === '3'){
+            selectFormation.style.display = 'none'
+            formations.style.display = 'block'
+            labelFormation.style.display = 'block'
+        }
         }
     });
 });

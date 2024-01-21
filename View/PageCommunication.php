@@ -11,6 +11,13 @@ if (empty($_SESSION['user'])) {
 }
 
 $user = unserialize($_SESSION['user']);
+if ($user->getRole() == "Chef de service") {
+    $formations = getAllFormation();
+    $candidates = filtrageCommunication();
+} else {
+    $formations = $user->getLesFormations();
+    $candidates = filtrageCommunicationUser($formations);
+}
 
 
 ?>
@@ -60,11 +67,6 @@ $user = unserialize($_SESSION['user']);
                         <select class="form-select" name="formation" id="formation" onchange="onChangeUpdateDisplayParcours('../Controller/ControllerParcoursAffichage.php')">
                             <option value="" selected="selected" disabled>Choisir la formation</option>
                             <?php
-                            if ($user->getRole() == "Chef de service") {
-                                $formations = getAllFormation();
-                            } else {
-                                $formations = $user->getLesFormations();
-                            }
                             $selected = '';
                             $selectedFormation = (isset($_POST['formation'])) ? $_POST['formation'] : '';
                             foreach ($formations as $formation) {
@@ -117,7 +119,6 @@ $user = unserialize($_SESSION['user']);
         </thead>
         <tbody>
         <?php
-        $candidates = filtrageCommunication();
         foreach ($candidates as $candidate) {
             ?>
             <tr class="candidates" id="candidats">

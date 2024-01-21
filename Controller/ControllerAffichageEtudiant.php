@@ -316,3 +316,48 @@ function filtrageCommunication()
     }
 }
 
+function filtrageCommunicationUser($formationsUser)
+{
+    global $conn;
+    if (isset($_POST["submit"])) {
+        $choixFormation = $_POST["formation"];
+        $choixNom = $_POST["nameCandidates"];
+        $parcours = $_POST['parcours'];
+    }
+
+
+    $hasFormationFilter = !empty($choixFormation) && $choixFormation !== "Aucune Option";
+    $hasNomFilter = !empty($choixNom);
+    $hasParcoursFilter = !empty($parcours);
+
+    // Exécuter les requêtes en fonction des critères de filtrage
+    if ($hasFormationFilter && $hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par formation, nom et parcours
+        return selectCandidatesByNameFormationAndParcoursComm($conn, $parcours, $choixNom, $choixFormation);
+    } elseif ($hasFormationFilter && $hasNomFilter) {
+        // Filtrage par formation et nom
+        return selectCandidatesByNameAndFormationComm($conn, $choixFormation, $choixNom);
+    } elseif ($hasFormationFilter && $hasParcoursFilter) {
+        // Filtrage par formation et parcours
+        return selectCandidateByFormationAndParcoursComm($conn, $choixFormation, $parcours);
+    } elseif ($hasNomFilter && $hasParcoursFilter) {
+        // Filtrage par nom et parcours
+        return selectCandidatesByNameAndParcoursComm($conn, $parcours, $choixNom);
+    } elseif ($hasFormationFilter) {
+        // Filtrage par formation uniquement
+        return selectCandidatesByFormationComm($conn, $choixFormation);
+    } elseif ($hasNomFilter) {
+        // Filtrage par nom uniquement
+        return selectCandidatesByNameComm($conn, $choixNom);
+    } elseif ($hasParcoursFilter) {
+        // Filtrage par parcours uniquement
+        return selectCandidatesByParcoursComm($conn, $parcours);
+    } else {
+        $result = [];
+        foreach ($formationsUser as $formation) {
+            $result = array_merge($result, selectCandidatesByFormationComm($conn, $formation['nameFormation']));
+        }
+        return $result;
+    }
+}
+

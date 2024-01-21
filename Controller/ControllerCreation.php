@@ -138,8 +138,11 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 
 
         $userObject = unserialize($_SESSION['user']);
-
-        $userObject->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole,$formations);
+        if ($role != 4){
+            $userObject->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole,$formations);
+        } else {
+            $userObject->createUser($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$idRole,$formation);
+        }
 
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 

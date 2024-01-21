@@ -36,8 +36,6 @@ function sendEmail($conn, $from, $to, $msg, $infos) {
 
 function dlArchive($infos)
 {
-    ob_clean();
-    ob_end_flush();
     global $conn;
     $val = array();
     foreach ($infos as $candidat) {
@@ -46,7 +44,7 @@ function dlArchive($infos)
     $archivePath = createImageArchive($val,"please.zip");
     if (file_exists($archivePath)) {
         header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="t.zip"');
+        header('Content-Disposition: attachment; filename="marcheparpitier.zip"');
         header('Content-Length: ' . filesize($archivePath));
 
         readfile($archivePath);
@@ -71,6 +69,7 @@ function createImageArchive($userandcv, $outputArchiveName) {
         if($val['cv']!= null and $val['cv']!="") {
             $imageId = $val['name'] . $val['firstName']."." . pathinfo($val['cv'], PATHINFO_EXTENSION);
             $imagePath = $val['cv'];
+            echo $imageId . ":" . $imagePath;
             $zip->addFile($imagePath,$imageId);
         }
     }
@@ -103,7 +102,7 @@ session_start();
 
 $_SESSION['success'] = $success;
 $_SESSION['message'] = $msg;
-header("Location: ../View/PageSendCandidateCV.php");
+//header("Location: ../View/PageSendCandidateCV.php");
 
 
 

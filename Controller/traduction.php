@@ -1,4 +1,5 @@
 <?php
+// Source du code pour l'intégration google translate : https://www.w3schools.com/howto/howto_google_translate.asp
 ?>
 <meta name="google-translate-customization" content="9f841e7780177523-3214ceb76f765f38-gc38c6fe6f9d06436-c"></meta>
 

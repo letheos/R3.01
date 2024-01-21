@@ -118,11 +118,12 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Parcours</th>
-                <th>Détail</th>
                 <th>Rendre Inactif/Actif</th>
                 <th>Recherche d'Alternance</th>
+                <th>Télécharger CV</th>
                 <th>Statut Alternance</th>
                 <th>Statut Actif</th>
+                <th>Détail</th>
             </tr>
             </thead>
             <tbody>
@@ -134,12 +135,6 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                     <td><?php echo $candidate['name']; ?></td>
                     <td><?php echo $candidate['firstName']; ?></td>
                     <td><?php echo $candidate['nameParcours']; ?></td>
-                    <td>
-                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">
-                            Détail
-
-                        </a>
-                    </td>
                     <td>
                         <?php if ($candidate['isInActiveSearch']) { ?>
                             <input type="checkbox" name="checkboxActif[]" value="<?php echo $candidate['idCandidate']; ?>"> Rendre Inactif
@@ -157,6 +152,9 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                         <?php } ?>
                     </td>
                     <td>
+                        <input type="checkbox" name="checkboxWithCV[]" value="<?php echo $candidate['idCandidate']; ?>"> Télécharger le CV
+                    </td>
+                    <td>
                         <span style="color: <?php echo ($candidate['foundApp'] == 0) ? '#bb2323' : 'green'; ?>">
                             <?php echo ($candidate['foundApp'] == 0) ? 'Sans contrat' : 'A un contrat'; ?>
                         </span>
@@ -165,6 +163,11 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                         <span style="color: <?php echo ($candidate['isInActiveSearch'] == 0) ? '#bb2323' : 'green'; ?>">
                             <?php echo ($candidate['isInActiveSearch'] == 1) ? 'Actif' : 'Inactif'; ?>
                         </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="./PageAffichageCandidatDashboardPrecis.php?idCandidate=<?php echo $candidate["idCandidate"]; ?>&idDashboard=<?php echo $idDashboard ?>">
+                            Détail
+                        </a>
                     </td>
                 </tr>
             <?php } ?>
@@ -275,7 +278,9 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
+                    <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
+                    <div class="mb-2"></div>
+                    <button class="btn btn-primary" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
                 </div>
             </div>
         </div>

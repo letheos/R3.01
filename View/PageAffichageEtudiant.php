@@ -44,6 +44,10 @@ if ($user->getRole() == "Chef de service") {
             bottom: 0;
             width: 100%;
         }
+
+        .content {
+            margin-bottom: 150px; /* Ajustez cette valeur selon vos besoins */
+        }
     </style>
 </head>
 
@@ -62,8 +66,8 @@ if ($user->getRole() == "Chef de service") {
     </form>
 </header>
 
+<div class="content">
 <form id="filter-form" method="POST" action="../View/PageAffichageEtudiant.php">
-
     <section class="bg-custom rounded p-3 mt-4">
 
         <div class="container mt-4">
@@ -120,9 +124,8 @@ if ($user->getRole() == "Chef de service") {
     </section>
 
 </form>
-
 <form id="delete-form" method="post" action="../Controller/ControllerGestionEtudiant.php">
-    <section class="afficheCandidats">
+    <section>
         <table class="table" id="candidateTable">
             <thead>
             <tr>
@@ -131,6 +134,7 @@ if ($user->getRole() == "Chef de service") {
                 <th>Parcours</th>
                 <th>Rendre Inactif/Actif</th>
                 <th>Recherche d'Alternance</th>
+                <th>Télécharger CV</th>
                 <th>Statut Alternance</th>
                 <th>Statut Actif</th>
                 <th>Détail</th>
@@ -164,6 +168,9 @@ if ($user->getRole() == "Chef de service") {
                         <?php } ?>
                     </td>
                     <td>
+                        <input type="checkbox" name="checkboxWithCV[]" value="<?php echo $candidate['idCandidate']; ?>"> Télécharger le CV
+                    </td>
+                    <td>
                         <span style="color: <?php echo ($candidate['foundApp'] == 0) ? '#bb2323' : 'green'; ?>">
                             <?php echo ($candidate['foundApp'] == 0) ? 'Sans contrat' : 'Contrat'; ?>
                         </span>
@@ -182,18 +189,21 @@ if ($user->getRole() == "Chef de service") {
             </tbody>
         </table>
     </section>
-
     <section>
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit" name="submit" id="submit"> Changer l'état des candidats</button>
+                    <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
+                    <div class="mb-2"></div>
+                    <button class="btn btn-primary" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
                 </div>
             </div>
         </div>
     </section>
+</form>
+</div>
 
-
+<div class="content">
     <footer class="bg-custom text-white">
         <div class="container">
             <div class="row">
@@ -214,7 +224,7 @@ if ($user->getRole() == "Chef de service") {
             </div>
         </div>
     </footer>
-</form>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/jsAffichage.js"></script>

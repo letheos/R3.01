@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 $conn = require '../Model/Database.php';
 include '../Controller/ControllerAccueil.php';

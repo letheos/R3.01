@@ -3,9 +3,6 @@
 session_start();
 include '../Controller/ControllerCreation.php';
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 $conn = require '../Model/Database.php';
 
 $user = unserialize($_SESSION['user']);

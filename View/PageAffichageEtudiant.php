@@ -189,42 +189,36 @@ if ($user->getRole() == "Chef de service") {
             </tbody>
         </table>
     </section>
-    <section>
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
-                    <div class="mb-2"></div>
-                    <button class="btn btn-primary" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
-                </div>
-            </div>
-        </div>
-    </section>
-</form>
-</div>
 
-<div class="content">
-    <footer class="bg-custom text-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <p>
-                            Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
-                        </p>
+
+    <div class="content">
+        <footer class="bg-custom text-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <p>
+                                Timothée Allix, Nathan Strady, Theo Parent, Benjamin Massy, Loïck Morneau
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div>
-                        <p>
-                            2023/2024 UPHF
-                        </p>
+                    <div class="col-md-6 text-md-right">
+                        <div>
+                            <p>
+                                2023/2024 UPHF
+                            </p>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
+                                <div class="mx-2"></div>
+                                <button class="btn btn-primary ml-2" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="../Controller/jsAffichage.js"></script>

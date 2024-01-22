@@ -15,7 +15,6 @@ if(!isset($_SESSION['user'])){
 }
 
 
-var_dump($_POST);
 
 function sendmailinscription($mail,$emailuser){
     //fonction pour envoyer des mails

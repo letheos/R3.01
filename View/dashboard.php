@@ -274,24 +274,27 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
         </div>
     </section>
 
-    <section>
+
+
+    <footer class="bottomBanner">
         <div class="container mt-4">
             <div class="row">
-                <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
-                    <div class="mb-2"></div>
-                    <button class="btn btn-primary" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
+                <?php if ($dashboardInfo['isHeadcount'] == 1)  : ?>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Afficher les effectifs
+                        </button>
+                    </div>
+                <?php endif; ?>
+                <div class="col-md-6 text-md-right">
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
+                        <div class="mx-2"></div> <!-- Espace entre les boutons -->
+                        <button class="btn btn-primary" type="submit" name="cvs" id="submit">Télécharger les CVs</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer class="bottomBanner">
-        <?php if ($dashboardInfo['isHeadcount'] == 1)  : ?>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Afficher les effectifs
-            </button>
-        <?php endif; ?>
     </footer>
 </form>
 

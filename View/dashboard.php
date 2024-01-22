@@ -201,11 +201,11 @@ foreach(getParcoursOfADashboard($idDashboard) as $parcours){
                             </thead>
                             <tbody>
                             <tr>
-                                <td><?= getNbEtu()['nbEtu']; ?></td>
-                                <td style="color: green;"><?= getNbEtuActives()['nbActives']; ?></td>
-                                <td style="color: red;"><?= getNbEtuNotActives()['nbActives']; ?></td>
-                                <td style="color: green;"><?= getNbEtuFoundApp()['nbFoundApp']; ?></td>
-                                <td style="color: red;"><?= getNbEtuNotFoundApp()['nbFoundApp']; ?></td>
+                                <td><?= getNbEtuWithFormation($dashboardFormations); ?></td>
+                                <td style="color: green;"><?= getNbEtuActivesWithFormation($dashboardFormations, 1); ?></td>
+                                <td style="color: red;"><?= getNbEtuActivesWithFormation($dashboardFormations, 0); ?></td>
+                                <td style="color: green;"><?= getNbEtuFoundAppWithFormation($dashboardFormations, 1); ?></td>
+                                <td style="color: red;"><?=  getNbEtuFoundAppWithFormation($dashboardFormations, 0); ?></td>
                             </tr>
                             </tbody>
                         </table>

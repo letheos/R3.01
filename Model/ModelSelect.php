@@ -1103,12 +1103,32 @@ function countNbStudentFoundApp($conn, $isFound){
 
 }
 
+function countNbStudentFoundAppPerFormation($conn, $formation, $isFound){
+    $sql="SELECT COALESCE(count(*),0) as nbFoundApp 
+          FROM infocandidate
+          WHERE foundApp = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute([$isFound, $formation]);
+    return $req->fetch();
+
+}
+
 function countNbStudentActives($conn, $isActive){
     $sql="SELECT COALESCE(COUNT(*), 0) AS nbActives
           FROM infocandidate
           WHERE isInActiveSearch = ?";
     $req = $conn->prepare($sql);
     $req->execute([$isActive]);
+    return $req->fetch();
+
+}
+
+function countNbStudentActivesPerFormation($conn, $formation, $isActive){
+    $sql="SELECT COALESCE(COUNT(*), 0) AS nbActives
+          FROM infocandidate
+          WHERE isInActiveSearch = ? AND nameFormation = ?";
+    $req = $conn->prepare($sql);
+    $req->execute([$isActive, $formation]);
     return $req->fetch();
 
 }

@@ -1,11 +1,14 @@
 <?php
-
+/**
+ * @author Nathan Strady et Timothée Allix
+ * Page gérant la gestion des états des candidats du tableau de bord par défaut
+ */
 $conn = require '../Model/Database.php';
 require '../Model/ModelSelect.php';
 require '../Model/ModelInsertUpdateDelete.php';
 require  "../Controller/ControllerGestionArchive.php";
 
-
+// Si le bouton "télécharger les cvs" est soumis
 if (isset($_POST['cvs'])) {
     // Si le bouton "Télécharger les CVs" est soumis
     $checkboxWithCV = $_POST['checkboxWithCV'];
@@ -17,8 +20,8 @@ if (isset($_POST['cvs'])) {
            document.location.href = "../View/PageAffichageEtudiant.php"; 
           </script> ';
     }
+// Si le bouton "Changer l'état des candidats" est soumis
 } elseif (isset($_POST['submit'])) {
-    // Si le bouton "Changer l'état des candidats" est soumis
     $delete = $_POST['delete'];
     $checkboxActif = $_POST['checkboxActif'];
     $checkboxNonActif = $_POST['checkboxNonActif'];

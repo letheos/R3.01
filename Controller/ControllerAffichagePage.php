@@ -8,6 +8,10 @@
 require "../Model/ModelSelect.php";
 $conn = require '../Model/database.php';
 
+/**
+ * @param $id int ID du candidat
+ * @return String[] Les informations du candidat
+ */
 function getCandidatById($id){
     global $conn;
     return selectCandidatById($conn, $id);

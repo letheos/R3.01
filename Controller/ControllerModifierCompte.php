@@ -1,8 +1,10 @@
 <?php
+/**
+ * @author Benjamin Massy
+ * Controller de la modification d'un compte utilisateur
+ */
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
@@ -10,11 +12,6 @@ $conn = require '../Model/Database.php';
 include '../Controller/ClassUtilisateur.php';
 $user = unserialize($_SESSION['user']);
 
-/**
- * @param $conn : Connection to the database
- * @param $login : User login
- * Αυτή η λειτουργία θα εμφανίσει όλες τις πληροφορίες του χρήστη
- */
 
 if(!isset($_SESSION['user'])){
     echo '<script>
@@ -37,7 +34,6 @@ function showProfileInfos($conn,$login){
 
 if(isset($_POST['submit'])){
     $validite = true;
-    //echo $_SESSION['login'];
     if(!empty($_POST['lastName']) || !empty($_POST['firstName']) || !empty($_POST['login']) || !empty($_POST['mail'])) {
         if (!empty($_POST['lastName'])) {
             if(!preg_match('/[^A-Za-z0-9"\'\,\;]/',$_POST['lastName']) && !preg_match("/[0-9]/", $_POST['lastName'])) {

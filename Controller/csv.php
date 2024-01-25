@@ -1,10 +1,10 @@
 <?php
+/**
+ * @author Timothée Allix et Loick Morneau
+ * Page gérant le CSV
+ */
 $conn = require "../Model/database.php";
 require "../Model/ModelInsertUpdateDelete.php";
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 
 

@@ -1,5 +1,11 @@
 <?php
 /**
+ * @author Nathan Strady
+ * Page contenant des fonctions nécessaire pour l'affichage précise des candidats
+ */
+
+
+/**
  * Fonction regroupant les informations obtenu des champs cp, address, cityCandidates
  * @param $cp : le code postal du form récupèrer
  * @param $addr : l'adresse du form récupèrer

@@ -1,7 +1,7 @@
 <?php
 /**
- * Controller du fichier de modification Candidat
  * @author Nathan Strady
+ * Controller du fichier de modification Candidat
  */
 session_start();
 

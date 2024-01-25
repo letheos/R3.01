@@ -1060,6 +1060,11 @@ function selectFormationOfDashboard($conn, $id){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $formation String name of a formation
+ * @return mixed the number of student per formation
+ */
 function selectNbStudentPerFormation($conn, $formation){
     $sql = "SELECT effectifFormation, alternants, non_alternants, actifs, inactifs 
             FROM effectif_formation 
@@ -1069,6 +1074,12 @@ function selectNbStudentPerFormation($conn, $formation){
     return $req->fetch();
 }
 
+/**
+ * @param $conn
+ * @param $formation
+ * @return mixed
+ * return the number of studiant, alternant, no alternant, actif and no actif for all parcours
+ */
 function selectNbStudentPerParcours($conn, $formation){
     $sql = "SELECT ep.nameParcours, ep.nombreetudiants, ep.alternants, ep.non_alternants, ep.actifs, ep.inactifs
             FROM effectifsparcours ep
@@ -1093,6 +1104,12 @@ function selectParcoursNumber($conn, $parcours){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO
+ * @param $isFound int
+ * @return mixed
+ * return the number of student that had found or not a contract
+ */
 function countNbStudentFoundApp($conn, $isFound){
     $sql="SELECT COALESCE(count(*),0) as nbFoundApp 
           FROM infocandidate
@@ -1103,6 +1120,12 @@ function countNbStudentFoundApp($conn, $isFound){
 
 }
 
+/**
+ * @param $conn PDO
+ * @param $formation String
+ * @param $isFound boolean
+ * @return mixed Number of student that found or not a contract per formation
+ */
 function countNbStudentFoundAppPerFormation($conn, $formation, $isFound){
     $sql="SELECT COALESCE(count(*),0) as nbFoundApp 
           FROM infocandidate
@@ -1113,6 +1136,11 @@ function countNbStudentFoundAppPerFormation($conn, $formation, $isFound){
 
 }
 
+/**
+ * @param $conn PDO
+ * @param $isActive boolean
+ * @return mixed return the number of student that or actives or not
+ */
 function countNbStudentActives($conn, $isActive){
     $sql="SELECT COALESCE(COUNT(*), 0) AS nbActives
           FROM infocandidate
@@ -1123,6 +1151,11 @@ function countNbStudentActives($conn, $isActive){
 
 }
 
+/**
+ * @param $conn PDO
+ * @param $isActive boolean
+ * @return mixed return the number of student that or actives or not per formation
+ */
 function countNbStudentActivesPerFormation($conn, $formation, $isActive){
     $sql="SELECT COALESCE(COUNT(*), 0) AS nbActives
           FROM infocandidate
@@ -1133,6 +1166,10 @@ function countNbStudentActivesPerFormation($conn, $formation, $isActive){
 
 }
 
+/**
+ * @param $conn PDO
+ * @return mixed return the number of students
+ */
 function countAllStudents($conn){
     $sql="SELECT COALESCE(COUNT(*), 0) AS nbEtu
           FROM effectif_formation;";

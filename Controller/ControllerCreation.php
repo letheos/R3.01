@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Théo Parent
+ */
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';

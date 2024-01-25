@@ -1,14 +1,10 @@
 
 <?php
-
-
-//TODO faire le controller pour pouvoir crée un tableau de bord dans la bdd quand théo aura fini
-//TODO faire le code qui ajoute le tableau de bord à l'utilisateur et à tout les roles (attention il ne faut pas que le user est 2 fois le même erreurs)
-
+/**
+ * @author Loick Morneau
+ * Page gérant la création de tableau de bord
+ */
 session_start();
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
@@ -50,34 +46,13 @@ if(isset($_POST["title"])) {
 
         //rajoute le dashbaord uniquement à l'utilisateur connecté
         ControllerAddDashBoardForUser($conn,$idDashBoard,$userObject->getLogin());
-
-        /*$roles = [];
-        //vérifie que un des role est selectionner au moins
-        if(isset($_POST['secretaire']) or isset($_POST['Admin']) or isset($_POST['role2']) or isset($_POST['role3']) ){
-            if (isset($_POST['secretaire'])) {
-                array_push($roles, 2);
-            } elseif (isset($_POST['Admin'])) {
-                array_push($roles, 1);
-            } elseif (isset($_POST['role2'])) {
-                array_push($roles, 3);
-            } elseif (isset($_POST['role3'])) {
-                array_push($roles, 4);
-            }
-            //recup tous les users qui on le role
-            $users = ControllerGetAllPeopleWithRole($roles,$conn);
-            foreach ($users as $user){
-                //leur ajoute le dashbaord
-                ControllerAddDashBoardForUser($conn,$idDashBoard,$user);
-            }*/
-
-
          header('location:../View/PageAfficheTableau.php');
     }
 
 }
 
 /**
- * @return int
+ * @return int id of the last dashboard inserted
  */
 function ControlerLastInsert(){
     global $conn;
@@ -172,6 +147,7 @@ function ControllerInsertDashboardForUsers($roles,$conn){
  * @param $parcours
  * @param $conn
  * @return int
+ * Function that creates a dashboard with all the parameters necessary
  */
 function ControllerCreateDashboard($name,$isPermis,$isIne,$isAddress,$isPhone,$isHeadcount, $parcours,$conn,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv){
     $idDashboard = insertNewDashBoard($name ,$isPermis, $isIne, $isAddress, $isPhone, $isHeadcount,$isEmail,$isformParcours,$isYear,$isSchEntreprise,$isZone,$isActiv,$conn);

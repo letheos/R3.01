@@ -1,17 +1,17 @@
 
 <?php
+/**
+ * Page qui s'occupe de l'affichage candidat via un filtrage
+ * @author : Nathan Strady
+ */
 $conn = require "../Model/Database.php";
 require '../Model/ModelSelect.php';
 include '../Controller/ClassUtilisateur.php';
 session_start();
 
-/**
- * Controller de la page affichage étudiant
- * @author : Nathan Strady
- */
 
 
-
+//Fonction qui récupère des informations dans le model
 function getDashboardById($id){
     global $conn;
     return selectDashboardById($conn, $id);
@@ -155,6 +155,11 @@ function filtrage()
     }
 }
 
+/**
+ * Fonction qui gère le filtrage pour afficher des candidats en fonction de critères précis (Version Utilisateur)
+ * @param $conn : Connection à la base de donnée
+ * @return void Modifie l'affichage en fonction d'un filtrage
+ */
 function filtrageUser($formationsUser)
 {
     global $conn;
@@ -210,6 +215,11 @@ function filtrageUser($formationsUser)
     }
 }
 
+/**
+ * Fonction qui gère le filtrage pour afficher des candidats en fonction de critères précis
+ * @param $conn : Connection à la base de donnée
+ * @return void Modifie l'affichage en fonction d'un filtrage
+ */
 function filtrageMultiple($selectedParcours)
 {
     global $conn;

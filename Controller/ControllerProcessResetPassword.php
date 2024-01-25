@@ -1,9 +1,8 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+/**
+ * @author Nathan Strady
+ * Controller qui gère la sécurité pour changer son mot de passe lors de la page connexion
+ */
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
 $conn = require "../Model/Database.php";

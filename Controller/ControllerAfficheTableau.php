@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Loick Morneau
+ */
 require "../Model/ModelSelect.php";
 require "../Model/ModelInsertUpdateDelete.php";
 include "../Controller/ClassUtilisateur.php";

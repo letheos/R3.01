@@ -1,6 +1,13 @@
 <?php
+/**
+ * @author Timothée Allix
+ */
 
 
+/**
+ * @param $infos String[] Contient les différents candidats
+ * @return void Créer une archive ZIP contenant tout les cvs des candidats
+ */
 function dlArchive($infos)
 {
     global $conn;

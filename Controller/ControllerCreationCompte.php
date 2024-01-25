@@ -23,25 +23,22 @@ function getAllFormation(){
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //Setup des variables
     $ine = !empty($_POST['INE']) ? $_POST['INE'] : null;
     $typeCompanySearch = !empty($_POST['typeCompanySearch']) ? $_POST['typeCompanySearch'] : null;
     $remark = !empty($_POST['remarksText']) ? $_POST['remarksText'] : null;
     $cv = $_FILES['cvFile'];
-
     $name = $_POST['lastName'];
     $firstName = $_POST['firstName'];
     $nameParcours = $_POST['parcours'];
     $yearOfFormation = $_POST['yearOfFormation'];
     $email = $_POST['candidateEmail'];
-
     $phone = $_POST['typePhone'];
-
     if ($_POST['permisB']) {
         $permisB = 1;
     } else {
         $permisB = 0;
     }
-
     $adresses = regroupAdresses($_POST['cp'], $_POST['address'], $_POST['cityCandidate']);
     $searchZone = regroupSearchZone($_POST['citySearch'], $_POST['rayon']);
 

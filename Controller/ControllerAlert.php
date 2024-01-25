@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Timothée Allix
+ */
 session_start();
 $conn = require "../Model/Database.php";
 require "../Model/ModelSelect.php";

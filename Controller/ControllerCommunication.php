@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Timothée Allix
+ * Controller de la page communication
+ */
 require "../Model/ModelInsertUpdateDelete.php";
 $conn = require "../Model/Database.php";
 
@@ -10,6 +14,7 @@ if (empty($_SESSION['user'])) {
         window.location.href = "../View/PageConnexion.php";
         </script>';
 }
+
 
 if(isset($_POST['filtrer'])){
     if(($_POST['name'] != "")) {

@@ -1,12 +1,10 @@
 <?php
+/**
+ * @author Benjamin Massy
+ * Page d'affichage des informations du profil du compte utilisateur
+ */
 $conn = require '../Model/Database.php';
 include '../Model/ModelSelect.php';
-
-/**
- * @param $conn : Connection to the database
- * @param $login : User login
- * This function will show all the infos recovered by the sql query
- */
 
 if (empty($_SESSION['user'])) {
     echo '<script>
@@ -16,10 +14,22 @@ if (empty($_SESSION['user'])) {
 }
 
 
-
+/**
+ * @param $login String login du compte
+ * @return mixed|null Récupère les informations du compte utilisateur
+ */
 function getUserProfile($login){
     global $conn;
     return showUserProfile($conn,$login);
+}
+
+/**
+ * @param $login login du compte
+ * @return mixed récupère le rôle du compte utilisateur
+ */
+function ControllerGetRole($login){
+    global $conn;
+    return getRole($conn,$login);
 }
 
 if(isset($_POST['retourAccueil'])){
@@ -28,9 +38,4 @@ if(isset($_POST['retourAccueil'])){
 
 if(isset($_POST['modifierMotdePasse'])){
     header('Location: ../View/PageModifierMotDePasse.php');
-}
-
-function ControllerGetRole($login){
-    global $conn;
-    return getRole($conn,$login);
 }

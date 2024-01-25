@@ -1,9 +1,21 @@
 <?php
+/**
+ * @author Nathan Strady et Timothée Allix
+ * Page gérant l'envoie de mail automatique contenant les CVs des candidats
+ */
 $conn = require '../Model/Database.php';
 require '../Model/ModelSelect.php';
 $mail = require '../Controller/ControllerMailConfig.php';
 require "../Controller/ControllerGestionArchive.php";
 
+/**
+ * @param $conn PDO connecxion à la BDD
+ * @param $from String Expérditeur
+ * @param $to String Destinataire
+ * @param $msg String corps du mail
+ * @param $infos mixed Les candidats
+ * @return void envoie un mail automatique
+ */
 function sendEmail($conn, $from, $to, $msg, $infos) {
     // Création et envoie du from
     $from->setFrom('bncorp.auto@gmail.com');
@@ -50,7 +62,6 @@ if(!empty($_POST['candidateCheckbox'])) {
 
 
 session_start();
-
 $_SESSION['success'] = $success;
 $_SESSION['message'] = $msg;
 header("Location: ../View/PageSendCandidateCV.php");

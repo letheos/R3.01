@@ -1,7 +1,9 @@
-<!-- ControllerGeneratePreview.php -->
+
 <?php
-
-
+/**
+ * @author Nathan Strady
+ * Page générant la prévisualisation d'un pdf
+ */
 $conn = require '../Model/Database.php';
 require '../Model/ModelSelect.php';
 
@@ -9,7 +11,7 @@ require '../Model/ModelSelect.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $result = selectCandidatById($conn, $id);
+    $result = selectCandidatById($conn, $id); //Récupération du cv du candidat
 
     if ($result && isset($result['cv'])) {
         $file_path = __DIR__ . '/' . $result['cv'];

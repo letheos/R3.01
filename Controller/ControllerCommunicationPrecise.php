@@ -1,7 +1,7 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+/**
+ * @author Timothée Allix
+ */
 $conn = require "../Model/database.php";
 require '../Model/ModelSelect.php';
 require "../Model/ModelInsertUpdateDelete.php";
@@ -11,9 +11,6 @@ session_start();
 $msg = "erreur script";
 $success = 0;
 $directory = '../upload/';
-
-
-
 
 function getComm($idCandidate) {
     global $conn;

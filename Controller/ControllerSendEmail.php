@@ -1,11 +1,8 @@
-
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
+/**
+ * @author Nathan Strady
+ * Pageq qui gère l'envoie de mail pour la réinitialisation mot de passe
+ */
 //import des requêtes et des connections
 include "../Model/ModelInsertUpdateDelete.php";
 include "../Model/ModelSelect.php";
@@ -15,6 +12,14 @@ $mail = require '../Controller/ControllerMailConfig.php';
 
 
 //Fonction d'envoie de mail
+/**
+ * @param $conn PDO connexion à la BDD
+ * @param $login String login du compte
+ * @param $mail PHPMailer\PHPMailer\PHPMailer Un objet mail
+ * @param $email String l'adresse email du destinataire
+ * @return void Envoie un mail avec les instructions pour réinitialiser son mot de passe
+ * @throws Exception
+ */
 function sendReinitialisationPasswordMail($conn,$login,$mail,$email)
 {
     //Génère le token unique de la page de redirection

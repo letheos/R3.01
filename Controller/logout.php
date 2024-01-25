@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Massy Benjamin
+ * Controller de la déconnexion
+ */
 session_start();
 session_destroy();
 

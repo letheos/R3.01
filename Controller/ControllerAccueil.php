@@ -1,4 +1,8 @@
 <?php
+/**
+* @author Benjamin Massy
+ */
+
 function getDashboardById($id){
     global $conn;
     return selectDashboardById($conn, $id);

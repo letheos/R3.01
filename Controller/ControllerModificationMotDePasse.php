@@ -1,9 +1,8 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+/**
+ * @author Nathan Strady
+ * Page gérant la modification du mot de passe
+ */
 include '../Model/ModelInsertUpdateDelete.php';
 include '../Model/ModelSelect.php';
 $conn = require "../Model/Database.php";

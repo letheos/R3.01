@@ -1,8 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
 /**
  * Fichier qui s'occupe de l'affichage des infos candidats
  * @author Nathan Strady, Theo Parent

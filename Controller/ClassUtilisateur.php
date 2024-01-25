@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Benjamin Massy
+ * Objet utilisateur
+ */
 
 class Utilisateur implements Serializable {
     private $login;

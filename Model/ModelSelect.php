@@ -1178,6 +1178,13 @@ function countAllStudents($conn){
     return $req->fetch();
 }
 
+/**
+ * @param $conn
+ * @param $login
+ * @return mixed
+ * This function give all the informations related to a user in the table formationsutilisateurs using his login
+ */
+
 function getFormationByLoginUtilisateur($conn,$login){
     $sql = "
             SELECT * FROM formationsutilisateurs WHERE loginutilisateur = ?
@@ -1187,6 +1194,13 @@ function getFormationByLoginUtilisateur($conn,$login){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn
+ * @param $login
+ * @return mixed
+ * This function give the name of the formations of a user using his login
+ */
+
 function getFormationOfUser($conn, $login)
 {
     $sql = "SELECT nameFormation FROM formationsutilisateurs WHERE loginutilisateur = ?";
@@ -1195,12 +1209,28 @@ function getFormationOfUser($conn, $login)
     return $req->fetchall();
 }
 
+/**
+ * @param $conn
+ * @param $nameRole
+ * @return mixed
+ * This function give the role id of a user using his login
+ */
+
 function getIdRoleByName($conn,$nameRole){
     $sql = "SELECT idRole FROM role WHERE nameRole = ?";
     $req = $conn->prepare($sql);
     $req->execute(array($nameRole));
     return $req->fetchColumn();
 }
+
+/**
+ * @param $conn
+ * @param $parcours
+ * @param $yearOfFormation
+ * @param $isActive
+ * @return mixed
+ * This function select all the candidates that are related to the formation given in parameter
+ */
 
 function selectCandidatesByParcoursWithYear($conn, $parcours, $yearOfFormation, $isActive)
 {
@@ -1211,6 +1241,14 @@ function selectCandidatesByParcoursWithYear($conn, $parcours, $yearOfFormation, 
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn
+ * @param $parcours
+ * @param $yearOfFormation
+ * @param $isActive
+ * @return mixed
+ * This function do the same that the one before, but add the name of the candidate in all the informations recovered
+ */
 
 function selectCandidatesNameByParcoursWithYear($conn, $parcours, $yearOfFormation, $isActive)
 {
@@ -1220,6 +1258,13 @@ function selectCandidatesNameByParcoursWithYear($conn, $parcours, $yearOfFormati
     $req->execute(array($isActive, $parcours, $yearOfFormation));
     return $req->fetchAll();
 }
+
+/**
+ * @param $conn
+ * @param $idCandidate
+ * @return mixed
+ * This function get the CV of a candidate using his id
+ */
 
 function selectCvById($conn, $idCandidate)
 {

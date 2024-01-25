@@ -843,30 +843,75 @@ function delExpiration($conn, $ip){
 
 }
 
+/**
+ * @param $conn
+ * @param $login
+ * @param $lastName
+ * @return void
+ * This function update the last of name of a user in the database using his login
+ */
+
 function modifLastName($conn,$login,$lastName){
     $req = $conn->prepare("UPDATE Utilisateur SET userName = ? WHERE login = ?");
     $req->execute(array($lastName,$login));
 }
 
+/**
+ * @param $conn
+ * @param $login
+ * @param $firstName
+ * @return void
+ * This function update the first of name of a user in the database using his login
+ */
 function modifFirstName($conn,$login,$firstName){
     $req = $conn->prepare("UPDATE Utilisateur SET firstName = ? WHERE login = ?");
     $req->execute(array($firstName,$login));
 }
+
+/**
+ * @param $conn
+ * @param $oldLogin
+ * @param $newLogin
+ * @return void
+ * This function update the login of a user in the table formationsutilisateurs using his old login
+ */
 
 function modifLogin($conn,$oldLogin,$newLogin){
     $req = $conn->prepare("UPDATE formationsutilisateurs SET loginutilisateur = ? WHERE loginutilisateur = ?");
     $req->execute(array($newLogin,$oldLogin));
 }
 
+/**
+ * @param $conn
+ * @param $oldLogin
+ * @param $newLogin
+ * @return void
+ * This function update the login of a user in the table userdashboard using his login
+ */
 function modifLoginDashboard($conn,$oldLogin,$newLogin){
     $req = $conn->prepare("UPDATE userdashboard SET login = ? WHERE login = ?");
     $req->execute(array($newLogin,$oldLogin));
 }
 
+/**
+ * @param $conn
+ * @param $login
+ * @return void
+ * This function delete a user from the table utilisateur using his login
+ */
+
 function deleteUserByLogin($conn,$login){
     $req = $conn->prepare("DELETE FROM utilisateur WHERE login = ?");
     $req->execute(array($login));
 }
+
+/**
+ * @param $conn
+ * @param $login
+ * @param $mail
+ * @return void
+ * This function update the email adress of a user using his login
+ */
 
 function modifEmail($conn,$login,$mail)
 {
@@ -1005,8 +1050,17 @@ function updateComm($conn,$commid,$newmsg)
     }
 }
 
-
-
+/**
+ * @param $conn
+ * @param $pswrd
+ * @param $lastname
+ * @param $firstname
+ * @param $email
+ * @param $login
+ * @param $role
+ * @return Exception|PDOException|void
+ * This function add a user to the database using all the informations needed
+ */
 
 function adduserbdd($conn,$pswrd,$lastname,$firstname,$email,$login,$role){
 

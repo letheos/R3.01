@@ -62,7 +62,7 @@ if ($user->getRole() == "Chef de service") {
     </form>
 
     <form action="csv.php" class="btn-action">
-        <button class="btn btn-light" type="submit">Inserer plusieurs étudiants grâce à un CSV</button>
+        <button class="btn btn-light" type="submit" style="display: none">Inserer plusieurs étudiants grâce à un CSV</button>
     </form>
 </header>
 
@@ -209,7 +209,7 @@ if ($user->getRole() == "Chef de service") {
                             </p>
                             <div class="d-flex justify-content-end mt-3">
                                 <button class="btn btn-primary" type="submit" name="submit" id="submit">Changer l'état des candidats</button>
-                                <div class="mx-2"></div>
+                                <div class="mx-2"></div> <!-- Espace entre les boutons -->
                                 <button class="btn btn-primary ml-2" type="submit" name="cvs" id="submit">Télecharger les CVs</button>
                             </div>
                         </div>

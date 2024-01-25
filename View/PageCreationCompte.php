@@ -83,7 +83,7 @@ if ($user->getRole() == "Chef de service") {
     </form>
 
     <form action="csv.php">
-        <button class="btn btn-light" type="submit">Inserer plusieurs étudiants grace à un CSV</button>
+        <button class="btn btn-light" type="submit" style="display: none">Inserer plusieurs étudiants grace à un CSV</button>
     </form>
 </header>
 
@@ -150,7 +150,7 @@ if ($user->getRole() == "Chef de service") {
 
                                 <div class="form-group">
                                     <div class="phoneNumberForm">
-                                        <label for="phoneNumber"> Téléphone </label>
+                                        <label for="phoneNumber"> Téléphone<span class="text-danger">*</span> </label>
                                         <input type="tel" id="typePhone" name="typePhone" class="form-control" value="" placeholder="Télephone" required/>
                                         <input type="hidden" id="formattedPhoneNumber" name="formattedPhoneNumber" value="">
                                     </div>

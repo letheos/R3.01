@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 $conn = require '../Model/Database.php';
 $objmail = require '../Controller/ControllerMailConfig.php';
@@ -105,7 +103,7 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
     }
 
     // on vérifie que le mot de passe soit bien entre 8 et 20 caractères
-    elseif(strlen($pswd) >= 20 or strlen($pswd) <= 8){
+    elseif(strlen($pswd) > 20 or strlen($pswd) < 6){
 
         $Errormsg = "le mot de passe doit être compris entre 8 et 20 caractères";
     }

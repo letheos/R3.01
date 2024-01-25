@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // on génère les variables
+    // we generate the variables
     const selectRole = document.getElementById('idRole');
     const selectFormation = document.getElementById('idFormation');
     const formations = document.getElementById('formations')
     selectRole.addEventListener('change', function() {
         const activeRole = selectRole.value;
+        //we change how we display the formations inputs based on what role the user chose
         if (activeRole === '1') {
             selectFormation.style.display = 'none'
             formations.style.display = 'none'
@@ -25,15 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// selectionnerTout.js
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const formationChecxboxes = document.querySelectorAll(".choices input[type=checkbox]");
     const selectAllCheckbox = document.getElementById("select-all");
-
     const selectedFormations = [];
-
-    // Ajoutez un gestionnaire d'événements au bouton "Sélectionner tout"
+    //we generate all the variables
     selectAllCheckbox.addEventListener('change', function (event) {
         const isChecked = selectAllCheckbox.checked;
         formationChecxboxes.forEach(function (checkbox) {
@@ -42,14 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (count(selectedFormations) != count(formationChecxboxes)){
 
         }
-        // Mettez à jour l'affichage de la liste déroulante et de l'étiquette d'ordre en fonction de l'état de "Sélectionner tout"
         updateFormationsDisplay();
     });
 
     formationChecxboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function (event) {
             //const checkedCheckboxes = document.querySelectorAll(".choices input[type=checkbox]:checked");
-            // Mettez à jour l'affichage de la liste déroulante et de l'étiquette d'ordre en fonction de la sélection des cases individuelles
+
             updateFormationsDisplay();
         });
     });

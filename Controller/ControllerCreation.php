@@ -8,6 +8,8 @@ $objmail = require '../Controller/ControllerMailConfig.php';
 include '../Model/ModelSelect.php';
 include '../Controller/ClassUtilisateur.php';
 
+
+//We check if any user is connected to his account , if not we redirect the user to the conection page
 if(!isset($_SESSION['user'])){
     echo '<script>
         alert("Veuillez vous connecter");
@@ -16,17 +18,23 @@ if(!isset($_SESSION['user'])){
 }
 
 
-
+/**
+ * @param $mail
+ * the source mail
+ * @param $emailuser
+ * the destinatory mail
+ * @return void
+ * This function goal is to send an email when the admin creates his account
+ */
 function sendmailinscription($mail,$emailuser){
-    //fonction pour envoyer des mails
     $mail->setFrom('bncorp.auto@gmail.com');
-    //on set l'adresse d'envoi
+    // we set the source mail
     $mail->addAddress($emailuser);
-    //on ajoute à l'objet mail l'adresse
+    //we add to the object mail the user e-mail;
     $mail->isHTML(true);
-    //on set le nom du mail
+    //we set the title of the mail
     $mail->Subject = "bienvenue";
-    //on set le message du mail
+    // we set the content of the mail
     $mail->Body = "Votre inscription dans le système est bien réalisée .";
     try {
 
@@ -37,9 +45,35 @@ function sendmailinscription($mail,$emailuser){
     }
 }
 
+
+/**
+ * @param $conn
+ * the connection to the database
+ * @param $pswd
+ * the variable corresponding to the user's password
+ * @param $confirmation
+ * the variable corresponding to the user's confirmation password
+ * @param $lastName
+ * the variable corresponding to the user's lastname
+ * @param $firstName
+ * the variable corresponding to the user's firstname
+ * @param $mail
+ * the variable corresponding to the user's email
+ * @param $login
+ * the variable corresponding to the user's login
+ * @param $formation
+ * the variable corresponding to the user's formation(only used if he could selected one)
+ * @param $formations
+ * the variable corresponding to the user's formation(only used if he could select many)
+ * @param $role
+ * the variable corresponding to the user's (role)
+ * @param $objmail
+ * the variable corresponding to the mail subject
+ * @return string
+ */
 function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$login,$formation,$formations,$role,$objmail)
 {
-    //on modifie la valeur de role selon le role sélectionné dans le select
+    //we modify the value of the role according to the selected one in the page
     if (empty($role)){
         $idRole = null;
     }else{
@@ -50,37 +84,33 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
     $Errormsg = "";
     $sucessMessage = "";
 
-    //on importe le fichier utilisé pour la base de donnée
 
-
-
-    // on vérifie que le mot de passe est identique a la confirmation
+    //we check that the password and the confirmation are identicals
     if ($pswd != $confirmation) {
         $Errormsg="les deux mots de passe doivent être identiques";
 
-        // on vérifie que le nom de famille contient un caractère spécial
+        //we check if lastname contains a special symbol or a number
     } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $lastName
     )) {
         $Errormsg = "Le nom contient un caractère spécial";
 
-        // on vérifie si le nom contient un chiffre
     } elseif (preg_match("/[0-9]/", $lastName
     )) {
         $Errormsg =
             "Le nom contient un chiffre";
 
-        //on vérifie si le prénom contient un caractère spécial
+        //we check if firstname contains a special symbol or a number
     } elseif (preg_match('/[^A-Za-z0-9"\'\,\;]/', $firstName
     )) {
         $Errormsg =
             "Le prénom contient un caractère spécial";
 
-        // on vérifie si le prénom contient un chiffre
+
     } elseif (preg_match("/[0-9]/", $firstName
     )) {
         $Errormsg = "Le prénom contient un chiffre";
 
-        //on vérifie que le mot de passe ne contienne pas un caractère interdit
+        //we check that the password doesn't contains a forbidden symbol
     } elseif (preg_match('/[;\'"]/', $pswd
     )) {
         $Errormsg =
@@ -91,13 +121,13 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
     )) {
         $Errormsg = "Le mot de passe doit au moins comprendre un caractère spécial";
 
-        // on vérifie que le mot de passe contient bien un chiffre
+        //we check that the password contains a special caracter
     } elseif (!preg_match("/[0-9]/", $pswd
     )) {
         $Errormsg =
             "Le mot de passe doit au moins comprendre un chiffre";
 
-        // on vérifie que tout les critères sont remplis
+        // we check that all inputs are used
     } elseif ($pswd
         == null || $confirmation == null || $lastName == null || $mail == null || $mail == null || $login == null || $formation == null) {
         $Errormsg =
@@ -105,24 +135,24 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
 
     }
 
-    // on vérifie que le mot de passe soit bien entre 8 et 20 caractères
+    // we check that the password length is between 6 and 20 caracters
     elseif(strlen($pswd) > 20 or strlen($pswd) < 6){
 
         $Errormsg = "le mot de passe doit être compris entre 8 et 20 caractères";
     }
 
-    //on vérifie dans la base de donnée si l'utilisateur concerné n'existe pas déja
+    //we check if the person is not already registered
     elseif(exist($conn,$mail,$login) == true){
         $Errormsg = "L'utilisateur existe déjà";
-        //continuer bdd et ajouter personne a la bdd quand il n'existe pas
+
 
     }
     else {
-        //nous avons passé toutes les conditions , on renvoie donc un message de succès
+        //we passed all the checks , we can send a success message
         $sucessMessage = 'Enregistré avec succès !';
         /*ajouter($_POST['pswd'],$_POST['lastName'],$_POST['firstName'],$_POST['email'],$_POST['login'],$_POST['formation']);*/
 
-        //Creation du candidat
+        //creation of the user
 
 
         /*
@@ -147,19 +177,19 @@ function registerCreation($conn,$pswd,$confirmation,$lastName,$firstName,$mail,$
         echo "je vais essayer d'envoyer le mail avec ".$mail;
 
         try{
-            //on envoie le mail
+            //we send the mail
             sendmailinscription($objmail,$mail);
         }
         catch (Exception $e){
-            //dans le cas ou le mail n'est pas envoyé
+            //in the case when the mail doesn't send
             echo $e->getMessage();
         }
-        echo "j'ai send le mail la ";
+
     }
-    //on vérifie si on a un message d'erreur si oui on l'envoie
+    //we check if we have an error message , if we have one we send it to the user
     if ($Errormsg != null){
         return $Errormsg;
-        // sinon on renvoie un message de succès
+        // else , we send the success message
     } else {
         return $sucessMessage;
     }

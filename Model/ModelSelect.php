@@ -500,7 +500,12 @@ function GetFormationForADashBoard($conn, $idDashBoard){
 }
 
 
-
+/**
+ * @param PDO $conn         the database connection
+ * @param int $idDashBoard   the dashboard's id
+ * @return mixed
+ * this function is here to get formations associated to a dashboard based on it's id
+ */
 function GetFormationDashboard($conn, $idDashBoard){
     $sql = "SELECT distinct(nameFormationParcours) 
             FROM dashboardparcours 
@@ -559,6 +564,7 @@ function getderniertableau($conn){
  * @param $isNotActive boolean
  * @param $isFound boolean
  * @return mixed
+ *
  * This function selects all the candidates that are not in active search and have a specific alternance status
  */
 function selectCandidatesActives($conn, $isNotActive, $isFound) {
@@ -570,6 +576,10 @@ function selectCandidatesActives($conn, $isNotActive, $isFound) {
     return $req->fetchAll();
 }
 
+/**
+ * @param PDO $conn
+ * @return mixed
+ */
 function selectCandidatesActivesComm($conn) {
     $sql = "SELECT * FROM infoCandidate";
 
@@ -579,15 +589,30 @@ function selectCandidatesActivesComm($conn) {
 }
 
 
+/**
+ * @param PDO $conn
+ * @param String $parcours
+ * @param int $isNotActive
+ * @param int $isFound
+ * @return mixed
+ * @author letheos
+ * this function is here to send a list of all candidates based on the active search , if they found a work or with their  studies
+ */
 function selectCandidatesActivesByParcours($conn, $parcours, $isNotActive, $isFound) {
     $sql = "SELECT * FROM infoCandidate 
          WHERE isInActiveSearch = ? AND foundApp = ? AND nameParcours = ?";
-
     $req = $conn->prepare($sql);
     $req->execute(array($isNotActive, $isFound, $parcours));
     return $req->fetchAll();
 }
 
+/**
+ * @param PDO $conn
+ * @param String $parcours
+ * @return mixed
+ * @author letheos
+ * this function is here to return all the candidates based on their studies
+ */
 function selectCandidatesActivesByParcoursComm($conn, $parcours) {
     $sql = "SELECT * FROM infoCandidate 
          WHERE nameParcours = ?";
@@ -644,6 +669,13 @@ function selectCandidatesByNameAndFormation($conn, $choixFormation, $choixNom, $
     return $req->fetchAll();
 }
 
+/**
+ * @param PDO $conn the database's connection
+ * @param $choixFormation String the name of the formation selected by the user
+ * @param $choixNom String the name of the user
+ * @return mixed
+ * this function is here to return a list of cancidates if they match with the given name and formation
+ */
 function selectCandidatesByNameAndFormationComm($conn, $choixFormation, $choixNom){
     $sql = "SELECT * FROM infoCandidate
                 WHERE name LIKE ? AND nameFormation = ?";
@@ -671,6 +703,13 @@ function selectCandidateByFormationAndParcours($conn, $choixFormation, $parcours
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO the database's connection
+ * @param $choixFormation string the selected formation
+ * @param $parcours string the selected study
+ * @return mixed
+ * this function returns all the selected candidates wich have a specific study
+ */
 function selectCandidateByFormationAndParcoursComm($conn, $choixFormation, $parcours){
     $sql = "SELECT * FROM infoCandidate
                 WHERE nameParcours = ? AND nameFormation = ?";
@@ -696,6 +735,12 @@ function selectCandidatesByName($conn, $choixNom, $isActive, $isFound){
     return $req->fetchAll();
 }
 
+/**
+ * @param $conn PDO the database's connection
+ * @param $choixNom String the user's name
+ * @return mixed
+ * this function returns a list of candidates who have a name like the name given in parameters
+ */
 function selectCandidatesByNameComm($conn, $choixNom){
     $sql = "SELECT * FROM infoCandidate
             WHERE name LIKE ?";
@@ -720,6 +765,7 @@ function selectCandidatesByParcours($conn, $parcours, $isActive, $isFound){
     $req->execute(array($isActive, $isFound, $parcours));
     return $req->fetchAll();
 }
+
 
 function selectCandidatesByParcoursComm($conn, $parcours){
     $sql = "SELECT * FROM infoCandidate
